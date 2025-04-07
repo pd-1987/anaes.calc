@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAS Awake Tracheal Intubation Topicalisation Calculator</title>
+  <style>
+    /* The lidocaine, instillagel, lidocaine 4% and lidocaine 1% inputs are always visible */
+    #lidocaineInput,
+    #instillagelInput,
+    #lidocaine4Input,
+    #lidocaine2Input,
+    #lidocaine1Input {
+      width: 80px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header class="banner">ATI Topicalisation Calculator</header>
+
+  <div class="input-group">
+    <label for="leanBodyWeight">Lean Body Weight (kg):</label>
+    <input type="number" id="leanBodyWeight" placeholder="" oninput="calculateResults()">
+  </div>
+
+  <p class="result">
+    Maximum Lidocaine Dose (9 mg/kg):
+    <span id="maximumDose">0</span> <span class="unit">mg</span>
+  </p>
+
+  <!-- Co-phenylcaine button group -->
+  <div class="button-group">
+    <button id="coPhenylcaineButton" onclick="toggleCoPhenylcaineDose()">
+      Co-phenylcaine Spray
+      <small class="instruction-text">If nasal route</small>
+    </button>
+    <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
+  </div>
+
+  <!-- Instillagel button group -->
+  <div class="button-group">
+    <button id="instillagelButton" onclick="toggleInstillagel()">
+      Instillagel
+    </button>
+    <input type="number" id="instillagelInput" placeholder="0" oninput="updateInstillagelDose()">
+    <span class="ml-units" id="instillagelUnits">ml</span>
+    <span class="bubble">
+      <span id="instillagelOutput">0</span> <span class="unit">mg</span>
+    </span>
+  </div>
+
+  <!-- Lidocaine 10% Spray button group -->
+  <div class="button-group">
+    <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
+      Lidocaine 10% Spray 
+    </button>
+    <input type="number" id="lidocaineInput" placeholder="0" oninput="updateLidocaineDose()">
+    <span class="spray-units" id="sprayUnits">sprays</span>
+    <span class="bubble">
+      <span id="lidocaineOutput">0</span> <span class="unit">mg</span>
+    </span>
+  </div>
+
+  <!-- Lidocaine 4% button group -->
+  <div class="button-group">
+    <button id="lidocaine4Button" onclick="toggleLidocaine4Dose()">
+      Lidocaine 4%
+      <small class="instruction-text">e.g. transtracheal puncture</small>
+    </button>
+    <input type="number" id="lidocaine4Input" placeholder="0" oninput="updateLidocaine4Dose()">
+    <span class="ml-units" id="lidocaine4Units">ml</span>
+    <span class="bubble">
+      <span id="lidocaine4Output">0</span> <span class="unit">mg</span>
+    </span>
+  </div>
+
+  <!-- New Lidocaine 2% button group -->
+  <div class="button-group">
+    <button id="lidocaine2Button" onclick="toggleLidocaine2()">
+      Lidocaine 2%
+    </button>
+    <input type="number" id="lidocaine2Input" placeholder="0" oninput="updateLidocaine2Dose()">
+    <span class="ml-units" id="lidocaine2Units">ml</span>
+    <span class="bubble">
+      <span id="lidocaine2Output">0</span> <span class="unit">mg</span>
+    </span>
+  </div>
+
+  <!-- New Lidocaine 1% button group -->
+  <div class="button-group">
+    <button id="lidocaine1Button" onclick="toggleLidocaine1()">
+      Lidocaine 1%
+    </button>
+    <input type="number" id="lidocaine1Input" placeholder="0" oninput="updateLidocaine1Dose()">
+    <span class="ml-units" id="lidocaine1Units">ml</span>
+    <span class="bubble">
+      <span id="lidocaine1Output">0</span> <span class="unit">mg</span>
+    </span>
+  </div>
+
+  <p class="result">
+    Dose Given:
+    <span id="doseGiven">0</span> <span class="unit">mg</span>
+  </p>
+
+  <p class="result">
+    Dose Remaining:
+    <span id="doseRemaining">0</span> <span class="unit">mg</span>
+  </p>
+
+  <div class="button-container">
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+    <button type="button" class="home-btn" onclick="goHome()">Home</button>
+  </div>
+
+  
+  <script>
+    let totalDose = 0;
+    let coPhenylcaineDose = 0;
+    let lidocaineDose = 0;
+    let instillagelDose = 0;
+    let lidocaine4Dose = 0;
+    let lidocaine2Dose = 0;
+    let lidocaine1Dose = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Remove default preset values for Lidocaine 10%, Instillagel, Lidocaine 2% and Lidocaine 1% inputs.
+      document.getElementById('lidocaineInput').value = "";
+      document.getElementById('instillagelInput').value = "";
+      document.getElementById('lidocaine2Input').value = "";
+      document.getElementById('lidocaine1Input').value = "";
+      
+      // Set default value for Lidocaine 4% input.
+      document.getElementById('lidocaine4Input').value = defaultLidocaine4Value;
+      
+      // Initialize blue bubbles with 0 (or computed default for Lidocaine 4%).
+      document.getElementById('lidocaineOutput').textContent = "0";
+      document.getElementById('instillagelOutput').textContent = "0";
+      document.getElementById('lidocaine4Output').textContent = defaultLidocaine4Value * 40;
+      document.getElementById('lidocaine2Output').textContent = "0";
+      document.getElementById('lidocaine1Output').textContent = "0";
+    });
+
+    function calculateResults() {
+      const leanBodyWeight = parseFloat(document.getElementById('leanBodyWeight').value) || 0;
+      const maximumDose = leanBodyWeight * 9;
+      document.getElementById('maximumDose').textContent = maximumDose.toFixed(0);
+      updateDoseRemaining(maximumDose);
+    }
+
+    function toggleCoPhenylcaineDose() {
+      const button = document.getElementById('coPhenylcaineButton');
+      if (button.classList.contains('active')) {
+        coPhenylcaineDose = 0;
+        button.classList.remove('active');
+      } else {
+        coPhenylcaineDose = 125;
+        button.classList.add('active');
+      }
+      updateTotalDose();
+    }
+
+    // Toggle inclusion of Lidocaine 10% spray dose.
+    function toggleLidocaineSpray() {
+      const button = document.getElementById('lidocaineSprayButton');
+      if (button.classList.contains('active')) {
+        button.classList.remove('active');
+      } else {
+        button.classList.add('active');
+      }
+      updateLidocaineDose();
+    }
+
+    // Toggle inclusion of Instillagel dose.
+    function toggleInstillagel() {
+      const button = document.getElementById('instillagelButton');
+      if (button.classList.contains('active')) {
+        button.classList.remove('active');
+      } else {
+        button.classList.add('active');
+      }
+      updateInstillagelDose();
+    }
+
+    // Toggle inclusion of Lidocaine 4% dose.
+    function toggleLidocaine4Dose() {
+      const button = document.getElementById('lidocaine4Button');
+      if (button.classList.contains('active')) {
+        lidocaine4Dose = 0;
+        button.classList.remove('active');
+      } else {
+        button.classList.add('active');
+      }
+      updateLidocaine4Dose();
+    }
+
+    // Toggle inclusion of Lidocaine 2% dose.
+    function toggleLidocaine2() {
+      const button = document.getElementById('lidocaine2Button');
+      if (button.classList.contains('active')) {
+        lidocaine2Dose = 0;
+        button.classList.remove('active');
+      } else {
+        button.classList.add('active');
+      }
+      updateLidocaine2Dose();
+    }
+
+    // Toggle inclusion of Lidocaine 1% dose.
+    function toggleLidocaine1() {
+      const button = document.getElementById('lidocaine1Button');
+      if (button.classList.contains('active')) {
+        lidocaine1Dose = 0;
+        button.classList.remove('active');
+      } else {
+        button.classList.add('active');
+      }
+      updateLidocaine1Dose();
+    }
+
+    // Update computed Lidocaine 10% spray dose.
+    function updateLidocaineDose() {
+      const lidocaineInputValue = parseFloat(document.getElementById('lidocaineInput').value) || 0;
+      const computedDose = lidocaineInputValue * 10;
+      document.getElementById('lidocaineOutput').textContent = Math.floor(computedDose);
+      
+      if (document.getElementById('lidocaineSprayButton').classList.contains('active')) {
+        lidocaineDose = computedDose;
+      } else {
+        lidocaineDose = 0;
+      }
+      updateTotalDose();
+    }
+
+    // Update computed Instillagel dose.
+    function updateInstillagelDose() {
+      const instillagelInputValue = parseFloat(document.getElementById('instillagelInput').value) || 0;
+      const computedDose = instillagelInputValue * 21;
+      document.getElementById('instillagelOutput').textContent = Math.floor(computedDose);
+      
+      if (document.getElementById('instillagelButton').classList.contains('active')) {
+        instillagelDose = computedDose;
+      } else {
+        instillagelDose = 0;
+      }
+      updateTotalDose();
+    }
+
+    // Update computed Lidocaine 4% dose.
+    function updateLidocaine4Dose() {
+      const lidocaine4InputValue = parseFloat(document.getElementById('lidocaine4Input').value) || 0;
+      const computedDose = lidocaine4InputValue * 40;
+      document.getElementById('lidocaine4Output').textContent = Math.floor(computedDose);
+      
+      if (document.getElementById('lidocaine4Button').classList.contains('active')) {
+        lidocaine4Dose = computedDose;
+      } else {
+        lidocaine4Dose = 0;
+      }
+      updateTotalDose();
+    }
+
+    // Update computed Lidocaine 2% dose.
+    function updateLidocaine2Dose() {
+      const lidocaine2InputValue = parseFloat(document.getElementById('lidocaine2Input').value) || 0;
+      const computedDose = lidocaine2InputValue * 20; // 2% solution = 20 mg/ml
+      document.getElementById('lidocaine2Output').textContent = Math.floor(computedDose);
+      
+      if (document.getElementById('lidocaine2Button').classList.contains('active')) {
+        lidocaine2Dose = computedDose;
+      } else {
+        lidocaine2Dose = 0;
+      }
+      updateTotalDose();
+    }
+
+    // Update computed Lidocaine 1% dose.
+    function updateLidocaine1Dose() {
+      const lidocaine1InputValue = parseFloat(document.getElementById('lidocaine1Input').value) || 0;
+      const computedDose = lidocaine1InputValue * 10; // 1% solution = 10 mg/ml
+      document.getElementById('lidocaine1Output').textContent = Math.floor(computedDose);
+      
+      if (document.getElementById('lidocaine1Button').classList.contains('active')) {
+        lidocaine1Dose = computedDose;
+      } else {
+        lidocaine1Dose = 0;
+      }
+      updateTotalDose();
+    }
+
+    function updateTotalDose() {
+      totalDose = coPhenylcaineDose + lidocaineDose + instillagelDose + lidocaine4Dose + lidocaine2Dose + lidocaine1Dose;
+      const maximumDose = parseFloat(document.getElementById('maximumDose').textContent) || 0;
+      document.getElementById('doseGiven').textContent = Math.floor(totalDose);
+      const remainingDose = maximumDose - totalDose;
+      const doseRemainingElement = document.getElementById('doseRemaining');
+      doseRemainingElement.textContent = Math.floor(remainingDose);
+      doseRemainingElement.style.color = (remainingDose < 0) ? 'darkred' : '';
+    }
+
+    function updateDoseRemaining(maximumDose) {
+      const remainingDose = maximumDose - totalDose;
+      const doseRemainingElement = document.getElementById('doseRemaining');
+      doseRemainingElement.textContent = Math.floor(remainingDose);
+      doseRemainingElement.style.color = (remainingDose < 0) ? 'darkred' : '';
+    }
+
+    // Reset doses and toggles while leaving Lean Body Weight untouched.
+    function resetForm() {
+      calculateResults(); // Recalculate maximum dose based on current lean body weight.
+      
+      document.getElementById('doseGiven').textContent = '0';
+      document.getElementById('doseRemaining').textContent = '0';
+
+      totalDose = 0;
+      coPhenylcaineDose = 0;
+      lidocaineDose = 0;
+      instillagelDose = 0;
+      lidocaine4Dose = 0;
+      lidocaine2Dose = 0;
+      lidocaine1Dose = 0;
+
+      resetButtons();
+
+      // Reset Lidocaine 10% input.
+      document.getElementById('lidocaineInput').value = "";
+      document.getElementById('lidocaineOutput').textContent = "0";
+
+      // Reset Instillagel input.
+      document.getElementById('instillagelInput').value = "";
+      document.getElementById('instillagelOutput').textContent = "0";
+      
+      // Reset Lidocaine 4% input to default.
+      document.getElementById('lidocaine4Input').value = defaultLidocaine4Value;
+      document.getElementById('lidocaine4Output').textContent = defaultLidocaine4Value * 40;
+
+      // Reset Lidocaine 2% input.
+      document.getElementById('lidocaine2Input').value = "";
+      document.getElementById('lidocaine2Output').textContent = "0";
+      
+      // Reset Lidocaine 1% input.
+      document.getElementById('lidocaine1Input').value = "";
+      document.getElementById('lidocaine1Output').textContent = "0";
+
+      updateDoseRemaining(parseFloat(document.getElementById('maximumDose').textContent) || 0);
+    }
+
+    function resetButtons() {
+      document.getElementById('coPhenylcaineButton').classList.remove('active');
+      document.getElementById('lidocaineSprayButton').classList.remove('active');
+      document.getElementById('instillagelButton').classList.remove('active');
+      document.getElementById('lidocaine4Button').classList.remove('active');
+      document.getElementById('lidocaine2Button').classList.remove('active');
+      document.getElementById('lidocaine1Button').classList.remove('active');
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+ <footer>
+  <small>&copy; 2025 Peter Daum. All rights reserved.</small>
+</footer>  
+</body>
+</html>
