@@ -7,13 +7,11 @@
   <title>LA Bolus and Infusion Calculator</title>
   <style>
     /* Additional inline styles specific to this page */
-    
-    /* Gap between the weight input and unit button */
     .input-group .unit-toggle {
       margin-left: 10px;
     }
     
-    /* Container for Bolus Concentration Selection */
+    /* Bolus Concentration */
     .concentration-label {
       margin: 10px 15px;
       font-size: 18px;
@@ -39,7 +37,7 @@
       color: white;
     }
     
-    /* Container for Infusion Concentration Selection */
+    /* Infusion Concentration */
     .infusion-concentration-label {
       margin: 10px 15px;
       font-size: 18px;
@@ -84,38 +82,17 @@
       font-size: 16px;
     }
     
-    /* Bolus Dose Display */
-    .result.bolus-dose {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 10px 15px;
-    }
-    
-    /* Maximum Bolus (Safe Dose) Display */
-    .max-safe-dose {
-      margin: 10px 15px;
-      font-size: 18px;
-    }
-    .max-safe-dose span.unit {
-      font-size: 16px;
-      margin-left: 5px;
-    }
-    
-    /* Maximum Infusion Rate Display */
-    .max-infusion-rate {
-      margin: 10px 15px;
-      font-size: 18px;
-    }
-    .max-infusion-rate span.unit {
-      font-size: 16px;
-      margin-left: 5px;
-    }
-    
-    /* Thereafter Infusion Rate Display */
+    /* Display areas */
+    .result.bolus-dose,
+    .max-safe-dose,
+    .max-infusion-rate,
     .thereafter-rate {
       margin: 10px 15px;
       font-size: 18px;
     }
+    .result.bolus-dose span.unit,
+    .max-safe-dose span.unit,
+    .max-infusion-rate span.unit,
     .thereafter-rate span.unit {
       font-size: 16px;
       margin-left: 5px;
@@ -146,7 +123,7 @@
     <span id="maxBolusFactor"></span>
   </div>
   
-  <!-- Bolus Concentration Label and Buttons -->
+  <!-- Bolus Concentration -->
   <div class="concentration-label"><strong>Concentration:</strong></div>
   <div class="concentration-buttons">
     <button class="concentration-btn" onclick="selectConcentration('0.25%')">0.25%</button>
@@ -169,7 +146,7 @@
     <span class="unit">mg</span>
   </div>
   
-  <!-- Infusion Concentration Label and Buttons -->
+  <!-- Infusion Concentration -->
   <div class="infusion-concentration-label"><strong>Infusion concentration:</strong></div>
   <div class="infusion-concentration-buttons">
     <button class="infusion-concentration-btn" onclick="selectInfusionConcentration('0.1%')">0.1%</button>
@@ -177,10 +154,17 @@
     <button class="infusion-concentration-btn" onclick="selectInfusionConcentration('0.2%')">0.2%</button>
   </div>
   
-  <!-- Maximum Infusion Rate for First 24 Hours Display -->
+  <!-- Maximum Infusion Rate for the First 4 Hours Display -->
   <div class="max-infusion-rate">
-    <strong>Maximum infusion rate for first 24 hours:</strong>
-    <span id="maxInfusionRate">0</span>
+    <strong>Maximum infusion rate for the first 4 hours:</strong>
+    <span id="maxInfRate4">0</span>
+    <span class="unit">mL/hr</span>
+  </div>
+  
+  <!-- Maximum Infusion Rate for the Following 20 Hours Display -->
+  <div class="max-infusion-rate">
+    <strong>Maximum infusion rate for the following 20 hours:</strong>
+    <span id="maxInfRate20">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
@@ -202,31 +186,31 @@
   </footer>
   
   <script>
-    // Global variable to store the maximum bolus value.
+    // Global variable to store the maximum bolus (in mg)
     let maxBolusValue = 0;
-    
-    // --- Weight Unit Toggle ---
     let weightUnit = "kg";
+    
+    // Update weight conversion and trigger recalculation.
     function toggleWeightUnit() {
       const weightInput = document.getElementById("weight");
       let weight = parseFloat(weightInput.value);
       if (!isNaN(weight)) {
         if (weightUnit === "kg") {
-          weightInput.value = (weight * 2.20462).toFixed(2);  // Convert kg to lb
+          weightInput.value = (weight * 2.20462).toFixed(2);
         } else {
-          weightInput.value = (weight / 2.20462).toFixed(2);    // Convert lb to kg
+          weightInput.value = (weight / 2.20462).toFixed(2);
         }
       }
-      weightUnit = weightUnit === "kg" ? "lb" : "kg";
+      weightUnit = (weightUnit === "kg") ? "lb" : "kg";
       document.getElementById("weightUnitBtn").textContent = weightUnit;
       updateMaxSafeDose();
+      updateInfusionRates();
     }
     
-    // --- Local Anaesthetic Selection (toggleable) ---
+    // Toggle local anesthetic selection.
     function selectLA(selectedLA) {
       const bupBtn = document.getElementById("bupivacaineBtn");
       const ropiBtn = document.getElementById("ropivacaineBtn");
-      
       if (selectedLA === "Bupivacaine") {
         if (bupBtn.classList.contains("active")) {
           bupBtn.classList.remove("active");
@@ -243,44 +227,44 @@
         }
       }
       updateMaxSafeDose();
-      updateMaxInfusionRate();
+      updateInfusionRates();
     }
     
-    // --- Bolus Concentration Selection (toggleable) ---
+    // Toggle bolus concentration selection.
     function selectConcentration(selectedConc) {
       const concButtons = document.querySelectorAll(".concentration-btn");
       concButtons.forEach(btn => {
         if (btn.textContent.trim() === selectedConc) {
+          btn.classList.toggle("active");
+          // Ensure only one is active.
           if (btn.classList.contains("active")) {
-            btn.classList.remove("active");
-          } else {
-            concButtons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            concButtons.forEach(other => {
+              if (other !== btn) other.classList.remove("active");
+            });
           }
         }
       });
-      updateBolusDose();  // Recalculate Bolus Dose when concentration changes
-      updateMaxInfusionRate();
+      updateBolusDose();
+      updateInfusionRates();
     }
     
-    // --- Infusion Concentration Selection (toggleable) ---
+    // Toggle infusion concentration selection.
     function selectInfusionConcentration(selectedInfConc) {
       const infusionButtons = document.querySelectorAll(".infusion-concentration-btn");
       infusionButtons.forEach(btn => {
         if (btn.textContent.trim() === selectedInfConc) {
+          btn.classList.toggle("active");
           if (btn.classList.contains("active")) {
-            btn.classList.remove("active");
-          } else {
-            infusionButtons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            infusionButtons.forEach(other => {
+              if (other !== btn) other.classList.remove("active");
+            });
           }
         }
       });
-      updateMaxInfusionRate();
+      updateInfusionRates();
     }
     
-    // --- Bolus Dose Calculation ---
-    // Mapping of bolus concentration percentages to mg/mL values:
+    // Mapping for bolus concentration percentages (mg/mL).
     const concMap = {
       "0.25%": 2.5,
       "0.375%": 3.75,
@@ -288,36 +272,29 @@
       "0.75%": 7.5
     };
     
+    // Update bolus dose.
     function updateBolusDose() {
-      const volumeInput = document.getElementById("bolusVolume");
-      const volume = parseFloat(volumeInput.value);
+      const volume = parseFloat(document.getElementById("bolusVolume").value);
       const doseDisplay = document.getElementById("bolusDose");
       const activeConcBtn = document.querySelector(".concentration-btn.active");
-      
       if (activeConcBtn && !isNaN(volume) && volume > 0) {
-        const concText = activeConcBtn.textContent.trim();
-        const concValue = concMap[concText];
+        const concValue = concMap[activeConcBtn.textContent.trim()];
         if (concValue) {
           const bolusDose = volume * concValue;
-          doseDisplay.textContent = bolusDose.toFixed(0);
-          // Compare bolusDose to maximum bolus (maxBolusValue):
-          if (maxBolusValue > 0 && bolusDose > maxBolusValue) {
-            doseDisplay.style.color = "darkred";
-          } else {
-            doseDisplay.style.color = "inherit";
-          }
-          updateMaxInfusionRate();
+          doseDisplay.textContent = bolusDose.toFixed(2);
+          // Change color if it exceeds the maximum bolus.
+          doseDisplay.style.color = (maxBolusValue > 0 && bolusDose > maxBolusValue)
+            ? "darkred" : "inherit";
+          updateInfusionRates();
           return;
         }
       }
       doseDisplay.textContent = "0";
       doseDisplay.style.color = "inherit";
-      updateMaxInfusionRate();
+      updateInfusionRates();
     }
     
-    // --- Maximum Bolus Calculation ---
-    // Bupivacaine: max bolus = 2 mg/kg × weight (in kg).
-    // Ropivacaine: max bolus = 3 mg/kg × weight (in kg).
+    // Update maximum bolus (safe dose) based on weight.
     function updateMaxSafeDose() {
       const weightStr = document.getElementById("weight").value;
       if (!weightStr) {
@@ -333,11 +310,8 @@
         maxBolusValue = 0;
         return;
       }
-      // Convert weight to kg if necessary.
       const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
-      let dose = 0;
-      let factorText = "";
-      
+      let dose = 0, factorText = "";
       if (document.getElementById("bupivacaineBtn").classList.contains("active")) {
         dose = 2 * weightKg;
         factorText = " (2mg/kg)";
@@ -355,58 +329,55 @@
       document.getElementById("maxBolusFactor").textContent = factorText;
     }
     
-    // --- Maximum Infusion Rate Calculation ---
-    // For Bupivacaine:
-    //   First 24 hrs = (400mg - bolus dose) / (infusion concentration in mg/mL × 24)
-    //   Thereafter   = 400 / (infusion concentration in mg/mL × 24)
-    // For Ropivacaine:
-    //   First 24 hrs = (675mg - bolus dose) / (infusion concentration in mg/mL × 24)
-    //   Thereafter   = 675 / (infusion concentration in mg/mL × 24)
-    // The results are displayed to one decimal place.
+    // Mapping for infusion concentration percentages to mg/mL.
     const infusionConcMap = {
       "0.1%": 1.0,
       "0.125%": 1.25,
       "0.2%": 2.0
     };
     
-    function updateMaxInfusionRate() {
-      // Get bolus dose from the display
+    // Update infusion rates.
+    // Calculate:
+    // Rate for first 4 hours = (maxBolusValue - bolusDose) / (infusionConc * 4)
+    // Rate for following 20 hours = (threshold - maxBolusValue) / (infusionConc * 20)
+    // Thereafter = threshold / (infusionConc * 24)
+    // Threshold: 400 mg for Bupivacaine; 675 mg for Ropivacaine.
+    function updateInfusionRates() {
       let bolusDose = parseFloat(document.getElementById("bolusDose").textContent);
       if (isNaN(bolusDose)) bolusDose = 0;
       
-      // Get the infusion concentration from the selected button
       let infusionConc = 0;
       const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
       if (activeInfBtn) {
-        const infConcText = activeInfBtn.textContent.trim();
-        infusionConc = infusionConcMap[infConcText] || 0;
+        infusionConc = infusionConcMap[activeInfBtn.textContent.trim()] || 0;
       }
       
       let threshold = 0;
-      if (document.getElementById("bupivacaineBtn").classList.contains("active")) {
+      if (document.getElementById("bupivacaineBtn").classList.contains("active"))
         threshold = 400;
-      } else if (document.getElementById("ropivacaineBtn").classList.contains("active")) {
+      else if (document.getElementById("ropivacaineBtn").classList.contains("active"))
         threshold = 675;
-      } else {
-        threshold = 0;
-      }
       
-      let first24hr = 0, thereafter = 0;
+      let rate4 = 0, rate20 = 0, thereafter = 0;
       if (infusionConc > 0 && threshold > 0) {
-        first24hr = (threshold - bolusDose) / (infusionConc * 24);
+        rate4 = (maxBolusValue - bolusDose) / (infusionConc * 4);
+        rate20 = (threshold - maxBolusValue) / (infusionConc * 20);
         thereafter = threshold / (infusionConc * 24);
       }
       
-      document.getElementById("maxInfusionRate").textContent = first24hr.toFixed(1);
+      document.getElementById("maxInfRate4").textContent = rate4.toFixed(1);
+      document.getElementById("maxInfRate20").textContent = rate20.toFixed(1);
       document.getElementById("thereafterRate").textContent = thereafter.toFixed(1);
     }
     
-    // Update Bolus Dose when the bolus volume input changes.
+    // Attach event listeners.
     document.getElementById("bolusVolume").addEventListener("input", updateBolusDose);
-    // Update Maximum Bolus when weight is modified.
-    document.getElementById("weight").addEventListener("input", updateMaxSafeDose);
+    document.getElementById("weight").addEventListener("input", function() {
+      updateMaxSafeDose();
+      updateInfusionRates();
+    });
     
-    // --- Reset and Navigation ---
+    // Reset and Home functions.
     function resetCalculator() {
       document.getElementById("weight").value = "";
       weightUnit = "kg";
@@ -423,7 +394,9 @@
       
       document.getElementById("maxSafeDose").textContent = "";
       document.getElementById("maxBolusFactor").textContent = "";
-      document.getElementById("maxInfusionRate").textContent = "0";
+      maxBolusValue = 0;
+      document.getElementById("maxInfRate4").textContent = "0";
+      document.getElementById("maxInfRate20").textContent = "0";
       document.getElementById("thereafterRate").textContent = "0";
     }
     
