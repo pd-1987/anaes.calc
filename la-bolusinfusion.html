@@ -5,6 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LA Bolus and Infusion Calculator</title>
+  <style>
+    /* Additional inline styles specific to this page */
+    .input-group .unit-toggle {
+      margin-left: 10px;  /* Small gap between the input box and the unit button */
+    }
+    /* Container for Concentration Selection */
+    .concentration-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+    }
+    /* Style for Concentration Buttons: using a light blue similar to your bubble style */
+    .concentration-btn {
+      flex: 1;
+      margin: 0 5px;
+      padding: 8px 12px;
+      font-size: 16px;
+      background-color: #e7f3fe;
+      border: 1px solid #bcdffc;
+      border-radius: 15px;
+      color: #0078d7;
+      cursor: pointer;
+    }
+    .concentration-btn.active {
+      background-color: #0078d7;
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <header class="banner">LA Bolus and Infusion Calculator</header>
@@ -22,6 +50,14 @@
     <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">Ropivacaine</button>
   </div>
   
+  <!-- Concentration Selection Buttons -->
+  <div class="concentration-buttons">
+    <button class="concentration-btn" onclick="selectConcentration('0.25%')">0.25%</button>
+    <button class="concentration-btn" onclick="selectConcentration('0.375%')">0.375%</button>
+    <button class="concentration-btn" onclick="selectConcentration('0.5%')">0.5%</button>
+    <button class="concentration-btn" onclick="selectConcentration('0.75%')">0.75%</button>
+  </div>
+  
   <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button class="reset-btn" onclick="resetCalculator()">Reset</button>
@@ -33,32 +69,32 @@
   </footer>
   
   <script>
+    // Initial weight unit.
     let weightUnit = "kg";
     
-    // Toggle the weight unit between kg and lb; convert the entered value accordingly.
+    // Toggle the weight unit between kg and lb, converting the value as needed.
     function toggleWeightUnit() {
       const weightInput = document.getElementById("weight");
       let weight = parseFloat(weightInput.value);
       if (!isNaN(weight)) {
-        // Convert the value based on the current unit.
         if (weightUnit === "kg") {
-          weightInput.value = (weight * 2.20462).toFixed(2); // kg to lb
+          // Convert kg to lb (1 kg = 2.20462 lb)
+          weightInput.value = (weight * 2.20462).toFixed(2);
         } else {
-          weightInput.value = (weight / 2.20462).toFixed(2); // lb to kg
+          // Convert lb to kg
+          weightInput.value = (weight / 2.20462).toFixed(2);
         }
       }
-      // Toggle the weight unit.
       weightUnit = weightUnit === "kg" ? "lb" : "kg";
       document.getElementById("weightUnitBtn").textContent = weightUnit;
     }
     
-    // Handle Local Anaesthetic selection and allow deselecting an option.
+    // Handle Local Anaesthetic selection. Clicking a button toggles its active state.
     function selectLA(selectedLA) {
       const bupBtn = document.getElementById("bupivacaineBtn");
       const ropiBtn = document.getElementById("ropivacaineBtn");
       
       if (selectedLA === "Bupivacaine") {
-        // If already selected, deselect; otherwise, select and deselect the other.
         if (bupBtn.classList.contains("active")) {
           bupBtn.classList.remove("active");
         } else {
@@ -75,13 +111,35 @@
       }
     }
     
-    // Reset the calculator: clear weight input, set unit to default ("kg"), and deselect local anaesthetic buttons.
+    // Handle Concentration selection for the LA. Only one button can be active at a time.
+    function selectConcentration(selectedConc) {
+      const concButtons = document.querySelectorAll(".concentration-btn");
+      concButtons.forEach(btn => {
+        if (btn.textContent === selectedConc) {
+          if (btn.classList.contains("active")) {
+            // If already selected, deselect it.
+            btn.classList.remove("active");
+          } else {
+            // Deselect all and then select the clicked one.
+            concButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+          }
+        }
+      });
+    }
+    
+    // Reset the calculator: clear weight, revert unit to default, and deselect all selections.
     function resetCalculator() {
       document.getElementById("weight").value = "";
       weightUnit = "kg";
       document.getElementById("weightUnitBtn").textContent = "kg";
+      
+      // Deselect local anesthetic buttons.
       document.getElementById("bupivacaineBtn").classList.remove("active");
       document.getElementById("ropivacaineBtn").classList.remove("active");
+      
+      // Deselect concentration buttons.
+      document.querySelectorAll(".concentration-btn").forEach(btn => btn.classList.remove("active"));
     }
     
     // Navigate to the home page.
