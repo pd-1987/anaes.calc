@@ -16,12 +16,41 @@
             font-size: 16px;
             margin: 0 10px;
         }
+        .unit-toggle {
+            /* Default width for larger screens */
+            width: 70px;
+            font-size: 16px;
+        }
         .results {
             margin-top: 20px;
             font-size: 18px;
         }
         .results div {
             margin: 5px 0;
+        }
+        /* Example active state styles */
+        .active {
+            background-color: #007BFF;
+            color: white;
+        }
+        /* Media query for mobile devices */
+        @media screen and (max-width: 600px) {
+            .unit-toggle {
+                width: 50px;
+                font-size: 14px;
+            }
+            .input-group label {
+                font-size: 16px;
+                width: 70px;
+            }
+            .input-group input {
+                padding: 5px;
+                font-size: 14px;
+                margin: 0 5px;
+            }
+            .results {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -63,7 +92,7 @@
     </footer>
     <footer>
         <small>&copy; 2025 Peter Daum. All rights reserved.</small>
-      </footer>  
+    </footer>
 
     <script>
         let gender = 'male';
@@ -153,20 +182,29 @@
         }
 
         function resetCalculator() {
+            // Clear input fields
             document.getElementById('height').value = '';
             document.getElementById('weight').value = '';
 
+            // Clear result fields
             document.getElementById('bmiResult').textContent = '';
             document.getElementById('ibwResult').textContent = '';
             document.getElementById('abwResult').textContent = '';
             document.getElementById('lbwResult').textContent = '';
 
+            // Reset gender to default (male)
             gender = 'male';
-            document.getElementById('maleButton').classList.remove('active');
+            document.getElementById('maleButton').classList.add('active');
             document.getElementById('femaleButton').classList.remove('active');
 
-            if (heightUnit !== 'cm') toggleHeightUnit();
-            if (weightUnit !== 'kg') toggleWeightUnit();
+            // Reset unit states and button labels to defaults
+            heightUnit = 'cm';
+            weightUnit = 'kg';
+            document.getElementById('heightUnitBtn').textContent = 'cm';
+            document.getElementById('weightUnitBtn').textContent = 'kg';
+
+            // Re-run calculation to clear any outputs
+            calculate();
         }
 
         function goHome() {
