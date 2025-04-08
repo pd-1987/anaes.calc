@@ -136,12 +136,12 @@
     document.getElementById('lidocaine1Input').value = "";
     
     // Set default value for Lidocaine 4% input.
-    document.getElementById('lidocaine4Input').value = defaultLidocaine4Value;
+    document.getElementById('lidocaine4Input').value = "";
     
     // Initialize blue bubbles with 0 (or computed default for Lidocaine 4%).
     document.getElementById('lidocaineOutput').textContent = "0";
     document.getElementById('instillagelOutput').textContent = "0";
-    document.getElementById('lidocaine4Output').textContent = defaultLidocaine4Value * 40;
+    document.getElementById('lidocaine4Output').textContent = "0";
     document.getElementById('lidocaine2Output').textContent = "0";
     document.getElementById('lidocaine1Output').textContent = "0";
   });
@@ -325,8 +325,8 @@
     document.getElementById('instillagelOutput').textContent = "0";
     
     // Reset Lidocaine 4% input to default.
-    document.getElementById('lidocaine4Input').value = defaultLidocaine4Value;
-    document.getElementById('lidocaine4Output').textContent = defaultLidocaine4Value * 40;
+    document.getElementById('lidocaine4Input').value = "";
+    document.getElementById('lidocaine4Output').textContent =  "0";
 
     // Reset Lidocaine 2% input.
     document.getElementById('lidocaine2Input').value = "";
