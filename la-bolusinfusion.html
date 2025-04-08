@@ -194,6 +194,8 @@
     function toggleWeightUnit() {
       const weightInput = document.getElementById("weight");
       let weight = parseFloat(weightInput.value);
+      // Prevent negative weight; if negative, treat as 0.
+      weight = Math.max(weight, 0);
       if (!isNaN(weight)) {
         if (weightUnit === "kg") {
           weightInput.value = (weight * 2.20462).toFixed(2);
@@ -211,6 +213,7 @@
     function selectLA(selectedLA) {
       const bupBtn = document.getElementById("bupivacaineBtn");
       const ropiBtn = document.getElementById("ropivacaineBtn");
+      
       if (selectedLA === "Bupivacaine") {
         if (bupBtn.classList.contains("active")) {
           bupBtn.classList.remove("active");
@@ -272,20 +275,19 @@
     };
     
     function updateBolusDose() {
-      const volume = parseFloat(document.getElementById("bolusVolume").value);
+      const volumeInput = document.getElementById("bolusVolume");
+      let volume = parseFloat(volumeInput.value);
+      volume = Math.max(volume, 0);
       const doseDisplay = document.getElementById("bolusDose");
       const activeConcBtn = document.querySelector(".concentration-btn.active");
       if (activeConcBtn && !isNaN(volume) && volume > 0) {
         const concValue = concMap[activeConcBtn.textContent.trim()];
         if (concValue) {
-          const bolusDose = volume * concValue;
+          const bolusDose = Math.max(volume * concValue, 0);
           doseDisplay.textContent = bolusDose.toFixed(2);
-          // If bolus dose exceeds maxBolusValue, change color.
-          if (maxBolusValue > 0 && bolusDose > maxBolusValue) {
-            doseDisplay.style.color = "darkred";
-          } else {
-            doseDisplay.style.color = "inherit";
-          }
+          // Change color to dark red if bolusDose exceeds maxBolusValue.
+          doseDisplay.style.color = (maxBolusValue > 0 && bolusDose > maxBolusValue)
+            ? "darkred" : "inherit";
           updateInfusionRates();
           return;
         }
@@ -296,16 +298,13 @@
     }
     
     // --- Maximum Bolus Calculation ---
+    // Bupivacaine: max bolus = 2 mg/kg × weight (in kg).
+    // Ropivacaine: max bolus = 3 mg/kg × weight (in kg).
     function updateMaxSafeDose() {
       const weightStr = document.getElementById("weight").value;
-      if (!weightStr) {
-        document.getElementById("maxSafeDose").textContent = "";
-        document.getElementById("maxBolusFactor").textContent = "";
-        maxBolusValue = 0;
-        return;
-      }
       let weight = parseFloat(weightStr);
-      if (isNaN(weight)) {
+      weight = Math.max(weight, 0);
+      if (!weightStr || isNaN(weight)) {
         document.getElementById("maxSafeDose").textContent = "";
         document.getElementById("maxBolusFactor").textContent = "";
         maxBolusValue = 0;
@@ -314,6 +313,7 @@
       const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
       let dose = 0;
       let factorText = "";
+      
       if (document.getElementById("bupivacaineBtn").classList.contains("active")) {
         dose = 2 * weightKg;
         factorText = " (2mg/kg)";
@@ -332,11 +332,11 @@
     }
     
     // --- Infusion Rate Calculations ---
-    // Using the following:
+    // Using old formulas:
     // Maximum infusion rate for the first 4 hours (mL/hr) = (maxBolusValue - bolusDose) / (infusionConc * 4)
     // Maximum infusion rate for the following 20 hours (mL/hr) = (threshold - maxBolusValue) / (infusionConc * 20)
     // Thereafter (mL/hr) = threshold / (infusionConc * 24)
-    // Threshold is 400 mg for Bupivacaine and 675 mg for Ropivacaine.
+    // Threshold is 400 mg for Bupivacaine; 675 mg for Ropivacaine.
     const infusionConcMap = {
       "0.1%": 1.0,
       "0.125%": 1.25,
@@ -346,23 +346,27 @@
     function updateInfusionRates() {
       let bolusDose = parseFloat(document.getElementById("bolusDose").textContent);
       if (isNaN(bolusDose)) bolusDose = 0;
+      
       let infusionConc = 0;
       const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
       if (activeInfBtn) {
         infusionConc = infusionConcMap[activeInfBtn.textContent.trim()] || 0;
       }
+      
       let threshold = 0;
       if (document.getElementById("bupivacaineBtn").classList.contains("active")) {
         threshold = 400;
       } else if (document.getElementById("ropivacaineBtn").classList.contains("active")) {
         threshold = 675;
       }
+      
       let rate4 = 0, rate20 = 0, thereafter = 0;
       if (infusionConc > 0 && threshold > 0) {
-        rate4 = (maxBolusValue - bolusDose) / (infusionConc * 4);
-        rate20 = (threshold - maxBolusValue) / (infusionConc * 20);
-        thereafter = threshold / (infusionConc * 24);
+        rate4 = Math.max((maxBolusValue - bolusDose) / (infusionConc * 4), 0);
+        rate20 = Math.max((threshold - maxBolusValue) / (infusionConc * 20), 0);
+        thereafter = Math.max(threshold / (infusionConc * 24), 0);
       }
+      
       document.getElementById("maxInfRate4").textContent = rate4.toFixed(1);
       document.getElementById("maxInfRate20").textContent = rate20.toFixed(1);
       document.getElementById("thereafterRate").textContent = thereafter.toFixed(1);
