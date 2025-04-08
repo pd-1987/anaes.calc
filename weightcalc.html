@@ -44,7 +44,6 @@
                 width: 70px;
             }
             .input-group input {
-                padding: 5px;
                 font-size: 14px;
                 margin: 0 5px;
             }
@@ -95,14 +94,17 @@
     </footer>
 
     <script>
-        let gender = 'male';
+        // No default gender is set initially.
+        let gender = null;
         let heightUnit = 'cm';
         let weightUnit = 'kg';
 
         function selectGender(selectedGender) {
             gender = selectedGender;
+            // Clear both buttons' active state first
             document.getElementById('maleButton').classList.remove('active');
             document.getElementById('femaleButton').classList.remove('active');
+            // Set active on the selected gender button
             document.getElementById(`${selectedGender}Button`).classList.add('active');
             calculate();
         }
@@ -145,7 +147,8 @@
             const height = parseFloat(document.getElementById('height').value);
             const weight = parseFloat(document.getElementById('weight').value);
 
-            if (!height || !weight) {
+            // If gender is not selected or height/weight are missing, clear the results.
+            if (!height || !weight || !gender) {
                 document.getElementById('bmiResult').textContent = '';
                 document.getElementById('ibwResult').textContent = '';
                 document.getElementById('abwResult').textContent = '';
@@ -153,9 +156,9 @@
                 return;
             }
 
+            // Convert height and weight to metric units if necessary.
             const heightCm = heightUnit === 'in' ? height * 2.54 : height;
             const weightKg = weightUnit === 'lb' ? weight / 2.20462 : weight;
-
             const heightM = heightCm / 100;
             const bmi = weightKg / (heightM * heightM);
 
@@ -192,9 +195,9 @@
             document.getElementById('abwResult').textContent = '';
             document.getElementById('lbwResult').textContent = '';
 
-            // Reset gender to default (male)
-            gender = 'male';
-            document.getElementById('maleButton').classList.add('active');
+            // Clear gender selection
+            gender = null;
+            document.getElementById('maleButton').classList.remove('active');
             document.getElementById('femaleButton').classList.remove('active');
 
             // Reset unit states and button labels to defaults
@@ -203,7 +206,7 @@
             document.getElementById('heightUnitBtn').textContent = 'cm';
             document.getElementById('weightUnitBtn').textContent = 'kg';
 
-            // Re-run calculation to clear any outputs
+            // Recalculate to clear any residual data.
             calculate();
         }
 
