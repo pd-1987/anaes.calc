@@ -22,6 +22,12 @@
     <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">Ropivacaine</button>
   </div>
   
+  <!-- Home and Reset Buttons -->
+  <div class="button-container">
+    <button class="reset-btn" onclick="resetCalculator()">Reset</button>
+    <button class="home-btn" onclick="goHome()">Home</button>
+  </div>
+  
   <footer>
     <small>&copy; 2025 Peter Daum. All rights reserved.</small>
   </footer>
@@ -29,33 +35,58 @@
   <script>
     let weightUnit = "kg";
     
-    // Toggle weight units between kg and lb, converting the entered value accordingly.
+    // Toggle the weight unit between kg and lb; convert the entered value accordingly.
     function toggleWeightUnit() {
       const weightInput = document.getElementById("weight");
       let weight = parseFloat(weightInput.value);
       if (!isNaN(weight)) {
+        // Convert the value based on the current unit.
         if (weightUnit === "kg") {
-          // Convert kg to lb (1 kg = 2.20462 lb)
-          weightInput.value = (weight * 2.20462).toFixed(2);
+          weightInput.value = (weight * 2.20462).toFixed(2); // kg to lb
         } else {
-          // Convert lb to kg
-          weightInput.value = (weight / 2.20462).toFixed(2);
+          weightInput.value = (weight / 2.20462).toFixed(2); // lb to kg
         }
       }
+      // Toggle the weight unit.
       weightUnit = weightUnit === "kg" ? "lb" : "kg";
       document.getElementById("weightUnitBtn").textContent = weightUnit;
     }
     
-    // Handle local anaesthetic selection: highlight the selected option.
+    // Handle Local Anaesthetic selection and allow deselecting an option.
     function selectLA(selectedLA) {
-      document.getElementById("bupivacaineBtn").classList.remove("active");
-      document.getElementById("ropivacaineBtn").classList.remove("active");
+      const bupBtn = document.getElementById("bupivacaineBtn");
+      const ropiBtn = document.getElementById("ropivacaineBtn");
       
       if (selectedLA === "Bupivacaine") {
-        document.getElementById("bupivacaineBtn").classList.add("active");
-      } else {
-        document.getElementById("ropivacaineBtn").classList.add("active");
+        // If already selected, deselect; otherwise, select and deselect the other.
+        if (bupBtn.classList.contains("active")) {
+          bupBtn.classList.remove("active");
+        } else {
+          bupBtn.classList.add("active");
+          ropiBtn.classList.remove("active");
+        }
+      } else if (selectedLA === "Ropivacaine") {
+        if (ropiBtn.classList.contains("active")) {
+          ropiBtn.classList.remove("active");
+        } else {
+          ropiBtn.classList.add("active");
+          bupBtn.classList.remove("active");
+        }
       }
+    }
+    
+    // Reset the calculator: clear weight input, set unit to default ("kg"), and deselect local anaesthetic buttons.
+    function resetCalculator() {
+      document.getElementById("weight").value = "";
+      weightUnit = "kg";
+      document.getElementById("weightUnitBtn").textContent = "kg";
+      document.getElementById("bupivacaineBtn").classList.remove("active");
+      document.getElementById("ropivacaineBtn").classList.remove("active");
+    }
+    
+    // Navigate to the home page.
+    function goHome() {
+      window.location.href = "index.html";
     }
   </script>
 </body>
