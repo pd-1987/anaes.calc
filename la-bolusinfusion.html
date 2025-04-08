@@ -5,15 +5,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LA Bolus and Infusion Calculator</title>
-<style>
-   </style>
 </head>
 <body>
   <header class="banner">LA Bolus and Infusion Calculator</header>
+  
+  <!-- Weight Entry Group -->
+  <div class="input-group">
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" placeholder="0">
+    <button class="unit-toggle" id="weightUnitBtn" onclick="toggleWeightUnit()">kg</button>
+  </div>
+  
+  <!-- Local Anaesthetic Selection Buttons -->
+  <div class="gender-buttons">
+    <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">Bupivacaine</button>
+    <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">Ropivacaine</button>
+  </div>
+  
   <footer>
     <small>&copy; 2025 Peter Daum. All rights reserved.</small>
   </footer>
+  
   <script>
+    let weightUnit = "kg";
+    
+    // Toggle weight units between kg and lb, converting the entered value accordingly.
+    function toggleWeightUnit() {
+      const weightInput = document.getElementById("weight");
+      let weight = parseFloat(weightInput.value);
+      if (!isNaN(weight)) {
+        if (weightUnit === "kg") {
+          // Convert kg to lb (1 kg = 2.20462 lb)
+          weightInput.value = (weight * 2.20462).toFixed(2);
+        } else {
+          // Convert lb to kg
+          weightInput.value = (weight / 2.20462).toFixed(2);
+        }
+      }
+      weightUnit = weightUnit === "kg" ? "lb" : "kg";
+      document.getElementById("weightUnitBtn").textContent = weightUnit;
+    }
+    
+    // Handle local anaesthetic selection: highlight the selected option.
+    function selectLA(selectedLA) {
+      document.getElementById("bupivacaineBtn").classList.remove("active");
+      document.getElementById("ropivacaineBtn").classList.remove("active");
+      
+      if (selectedLA === "Bupivacaine") {
+        document.getElementById("bupivacaineBtn").classList.add("active");
+      } else {
+        document.getElementById("ropivacaineBtn").classList.add("active");
+      }
+    }
   </script>
-  </body>
+</body>
 </html>
