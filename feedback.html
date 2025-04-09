@@ -6,28 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feedback</title>
   <style>
-    /* Inline styles specific to the feedback form */
-    .feedback-container {
-      margin-top: 20px;
-    }
-    .feedback-container form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .feedback-container label {
-      font-size: 18px;
-    }
-    .feedback-container input,
-    .feedback-container textarea {
-      padding: 10px;
-      font-size: 14px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    .feedback-container button {
+  /* Inline styles specific to the feedback form */
+  .feedback-container {
+    margin-top: 20px;
+  }
+  .feedback-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  /* Override the global .input-group flex behavior */
+  .feedback-container .input-group {
+    display: block;
+  }
+  .feedback-container label {
+    font-size: 18px;
+    display: block;  /* Ensures the label takes a full line */
+    margin-bottom: 5px;
+  }
+  .feedback-container input,
+  .feedback-container textarea {
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .feedback-container button {
     padding: 10px;
     font-size: 16px;
     border: none;
@@ -40,12 +46,12 @@
   .feedback-container button:hover {
     background-color: #e0e0e0;
   }
-    /* Force the label for feedback to display as a block element */
-label[for="message"] {
-  display: block;
-  margin-bottom: 5px;  /* optional spacing between the label and textarea */
-}
-  </style>
+  /* Force the label for feedback to display as a block element */
+  label[for="message"] {
+    display: block;
+    margin-bottom: 5px;
+  }
+</style>
 </head>
 <body>
   <header class="banner">
