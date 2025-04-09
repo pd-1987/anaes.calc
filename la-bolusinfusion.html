@@ -357,10 +357,12 @@
     // Bupivacaine: max bolus = min(2 mg/kg * weight, 175 mg)
     // Levobupivacaine: max bolus = min(2 mg/kg * weight, 200 mg)
     // Ropivacaine: max bolus = min(3 mg/kg * weight, 200 mg)
+    // Also, if weight < 45 kg, no numbers are produced.
     function updateMaxSafeDose() {
       const weightStr = document.getElementById("weight").value;
       let weight = Math.max(parseFloat(weightStr), 0);
-      if (!weightStr || isNaN(weight)) {
+      // If weight is not provided or below 45kg, clear the maximum bolus.
+      if (!weightStr || isNaN(weight) || weight < 45) {
         document.getElementById("maxSafeDose").textContent = "";
         maxBolusValue = 0;
         return;
@@ -394,9 +396,9 @@
     
     // --- Infusion Rate Calculations ---
     // Maximum infusion rate for the first 4 hours (mL/hr) = (maxBolusValue - bolusDose) / (infusionConc * 4),
-    // capped at the "Thereafter" rate.
+    // but capped at the "Thereafter" rate.
     // Maximum infusion rate for the following 20 hours (mL/hr) = (threshold - maxBolusValue) / (infusionConc * 20),
-    // capped at the "Thereafter" rate.
+    // but also capped at the "Thereafter" rate.
     // Thereafter (mL/hr) = threshold / (infusionConc * 24).
     // For Bupivacaine/Levobupivacaine, threshold = 400 mg; for Ropivacaine, threshold = 675 mg.
     const infusionConcMap = {
@@ -406,9 +408,10 @@
     };
     
     function updateInfusionRates() {
-      // Only update if weight and infusion concentration are valid.
-      const maxSafeDoseText = document.getElementById("maxSafeDose").textContent;
-      if (!maxSafeDoseText || parseFloat(maxSafeDoseText) <= 0) {
+      const weightStr = document.getElementById("weight").value;
+      let weight = Math.max(parseFloat(weightStr), 0);
+      // Only update if weight is provided and is at least 45kg.
+      if (!weightStr || isNaN(weight) || weight < 45) {
         document.getElementById("maxInfRate4").textContent = "0.00";
         document.getElementById("maxInfRate20").textContent = "0.00";
         document.getElementById("thereafterRate").textContent = "0.00";
@@ -445,7 +448,7 @@
         // Cap the 4h infusion rate to the "Thereafter" rate.
         rate4 = Math.min(rate4, thereafter);
         rate20 = Math.max((threshold - maxBolusValue) / (infusionConc * 20), 0);
-        // Cap the 20h infusion rate to the "Thereafter" rate.
+        // Also cap the 20h infusion rate to the "Thereafter" rate.
         rate20 = Math.min(rate20, thereafter);
       }
       
