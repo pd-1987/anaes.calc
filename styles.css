@@ -10,7 +10,8 @@ body {
     text-align: center;
     font-size: 24px;
       border-bottom: 1px solid
-      margin-bottom: 10px;
+      padding-bottom: 10px;             /* spacing between text and border */
+      margin-bottom: 10px;              /* spacing between border and next element */
   }
 h2 {
   font-size: 20px;
