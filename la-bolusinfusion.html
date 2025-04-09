@@ -7,7 +7,6 @@
   <title>Maximum LA Bolus and Infusion Calculator</title>
   <style>
     /* Additional inline styles specific to this page */
-    
     .input-group .unit-toggle {
       margin-left: 10px;
     }
@@ -38,15 +37,14 @@
       background-color: #575757;
       color: white;
     }
-    /* New: Change small text color when button is active */
-    .gender-buttons button.active small {
-      color: white;
-    }
     .gender-buttons button small {
       display: block;
       font-size: 12px;
       color: #555;
       margin-top: 3px;
+    }
+    .gender-buttons button.active small {
+      color: white;
     }
     
     /* Bolus Concentration */
@@ -143,12 +141,12 @@
   <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight:</label>
-    <input type="number" id="weight" placeholder="0">
+    <input type="number" id="weight" placeholder="0" min="0">
     <button class="unit-toggle" id="weightUnitBtn" onclick="toggleWeightUnit()">kg</button>
   </div>
   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
   
-  <!-- Local Anaesthetic Selection Buttons -->
+  <!-- Local Anesthetic Selection Buttons -->
   <div class="gender-buttons">
     <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">
       Bupivacaine<br><small>2 mg/kg</small>
@@ -180,7 +178,7 @@
   <!-- Bolus Volume Entry Group -->
   <div class="input-group bolus-group">
     <label for="bolusVolume">Bolus volume:</label>
-    <input type="number" id="bolusVolume" placeholder="0">
+    <input type="number" id="bolusVolume" placeholder="0" min="0">
     <span class="unit">ml</span>
   </div>
   
@@ -202,21 +200,21 @@
   <!-- Maximum Infusion Rate for the First 4 Hours Display -->
   <div class="max-infusion-rate">
     <strong>Maximum infusion rate for the first 4 hours:</strong>
-    <span id="maxInfRate4">0</span>
+    <span id="maxInfRate4">0.00</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Maximum Infusion Rate for the Following 20 Hours Display -->
   <div class="max-infusion-rate">
     <strong>Maximum infusion rate for the following 20 hours:</strong>
-    <span id="maxInfRate20">0</span>
+    <span id="maxInfRate20">0.00</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Thereafter Infusion Rate Display -->
   <div class="thereafter-rate">
     <strong>Thereafter:</strong>
-    <span id="thereafterRate">0</span>
+    <span id="thereafterRate">0.00</span>
     <span class="unit">mL/hr</span>
   </div>
   
@@ -396,7 +394,8 @@
     // --- Infusion Rate Calculations ---
     // Maximum infusion rate for the first 4 hours (mL/hr) = (maxBolusValue - bolusDose) / (infusionConc * 4),
     // capped at the "Thereafter" rate.
-    // Maximum infusion rate for the following 20 hours (mL/hr) = (threshold - maxBolusValue) / (infusionConc * 20).
+    // Maximum infusion rate for the following 20 hours (mL/hr) = (threshold - maxBolusValue) / (infusionConc * 20),
+    // capped at the "Thereafter" rate.
     // Thereafter (mL/hr) = threshold / (infusionConc * 24).
     // For Bupivacaine/Levobupivacaine, threshold = 400 mg; for Ropivacaine, threshold = 675 mg.
     const infusionConcMap = {
@@ -406,14 +405,27 @@
     };
     
     function updateInfusionRates() {
+      // Only update if weight and infusion concentration are valid.
+      const maxSafeDoseText = document.getElementById("maxSafeDose").textContent;
+      if (!maxSafeDoseText || parseFloat(maxSafeDoseText) <= 0) {
+        document.getElementById("maxInfRate4").textContent = "0.00";
+        document.getElementById("maxInfRate20").textContent = "0.00";
+        document.getElementById("thereafterRate").textContent = "0.00";
+        return;
+      }
+      
+      const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
+      if (!activeInfBtn) {
+        document.getElementById("maxInfRate4").textContent = "0.00";
+        document.getElementById("maxInfRate20").textContent = "0.00";
+        document.getElementById("thereafterRate").textContent = "0.00";
+        return;
+      }
+      
       let bolusDose = parseFloat(document.getElementById("bolusDose").textContent);
       if (isNaN(bolusDose)) bolusDose = 0;
       
-      let infusionConc = 0;
-      const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
-      if (activeInfBtn) {
-        infusionConc = infusionConcMap[activeInfBtn.textContent.trim()] || 0;
-      }
+      let infusionConc = infusionConcMap[activeInfBtn.textContent.trim()] || 0;
       
       let threshold = 0;
       const bupBtn = document.getElementById("bupivacaineBtn");
@@ -427,12 +439,13 @@
       
       let rate4 = 0, rate20 = 0, thereafter = 0;
       if (infusionConc > 0 && threshold > 0) {
-        // Calculate rate for the first 4 hours and cap it to the 'Thereafter' rate.
         rate4 = Math.max((maxBolusValue - bolusDose) / (infusionConc * 4), 0);
         thereafter = Math.max(threshold / (infusionConc * 24), 0);
+        // Cap the 4h infusion rate to the "Thereafter" rate.
         rate4 = Math.min(rate4, thereafter);
-        // Calculate rate for the following 20 hours.
         rate20 = Math.max((threshold - maxBolusValue) / (infusionConc * 20), 0);
+        // Cap the 20h infusion rate to the "Thereafter" rate.
+        rate20 = Math.min(rate20, thereafter);
       }
       
       document.getElementById("maxInfRate4").textContent = rate4.toFixed(2);
@@ -464,9 +477,9 @@
       
       document.getElementById("maxSafeDose").textContent = "";
       maxBolusValue = 0;
-      document.getElementById("maxInfRate4").textContent = "0";
-      document.getElementById("maxInfRate20").textContent = "0";
-      document.getElementById("thereafterRate").textContent = "0";
+      document.getElementById("maxInfRate4").textContent = "0.00";
+      document.getElementById("maxInfRate20").textContent = "0.00";
+      document.getElementById("thereafterRate").textContent = "0.00";
     }
     
     function goHome() {
