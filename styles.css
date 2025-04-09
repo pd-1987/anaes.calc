@@ -10,7 +10,24 @@ body {
     text-align: center;
     font-size: 24px;
   }
-  
+h2 {
+  font-size: 20px;
+  color: #333;              /* Matches your text color used for instructions & results */
+  margin-top: 25px;
+  margin-bottom: 10px;
+  text-align: center;       /* Or left-align if that fits your layout better */
+  font-weight: bold;
+  border-bottom: 2px solid #007BFF;  /* A nod to your accent blue in buttons */
+  padding-bottom: 5px;
+}
+h3 {
+  font-size: 18px;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
   /* Header Banner */
   header.banner {
     background-color: #ffffff;
