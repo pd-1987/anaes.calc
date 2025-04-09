@@ -279,5 +279,15 @@ body {
       font-size: 14px;
       padding: 4px 8px;
     }
+  .gender-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;  /* Remove extra left/right margins */
+    padding: 0 10px;  /* Optional: add some horizontal padding */
+  }
+  .gender-buttons button {
+    margin: 5px;
+  }
+}
   }
   
