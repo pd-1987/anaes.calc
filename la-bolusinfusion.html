@@ -363,7 +363,7 @@
       let weight = Math.max(parseFloat(weightStr), 0);
       // If weight is not provided or below 45kg, clear the maximum bolus.
       if (!weightStr || isNaN(weight) || weight < 45) {
-        document.getElementById("maxSafeDose").textContent = "";
+        document.getElementById("maxSafeDose").textContent = "0";
         maxBolusValue = 0;
         return;
       }
@@ -384,7 +384,7 @@
         dose = 3 * weightKg;
         cap = 200;
       } else {
-        document.getElementById("maxSafeDose").textContent = "";
+        document.getElementById("maxSafeDose").textContent = "0";
         maxBolusValue = 0;
         return;
       }
