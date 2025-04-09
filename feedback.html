@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Local Anaesthetic Calculators</title>
+  <style>
+    /* Inline styles specific to the feedback form */
+    .feedback-container {
+      margin-top: 20px;
+    }
+    .feedback-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .feedback-container label {
+      font-size: 18px;
+    }
+    .feedback-container input,
+    .feedback-container textarea {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .feedback-container button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .feedback-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header class="banner">
+    Local Anaesthetic Calculators
+    <br>
+    <small>We value your feedback!</small>
+  </header>
+  
+  <div class="feedback-container">
+    <!-- Replace "YOUR_FORM_ID" with the ID provided by Formspree after signing up -->
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="input-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="_replyto" placeholder="Your email" required>
+      </div>
+      <div class="input-group">
+        <label for="message">Feedback:</label>
+        <textarea id="message" name="message" placeholder="Your feedback" rows="5" required></textarea>
+      </div>
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+  
+  <footer>
+    <small>&copy; 2025 Peter Daum. All rights reserved.</small>
+  </footer>
+</body>
+</html>
