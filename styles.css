@@ -271,7 +271,11 @@ h3 {
     color: #ffffff;
     font-style: italic;
   }
-  
+      .input-group label,
+.result,
+.instruction-header {
+  font-size: 16px;
+}  
   /* Responsive Styles */
   @media (max-width: 600px) {
     body {
