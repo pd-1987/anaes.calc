@@ -271,54 +271,48 @@ h3 {
     color: #ffffff;
     font-style: italic;
   }
-      .input-group label,
+     .input-group label,
 .result,
 .instruction-header {
   font-size: 16px;
-}  
-  /* Responsive Styles */
-  @media (max-width: 600px) {
-    body {
-      padding: 10px;
-    }
-    h1 {
-      font-size: 20px;
-    }
-    .input-group label, .input-group input, .unit-toggle {
-      font-size: 14px;
-      width: 100%;
-      margin: 5px 0;
-    }
-    .button-group {
-      flex-direction: column;
-      gap: 15px;
-    }
-    .button-group button {
-      width: 100%;
-    }
-    .result {
-      font-size: 16px;
-    }
-    .bubble {
-      font-size: 14px;
-      padding: 4px 8px;
-    }
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  .input-group label,
+  .input-group input,
+  .unit-toggle {
+    font-size: 14px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  .button-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .button-group button {
+    width: 100%;
+  }
+  .result {
+    font-size: 16px;
+  }
+  .bubble {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
   .gender-buttons {
     justify-content: center;
     flex-wrap: wrap;
-    margin: 0;  /* Remove extra left/right margins */
-    padding: 0 10px;  /* Optional: add some horizontal padding */
+    margin: 0;
+    padding: 0 10px;
   }
   .gender-buttons button {
     margin: 5px;
   }
-      @media (max-width: 600px) {
-  .input-group label,
-  .result,
-  .instruction-header {
-    font-size: 16px;
-  }
 }
-}
-  }
-  
