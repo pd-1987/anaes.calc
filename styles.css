@@ -1,28 +1,30 @@
 /* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 24px;
-      border-bottom: 1px solid black;
-      padding-bottom: 10px;             /* spacing between text and border */
-      margin-bottom: 10px;              /* spacing between border and next element */
-  }
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px; /* spacing between text and border */
+  margin-bottom: 10px;  /* spacing between border and next element */
+}
+
 h2 {
   font-size: 20px;
-  color: #333;              /* Matches your text color used for instructions & results */
+  color: #333; /* Matches your text color used for instructions & results */
   margin-top: 25px;
   margin-bottom: 10px;
-  text-align: center;       /* Or left-align if that fits your layout better */
+  text-align: center; /* Or left-align if that fits your layout better */
   font-weight: bold;
-  border-bottom: 1px solid #007BFF;  /* A nod to your accent blue in buttons */
+  border-bottom: 1px solid #007BFF; /* A nod to your accent blue in buttons */
   padding-bottom: 5px;
 }
+
 h3 {
   font-size: 18px;
   color: #333;
@@ -31,193 +33,213 @@ h3 {
   text-align: center;
   font-weight: bold;
 }
-  /* Header Banner */
-  header.banner {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  /* Input Groups */
-  .input-group {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  .input-group label {
-    font-size: 18px;
-    margin-right: 10px;
-  }
-  .input-group input {
-    width: 80px;
-    padding: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  
-  /* Gender Buttons (for Weight Calculator) */
-  .gender-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-  }
-  .gender-buttons button {
-    flex: 1;
-    font-size: 16px;
-    padding: 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    transition: background-color 0.2s ease;
-  }
-  .gender-buttons button.active {
-    background-color: #575757;
-    color: white;
-  }
-  
-  /* Unit Toggle (for Weight Calculator) */
-  .unit-toggle {
-    width: 60px;
-    font-size: 16px;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-  }
-  
-  /* Result Display */
-  .result {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-  }
-  
-  /* Button Groups */
-  .button-group {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-direction: row;
-  }
-  .button-group-text {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #555;
-  }
-  .instruction-header {
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-  }
-  button .instruction-text {
-    display: block;
-    font-size: 12px;
-    color: #555;
-    margin-top: 5px;
-    font-style: normal;
-  }
-  /* Buttons */
-  button {
-    font-size: 16px;
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    transition: background-color 0.2s ease;
-    width: 100%;
-  }
-  button small {
-    display: block;
-    font-size: 12px;
-    color: #555;
-    margin-bottom: 5px;
-  }
-  button.active {
-    background-color: #575757;
-    color: white;
-  }
-  button.active small {
-    color: white;
-  }
-  
-  /* Blue Bubbles for Dose Display */
-  .bubble {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-    padding: 5px 10px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #e7f3fe;
-    border: 1px solid #bcdffc;
-    border-radius: 15px;
-    color: #0078d7;
-    min-width: 60px;
-    min-height: 30px;
-    line-height: 1;
-  }
-  
-  /* Units and Miscellaneous Labels */
-  .unit {
-    margin-left: 2px;
-    font-weight: normal;
-    color: #555;
-  }
-  .spray-units,
-  .ml-units {
-    font-size: 16px;
-    display: inline-block;
-    margin-left: 5px;
-  }
-  
-  /* Button Container for Reset/Home */
-  .button-container {
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  .reset-btn, .home-btn {
-    flex: 1;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s ease;
-  }
-  .reset-btn {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-  }
-  .reset-btn:hover {
-    background-color: #e0e0e0;
-  }
-  .home-btn {
-    text-decoration: none;
-    text-align: center;
-    background-color: #007BFF;
-    color: white;
-  }  
-  .home-btn:hover {
-    background-color: #0056b3;
-  }
-  .full-width {
-    display: block;
+
+/* Header Banner */
+header.banner {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Input Groups */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.input-group label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.input-group input {
+  width: 80px;
+  padding: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Gender Buttons (for Weight Calculator) */
+.gender-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.gender-buttons button {
+  flex: 1;
+  font-size: 16px;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.gender-buttons button.active {
+  background-color: #575757;
+  color: white;
+}
+
+/* Unit Toggle (for Weight Calculator) */
+.unit-toggle {
+  width: 60px;
+  font-size: 16px;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+}
+
+/* Result Display */
+.result {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Button Groups */
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+}
+
+.button-group-text {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #555;
+}
+
+.instruction-header {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+button .instruction-text {
+  display: block;
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+  font-style: normal;
+}
+
+/* Buttons */
+button {
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+button small {
+  display: block;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+button.active {
+  background-color: #575757;
+  color: white;
+}
+
+button.active small {
+  color: white;
+}
+
+/* Blue Bubbles for Dose Display */
+.bubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #e7f3fe;
+  border: 1px solid #bcdffc;
+  border-radius: 15px;
+  color: #0078d7;
+  min-width: 60px;
+  min-height: 30px;
+  line-height: 1;
+}
+
+/* Units and Miscellaneous Labels */
+.unit {
+  margin-left: 2px;
+  font-weight: normal;
+  color: #555;
+}
+
+.spray-units,
+.ml-units {
+  font-size: 16px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* Button Container for Reset/Home */
+.button-container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.reset-btn,
+.home-btn {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.reset-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.reset-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.home-btn {
+  text-decoration: none;
+  text-align: center;
+  background-color: #007BFF;
+  color: white;
+}
+
+.home-btn:hover {
+  background-color: #0056b3;
+}
+
+.full-width {
+  display: block;
   width: 100%;
   max-width: 600px; /* optional if your container is already 600px max */
   margin: 0 auto;
@@ -229,54 +251,62 @@ h3 {
   border-radius: 5px;
   box-sizing: border-box;
 }
-  /* Footer Styles */
-  footer {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 12px;
-    color: #555;
-  }
-  footer a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Calculator Home Page Button Styles */
-  .button-container.calc {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .calc-button {
-    display: block;
-    text-decoration: none;
-    text-align: center;
-    padding: 15px;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 5px;
-    font-size: 18px;
-    transition: background-color 0.2s ease;
-  }
-  .calc-button:hover {
-    background-color: #0056b3;
-  }
-  .calc-button small {
-    display: block;
-    font-size: 14px;
-    margin-top: 5px;
-    color: #ffffff;
-    font-style: italic;
-  }
-     .input-group label,
+
+/* Footer Styles */
+footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+}
+
+footer a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Calculator Home Page Button Styles */
+.button-container.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calc-button {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 15px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: background-color 0.2s ease;
+}
+
+.calc-button:hover {
+  background-color: #0056b3;
+}
+
+.calc-button small {
+  display: block;
+  font-size: 14px;
+  margin-top: 5px;
+  color: #ffffff;
+  font-style: italic;
+}
+
+.input-group label,
 .result,
 .instruction-header {
   font-size: 16px;
-    font-weight: bold;
+  font-weight: bold;
 }
+
 /* Darker Colours for Category-Specific Buttons */
 
 /* General – Dark Blue */
@@ -284,6 +314,7 @@ h3 {
   background-color: #4A90E2;  /* Dark blue */
   color: white;
 }
+
 .general-btn:hover {
   background-color: #3C7DC2;  /* Slightly darker blue */
 }
@@ -293,6 +324,7 @@ h3 {
   background-color: #D6336C;  /* Dark pink */
   color: white;
 }
+
 .airway-btn:hover {
   background-color: #B8235C;  /* Darker pink on hover */
 }
@@ -302,6 +334,7 @@ h3 {
   background-color: #388E3C;  /* Medium dark green */
   color: white;
 }
+
 .regional-btn:hover {
   background-color: #317734;  /* A little darker green */
 }
@@ -311,6 +344,7 @@ h3 {
   background-color: #8E24AA;  /* Dark purple */
   color: white;
 }
+
 .obstetrics-btn:hover {
   background-color: #7B1FA2;  /* Slightly darker purple */
 }
@@ -320,6 +354,7 @@ h3 {
   background-color: #F9A825;  /* Dark amber */
   color: white;
 }
+
 .critical-btn:hover {
   background-color: #E68A1B;  /* Slightly darker amber */
 }
@@ -329,7 +364,78 @@ h3 {
   background-color: #f0f0f0;
   color: black;
 }
+
 .grey-btn:hover {
   background-color: #e0e0e0;
 }
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
   }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .input-group label {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 10px 5px 0;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .input-group input {
+    font-size: 14px;
+    width: 80px;
+    margin: 5px 0;
+  }
+
+  .unit-toggle {
+    font-size: 14px;
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .button-group {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+
+  .result {
+    font-size: 16px;
+  }
+
+  .bubble {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .gender-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  .gender-buttons button {
+    margin: 5px;
+  }
+}
+
+/* Specific styling for the lidocaine section:
+   Ensure the lidocaine section HTML is structured so that:
+   - A .button-group contains the Lidocaine 10% Spray button and its bubble on one row.
+   - A separate .input-group (with class .input-with-unit) contains the number entry box and "sprays" label.
+   The rule below centers that input group relative to the width of the button above.
+*/
+.lidocaine-group .input-with-unit {
+  width: fit-content;
+  margin: 0 auto;
+}
