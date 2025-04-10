@@ -277,51 +277,51 @@ h3 {
   font-size: 16px;
     font-weight: bold;
 }
-        /* Pastel Colours for Category-Specific Buttons */
+        /* Darker Colours for Category-Specific Buttons */
 
-/* General – Pastel Blue */
+/* General – Dark Blue */
 .general-btn {
-  background-color: #AEC6CF; /* Pastel blue */
+  background-color: #4A90E2;  /* Dark blue */
   color: white;
 }
 .general-btn:hover {
-  background-color: #9bbacb;
+  background-color: #3C7DC2;  /* Slightly darker blue */
 }
 
-/* Airway – Pastel Pink */
+/* Airway – Dark Pink */
 .airway-btn {
-  background-color: #FFD1DC; /* Pastel pink */
+  background-color: #D6336C;  /* Dark pink */
   color: white;
 }
 .airway-btn:hover {
-  background-color: #ffc2ce;
+  background-color: #B8235C;  /* Darker pink on hover */
 }
 
-/* Regional – Pastel Green */
+/* Regional – Dark Green */
 .regional-btn {
-  background-color: #C1E1C1; /* Pastel green */
+  background-color: #388E3C;  /* Medium dark green */
   color: white;
 }
 .regional-btn:hover {
-  background-color: #b1cfb1;
+  background-color: #317734;  /* A little darker green */
 }
 
-/* Obstetrics – Pastel Lavender */
+/* Obstetrics – Dark Purple */
 .obstetrics-btn {
-  background-color: #E0BBE4; /* Pastel lavender */
+  background-color: #8E24AA;  /* Dark purple */
   color: white;
 }
 .obstetrics-btn:hover {
-  background-color: #d6a5d6;
+  background-color: #7B1FA2;  /* Slightly darker purple */
 }
 
-/* Critical Care – Pastel Yellow */
+/* Critical Care – Dark Mustard/Amber */
 .critical-btn {
-  background-color: #FFF5BA; /* Pastel yellow */
+  background-color: #F9A825;  /* Dark amber */
   color: white;
 }
 .critical-btn:hover {
-  background-color: #fef0a0;
+  background-color: #E68A1B;  /* Slightly darker amber */
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
