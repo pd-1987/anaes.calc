@@ -351,4 +351,25 @@ textarea {
   padding: 10px;
   background-color: #f9f9f9; /* optional for subtle contrast */
 }
+    /* Custom layout for the lidocaine spray group */
+  .lidocaine-group {
+    flex-wrap: wrap;  /* Allow items to wrap onto new lines */
+  }
+  /* Ensure the spray button and bubble sit on the same row */
+  .lidocaine-group > button,
+  .lidocaine-group > .bubble {
+    flex: 0 1 auto; /* They take their natural size */
+    margin-right: 10px; /* Optional: space between them */
+  }
+  /* Force the input-with-unit to break onto a new line */
+  .lidocaine-group > .input-with-unit {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Adds some vertical spacing */
+  }
+  /* Adjust the input size for double digits */
+  .lidocaine-group > .input-with-unit input {
+    width: 50px; /* Adjust as needed for a neat look */
+  }
 }
