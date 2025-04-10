@@ -439,3 +439,6 @@ footer a:hover {
   width: fit-content;
   margin: 0 auto;
 }
+.lidocaine-group .input-with-unit input {
+  width: 40px;  /* Adjust this value to your desired size */
+}
