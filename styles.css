@@ -277,7 +277,61 @@ h3 {
   font-size: 16px;
     font-weight: bold;
 }
+        /* Pastel Colours for Category-Specific Buttons */
 
+/* General – Pastel Blue */
+.general-btn {
+  background-color: #AEC6CF; /* Pastel blue */
+  color: white;
+}
+.general-btn:hover {
+  background-color: #9bbacb;
+}
+
+/* Airway – Pastel Pink */
+.airway-btn {
+  background-color: #FFD1DC; /* Pastel pink */
+  color: white;
+}
+.airway-btn:hover {
+  background-color: #ffc2ce;
+}
+
+/* Regional – Pastel Green */
+.regional-btn {
+  background-color: #C1E1C1; /* Pastel green */
+  color: white;
+}
+.regional-btn:hover {
+  background-color: #b1cfb1;
+}
+
+/* Obstetrics – Pastel Lavender */
+.obstetrics-btn {
+  background-color: #E0BBE4; /* Pastel lavender */
+  color: white;
+}
+.obstetrics-btn:hover {
+  background-color: #d6a5d6;
+}
+
+/* Critical Care – Pastel Yellow */
+.critical-btn {
+  background-color: #FFF5BA; /* Pastel yellow */
+  color: black;
+}
+.critical-btn:hover {
+  background-color: #fef0a0;
+}
+
+/* Grey buttons (Feedback, Disclaimer) remain unchanged */
+.grey-btn {
+  background-color: #f0f0f0;
+  color: black;
+}
+.grey-btn:hover {
+  background-color: #e0e0e0;
+}
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
@@ -422,59 +476,4 @@ textarea {
   .lidocaine-second-row .bubble {
     margin: 0; /* This ensures the bubble isn’t pushed too far right */
   }
-        /* Pastel Colours for Category-Specific Buttons */
-
-/* General – Pastel Blue */
-.general-btn {
-  background-color: #AEC6CF; /* Pastel blue */
-  color: white;
-}
-.general-btn:hover {
-  background-color: #9bbacb;
-}
-
-/* Airway – Pastel Pink */
-.airway-btn {
-  background-color: #FFD1DC; /* Pastel pink */
-  color: white;
-}
-.airway-btn:hover {
-  background-color: #ffc2ce;
-}
-
-/* Regional – Pastel Green */
-.regional-btn {
-  background-color: #C1E1C1; /* Pastel green */
-  color: white;
-}
-.regional-btn:hover {
-  background-color: #b1cfb1;
-}
-
-/* Obstetrics – Pastel Lavender */
-.obstetrics-btn {
-  background-color: #E0BBE4; /* Pastel lavender */
-  color: white;
-}
-.obstetrics-btn:hover {
-  background-color: #d6a5d6;
-}
-
-/* Critical Care – Pastel Yellow */
-.critical-btn {
-  background-color: #FFF5BA; /* Pastel yellow */
-  color: black;
-}
-.critical-btn:hover {
-  background-color: #fef0a0;
-}
-
-/* Grey buttons (Feedback, Disclaimer) remain unchanged */
-.grey-btn {
-  background-color: #f0f0f0;
-  color: black;
-}
-.grey-btn:hover {
-  background-color: #e0e0e0;
-}
 }
