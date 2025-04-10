@@ -389,25 +389,29 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center; /* center items in the grey container */
+    width: 100%;
   }
-  /* Make the spray button fill the first row and center its text */
+  
+  /* First row: the button takes a full row and is centered */
   .lidocaine-group > button {
+    order: 0;
     flex-basis: 100%;
     text-align: center;
-    margin-bottom: 10px;  /* adds spacing below the button */
+    margin-bottom: 10px;  /* spacing below the button */
   }
-  /* Arrange the input-with-unit and bubble on the second row */
+  
+  /* Second row: the input-with-unit and the bubble will share the row */
   .lidocaine-group > .input-with-unit {
-    flex: 0 1 auto;  /* take up natural space */
+    order: 1;
+    /* Let it take up its natural (minimal) width */
   }
-  /* Push the bubble to the right within the same row */
+  
   .lidocaine-group > .bubble {
-    flex: 0 0 auto;
-    margin-left: auto;
+    order: 1;
+    margin-left: auto; /* pushes bubble to the far right of the row */
   }
-  /* Adjust the input size for double digits */
+  /* Make the number entry box smaller for double-digit values */
   .lidocaine-group > .input-with-unit input {
-    width: 50px;  /* or adjust as needed */
+    width: 50px; /* adjust as necessary for a neat appearance */
   }
 }
