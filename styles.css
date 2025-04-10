@@ -312,6 +312,13 @@ h3 {
   .gender-buttons button {
     margin: 5px;
   }
+      @media (max-width: 600px) {
+  .input-group label,
+  .result,
+  .instruction-header {
+    font-size: 16px;
+  }
+}
 }
   }
   
