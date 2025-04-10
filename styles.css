@@ -332,6 +332,15 @@ h3 {
 .grey-btn:hover {
   background-color: #e0e0e0;
 }
+/* ---------- Desktop Overrides for the lidocaine group ---------- */
+/* Force the lidocaine group to stack its children vertically on desktops */
+.lidocaine-group {
+  /* Since .button-group by default uses flex-direction: row,
+     override it here for the lidocaine group */
+  flex-direction: column;
+  align-items: stretch;  /* Let children span full width */
+}
+
 
 /* Responsive Styles */
 @media (max-width: 600px) {
@@ -475,5 +484,38 @@ textarea {
   /* Remove extra margin on the bubble (so it aligns with other bubbles) */
   .lidocaine-second-row .bubble {
     margin: 0; /* This ensures the bubble isn’t pushed too far right */
+  }
+    /* ---------- Mobile Overrides for the lidocaine group ---------- */
+@media (max-width: 600px) {
+  .lidocaine-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Ensure the spray button is full width */
+  .lidocaine-group > button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* For mobile, group the input-with-unit and bubble in one row,
+     but use fixed margins rather than space-between to prevent over-stretching */
+  .lidocaine-second-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    /* Optional: set a max-width if needed */
+    max-width: 100%;
+  }
+  .lidocaine-second-row .input-with-unit {
+    margin-right: 10px;
+  }
+  .lidocaine-second-row .bubble {
+    margin: 0 10px; /* a fixed margin so it doesn’t get pushed to the extreme right */
   }
 }
