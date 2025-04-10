@@ -368,10 +368,23 @@ footer a:hover {
 .grey-btn:hover {
   background-color: #e0e0e0;
 }
-lidocaineInput {
+#lidocaineInput {
       width: 80px;
       padding: 5px;
     }
+
+/* Remove spinners in Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinners in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
@@ -430,7 +443,7 @@ lidocaineInput {
   .gender-buttons button {
     margin: 5px;
   }
-  lidocaineInput {
+  #lidocaineInput {
       width: 20px;
       padding: 5px;
     }
