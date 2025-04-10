@@ -12,7 +12,7 @@
     #lidocaine4Input,
     #lidocaine2Input,
     #lidocaine1Input {
-      width: 40px;
+      width: 80px;
       padding: 5px;
     }
   </style>
@@ -45,10 +45,8 @@
       Instillagel
       <small class="instruction-text">Lidocaine 2.09%</small>
     </button>
-    <div class="input-with-unit">
     <input type="number" id="instillagelInput" placeholder="0" oninput="updateInstillagelDose()">
     <span class="ml-units" id="instillagelUnits">ml</span>
-    </div>
     <span class="bubble">
       <span id="instillagelOutput">0</span> <span class="unit">mg</span>
     </span>
@@ -59,10 +57,8 @@
     <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
       Lidocaine 10% Spray 
     </button>
-    <div class="input-with-unit">
     <input type="number" id="lidocaineInput" placeholder="0" oninput="updateLidocaineDose()">
     <span class="spray-units" id="sprayUnits">sprays</span>
-      </div>
     <span class="bubble">
       <span id="lidocaineOutput">0</span> <span class="unit">mg</span>
     </span>
@@ -74,10 +70,8 @@
       Lidocaine 4%
       <small class="instruction-text">e.g. transtracheal puncture</small>
     </button>
-    <div class="input-with-unit">
     <input type="number" id="lidocaine4Input" placeholder="0" oninput="updateLidocaine4Dose()">
     <span class="ml-units" id="lidocaine4Units">ml</span>
-    </div>
     <span class="bubble">
       <span id="lidocaine4Output">0</span> <span class="unit">mg</span>
     </span>
@@ -88,10 +82,8 @@
     <button id="lidocaine2Button" onclick="toggleLidocaine2()">
       Lidocaine 2%
     </button>
-    <div class="input-with-unit">
     <input type="number" id="lidocaine2Input" placeholder="0" oninput="updateLidocaine2Dose()">
     <span class="ml-units" id="lidocaine2Units">ml</span>
-    </div>
     <span class="bubble">
       <span id="lidocaine2Output">0</span> <span class="unit">mg</span>
     </span>
@@ -102,10 +94,8 @@
     <button id="lidocaine1Button" onclick="toggleLidocaine1()">
       Lidocaine 1%
     </button>
-    <div class="input-with-unit">
     <input type="number" id="lidocaine1Input" placeholder="0" oninput="updateLidocaine1Dose()">
     <span class="ml-units" id="lidocaine1Units">ml</span>
-    </div>
     <span class="bubble">
       <span id="lidocaine1Output">0</span> <span class="unit">mg</span>
     </span>
