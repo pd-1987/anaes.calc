@@ -293,7 +293,11 @@ h3 {
     width: auto;
     flex-shrink: 0;
   }
-  .input-group input,
+  .input-group input {
+    font-size: 14px;
+    width: 80px; /* or try 70px for a tighter look */
+    margin: 5px 0;
+  }
   .unit-toggle {
     font-size: 14px;
     width: 100%;
