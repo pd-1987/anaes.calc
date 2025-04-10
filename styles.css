@@ -318,7 +318,7 @@ h3 {
 /* Critical Care – Pastel Yellow */
 .critical-btn {
   background-color: #FFF5BA; /* Pastel yellow */
-  color: black;
+  color: white;
 }
 .critical-btn:hover {
   background-color: #fef0a0;
