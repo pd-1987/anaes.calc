@@ -387,31 +387,39 @@ textarea {
   /* Custom layout for the lidocaine spray group */
   .lidocaine-group {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
     width: 100%;
   }
   
-  /* First row: the button takes a full row and is centered */
+  /* First row: the spray button spans full width and is centered */
   .lidocaine-group > button {
-    order: 0;
-    flex-basis: 100%;
+    width: 100%;
     text-align: center;
-    margin-bottom: 10px;  /* spacing below the button */
+    margin-bottom: 10px;
   }
   
-  /* Second row: the input-with-unit and the bubble will share the row */
-  .lidocaine-group > .input-with-unit {
-    order: 1;
-    /* Let it take up its natural (minimal) width */
+  /* Second row: group the input & bubble together */
+  .lidocaine-second-row {
+    display: flex;
+    justify-content: space-between;  /* Input on left, bubble on right */
+    align-items: center;
+    width: 100%;
   }
   
-  .lidocaine-group > .bubble {
-    order: 1;
-    margin-left: auto; /* pushes bubble to the far right of the row */
+  /* Style the input-with-unit so it stays together */
+  .lidocaine-second-row .input-with-unit {
+    display: flex;
+    align-items: center;
   }
+  
   /* Make the number entry box smaller for double-digit values */
-  .lidocaine-group > .input-with-unit input {
-    width: 50px; /* adjust as necessary for a neat appearance */
+  .lidocaine-second-row .input-with-unit input {
+    width: 50px; /* Adjust as needed for a neat appearance */
+  }
+  
+  /* Remove extra margin on the bubble (so it aligns with other bubbles) */
+  .lidocaine-second-row .bubble {
+    margin: 0; /* This ensures the bubble isn’t pushed too far right */
   }
 }
