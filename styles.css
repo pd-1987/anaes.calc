@@ -338,4 +338,17 @@ select,
 textarea {
   font-family: Arial, sans-serif;
 }
+    .button-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+
+  /* NEW: Visual grouping styles */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9f9f9; /* optional for subtle contrast */
+}
 }
