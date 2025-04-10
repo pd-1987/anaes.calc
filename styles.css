@@ -351,25 +351,36 @@ textarea {
   padding: 10px;
   background-color: #f9f9f9; /* optional for subtle contrast */
 }
-    /* Custom layout for the lidocaine spray group */
-  .lidocaine-group {
-    flex-wrap: wrap;  /* Allow items to wrap onto new lines */
-  }
-  /* Ensure the spray button and bubble sit on the same row */
-  .lidocaine-group > button,
-  .lidocaine-group > .bubble {
-    flex: 0 1 auto; /* They take their natural size */
-    margin-right: 10px; /* Optional: space between them */
-  }
-  /* Force the input-with-unit to break onto a new line */
-  .lidocaine-group > .input-with-unit {
-    flex-basis: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 10px; /* Adds some vertical spacing */
-  }
-  /* Adjust the input size for double digits */
-  .lidocaine-group > .input-with-unit input {
-    width: 50px; /* Adjust as needed for a neat look */
-  }
+    /* Custom layout for the lidocaine spray group on mobile */
+.lidocaine-group {
+  flex-wrap: wrap;  /* Allow items to wrap onto new lines */
+}
+
+/* Set the spray button to appear first */
+.lidocaine-group > button {
+  order: 0;
+  flex: 0 1 auto;
+  margin-right: 10px;  /* Optional: spacing between button and bubble */
+}
+
+/* Set the bubble to appear next to the button (first row) */
+.lidocaine-group > .bubble {
+  order: 1;
+  flex: 0 1 auto;
+  margin-right: 10px;
+}
+
+/* Force the input-with-unit to the second row */
+.lidocaine-group > .input-with-unit {
+  order: 2;
+  flex-basis: 100%;     /* Makes it span the full row */
+  display: flex;
+  align-items: center;
+  margin-top: 10px;     /* Vertical spacing */
+}
+
+/* Adjust the input size for double digits */
+.lidocaine-group > .input-with-unit input {
+  width: 50px;          /* Adjust this value as needed */
+}
 }
