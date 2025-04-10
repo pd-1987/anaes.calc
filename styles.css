@@ -289,7 +289,7 @@ h3 {
  .input-group label {
     font-size: 16px;
     font-weight: bold;
-    margin: 5px 0;
+     margin: 5px 10px 5px 0; /* top: 5px, right: 10px, bottom: 5px, left: 0 */
     width: auto;
     flex-shrink: 0;
   }
