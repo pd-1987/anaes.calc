@@ -321,4 +321,11 @@ h3 {
   align-items: center;
   gap: 5px;
 }
+    input,
+label,
+button,
+select,
+textarea {
+  font-family: Arial, sans-serif;
+}
 }
