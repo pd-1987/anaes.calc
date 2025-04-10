@@ -427,6 +427,10 @@ footer a:hover {
   .gender-buttons button {
     margin: 5px;
   }
+  lidocaineInput {
+      width: 30px;
+      padding: 5px;
+    }
 }
 
 /* Specific styling for the lidocaine section:
