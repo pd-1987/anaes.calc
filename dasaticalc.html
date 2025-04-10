@@ -35,19 +35,23 @@
     <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
   </div>
 
- <div class="button-group lidocaine-group">
-  <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
-    Lidocaine 10% Spray 
-    <small class="instruction-text">20 - 30 sprays to the oropharyx, tonsillar pillars and base of tongue over 5 minutes during inspiration</small>
-  </button>
-  <div class="lidocaine-second-row">
-    <div class="input-with-unit">
-      <input type="number" id="lidocaineInput" value="20" oninput="updateLidocaineDose()">
-      <span class="spray-units" id="sprayUnits">sprays</span>
-    </div>
+ <div class="lidocaine-group">
+  <!-- Row 1: Button and Bubble -->
+  <div class="button-group">
+    <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
+      Lidocaine 10% Spray 
+      <small class="instruction-text">
+        20 - 30 sprays to the oropharynx, tonsillar pillars and base of tongue over 5 minutes during inspiration
+      </small>
+    </button>
     <span class="bubble">
       <span id="lidocaineOutput">200</span> <span class="unit">mg</span>
     </span>
+  </div>
+  <!-- Row 2: Number entry and Units -->
+  <div class="input-group input-with-unit">
+    <input type="number" id="lidocaineInput" value="20" oninput="updateLidocaineDose()">
+    <span class="spray-units" id="sprayUnits">sprays</span>
   </div>
 </div>
   
