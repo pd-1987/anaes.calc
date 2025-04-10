@@ -383,4 +383,31 @@ textarea {
 .lidocaine-group > .input-with-unit input {
   width: 50px;          /* Adjust this value as needed */
 }
+    @media (max-width: 600px) {
+  /* Custom layout for the lidocaine spray group */
+  .lidocaine-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; /* center items in the grey container */
+  }
+  /* Make the spray button fill the first row and center its text */
+  .lidocaine-group > button {
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 10px;  /* adds spacing below the button */
+  }
+  /* Arrange the input-with-unit and bubble on the second row */
+  .lidocaine-group > .input-with-unit {
+    flex: 0 1 auto;  /* take up natural space */
+  }
+  /* Push the bubble to the right within the same row */
+  .lidocaine-group > .bubble {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+  /* Adjust the input size for double digits */
+  .lidocaine-group > .input-with-unit input {
+    width: 50px;  /* or adjust as needed */
+  }
 }
