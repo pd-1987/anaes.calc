@@ -42,8 +42,10 @@
       <small class="instruction-text">20 - 30 sprays during inspiration to the oropharynx, tonsillar pillars and base of tongue over 5 minutes.</small>
     </button>
     <!-- Input always visible with default value of 20 -->
+    <div class="input-with-unit">
     <input type="number" id="lidocaineInput" value="20" oninput="updateLidocaineDose()">
     <span class="spray-units" id="sprayUnits">sprays</span>
+    </div>
     <!-- Blue bubble always displays the computed dose -->
     <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
   </div>
