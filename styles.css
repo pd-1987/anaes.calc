@@ -382,7 +382,6 @@ textarea {
 .lidocaine-group > .input-with-unit input {
   width: 50px;          /* Adjust this value as needed */
 }
-    @media (max-width: 600px) {
   /* Custom layout for the lidocaine spray group */
   .lidocaine-group {
     display: flex;
