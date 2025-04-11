@@ -39,9 +39,9 @@ header.banner {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   text-align: center;
-  padding: 5px;
+  padding: 0px;
   border: none;
-  margin-bottom: 5px;
+  margins: 5px;
   font-size: 28px;
   font-weight: bold;
 }
