@@ -333,14 +333,14 @@ footer a:hover {
   background-color: #3C7DC2;  /* Slightly darker blue */
 }
 
-/* Airway – Dark Pink */
+/* Airway */
 .airway-btn {
-  background-color: #D6336C;  /* Dark pink */
+  background-color: ##eb4135;
   color: white;
 }
 
 .airway-btn:hover {
-  background-color: #B8235C;  /* Darker pink on hover */
+  background-color: ##c4747c;
 }
 
 /* Regional – Dark Green */
