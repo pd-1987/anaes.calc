@@ -6,75 +6,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Local anaesthetic calculators</title>
   <style>
+    /* Existing styles */
     .button-container {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
     .button-container h1 {
-  margin-bottom: 5px; /* Reduces the extra space inside the h1 element, overriding the visual impact of the gap */
-}
+      margin-bottom: 5px;
+    }
     .grey-btn {
-  background-color: #f0f0f0; /* Grey shade matching other pages */
-  color: black;            /* Adjust text color for readability */
-}
+      background-color: #f0f0f0;
+      color: black;
+    }
+    .grey-btn:hover {
+      background-color: #e0e0e0;
+    }
 
-.grey-btn:hover {
-  background-color: #e0e0e0; /* A slightly darker grey on hover */
-}
+    /* Banner container */
+    .banner {
+      text-align: center;   /* Centers the image horizontally */
+      margin: 0 auto;       /* Ensures we don’t have unexpected margins */
+      padding: 0;           /* Remove default padding if any */
+      max-width: 100%;      /* Let the container use full width */
+      overflow: hidden;     /* Hide any overflow if the image is larger than container */
+    }
+    /* Banner image itself */
+    .banner img {
+      max-width: 100%;      /* Scales down the image on smaller screens */
+      height: auto;         /* Keeps correct aspect ratio */
+      display: block;       /* Removes extra whitespace below images in some browsers */
+      margin: 0 auto;       /* Center the image within .banner */
+    }
   </style>
 </head>
 <body>
+  <!-- Banner header -->
   <header class="banner">
-    Anaesthetic calculators
+    <!-- Replace 'anaesthetic_calculators_high_res.png' with the correct path/name -->
+    <img src="anaesthetic_calculators_high_res.png" 
+         alt="Anaesthetic Calculators banner">
   </header>
+
+  <!-- Main content -->
   <div class="button-container">
-  <h1>General</h1>
-  <a href="weightcalc.html" class="calc-button general-btn">
-    Weight calculator
-    <small>BMI, Ideal Body weight, Adjusted body weight, Lean body weight</small>
-  </a>
+    <h1>General</h1>
+    <a href="weightcalc.html" class="calc-button general-btn">
+      Weight calculator
+      <small>BMI, Ideal Body weight, Adjusted body weight, Lean body weight</small>
+    </a>
 
-  <h1>Airway</h1>
-  <a href="dasaticalc.html" class="calc-button airway-btn">
-    DAS Awake Tracheal Intubation (ATI) topicalisation calculator
-    <small>Based on the Difficult Airway Society (UK) guidelines for awake tracheal intubation in adults</small>
-  </a>
-  <a href="freeaticalc.html" class="calc-button airway-btn">
-    ATI topicalisation calculator
-    <small>Calculate using your own technique</small>
-  </a>
+    <h1>Airway</h1>
+    <a href="dasaticalc.html" class="calc-button airway-btn">
+      DAS Awake Tracheal Intubation (ATI) topicalisation calculator
+      <small>Based on the Difficult Airway Society (UK) guidelines for awake tracheal intubation in adults</small>
+    </a>
+    <a href="freeaticalc.html" class="calc-button airway-btn">
+      ATI topicalisation calculator
+      <small>Calculate using your own technique</small>
+    </a>
 
-  <h1>Regional</h1>
-  <a href="la-bolusinfusion.html" class="calc-button regional-btn">
-    Local anaesthetic bolus and infusion rate calculator
-    <small>For adults ≥ 45 kg</small>
-  </a>
-  <a href="la-combination.html" class="calc-button regional-btn">
-    Local anaesthetic combination calculator
-    <small>For multiple blocks and/or infiltration using different concentrations of local anaesthetic</small>
-  </a>
+    <h1>Regional</h1>
+    <a href="la-bolusinfusion.html" class="calc-button regional-btn">
+      Local anaesthetic bolus and infusion rate calculator
+      <small>For adults ≥ 45 kg</small>
+    </a>
+    <a href="la-combination.html" class="calc-button regional-btn">
+      Local anaesthetic combination calculator
+      <small>For multiple blocks and/or infiltration using different concentrations of local anaesthetic</small>
+    </a>
 
-  <h1>Obstetrics</h1>
-  <a href="maternalbv.html" class="calc-button obstetrics-btn">
-    Maternal blood volume
-    <small>Predict maternal blood volume and estimated blood loss at different stages of shock</small>
-  </a>
+    <h1>Obstetrics</h1>
+    <a href="maternalbv.html" class="calc-button obstetrics-btn">
+      Maternal blood volume
+      <small>Predict maternal blood volume and estimated blood loss at different stages of shock</small>
+    </a>
 
-  <h1>Critical care</h1>
-  <a href="noradrenaline.html" class="calc-button critical-btn">
-    Noradrenaline infusion rate calculator
-    <small>Convert ml/hr to mcg/kg/min</small>
-  </a>
+    <h1>Critical care</h1>
+    <a href="noradrenaline.html" class="calc-button critical-btn">
+      Noradrenaline infusion rate calculator
+      <small>Convert ml/hr to mcg/kg/min</small>
+    </a>
 
-  <h1></h1>
-  <a href="feedback.html" class="calc-button grey-btn">Feedback</a>   
-  <a href="disclaimer.html" class="calc-button grey-btn">Disclaimer</a>
-</div>
+    <h1></h1>
+    <a href="feedback.html" class="calc-button grey-btn">Feedback</a>   
+    <a href="disclaimer.html" class="calc-button grey-btn">Disclaimer</a>
+  </div>
+
   <footer>
     <small>&copy; 2025 Peter Daum. All rights reserved.</small>
   </footer>
   <script data-goatcounter="https://gas-calc.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
