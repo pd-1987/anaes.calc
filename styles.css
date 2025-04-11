@@ -41,7 +41,7 @@ header.banner {
   text-align: center;
   padding: 0px;
   border: none;
-  margins: 5px;
+  margin: 5px 0;
   font-size: 28px;
   font-weight: bold;
 }
