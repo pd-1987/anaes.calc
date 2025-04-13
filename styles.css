@@ -325,52 +325,52 @@ footer a:hover {
 
 /* General – Dark Blue */
 .general-btn {
-  background-color: #4A90E2;  /* Dark blue */
+  background-color: #4c4c4c;
   color: white;
 }
 
 .general-btn:hover {
-  background-color: #3C7DC2;  /* Slightly darker blue */
+  background-color: #4c4c4c;
 }
 
 /* Airway */
 .airway-btn {
-  background-color: #eb4135;
+  background-color: #e31717;
   color: white;
 }
 
 .airway-btn:hover {
-  background-color: #c4747c;
+  background-color: #e31717;
 }
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: #388E3C;  /* Medium dark green */
+  background-color: #00605b;  /* Medium dark green */
   color: white;
 }
 
 .regional-btn:hover {
-  background-color: #317734;  /* A little darker green */
+  background-color: #00605b;  /* A little darker green */
 }
 
 /* Obstetrics – Dark Purple */
 .obstetrics-btn {
-  background-color: #8E24AA;  /* Dark purple */
+  background-color: #ff6ec7;
   color: white;
 }
 
 .obstetrics-btn:hover {
-  background-color: #7B1FA2;  /* Slightly darker purple */
+  background-color: #ff6ec7; 
 }
 
-/* Critical Care – Dark Mustard/Amber */
+/* Critical Care
 .critical-btn {
-  background-color: #ff9d00;
+  background-color: #8c52ff;
   color: white;
 }
 
 .critical-btn:hover {
-  background-color: #E68A1B;  /* Slightly darker amber */
+  background-color: #8c52ff;
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
