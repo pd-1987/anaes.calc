@@ -355,22 +355,22 @@ footer a:hover {
 
 /* Obstetrics
 .obstetrics-btn {
-  background-color: #ee82ee;
+  background-color: #fc8c84;
   color: white;
 }
 
 .obstetrics-btn:hover {
-  background-color: #ee82ee; 
+  background-color: #fc8c84; 
 }
 
 /* Critical Care
 .critical-btn {
-  background-color: #4b0082;
+  background-color: #4B0082;
   color: white;
 }
 
 .critical-btn:hover {
-  background-color: #4b0082;
+  background-color: #4B0082;
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
