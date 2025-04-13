@@ -345,32 +345,32 @@ footer a:hover {
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: #00605b;  /* Medium dark green */
+  background-color: #029658;  /* Medium dark green */
   color: white;
 }
 
 .regional-btn:hover {
-  background-color: #00605b;  /* A little darker green */
+  background-color: #029658;  /* A little darker green */
 }
 
-/* Obstetrics – Dark Purple */
+/* Obstetrics
 .obstetrics-btn {
-  background-color: #ff6ec7;
+  background-color: #fc8c84;
   color: white;
 }
 
 .obstetrics-btn:hover {
-  background-color: #ff6ec7; 
+  background-color: #fc8c84; 
 }
 
 /* Critical Care
 .critical-btn {
-  background-color: #8c52ff;
+  background-color: #6454ac;
   color: white;
 }
 
 .critical-btn:hover {
-  background-color: #8c52ff;
+  background-color: #6454ac;
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
