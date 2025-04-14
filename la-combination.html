@@ -16,6 +16,34 @@
       color: #555;
       margin: 0 15px 15px;
     }
+      /* Local Anesthetic Buttons */
+    .gender-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px;
+    }
+    .gender-buttons button {
+      font-size: 16px;
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      transition: background-color 0.2s ease;
+    }
+    .gender-buttons button.active {
+      background-color: #575757;
+      color: white;
+    }
+    .gender-buttons button small {
+      display: block;
+      font-size: 12px;
+      color: #555;
+      margin-top: 3px;
+    }
+    .gender-buttons button.active small {
+      color: white;
+    }
       </style>
 </head>
 <body>
@@ -30,6 +58,19 @@
   </div>
     <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
 
+     <!-- Local Anesthetic Selection Buttons -->
+  <div class="gender-buttons">
+    <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">
+      Bupivacaine<br><small>2 mg/kg</small>
+    </button>
+    <button id="levobupivacaineBtn" onclick="selectLA('Levobupivacaine')">
+      Levobupivacaine<br><small>2 mg/kg</small>
+    </button>
+    <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">
+      Ropivacaine<br><small>3 mg/kg</small>
+    </button>
+  </div>
+    
   <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button class="reset-btn" onclick="resetCalculator()">Reset</button>
@@ -68,6 +109,9 @@
       document.getElementById("weight").value = "";
       weightUnit = "kg";
       document.getElementById("weightUnitBtn").textContent = "kg";
+        document.getElementById("bupivacaineBtn").classList.remove("active");
+      document.getElementById("levobupivacaineBtn").classList.remove("active");
+      document.getElementById("ropivacaineBtn").classList.remove("active");
     }
 function goHome() {
     window.location.href = "index.html";
