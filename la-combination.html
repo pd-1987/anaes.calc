@@ -181,6 +181,10 @@
       maxBolusValue = finalDose;
       document.getElementById("maxSafeDose").textContent = finalDose;
     }
+      // Attach event listeners.
+    document.getElementById("weight").addEventListener("input", function() {
+      updateMaxSafeDose();
+    });
       
         // --- Reset and Home Buttons ---      
     function resetCalculator() {
