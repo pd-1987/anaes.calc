@@ -111,6 +111,7 @@
       }
       weightUnit = (weightUnit === "kg") ? "lb" : "kg";
       document.getElementById("weightUnitBtn").textContent = weightUnit;
+    updateMaxSafeDose(); // Recalculate maximum bolus after conversion
     }
 
        // --- Local Anaesthetic Selection (toggleable) ---
@@ -142,8 +143,10 @@
           ropiBtn.classList.add("active");
           bupBtn.classList.remove("active");
           levoBtn.classList.remove("active");
-        }
-      }}
+        }   
+      }
+     updateMaxSafeDose(); // Trigger recalculation after selection
+    }
 
       // --- Maximum Bolus Calculation ---
     // Bupivacaine: max bolus = min(2 mg/kg * weight, 175 mg)
