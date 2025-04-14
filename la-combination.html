@@ -10,6 +10,12 @@
     .input-group .unit-toggle {
       margin-left: 10px;
     }
+    /* Weight note */
+    .input-note {
+      font-size: 14px;
+      color: #555;
+      margin: 0 15px 15px;
+    }
 </head>
 <body>
   <!-- Header with Title -->
@@ -22,6 +28,7 @@
     <input type="number" id="weight" placeholder="0" min="0">
     <button class="unit-toggle" id="weightUnitBtn" onclick="toggleWeightUnit()">kg</button>
   </div>
+    <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
