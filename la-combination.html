@@ -153,34 +153,36 @@
     // Levobupivacaine: max bolus = min(2 mg/kg * weight, 200 mg)
     // Ropivacaine: max bolus = min(3 mg/kg * weight, 200 mg)
     function updateMaxSafeDose() {
-      const weightStr = document.getElementById("weight").value;
-      let weight = Math.max(parseFloat(weightStr), 0);
-      const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
-      let dose = 0;
-      let cap = Infinity;
-      const bupBtn = document.getElementById("bupivacaineBtn");
-      const levoBtn = document.getElementById("levobupivacaineBtn");
-      const ropiBtn = document.getElementById("ropivacaineBtn");
-      
-      if (bupBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 175;
-      } else if (levoBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 200;
-      } else if (ropiBtn.classList.contains("active")) {
-        dose = 3 * weightKg;
-        cap = 200;
-      } else {
-        document.getElementById("maxSafeDose").textContent = "";
-        maxBolusValue = 0;
-        return;
-      }
-      
-      const finalDose = Math.round(Math.min(dose, cap));
-      maxBolusValue = finalDose;
-      document.getElementById("maxSafeDose").textContent = finalDose;
-    }
+  const weightStr = document.getElementById("weight").value;
+  // Use parseFloat(weightStr) || 0 to ensure weight is 0 if the input is empty or not a valid number.
+  let weight = parseFloat(weightStr) || 0;
+  const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
+  let dose = 0;
+  let cap = Infinity;
+  const bupBtn = document.getElementById("bupivacaineBtn");
+  const levoBtn = document.getElementById("levobupivacaineBtn");
+  const ropiBtn = document.getElementById("ropivacaineBtn");
+  
+  if (bupBtn.classList.contains("active")) {
+    dose = 2 * weightKg;
+    cap = 175;
+  } else if (levoBtn.classList.contains("active")) {
+    dose = 2 * weightKg;
+    cap = 200;
+  } else if (ropiBtn.classList.contains("active")) {
+    dose = 3 * weightKg;
+    cap = 200;
+  } else {
+    document.getElementById("maxSafeDose").textContent = "";
+    maxBolusValue = 0;
+    return;
+  }
+  
+  const finalDose = Math.round(Math.min(dose, cap));
+  maxBolusValue = finalDose;
+  document.getElementById("maxSafeDose").textContent = finalDose;
+}
+
       // Attach event listeners.
     document.getElementById("weight").addEventListener("input", function() {
       updateMaxSafeDose();
