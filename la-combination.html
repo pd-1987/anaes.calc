@@ -10,6 +10,13 @@
   <!-- Header with Title -->
   <header class="banner">Local Anaesthetic Combination Calculator
   </header>
+ 
+  <!-- Weight Entry Group -->
+  <div class="input-group">
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" placeholder="0" min="0">
+    <button class="unit-toggle" id="weightUnitBtn" onclick="toggleWeightUnit()">kg</button>
+  </div>
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
@@ -21,7 +28,31 @@
   <footer>
      <small>&copy; 2025 Peter Daum. All rights reserved.</small>
   </footer>
+ 
   <script>
+<script>
+    let weightUnit = "kg";
+    
+    // --- Weight Unit Toggle ---
+    function toggleWeightUnit() {
+      const weightInput = document.getElementById("weight");
+      let weight = parseFloat(weightInput.value);
+      weight = Math.max(weight, 0);  // Prevent negative values.
+      if (!isNaN(weight)) {
+        if (weightUnit === "kg") {
+          weightInput.value = (weight * 2.20462).toFixed(2);
+        } else {
+          weightInput.value = (weight / 2.20462).toFixed(2);
+        }
+      }
+      weightUnit = (weightUnit === "kg") ? "lb" : "kg";
+      document.getElementById("weightUnitBtn").textContent = weightUnit;
+    }
+    function resetCalculator() {
+      document.getElementById("weight").value = "";
+      weightUnit = "kg";
+      document.getElementById("weightUnitBtn").textContent = "kg";
+    }
 function goHome() {
     window.location.href = "index.html";
   }
