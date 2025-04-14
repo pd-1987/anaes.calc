@@ -105,6 +105,40 @@
       weightUnit = (weightUnit === "kg") ? "lb" : "kg";
       document.getElementById("weightUnitBtn").textContent = weightUnit;
     }
+
+       // --- Local Anaesthetic Selection (toggleable) ---
+    function selectLA(selectedLA) {
+      const bupBtn = document.getElementById("bupivacaineBtn");
+      const levoBtn = document.getElementById("levobupivacaineBtn");
+      const ropiBtn = document.getElementById("ropivacaineBtn");
+      
+      if (selectedLA === "Bupivacaine") {
+        if (bupBtn.classList.contains("active")) {
+          bupBtn.classList.remove("active");
+        } else {
+          bupBtn.classList.add("active");
+          levoBtn.classList.remove("active");
+          ropiBtn.classList.remove("active");
+        }
+      } else if (selectedLA === "Levobupivacaine") {
+        if (levoBtn.classList.contains("active")) {
+          levoBtn.classList.remove("active");
+        } else {
+          levoBtn.classList.add("active");
+          bupBtn.classList.remove("active");
+          ropiBtn.classList.remove("active");
+        }
+      } else if (selectedLA === "Ropivacaine") {
+        if (ropiBtn.classList.contains("active")) {
+          ropiBtn.classList.remove("active");
+        } else {
+          ropiBtn.classList.add("active");
+          bupBtn.classList.remove("active");
+          levoBtn.classList.remove("active");
+        }
+      }
+ 
+        // --- Reset and Home Buttons ---      
     function resetCalculator() {
       document.getElementById("weight").value = "";
       weightUnit = "kg";
