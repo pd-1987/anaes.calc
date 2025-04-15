@@ -52,11 +52,9 @@
  
   <!-- Weight Entry Group -->
   <div class="input-group">
-    <label for="weight">Weight:</label>
+    <label for="weight">Weight (kg):</label>
     <input type="number" id="weight" placeholder="0" min="0">
-    <button class="unit-toggle" id="weightUnitBtn" onclick="toggleWeightUnit()">kg</button>
-  </div>
-    <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
+   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
 
      <!-- Local Anesthetic Selection Buttons -->
   <div class="gender-buttons">
@@ -184,24 +182,7 @@
   <script>
     let weightUnit = "kg";
     
-    // --- Weight Unit Toggle ---
-    function toggleWeightUnit() {
-      const weightInput = document.getElementById("weight");
-      let weight = parseFloat(weightInput.value);
-      weight = Math.max(weight, 0);  // Prevent negative values.
-      if (!isNaN(weight)) {
-        if (weightUnit === "kg") {
-          weightInput.value = (weight * 2.20462).toFixed(2);
-        } else {
-          weightInput.value = (weight / 2.20462).toFixed(2);
-        }
-      }
-      weightUnit = (weightUnit === "kg") ? "lb" : "kg";
-      document.getElementById("weightUnitBtn").textContent = weightUnit;
-    updateMaxSafeDose(); // Recalculate maximum bolus after conversion
-    }
-
-       // --- Local Anaesthetic Selection (toggleable) ---
+           // --- Local Anaesthetic Selection (toggleable) ---
     function selectLA(selectedLA) {
       const bupBtn = document.getElementById("bupivacaineBtn");
       const levoBtn = document.getElementById("levobupivacaineBtn");
