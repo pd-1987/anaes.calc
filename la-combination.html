@@ -117,7 +117,7 @@
 
   <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
   <!-- Each row is tagged with either "bl" or "ropi" or both. -->
-  <div class=".concentration-boxes">
+  <div class="concentration-boxes">
     <div class="concentration-row bl">
       <div class="concentration-label">0.1%</div>
       <div class="concentration-extras">
@@ -205,178 +205,178 @@
   </footer>
   
   <script>
-    let weightUnit = "kg";
-    let maxBolusValue = 0;
-    
-    // Helper function to format numbers: show decimals only if needed.
-    function formatNumber(num) {
-      // Option 1: Use modulus to check for whole numbers.
-      return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
-      
-      // Alternatively, you could use:
-      // return num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-    }
-    
-    // --- Helper: Hide all concentration rows and reset their values ---
-    function resetConcentrationRows() {
-      const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
-      rows.forEach(function(row) {
-        row.style.display = "none";
-        const input = row.querySelector('input');
-        if (input) input.value = "";
-        const bubble = row.querySelector('.bubble');
-        if (bubble) bubble.textContent = "0 mg";
-      });
-    }
-    
-    // --- Local Anaesthetic Selection (toggleable) ---
-    function selectLA(selectedLA) {
-      resetConcentrationRows();
-      document.querySelector('.concentration-boxes').style.display = "block";
-      
-      const bupBtn = document.getElementById("bupivacaineBtn");
-      const levoBtn = document.getElementById("levobupivacaineBtn");
-      const ropiBtn = document.getElementById("ropivacaineBtn");
-      
-      if (selectedLA === "Bupivacaine") {
-        if (bupBtn.classList.contains("active")) {
-          bupBtn.classList.remove("active");
-        } else {
-          bupBtn.classList.add("active");
-          levoBtn.classList.remove("active");
-          ropiBtn.classList.remove("active");
-        }
-      } else if (selectedLA === "Levobupivacaine") {
-        if (levoBtn.classList.contains("active")) {
-          levoBtn.classList.remove("active");
-        } else {
-          levoBtn.classList.add("active");
-          bupBtn.classList.remove("active");
-          ropiBtn.classList.remove("active");
-        }
-      } else if (selectedLA === "Ropivacaine") {
-        if (ropiBtn.classList.contains("active")) {
-          ropiBtn.classList.remove("active");
-        } else {
-          ropiBtn.classList.add("active");
-          bupBtn.classList.remove("active");
-          levoBtn.classList.remove("active");
-        }   
-      }
-      updateMaxSafeDose();
-      updateTotalAndRemaining();
-      
-      let groupToShow = "";
-      if (document.getElementById("bupivacaineBtn").classList.contains("active") ||
-          document.getElementById("levobupivacaineBtn").classList.contains("active")) {
-        groupToShow = "bl";
-      } else if (document.getElementById("ropivacaineBtn").classList.contains("active")) {
-        groupToShow = "ropi";
-      }
-      const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
-      rows.forEach(function(row) {
-        if (row.classList.contains(groupToShow)) {
-          row.style.display = "flex";
-        }
-      });
-    }
-    
-    // --- Maximum Bolus Calculation ---
-    function updateMaxSafeDose() {
-      const weightStr = document.getElementById("weight").value;
-      let weight = parseFloat(weightStr) || 0;
-      const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
-      let dose = 0;
-      let cap = Infinity;
-      const bupBtn = document.getElementById("bupivacaineBtn");
-      const levoBtn = document.getElementById("levobupivacaineBtn");
-      const ropiBtn = document.getElementById("ropivacaineBtn");
-      
-      if (bupBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 175;
-      } else if (levoBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 200;
-      } else if (ropiBtn.classList.contains("active")) {
-        dose = 3 * weightKg;
-        cap = 200;
-      } else {
-        document.getElementById("maxSafeDose").textContent = "0";
-        maxBolusValue = 0;
-        return;
-      }
-      
-      const finalDose = Math.min(dose, cap);
-      maxBolusValue = finalDose;
-      document.getElementById("maxSafeDose").textContent = formatNumber(finalDose);
-    }
-    
-    // --- Update the blue bubble dose based on volume input ---
-    function updateDose(inputElement) {
-      const ml = parseFloat(inputElement.value) || 0;
-      const concentration = parseFloat(inputElement.dataset.concentration);
-      const mg = ml * concentration * 10; // 1% = 10 mg/ml
-      const bubble = inputElement.parentElement.querySelector('.bubble');
-      bubble.textContent = `${formatNumber(mg)} mg`;
-      updateTotalAndRemaining();
-    }
-     
-    // --- Update total dose and dose remaining ---
-    function updateTotalAndRemaining() {
-      let totalDose = 0;
-      const inputs = document.querySelectorAll('.concentration-boxes input');
-      inputs.forEach(function(input) {
-        const ml = parseFloat(input.value) || 0;
-        const concentration = parseFloat(input.dataset.concentration);
-        totalDose += ml * concentration * 10;
-      });
-      document.getElementById('totalDoseGiven').textContent = formatNumber(totalDose);
-      
-      const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
-      const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
-      
-      const doseRemaining = maxSafeDose - totalDose;
-      const doseRemainingEl = document.getElementById('doseRemaining');
-      doseRemainingEl.textContent = formatNumber(doseRemaining);
-      
-      if (doseRemaining < 0) {
-        doseRemainingEl.classList.add('negative');
-      } else {
-        doseRemainingEl.classList.remove('negative');
-      }
-    }
-    
-    document.getElementById("weight").addEventListener("input", function() {
-      updateMaxSafeDose();
-      updateTotalAndRemaining();
+    <script>
+  let weightUnit = "kg";
+  let maxBolusValue = 0;
+
+  // Helper function to format numbers: show decimals only if needed.
+  function formatNumber(num) {
+    return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
+  }
+
+  // Hide all concentration rows and reset their values.
+  function resetConcentrationRows() {
+    const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
+    rows.forEach(function(row) {
+      row.style.display = "none";
+      const input = row.querySelector('input');
+      if (input) input.value = "";
+      const bubble = row.querySelector('.bubble');
+      if (bubble) bubble.textContent = "0 mg";
     });
-          
-    function resetCalculator() {
-      document.getElementById("weight").value = "";
-      document.getElementById("bupivacaineBtn").classList.remove("active");
-      document.getElementById("levobupivacaineBtn").classList.remove("active");
-      document.getElementById("ropivacaineBtn").classList.remove("active");
-      document.querySelector('.concentration-boxes').style.display = "none";
+  }
+
+  // Local Anaesthetic Selection (toggleable).
+  function selectLA(selectedLA) {
+    resetConcentrationRows();
+    document.querySelector('.concentration-boxes').style.display = "block";
+
+    const bupBtn = document.getElementById("bupivacaineBtn");
+    const levoBtn = document.getElementById("levobupivacaineBtn");
+    const ropiBtn = document.getElementById("ropivacaineBtn");
+
+    if (selectedLA === "Bupivacaine") {
+      if (bupBtn.classList.contains("active")) {
+        bupBtn.classList.remove("active");
+      } else {
+        bupBtn.classList.add("active");
+        levoBtn.classList.remove("active");
+        ropiBtn.classList.remove("active");
+      }
+    } else if (selectedLA === "Levobupivacaine") {
+      if (levoBtn.classList.contains("active")) {
+        levoBtn.classList.remove("active");
+      } else {
+        levoBtn.classList.add("active");
+        bupBtn.classList.remove("active");
+        ropiBtn.classList.remove("active");
+      }
+    } else if (selectedLA === "Ropivacaine") {
+      if (ropiBtn.classList.contains("active")) {
+        ropiBtn.classList.remove("active");
+      } else {
+        ropiBtn.classList.add("active");
+        bupBtn.classList.remove("active");
+        levoBtn.classList.remove("active");
+      }
+    }
+    updateMaxSafeDose();
+    updateTotalAndRemaining();
+
+    let groupToShow = "";
+    if (document.getElementById("bupivacaineBtn").classList.contains("active") ||
+        document.getElementById("levobupivacaineBtn").classList.contains("active")) {
+      groupToShow = "bl";
+    } else if (document.getElementById("ropivacaineBtn").classList.contains("active")) {
+      groupToShow = "ropi";
+    }
+    const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
+    rows.forEach(function(row) {
+      if (row.classList.contains(groupToShow)) {
+        row.style.display = "flex";
+      }
+    });
+  }
+
+  // Calculate the maximum safe dose.
+  function updateMaxSafeDose() {
+    const weightStr = document.getElementById("weight").value;
+    let weight = parseFloat(weightStr) || 0;
+    const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
+    let dose = 0;
+    let cap = Infinity;
+    const bupBtn = document.getElementById("bupivacaineBtn");
+    const levoBtn = document.getElementById("levobupivacaineBtn");
+    const ropiBtn = document.getElementById("ropivacaineBtn");
+
+    if (bupBtn.classList.contains("active")) {
+      dose = 2 * weightKg;
+      cap = 175;
+    } else if (levoBtn.classList.contains("active")) {
+      dose = 2 * weightKg;
+      cap = 200;
+    } else if (ropiBtn.classList.contains("active")) {
+      dose = 3 * weightKg;
+      cap = 200;
+    } else {
       document.getElementById("maxSafeDose").textContent = "0";
       maxBolusValue = 0;
-      
-      const concInputs = document.querySelectorAll('.concentration-boxes input');
-      concInputs.forEach(function(input) {
-        input.value = "";
-        const bubble = input.parentElement.querySelector(".bubble");
-        if (bubble) {
-          bubble.textContent = "0 mg";
-        }
-      });
-      
-      document.getElementById("totalDoseGiven").textContent = "0";
-      document.getElementById("doseRemaining").textContent = "0";
+      return;
     }
-    
-    function goHome() {
-      window.location.href = "index.html";
+
+    const finalDose = Math.min(dose, cap);
+    maxBolusValue = finalDose;
+    document.getElementById("maxSafeDose").textContent = formatNumber(finalDose);
+  }
+
+  // Update the blue bubble showing the dose (mg) based on volume input.
+  function updateDose(inputElement) {
+    const ml = parseFloat(inputElement.value) || 0;
+    const concentration = parseFloat(inputElement.dataset.concentration);
+    const mg = ml * concentration * 10; // Since 1% = 10 mg/ml.
+    const bubble = inputElement.parentElement.querySelector('.bubble');
+    bubble.textContent = `${formatNumber(mg)} mg`;
+    updateTotalAndRemaining();
+  }
+
+  // Update the total administered dose and calculate remaining dose.
+  function updateTotalAndRemaining() {
+    let totalDose = 0;
+    const inputs = document.querySelectorAll('.concentration-boxes input');
+    inputs.forEach(function(input) {
+      const ml = parseFloat(input.value) || 0;
+      const concentration = parseFloat(input.dataset.concentration);
+      totalDose += ml * concentration * 10;
+    });
+    document.getElementById('totalDoseGiven').textContent = formatNumber(totalDose);
+
+    const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
+    const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
+    const doseRemaining = maxSafeDose - totalDose;
+    const doseRemainingEl = document.getElementById('doseRemaining');
+    doseRemainingEl.textContent = formatNumber(doseRemaining);
+    if (doseRemaining < 0) {
+      doseRemainingEl.classList.add('negative');
+    } else {
+      doseRemainingEl.classList.remove('negative');
     }
+  }
+
+  // Listen for changes on the weight input.
+  document.getElementById("weight").addEventListener("input", function() {
+    updateMaxSafeDose();
+    updateTotalAndRemaining();
+  });
+
+  // Reset the calculator to its default state.
+  function resetCalculator() {
+    document.getElementById("weight").value = "";
+    document.getElementById("bupivacaineBtn").classList.remove("active");
+    document.getElementById("levobupivacaineBtn").classList.remove("active");
+    document.getElementById("ropivacaineBtn").classList.remove("active");
+    document.querySelector('.concentration-boxes').style.display = "none";
+    document.getElementById("maxSafeDose").textContent = "0";
+    maxBolusValue = 0;
+
+    const concInputs = document.querySelectorAll('.concentration-boxes input');
+    concInputs.forEach(function(input) {
+      input.value = "";
+      const bubble = input.parentElement.querySelector(".bubble");
+      if (bubble) {
+        bubble.textContent = "0 mg";
+      }
+    });
+
+    document.getElementById("totalDoseGiven").textContent = "0";
+    document.getElementById("doseRemaining").textContent = "0";
+  }
+
+  // Navigate back to home.
+  function goHome() {
+    window.location.href = "index.html";
+  }
+</script>
+
   </script>
 </body>
 </html>
