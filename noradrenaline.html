@@ -5,41 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noradrenaline calculator</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .active-btn {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .dose-options {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .dose-bubble {
-      background: linear-gradient(135deg, #e75480, #a64ca6); /* pink/purple gradient */
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 10px 16px;
-      cursor: pointer;
-      text-align: center;
-      min-width: 120px;
-    }
-
-    .dose-bubble small {
-      display: block;
-      font-size: 0.75rem;
-      color: #f8e8ff;
-    }
-
-    .dose-bubble.selected {
-      box-shadow: 0 0 0 3px white, 0 0 0 5px #a64ca6;
-    }
-  </style>
 </head>
 <body>
   <!-- Header with Title -->
@@ -108,8 +73,8 @@
     const noradBtn = document.getElementById('NoradBtn');
     const adBtn = document.getElementById('AdBtn');
 
-    noradBtn.classList.toggle('active-btn', drug === 'Noradrenaline');
-    adBtn.classList.toggle('active-btn', drug === 'Adrenaline');
+    noradBtn.classList.toggle('la-buttons button.active', drug === 'Noradrenaline');
+    adBtn.classList.toggle('la-buttons button.active', drug === 'Adrenaline');
   }
 
   function selectDose(element) {
@@ -133,8 +98,8 @@
 
   function resetForm() {
     document.getElementById('weight').value = '';
-    document.getElementById('NoradBtn').classList.remove('active-btn');
-    document.getElementById('AdBtn').classList.remove('active-btn');
+    document.getElementById('NoradBtn').classList.remove('la-buttons button.active');
+    document.getElementById('AdBtn').classList.remove('la-buttons button.active');
     document.querySelectorAll('.dose-bubble').forEach(bubble => {
       bubble.classList.remove('selected');
     });
