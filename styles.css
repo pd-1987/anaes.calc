@@ -459,7 +459,14 @@ input[type=number] {
   font-size: 14px;
   color: #555;
 }
-
+/* Dose Summary Styling */
+.dose-summary {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
