@@ -14,7 +14,7 @@
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
-    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+    <button type="button" class="reset-btn" onclick="goBack()">Back</button>
     <button type="button" class="home-btn" onclick="goHome()">Home</button>
   </div>
 
@@ -23,6 +23,9 @@
      <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
   <script>
+    function goBack() {
+      window.history.back();
+    }
 function goHome() {
     window.location.href = "index.html";
   }
