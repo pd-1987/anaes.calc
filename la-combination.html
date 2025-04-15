@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Local Anaesthetic Combination Calculator</title>
@@ -16,7 +16,7 @@
       color: #555;
       margin: 0 15px 15px;
     }
-      /* Local Anesthetic Buttons */
+    /* Local Anesthetic Buttons */
     .gender-buttons {
       display: flex;
       justify-content: space-around;
@@ -44,7 +44,75 @@
     .gender-buttons button.active small {
       color: white;
     }
-      </style>
+    /* Maximum Bolus Display */
+    .max-safe-dose {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 20px 0;
+    }
+    .unit {
+      margin-left: 2px;
+      font-weight: normal;
+      color: #555;
+    }
+    /* Concentration Boxes container – initially hidden */
+    .concentration-boxes {
+      display: none;  /* Hidden by default */
+      margin-top: 20px;
+    }
+    /* Each concentration row styling */
+    .concentration-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .concentration-label {
+      background-color: #f0f0f0;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333;
+      user-select: none;
+      min-width: 80px;
+      text-align: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .concentration-extras {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .concentration-extras input {
+      width: 60px;
+      padding: 3px;
+      font-size: 16px;
+      text-align: right;
+    }
+    .unit-label {
+      font-size: 14px;
+      color: #555;
+    }
+    /* Blue bubble for dose in mg */
+    .bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5px;
+      padding: 5px 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #e7f3fe;
+      border: 1px solid #bcdffc;
+      border-radius: 15px;
+      color: #0078d7;
+      min-width: 60px;
+      min-height: 30px;
+      line-height: 1;
+    }
+  </style>
 </head>
 <body>
   <!-- Header with Title -->
@@ -54,11 +122,10 @@
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
     <input type="number" id="weight" placeholder="0" min="0">
-        </div>
-   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
-
+  </div>
+  <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
       
-     <!-- Local Anesthetic Selection Buttons -->
+  <!-- Local Anesthetic Selection Buttons -->
   <div class="gender-buttons">
     <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">
       Bupivacaine<br><small>2 mg/kg<br>Max. 175mg</small>
@@ -71,126 +138,134 @@
     </button>
   </div>
     
-   <!-- Maximum Bolus Display -->
-<div class="max-safe-dose">
-  <strong>Maximum bolus:</strong>
-  <span id="maxSafeDose">0</span>
-  <span class="unit">mg</span>
-</div>
-
-<!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
-<div class="concentration-boxes">
-  <div class="concentration-row">
-    <div class="concentration-label">0.1%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.1" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
+  <!-- Maximum Bolus Display -->
+  <div class="max-safe-dose">
+    <strong>Maximum bolus:</strong>
+    <span id="maxSafeDose">0</span>
+    <span class="unit">mg</span>
   </div>
 
-  <div class="concentration-row">
-    <div class="concentration-label">0.125%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.125" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
+  <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
+  <!-- Each row is tagged with either "bl" or "ropi" or both.
+       For Bupivacaine/Levobupivacaine (group "bl"): show 0.1%, 0.125%, 0.25%, 0.375% and 0.5%
+       For Ropivacaine (group "ropi"): show 0.2%, 0.5% and 0.75%
+       Note: For 0.5% we assign both groups (class "bl ropi") -->
+  <div class="concentration-boxes">
+    <div class="concentration-row bl">
+      <div class="concentration-label">0.1%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.1" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row bl">
+      <div class="concentration-label">0.125%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.125" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row ropi">
+      <div class="concentration-label">0.2%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.2" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row bl">
+      <div class="concentration-label">0.25%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.25" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row bl">
+      <div class="concentration-label">0.375%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.375" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row bl ropi">
+      <div class="concentration-label">0.5%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.5" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
+    </div>
+    <div class="concentration-row ropi">
+      <div class="concentration-label">0.75%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="0.75" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+        <span class="bubble">0 mg</span>
+      </div>
     </div>
   </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">0.2%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.2" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
+  
+  <!-- Dose Summary Section -->
+  <div class="max-safe-dose">
+    <strong>Total dose given:</strong>
+    <span id="totalDoseGiven">0</span>
+    <span class="unit">mg</span>
   </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">0.25%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.25" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
+  <div class="max-safe-dose">
+    <strong>Dose remaining:</strong>
+    <span id="doseRemaining">0</span>
+    <span class="unit">mg</span>
   </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">0.375%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.375" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
-  </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">0.5%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.5" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
-  </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">0.75%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="0.75" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
-  </div>
-
-  <div class="concentration-row">
-    <div class="concentration-label">1%</div>
-    <div class="concentration-extras">
-      <input type="number" min="0" max="999" data-concentration="1" oninput="updateDose(this)" />
-      <span class="unit-label">ml</span>
-      <span class="bubble">0 mg</span>
-    </div>
-  </div>
-</div>
-
-<!-- Dose Summary Section -->
-<div class="max-safe-dose">
-  <strong>Total dose given:</strong>
-  <span id="totalDoseGiven">0</span>
-  <span class="unit">mg</span>
-</div>
-<div class="max-safe-dose">
-  <strong>Dose remaining:</strong>
-  <span id="doseRemaining">0</span>
-  <span class="unit">mg</span>
-</div>
-
-    <!-- Home and Reset Buttons -->
+  
+  <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button class="reset-btn" onclick="resetCalculator()">Reset</button>
     <button class="home-btn" onclick="goHome()">Home</button>
   </div>
-
+  
   <!-- Footer -->
   <footer>
-  <small>
+    <small>
       <p><b>Bupivacaine / Levobupivacaine:</b> A maximum dose of 2 mg/kg should not be exceeded in any four hour period; Bupivacaine not to exceed 175 mg per dose, Levobupivacaine not to exceed 200 mg per dose. In total ≤ 400 mg/24h.</p>
       <p><b>Ropivacaine:</b> A maximum dose of 3 mg/kg should not be exceeded in any four to six hour period, not to exceed 200 mg per dose. In total ≤ 675 mg/24h.</p>
       <p><a href="references.html">References</a></p>
     </small>
-     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
+    <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
- 
+  
   <script>
     let weightUnit = "kg";
-      let maxBolusValue = 0;
+    let maxBolusValue = 0;
     
-           // --- Local Anaesthetic Selection (toggleable) ---
+    // --- Helper: Hide all concentration rows and reset their values ---
+    function resetConcentrationRows() {
+      const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
+      rows.forEach(function(row) {
+        row.style.display = "none";
+        // Also reset the input and bubble value
+        const input = row.querySelector('input');
+        if (input) input.value = "";
+        const bubble = row.querySelector('.bubble');
+        if (bubble) bubble.textContent = "0 mg";
+      });
+    }
+    
+    // --- Local Anaesthetic Selection (toggleable) ---
     function selectLA(selectedLA) {
+      // First clear any previous concentrations and reset totals.
+      resetConcentrationRows();
+      // Show the concentration container.
+      document.querySelector('.concentration-boxes').style.display = "block";
+      
       const bupBtn = document.getElementById("bupivacaineBtn");
       const levoBtn = document.getElementById("levobupivacaineBtn");
       const ropiBtn = document.getElementById("ropivacaineBtn");
       
+      // Toggle LA button active states.
       if (selectedLA === "Bupivacaine") {
         if (bupBtn.classList.contains("active")) {
           bupBtn.classList.remove("active");
@@ -216,133 +291,140 @@
           levoBtn.classList.remove("active");
         }   
       }
-          updateMaxSafeDose(); // Trigger recalculation after selection
-     updateTotalAndRemaining();
-
+      updateMaxSafeDose();
+      updateTotalAndRemaining();
+      
+      // Now display only the concentration rows that belong to the active LA.
+      // For Bupivacaine/Levobupivacaine, show rows with class "bl"
+      // For Ropivacaine, show rows with class "ropi"
+      let groupToShow = "";
+      if (document.getElementById("bupivacaineBtn").classList.contains("active") ||
+          document.getElementById("levobupivacaineBtn").classList.contains("active")) {
+        groupToShow = "bl";
+      } else if (document.getElementById("ropivacaineBtn").classList.contains("active")) {
+        groupToShow = "ropi";
+      }
+      // Show rows that have the selected group's class.
+      const rows = document.querySelectorAll('.concentration-boxes .concentration-row');
+      rows.forEach(function(row) {
+        // If the row has the group class (or for common rows with both classes), show it.
+        if (row.classList.contains(groupToShow)) {
+          row.style.display = "flex"; // or simply "";
+        }
+      });
     }
-
-      // --- Maximum Bolus Calculation ---
+    
+    // --- Maximum Bolus Calculation ---
     // Bupivacaine: max bolus = min(2 mg/kg * weight, 175 mg)
     // Levobupivacaine: max bolus = min(2 mg/kg * weight, 200 mg)
     // Ropivacaine: max bolus = min(3 mg/kg * weight, 200 mg)
     function updateMaxSafeDose() {
-  const weightStr = document.getElementById("weight").value;
-  // Use parseFloat(weightStr) || 0 to ensure weight is 0 if the input is empty or not a valid number.
-  let weight = parseFloat(weightStr) || 0;
-  const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
-  let dose = 0;
-  let cap = Infinity;
-  const bupBtn = document.getElementById("bupivacaineBtn");
-  const levoBtn = document.getElementById("levobupivacaineBtn");
-  const ropiBtn = document.getElementById("ropivacaineBtn");
-  
-  if (bupBtn.classList.contains("active")) {
-    dose = 2 * weightKg;
-    cap = 175;
-  } else if (levoBtn.classList.contains("active")) {
-    dose = 2 * weightKg;
-    cap = 200;
-  } else if (ropiBtn.classList.contains("active")) {
-    dose = 3 * weightKg;
-    cap = 200;
-  } else {
-    document.getElementById("maxSafeDose").textContent = "";
-    maxBolusValue = 0;
-    return;
-  }
-  
-  const finalDose = Math.min(dose, cap);
-maxBolusValue = finalDose;
-document.getElementById("maxSafeDose").textContent = finalDose.toFixed(2);
-        
-}
-function updateDose(inputElement) {
-  const ml = parseFloat(inputElement.value) || 0;
-  const concentration = parseFloat(inputElement.dataset.concentration); // concentration in %
-  const mg = ml * concentration * 10; // Conversion: 1% = 10 mg/ml
-  const bubble = inputElement.parentElement.querySelector('.bubble');
-  bubble.textContent = `${mg.toFixed(2)} mg`; 
-  updateTotalAndRemaining();
-}
- 
-  function updateTotalAndRemaining() {
-  let totalDose = 0;
-  // Sum mg from all concentration inputs
-  const inputs = document.querySelectorAll('.concentration-boxes input');
-  inputs.forEach(function(input) {
-    const ml = parseFloat(input.value) || 0;
-    const concentration = parseFloat(input.dataset.concentration);
-    const dose = ml * concentration * 10; // mg dose for this input (1% = 10 mg/ml)
-    totalDose += dose;
-  });
-  document.getElementById('totalDoseGiven').textContent = totalDose.toFixed(2);
-  
-  // Retrieve maximum safe dose from the element with id "maxSafeDose"
-  // (Ensure this element exists and contains a numeric value.)
-  const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
-  const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
-  
-  // Calculate dose remaining (allow negative values)
-  const doseRemaining = maxSafeDose - totalDose;
-  const doseRemainingEl = document.getElementById('doseRemaining');
- doseRemainingEl.textContent = doseRemaining.toFixed(2);
-  
-  // If the remaining dose is negative, add the 'negative' class; otherwise, remove it.
-  if (doseRemaining < 0) {
-    doseRemainingEl.classList.add('negative');
-  } else {
-    doseRemainingEl.classList.remove('negative');
-  }
-}
-
-      // Attach event listeners.
-  document.getElementById("weight").addEventListener("input", function() {
-  updateMaxSafeDose();
-  updateTotalAndRemaining();
-});
-
+      const weightStr = document.getElementById("weight").value;
+      let weight = parseFloat(weightStr) || 0;
+      const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
+      let dose = 0;
+      let cap = Infinity;
+      const bupBtn = document.getElementById("bupivacaineBtn");
+      const levoBtn = document.getElementById("levobupivacaineBtn");
+      const ropiBtn = document.getElementById("ropivacaineBtn");
       
-       function resetCalculator() {
-  // Reset weight.
-  document.getElementById("weight").value = "";
-  
-  // If you have a weight unit toggle button, reset it;
-  // otherwise, remove or comment out these lines.
-  if (document.getElementById("weightUnitBtn")) {
-    weightUnit = "kg";
-    document.getElementById("weightUnitBtn").textContent = "kg";
-  }
-  
-  // Reset the local anesthetic button states.
-  document.getElementById("bupivacaineBtn").classList.remove("active");
-  document.getElementById("levobupivacaineBtn").classList.remove("active");
-  document.getElementById("ropivacaineBtn").classList.remove("active");
-  
-  // Reset the Maximum Bolus display.
-  document.getElementById("maxSafeDose").textContent = "0";
-  
-  // Reset concentration inputs and their associated blue dose bubbles.
-  const concInputs = document.querySelectorAll('.concentration-boxes input');
-  concInputs.forEach(function(input) {
-    input.value = "";
-    // Reset the blue bubble to "0 mg"
-    const bubble = input.parentElement.querySelector(".bubble");
-    if (bubble) {
-      bubble.textContent = "0 mg";
+      if (bupBtn.classList.contains("active")) {
+        dose = 2 * weightKg;
+        cap = 175;
+      } else if (levoBtn.classList.contains("active")) {
+        dose = 2 * weightKg;
+        cap = 200;
+      } else if (ropiBtn.classList.contains("active")) {
+        dose = 3 * weightKg;
+        cap = 200;
+      } else {
+        document.getElementById("maxSafeDose").textContent = "";
+        maxBolusValue = 0;
+        return;
+      }
+      
+      const finalDose = Math.min(dose, cap);
+      maxBolusValue = finalDose;
+      document.getElementById("maxSafeDose").textContent = finalDose.toFixed(2);
     }
-  });
-  
-  // Reset the Total Dose Given and Dose Remaining calculations.
-  document.getElementById("totalDoseGiven").textContent = "0";
-  document.getElementById("doseRemaining").textContent = "0";
-  
-  // Reset a global maxBolusValue if defined.
-  maxBolusValue = 0;
-}
-
-function goHome() {
-    window.location.href = "index.html";
-  }
-</script>
+    
+    // --- Update the blue bubble dose based on volume input ---
+    function updateDose(inputElement) {
+      const ml = parseFloat(inputElement.value) || 0;
+      const concentration = parseFloat(inputElement.dataset.concentration); // concentration in %
+      const mg = ml * concentration * 10; // 1% = 10 mg/ml
+      const bubble = inputElement.parentElement.querySelector('.bubble');
+      bubble.textContent = `${mg.toFixed(2)} mg`; 
+      updateTotalAndRemaining();
+    }
+     
+    // --- Update total dose and dose remaining ---
+    function updateTotalAndRemaining() {
+      let totalDose = 0;
+      // Sum mg from all concentration inputs (regardless of visibility)
+      const inputs = document.querySelectorAll('.concentration-boxes input');
+      inputs.forEach(function(input) {
+        const ml = parseFloat(input.value) || 0;
+        const concentration = parseFloat(input.dataset.concentration);
+        const dose = ml * concentration * 10;
+        totalDose += dose;
+      });
+      document.getElementById('totalDoseGiven').textContent = totalDose.toFixed(2);
+      
+      const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
+      const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
+      
+      const doseRemaining = maxSafeDose - totalDose;
+      const doseRemainingEl = document.getElementById('doseRemaining');
+      doseRemainingEl.textContent = doseRemaining.toFixed(2);
+      
+      if (doseRemaining < 0) {
+        doseRemainingEl.classList.add('negative');
+      } else {
+        doseRemainingEl.classList.remove('negative');
+      }
+    }
+    
+    // Attach event listener for weight input.
+    document.getElementById("weight").addEventListener("input", function() {
+      updateMaxSafeDose();
+      updateTotalAndRemaining();
+    });
+          
+    function resetCalculator() {
+      // Reset weight.
+      document.getElementById("weight").value = "";
+      
+      // Reset the local anesthetic button states.
+      document.getElementById("bupivacaineBtn").classList.remove("active");
+      document.getElementById("levobupivacaineBtn").classList.remove("active");
+      document.getElementById("ropivacaineBtn").classList.remove("active");
+      
+      // Hide the concentration boxes.
+      document.querySelector('.concentration-boxes').style.display = "none";
+      
+      // Reset the Maximum Bolus display.
+      document.getElementById("maxSafeDose").textContent = "0";
+      maxBolusValue = 0;
+      
+      // Reset all concentration inputs and blue bubbles.
+      const concInputs = document.querySelectorAll('.concentration-boxes input');
+      concInputs.forEach(function(input) {
+        input.value = "";
+        const bubble = input.parentElement.querySelector(".bubble");
+        if (bubble) {
+          bubble.textContent = "0 mg";
+        }
+      });
+      
+      // Reset the Total Dose Given and Dose Remaining displays.
+      document.getElementById("totalDoseGiven").textContent = "0";
+      document.getElementById("doseRemaining").textContent = "0";
+    }
+    
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>
