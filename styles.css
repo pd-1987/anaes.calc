@@ -417,31 +417,37 @@ input[type=number] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f0f0f0;
-  padding: 10px;
   margin-bottom: 10px;
-  border-radius: 5px;
 }
-
-.concentration-row span {
+.concentration-label {
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  border-radius: 5px;
   font-size: 16px;
   color: #333;
-  flex-shrink: 0;
+  user-select: none;
+  min-width: 80px;
+  text-align: center;
 }
 
-.concentration-row input {
+.concentration-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.concentration-input input {
   width: 60px;
   padding: 5px;
   font-size: 16px;
-  margin-left: 10px;
-  margin-right: 5px;
   text-align: right;
 }
+
 .unit-label {
   font-size: 14px;
   color: #555;
-  margin-left: 5px;
 }
+
 
 /* Responsive Styles */
 @media (max-width: 600px) {
