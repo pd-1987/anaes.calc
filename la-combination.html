@@ -78,7 +78,7 @@
     <span class="unit">mg</span>
   </div>
 
- <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
+<!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
 <div class="concentration-boxes">
   <div class="concentration-row">
     <div class="concentration-label">0.1%</div>
@@ -151,6 +151,12 @@
       <span class="bubble">0 mg</span>
     </div>
   </div>
+</div>
+
+<!-- Dose Summary Section -->
+<div class="dose-summary">
+  <p>Total dose given: <span id="totalDoseGiven">0</span> mg</p>
+  <p>Dose remaining: <span id="doseRemaining">0</span> mg</p>
 </div>
 
     <!-- Home and Reset Buttons -->
@@ -263,8 +269,32 @@ function updateDose(inputElement) {
   const mg = ml * concentration * 10; // Conversion: 1% = 10 mg/ml
   const bubble = inputElement.parentElement.querySelector('.bubble');
   bubble.textContent = `${Math.round(mg)} mg`;
+  
+  updateTotalAndRemaining();
 }
 
+function updateTotalAndRemaining() {
+  let totalDose = 0;
+  // Sum mg from all concentration inputs
+  const inputs = document.querySelectorAll('.concentration-boxes input');
+  inputs.forEach(function(input) {
+    const ml = parseFloat(input.value) || 0;
+    const concentration = parseFloat(input.dataset.concentration);
+    const dose = ml * concentration * 10; // mg dose for this input
+    totalDose += dose;
+  });
+  document.getElementById('totalDoseGiven').textContent = Math.round(totalDose);
+  
+  // Use the maximum safe dose (from your earlier calculation) as the upper limit.
+  // Make sure the element with id "maxSafeDose" exists and contains a numeric value.
+  const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
+  const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
+  let doseRemaining = maxSafeDose - totalDose;
+  if (doseRemaining < 0) {
+    doseRemaining = 0;
+  }
+  document.getElementById('doseRemaining').textContent = Math.round(doseRemaining);
+}
       // Attach event listeners.
     document.getElementById("weight").addEventListener("input", function() {
       updateMaxSafeDose();
