@@ -400,7 +400,7 @@ input[type=number] {
 }
 /* Concentration Boxes */
 .concentration-boxes {
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 .concentration-boxes div {
@@ -416,12 +416,10 @@ input[type=number] {
 .concentration-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 10px;
-  gap: 10px;
 }
 .concentration-label {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0;  /* Grey background only for the concentration text */
   padding: 10px 15px;
   border-radius: 5px;
   font-size: 16px;
@@ -429,6 +427,7 @@ input[type=number] {
   user-select: none;
   min-width: 80px;
   text-align: center;
+  margin-right: 10px; /* Space between grey box and extras */
   flex-shrink: 0;
 }
 .concentration-extras {
