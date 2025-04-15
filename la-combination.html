@@ -16,34 +16,6 @@
       color: #555;
       margin: 0 15px 15px;
     }
-    /* Local Anesthetic Buttons */
-    .gender-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin: 15px;
-    }
-    .gender-buttons button {
-      font-size: 16px;
-      padding: 10px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #f0f0f0;
-      transition: background-color 0.2s ease;
-    }
-    .gender-buttons button.active {
-      background-color: #575757;
-      color: white;
-    }
-    .gender-buttons button small {
-      display: block;
-      font-size: 12px;
-      color: #555;
-      margin-top: 3px;
-    }
-    .gender-buttons button.active small {
-      color: white;
-    }
     /* Concentration Boxes container – initially hidden */
     .concentration-boxes {
       display: none;  /* Hidden by default */
@@ -63,7 +35,7 @@
   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
       
   <!-- Local Anaesthetic Selection Buttons -->
-  <div class="gender-buttons">
+  <div class="la-buttons">
     <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">
       Bupivacaine<br><small>2 mg/kg<br>Max. 175mg</small>
     </button>
