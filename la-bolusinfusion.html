@@ -270,7 +270,8 @@
         }
       }
       updateMaxSafeDose();
-      updateInfusionRates();
+updateBolusDose();      // Ensure bolus dose is recalculated.
+updateInfusionRates();
     }
     
     // --- Bolus Concentration Selection (toggleable) ---
@@ -439,11 +440,11 @@
     }
     
     // Attach event listeners.
-    document.getElementById("bolusVolume").addEventListener("input", updateBolusDose);
     document.getElementById("weight").addEventListener("input", function() {
-      updateMaxSafeDose();
-      updateInfusionRates();
-    });
+  updateMaxSafeDose();
+  updateBolusDose();      // Recalculate bolus dose based on current volume.
+  updateInfusionRates();
+});
     
     function resetCalculator() {
   // Reset weight input.
