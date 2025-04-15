@@ -416,24 +416,25 @@ input[type=number] {
 .concentration-row {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;  /* Reduced from 10px */
 }
 .concentration-label {
-  background-color: #f0f0f0;  /* Grey background only for the concentration text */
-  padding: 10px 15px;
+  background-color: #f0f0f0;  /* Grey background for the concentration text */
+  padding: 5px 10px;       /* Reduced padding (vertical: 5px, horizontal: 10px) */
   border-radius: 5px;
   font-size: 16px;
   color: #333;
   user-select: none;
   min-width: 80px;
   text-align: center;
-  margin-right: 10px; /* Space between grey box and extras */
+  margin-right: 10px;
   flex-shrink: 0;
 }
-.concentration-extras {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.concentration-extras input {
+  width: 60px;
+  padding: 3px;   /* Reduced padding */
+  font-size: 16px;
+  text-align: right;
 }
 
 .concentration-extras input {
