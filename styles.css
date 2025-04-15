@@ -424,7 +424,6 @@ input[type=number] {
   color: #333;
   user-select: none;
   min-width: 80px;
-  text-align: center;
   margin-right: 10px; /* Space between grey box and extras */
   flex-shrink: 0;
 }
