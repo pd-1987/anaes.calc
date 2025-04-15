@@ -8,27 +8,27 @@
   <style>
     /* Drug selection button styling matching your la-buttons style */
     .la-buttons button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 5px;
-      padding: 10px 16px;
-      font-size: 16px;
-      font-weight: bold;
-      background-color: #f3e6fb;
-      border: 1px solid #d3a4f0;
-      border-radius: 15px;
-      color: #7a29b6;
-      min-width: 120px;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
-    .la-buttons button.selected-drug {
-      background-color: #e1c6f5;
-      border-color: #b76bf2;
-      box-shadow: 0 0 0 3px white, 0 0 0 5px #b76bf2;
-    }
-    
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f0f0f0; /* grey background */
+  border: 1px solid #ccc;    /* grey border */
+  border-radius: 15px;
+  color: #333;               /* dark grey text */
+  min-width: 120px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.la-buttons button.selected-drug {
+  background-color: #575757; /* darker grey when active */
+  color: white;
+  border-color: #575757;
+}
     /* Dose bubble styling */
     .dose-options {
   display: flex;
