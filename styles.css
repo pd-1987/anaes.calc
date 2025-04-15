@@ -485,8 +485,9 @@ input[type=number] {
       margin: 15px;
     }
     .la-buttons button {
+      flex: 1;
       font-size: 16px;
-        margin: 0 5px;
+      margin: 0 5px;
       padding: 10px;
       cursor: pointer;
       border: none;
