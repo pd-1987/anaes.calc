@@ -153,10 +153,16 @@
   </div>
 </div>
 
-<!-- Dose Summary Section -->
-<div class="dose-summary">
-  <p>Total dose given: <span id="totalDoseGiven">0</span> mg</p>
-  <p>Dose remaining: <span id="doseRemaining">0</span> mg</p>
+<!-- Dose Summary Section (Styled like Maximum Bolus) -->
+<div class="max-safe-dose">
+  <strong>Total dose given:</strong>
+  <span id="totalDoseGiven">0</span>
+  <span class="unit">mg</span>
+</div>
+<div class="max-safe-dose">
+  <strong>Dose remaining:</strong>
+  <span id="doseRemaining">0</span>
+  <span class="unit">mg</span>
 </div>
 
     <!-- Home and Reset Buttons -->
@@ -285,32 +291,55 @@ function updateTotalAndRemaining() {
   });
   document.getElementById('totalDoseGiven').textContent = Math.round(totalDose);
   
-  // Use the maximum safe dose (from your earlier calculation) as the upper limit.
-  // Make sure the element with id "maxSafeDose" exists and contains a numeric value.
+  // Retrieve maximum safe dose from the element with id "maxSafeDose"
+  // (Assuming you have this element defined elsewhere on your page.)
   const maxSafeDoseText = document.getElementById('maxSafeDose').textContent;
   const maxSafeDose = parseFloat(maxSafeDoseText) || 0;
-  let doseRemaining = maxSafeDose - totalDose;
-  if (doseRemaining < 0) {
-    doseRemaining = 0;
-  }
+  
+  // Allow negative values for dose remaining
+  const doseRemaining = maxSafeDose - totalDose;
   document.getElementById('doseRemaining').textContent = Math.round(doseRemaining);
 }
+
       // Attach event listeners.
     document.getElementById("weight").addEventListener("input", function() {
       updateMaxSafeDose();
     });
       
         // --- Reset and Home Buttons ---      
-    function resetCalculator() {
-      document.getElementById("weight").value = "";
-      weightUnit = "kg";
-      document.getElementById("weightUnitBtn").textContent = "kg";
-        document.getElementById("bupivacaineBtn").classList.remove("active");
-      document.getElementById("levobupivacaineBtn").classList.remove("active");
-      document.getElementById("ropivacaineBtn").classList.remove("active");
-        document.getElementById("maxSafeDose").textContent = "";
-      maxBolusValue = 0;
+   function resetCalculator() {
+  // Reset weight and its unit.
+  document.getElementById("weight").value = "";
+  weightUnit = "kg";
+  document.getElementById("weightUnitBtn").textContent = "kg";
+  
+  // Reset the local anesthetic button states.
+  document.getElementById("bupivacaineBtn").classList.remove("active");
+  document.getElementById("levobupivacaineBtn").classList.remove("active");
+  document.getElementById("ropivacaineBtn").classList.remove("active");
+  
+  // Reset the maximum safe dose display.
+  document.getElementById("maxSafeDose").textContent = "";
+  
+  // Reset concentration inputs and their associated blue dose bubbles.
+  const concInputs = document.querySelectorAll('.concentration-boxes input');
+  concInputs.forEach(function(input) {
+    input.value = "";
+    // Reset the blue bubble to "0 mg"
+    const bubble = input.parentElement.querySelector(".bubble");
+    if (bubble) {
+      bubble.textContent = "0 mg";
     }
+  });
+  
+  // Reset the total dose calculations.
+  document.getElementById("totalDoseGiven").textContent = "0";
+  document.getElementById("doseRemaining").textContent = "0";
+  
+  // If you have a global maxBolusValue, reset it as well.
+  maxBolusValue = 0;
+}
+
 function goHome() {
     window.location.href = "index.html";
   }
