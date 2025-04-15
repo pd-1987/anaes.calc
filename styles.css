@@ -467,6 +467,13 @@ input[type=number] {
   font-weight: bold;
   color: #333;
 }
+.max-safe-dose {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin: 20px 0;
+}
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
