@@ -261,8 +261,7 @@ function updateDose(inputElement) {
   const concentration = parseFloat(inputElement.dataset.concentration); // concentration in %
   const mg = ml * concentration * 10; // Conversion: 1% = 10 mg/ml
   const bubble = inputElement.parentElement.querySelector('.bubble');
-  bubble.textContent = `${Math.round(mg)} mg`;
-  
+  bubble.textContent = `${mg.toFixed(2)} mg`; 
   updateTotalAndRemaining();
 }
  
