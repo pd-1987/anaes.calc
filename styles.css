@@ -398,6 +398,21 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+/* Concentration Boxes */
+.concentration-boxes {
+  margin: 20px 0;
+}
+
+.concentration-boxes div {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  user-select: none;
+}
 
 /* Responsive Styles */
 @media (max-width: 600px) {
