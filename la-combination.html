@@ -183,6 +183,7 @@
  
   <script>
     let weightUnit = "kg";
+      let maxBolusValue = 0;
     
            // --- Local Anaesthetic Selection (toggleable) ---
     function selectLA(selectedLA) {
@@ -298,19 +299,23 @@ function updateDose(inputElement) {
       updateMaxSafeDose();
     });
       
-        // --- Reset and Home Buttons ---      
-   function resetCalculator() {
-  // Reset weight and its unit.
+       function resetCalculator() {
+  // Reset weight.
   document.getElementById("weight").value = "";
-  weightUnit = "kg";
-  document.getElementById("weightUnitBtn").textContent = "kg";
+  
+  // If you have a weight unit toggle button, reset it;
+  // otherwise, remove or comment out these lines.
+  if (document.getElementById("weightUnitBtn")) {
+    weightUnit = "kg";
+    document.getElementById("weightUnitBtn").textContent = "kg";
+  }
   
   // Reset the local anesthetic button states.
   document.getElementById("bupivacaineBtn").classList.remove("active");
   document.getElementById("levobupivacaineBtn").classList.remove("active");
   document.getElementById("ropivacaineBtn").classList.remove("active");
   
-  // Reset the maximum safe dose display.
+  // Reset the Maximum Bolus display.
   document.getElementById("maxSafeDose").textContent = "0";
   
   // Reset concentration inputs and their associated blue dose bubbles.
@@ -324,11 +329,11 @@ function updateDose(inputElement) {
     }
   });
   
-  // Reset the total dose calculations.
+  // Reset the Total Dose Given and Dose Remaining calculations.
   document.getElementById("totalDoseGiven").textContent = "0";
   document.getElementById("doseRemaining").textContent = "0";
   
-  // If you have a global maxBolusValue, reset it as well.
+  // Reset a global maxBolusValue if defined.
   maxBolusValue = 0;
 }
 
