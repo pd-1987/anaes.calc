@@ -78,66 +78,76 @@
     <span class="unit">mg</span>
   </div>
 
-   <!-- Local Anaesthetic Concentrations -->
+  <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
 <div class="concentration-boxes">
+  <!-- Each row includes: grey label, input box, ml unit, and blue dose bubble -->
   <div class="concentration-row">
     <div class="concentration-label">0.1%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-01" />
+      <input type="number" min="0" max="999" data-concentration="0.1" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.125%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-0125" />
+      <input type="number" min="0" max="999" data-concentration="0.125" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.2%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-02" />
+      <input type="number" min="0" max="999" data-concentration="0.2" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.25%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-025" />
+      <input type="number" min="0" max="999" data-concentration="0.25" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.375%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-0375" />
+      <input type="number" min="0" max="999" data-concentration="0.375" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.5%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-05" />
+      <input type="number" min="0" max="999" data-concentration="0.5" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">0.75%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-075" />
+      <input type="number" min="0" max="999" data-concentration="0.75" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
   <div class="concentration-row">
     <div class="concentration-label">1%</div>
     <div class="concentration-input">
-      <input type="number" min="0" max="999" id="input-1" />
+      <input type="number" min="0" max="999" data-concentration="1" oninput="updateDose(this)" />
       <span class="unit-label">ml</span>
+      <span class="bubble">0 mg</span>
     </div>
   </div>
 </div>
-      <!-- Home and Reset Buttons -->
+
+    <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button class="reset-btn" onclick="resetCalculator()">Reset</button>
     <button class="home-btn" onclick="goHome()">Home</button>
@@ -241,7 +251,14 @@
   maxBolusValue = finalDose;
   document.getElementById("maxSafeDose").textContent = finalDose;
 }
+function updateDose(inputElement) {
+  const ml = parseFloat(inputElement.value) || 0;
+  const concentration = parseFloat(inputElement.dataset.concentration); // in %
+  const mg = ml * (concentration * 10); // 1% = 10mg/ml
 
+  const bubble = inputElement.parentElement.querySelector(".bubble");
+  bubble.textContent = `${Math.round(mg)} mg`;
+}
       // Attach event listeners.
     document.getElementById("weight").addEventListener("input", function() {
       updateMaxSafeDose();
