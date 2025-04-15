@@ -282,10 +282,10 @@
           
     function resetCalculator() {
       document.getElementById("weight").value = "";
-      document.getElementById("bupivacaineBtn").classList.remove("active");
-      document.getElementById("levobupivacaineBtn").classList.remove("active");
-      document.getElementById("ropivacaineBtn").classList.remove("active");
-      document.querySelector('.concentration-boxes').style.display = "none";
+      //document.getElementById("bupivacaineBtn").classList.remove("active");
+      //document.getElementById("levobupivacaineBtn").classList.remove("active");
+      //document.getElementById("ropivacaineBtn").classList.remove("active");
+      //document.querySelector('.concentration-boxes').style.display = "none";
       document.getElementById("maxSafeDose").textContent = "0";
       maxBolusValue = 0;
       
@@ -300,6 +300,7 @@
       
       document.getElementById("totalDoseGiven").textContent = "0";
       document.getElementById("doseRemaining").textContent = "0";
+      document.getElementById("doseRemaining").classList.remove("negative");
     }
     
     function goHome() {
