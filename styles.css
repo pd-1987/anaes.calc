@@ -417,7 +417,6 @@ input[type=number] {
 }
 .concentration-label {
   background-color: #f0f0f0;  /* Grey background only for the concentration text */
-  text-align: left;
   padding: 10px 15px;
   border-radius: 5px;
   font-size: 16px;
