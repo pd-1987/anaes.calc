@@ -31,30 +31,36 @@
     
     /* Dose bubble styling */
     .dose-options {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .dose-bubble {
-      background: linear-gradient(135deg, #e75480, #a64ca6); /* pink/purple gradient */
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 10px 16px;
-      cursor: pointer;
-      text-align: center;
-      min-width: 120px;
-    }
-    .dose-bubble small {
-      display: block;
-      font-size: 0.75rem;
-      color: #f8e8ff;
-    }
-    .dose-bubble.selected {
-      box-shadow: 0 0 0 3px white, 0 0 0 5px #a64ca6;
-    }
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.dose-bubble {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: #f3e6fb;       /* Light purple background */
+  border: 1px solid #d3a4f0;       /* Soft purple border */
+  border-radius: 15px;
+  color: #7a29b6;                /* Deep purple text */
+  cursor: pointer;
+  text-align: center;
+}
+
+.dose-bubble small {
+  display: block;
+  font-size: 0.75rem;
+  color: #7a29b6;
+}
+
+.dose-bubble.selected {
+  background-color: #7a29b6;     /* Active state background purple */
+  color: white;                  /* Active state text color */
+  border-color: #7a29b6;         /* Active state border */
+}
   </style>
 </head>
 <body>
