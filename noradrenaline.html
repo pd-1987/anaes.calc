@@ -5,6 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noradrenaline calculator</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .active-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .dose-options {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .dose-bubble {
+      background: linear-gradient(135deg, #e75480, #a64ca6); /* pink/purple gradient */
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 16px;
+      cursor: pointer;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .dose-bubble small {
+      display: block;
+      font-size: 0.75rem;
+      color: #f8e8ff;
+    }
+
+    .dose-bubble.selected {
+      box-shadow: 0 0 0 3px white, 0 0 0 5px #a64ca6;
+    }
+  </style>
 </head>
 <body>
   <!-- Header with Title -->
@@ -12,23 +47,35 @@
     Noradrenaline calculator
   </header>
 
- <!-- Weight Entry Group -->
+  <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
     <input type="number" id="weight" placeholder="0" min="0">
   </div>
   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
 
- <!-- Noradrenaline/Adrenaline selection buttons -->
+  <!-- Noradrenaline/Adrenaline selection buttons -->
   <div class="la-buttons">
-    <button id="NoradBtn" onclick="selectNA('Noradrenaline')">
-      Noradrenaline
-    </button>
-    <button id="AdBtn" onclick="selectAD('Adrenaline')">
-      Adrenaline
-    </button>
+    <button id="NoradBtn" onclick="selectDrug('Noradrenaline')">Noradrenaline</button>
+    <button id="AdBtn" onclick="selectDrug('Adrenaline')">Adrenaline</button>
   </div>
-  
+
+  <!-- Dose Bubbles -->
+  <div class="dose-options">
+    <div class="dose-bubble" onclick="selectDose(this)">
+      4mg in 50ml
+      <small>0.08 mg/mL</small>
+    </div>
+    <div class="dose-bubble" onclick="selectDose(this)">
+      8mg in 50ml
+      <small>0.16 mg/mL</small>
+    </div>
+    <div class="dose-bubble" onclick="selectDose(this)">
+      16mg in 50ml
+      <small>0.32 mg/mL</small>
+    </div>
+  </div>
+
   <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -37,11 +84,73 @@
 
   <!-- Footer -->
   <footer>
-     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
+    <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
+
+  <!-- Scripts -->
   <script>
-function goHome() {
+  let selectedDrug = null;
+  let selectedDose = null;
+
+  const doseData = {
+    "4mg in 50ml": 0.08,
+    "8mg in 50ml": 0.16,
+    "16mg in 50ml": 0.32
+  };
+
+  function goHome() {
     window.location.href = "index.html";
+  }
+
+  function selectDrug(drug) {
+    selectedDrug = drug;
+
+    const noradBtn = document.getElementById('NoradBtn');
+    const adBtn = document.getElementById('AdBtn');
+
+    noradBtn.classList.toggle('active-btn', drug === 'Noradrenaline');
+    adBtn.classList.toggle('active-btn', drug === 'Adrenaline');
+  }
+
+  function selectDose(element) {
+    // Clear all previous selections
+    document.querySelectorAll('.dose-bubble').forEach(bubble => {
+      bubble.classList.remove('selected');
+    });
+
+    // Highlight selected
+    element.classList.add('selected');
+
+    // Extract text and update selected dose
+    const label = element.childNodes[0].textContent.trim();
+    selectedDose = {
+      label: label,
+      concentration: doseData[label]
+    };
+
+    console.log("Selected:", selectedDose); // Debugging
+  }
+
+  function resetForm() {
+    document.getElementById('weight').value = '';
+    document.getElementById('NoradBtn').classList.remove('active-btn');
+    document.getElementById('AdBtn').classList.remove('active-btn');
+    document.querySelectorAll('.dose-bubble').forEach(bubble => {
+      bubble.classList.remove('selected');
+    });
+
+    selectedDrug = null;
+    selectedDose = null;
+  }
+
+  // Example function to get selected values
+  function getSelectedInputs() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    return {
+      weight,
+      selectedDrug,
+      selectedDose
+    };
   }
 </script>
 </body>
