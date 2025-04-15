@@ -6,11 +6,30 @@
   <title>Noradrenaline calculator</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .active-btn {
-      background-color: #4CAF50;
-      color: white;
+    /* Drug selection button styling matching your la-buttons style */
+    .la-buttons button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px;
+      padding: 10px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #f3e6fb;
+      border: 1px solid #d3a4f0;
+      border-radius: 15px;
+      color: #7a29b6;
+      min-width: 120px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
     }
-
+    .la-buttons button.selected-drug {
+      background-color: #e1c6f5;
+      border-color: #b76bf2;
+      box-shadow: 0 0 0 3px white, 0 0 0 5px #b76bf2;
+    }
+    
+    /* Dose bubble styling */
     .dose-options {
       display: flex;
       gap: 10px;
@@ -18,7 +37,6 @@
       justify-content: center;
       flex-wrap: wrap;
     }
-
     .dose-bubble {
       background: linear-gradient(135deg, #e75480, #a64ca6); /* pink/purple gradient */
       color: white;
@@ -29,13 +47,11 @@
       text-align: center;
       min-width: 120px;
     }
-
     .dose-bubble small {
       display: block;
       font-size: 0.75rem;
       color: #f8e8ff;
     }
-
     .dose-bubble.selected {
       box-shadow: 0 0 0 3px white, 0 0 0 5px #a64ca6;
     }
@@ -88,84 +104,84 @@
   </footer>
 
   <!-- Scripts -->
-<script>
-  let selectedDrug = null;
-  let selectedDose = null;
+  <script>
+    let selectedDrug = null;
+    let selectedDose = null;
 
-  const doseData = {
-    "4mg in 50ml": 0.08,
-    "8mg in 50ml": 0.16,
-    "16mg in 50ml": 0.32
-  };
+    const doseData = {
+      "4mg in 50ml": 0.08,
+      "8mg in 50ml": 0.16,
+      "16mg in 50ml": 0.32
+    };
 
-  function goHome() {
-    window.location.href = "index.html";
-  }
-
-  function selectDrug(drug) {
-    const noradBtn = document.getElementById('NoradBtn');
-    const adBtn = document.getElementById('AdBtn');
-
-    if (selectedDrug === drug) {
-      // Deselect if already selected
-      selectedDrug = null;
-      noradBtn.classList.remove('active-btn');
-      adBtn.classList.remove('active-btn');
-    } else {
-      selectedDrug = drug;
-      noradBtn.classList.toggle('active-btn', drug === 'Noradrenaline');
-      adBtn.classList.toggle('active-btn', drug === 'Adrenaline');
+    function goHome() {
+      window.location.href = "index.html";
     }
-  }
 
-  function selectDose(element) {
-    const label = element.childNodes[0].textContent.trim();
+    function selectDrug(drug) {
+      const noradBtn = document.getElementById('NoradBtn');
+      const adBtn = document.getElementById('AdBtn');
 
-    if (selectedDose?.label === label) {
-      // Deselect if already selected
-      selectedDose = null;
-      element.classList.remove('selected');
-    } else {
-      // Clear other selections
+      if (selectedDrug === drug) {
+        // Deselect if already selected
+        selectedDrug = null;
+        noradBtn.classList.remove('selected-drug');
+        adBtn.classList.remove('selected-drug');
+      } else {
+        selectedDrug = drug;
+        noradBtn.classList.toggle('selected-drug', drug === 'Noradrenaline');
+        adBtn.classList.toggle('selected-drug', drug === 'Adrenaline');
+      }
+    }
+
+    function selectDose(element) {
+      const label = element.childNodes[0].textContent.trim();
+
+      if (selectedDose?.label === label) {
+        // Deselect if already selected
+        selectedDose = null;
+        element.classList.remove('selected');
+      } else {
+        // Clear other selections
+        document.querySelectorAll('.dose-bubble').forEach(bubble => {
+          bubble.classList.remove('selected');
+        });
+
+        // Highlight this one
+        element.classList.add('selected');
+        selectedDose = {
+          label: label,
+          concentration: doseData[label]
+        };
+      }
+    }
+
+    function resetForm() {
+      // Clear weight input (value and reset placeholder)
+      const weightInput = document.getElementById('weight');
+      weightInput.value = '';
+      weightInput.placeholder = '0';
+
+      // Clear drug selection
+      document.getElementById('NoradBtn').classList.remove('selected-drug');
+      document.getElementById('AdBtn').classList.remove('selected-drug');
+      selectedDrug = null;
+
+      // Clear dose selection
       document.querySelectorAll('.dose-bubble').forEach(bubble => {
         bubble.classList.remove('selected');
       });
+      selectedDose = null;
+    }
 
-      // Highlight this one
-      element.classList.add('selected');
-      selectedDose = {
-        label: label,
-        concentration: doseData[label]
+    function getSelectedInputs() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      return {
+        weight,
+        selectedDrug,
+        selectedDose
       };
     }
-  }
-
-  function resetForm() {
-    // Clear weight input and placeholder
-    const weightInput = document.getElementById('weight');
-    weightInput.value = '';
-    weightInput.placeholder = '0';
-
-    // Clear drug selection
-    document.getElementById('NoradBtn').classList.remove('active-btn');
-    document.getElementById('AdBtn').classList.remove('active-btn');
-    selectedDrug = null;
-
-    // Clear dose selection
-    document.querySelectorAll('.dose-bubble').forEach(bubble => {
-      bubble.classList.remove('selected');
-    });
-    selectedDose = null;
-  }
-
-  function getSelectedInputs() {
-    const weight = parseFloat(document.getElementById('weight').value);
-    return {
-      weight,
-      selectedDrug,
-      selectedDose
-    };
-  }
-</script>
+  </script>
 </body>
 </html>
