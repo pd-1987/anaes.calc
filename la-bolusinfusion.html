@@ -446,26 +446,33 @@
     });
     
     function resetCalculator() {
-      document.getElementById("weight").value = "";
-      weightUnit = "kg";
-      document.getElementById("weightUnitBtn").textContent = "kg";
-      
-      document.getElementById("bolusVolume").value = "";
-      document.getElementById("bolusDose").textContent = "0";
-      
-      document.getElementById("bupivacaineBtn").classList.remove("active");
-      document.getElementById("levobupivacaineBtn").classList.remove("active");
-      document.getElementById("ropivacaineBtn").classList.remove("active");
-      
-      document.querySelectorAll(".concentration-btn").forEach(btn => btn.classList.remove("active"));
-      document.querySelectorAll(".infusion-concentration-btn").forEach(btn => btn.classList.remove("active"));
-      
-      document.getElementById("maxSafeDose").textContent = "";
-      maxBolusValue = 0;
-      document.getElementById("maxInfRate4").textContent = "0.00";
-      document.getElementById("maxInfRate20").textContent = "0.00";
-      document.getElementById("thereafterRate").textContent = "0.00";
-    }
+  // Reset weight input.
+  document.getElementById("weight").value = "";
+  // Removed weightUnitBtn reference because it's not present on this page.
+  
+  // Reset bolus volume and bolus dose.
+  document.getElementById("bolusVolume").value = "";
+  document.getElementById("bolusDose").textContent = "0";
+  
+  // Reset local anesthetic (LA) selection buttons.
+  document.getElementById("bupivacaineBtn").classList.remove("active");
+  document.getElementById("levobupivacaineBtn").classList.remove("active");
+  document.getElementById("ropivacaineBtn").classList.remove("active");
+  
+  // Reset bolus concentration selection buttons.
+  document.querySelectorAll(".concentration-btn").forEach(btn => btn.classList.remove("active"));
+  // Reset infusion concentration selection buttons.
+  document.querySelectorAll(".infusion-concentration-btn").forEach(btn => btn.classList.remove("active"));
+  
+  // Reset Maximum Bolus display.
+  document.getElementById("maxSafeDose").textContent = "";
+  maxBolusValue = 0;
+  
+  // Reset infusion rate displays.
+  document.getElementById("maxInfRate4").textContent = "0.00";
+  document.getElementById("maxInfRate20").textContent = "0.00";
+  document.getElementById("thereafterRate").textContent = "0.00";
+}
     
     function goHome() {
       window.location.href = "index.html";
