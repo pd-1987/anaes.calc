@@ -474,6 +474,12 @@ input[type=number] {
   color: #333;
   margin: 20px 0;
 }
+.max-safe-dose + .max-safe-dose {
+  margin-top: 10px;
+}
+.negative {
+  color: darkred;
+}
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
@@ -494,7 +500,7 @@ input[type=number] {
 
   .input-group input {
     font-size: 14px;
-    width: 40px;
+    width: 50px;
     margin: 5px 0;
   }
 
