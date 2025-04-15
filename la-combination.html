@@ -78,7 +78,7 @@
     <span class="unit">mg</span>
   </div>
 
-  <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
+ <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
 <div class="concentration-boxes">
   <div class="concentration-row">
     <div class="concentration-label">0.1%</div>
@@ -259,12 +259,12 @@
 }
 function updateDose(inputElement) {
   const ml = parseFloat(inputElement.value) || 0;
-  const concentration = parseFloat(inputElement.dataset.concentration); // in %
-  const mg = ml * (concentration * 10); // 1% = 10mg/ml
-
-  const bubble = inputElement.parentElement.querySelector(".bubble");
+  const concentration = parseFloat(inputElement.dataset.concentration); // concentration in %
+  const mg = ml * concentration * 10; // Conversion: 1% = 10 mg/ml
+  const bubble = inputElement.parentElement.querySelector('.bubble');
   bubble.textContent = `${Math.round(mg)} mg`;
 }
+
       // Attach event listeners.
     document.getElementById("weight").addEventListener("input", function() {
       updateMaxSafeDose();
