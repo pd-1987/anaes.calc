@@ -251,9 +251,9 @@
     return;
   }
   
-  const finalDose = Math.round(Math.min(dose, cap));
-  maxBolusValue = finalDose;
-  document.getElementById("maxSafeDose").textContent = finalDose;
+  const finalDose = Math.min(dose, cap);
+maxBolusValue = finalDose;
+document.getElementById("maxSafeDose").textContent = finalDose.toFixed(2);
         
 }
 function updateDose(inputElement) {
@@ -276,7 +276,7 @@ function updateDose(inputElement) {
     const dose = ml * concentration * 10; // mg dose for this input (1% = 10 mg/ml)
     totalDose += dose;
   });
-  document.getElementById('totalDoseGiven').textContent = Math.round(totalDose);
+  document.getElementById('totalDoseGiven').textContent = totalDose.toFixed(2);
   
   // Retrieve maximum safe dose from the element with id "maxSafeDose"
   // (Ensure this element exists and contains a numeric value.)
@@ -286,7 +286,7 @@ function updateDose(inputElement) {
   // Calculate dose remaining (allow negative values)
   const doseRemaining = maxSafeDose - totalDose;
   const doseRemainingEl = document.getElementById('doseRemaining');
-  doseRemainingEl.textContent = Math.round(doseRemaining);
+ doseRemainingEl.textContent = doseRemaining.toFixed(2);
   
   // If the remaining dose is negative, add the 'negative' class; otherwise, remove it.
   if (doseRemaining < 0) {
