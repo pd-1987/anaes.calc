@@ -506,6 +506,42 @@ input[type=number] {
     .la-buttons button.active small {
       color: white;
     }
+    .dose-options {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .dose-bubble {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f3e6fb; /* light purple */
+  border: 1px solid #d3a4f0; /* soft purple border */
+  border-radius: 15px;
+  color: #7a29b6; /* deep purple text */
+  min-width: 100px;
+  min-height: 50px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.dose-bubble small {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: #9d6acb; /* softer purple subtext */
+}
+.dose-bubble.selected {
+  background-color: #e1c6f5;
+  border-color: #b76bf2;
+  box-shadow: 0 0 0 3px white, 0 0 0 5px #b76bf2;
+}
 /* Weight note */
     .input-note {
       font-size: 14px;
