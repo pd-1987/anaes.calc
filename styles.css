@@ -198,14 +198,12 @@ button.active small {
   min-height: 30px;
   line-height: 1;
 }
-
 /* Units and Miscellaneous Labels */
 .unit {
   margin-left: 2px;
   font-weight: normal;
   color: #555;
 }
-
 .spray-units,
 .ml-units {
   font-size: 16px;
@@ -435,7 +433,6 @@ input[type=number] {
   align-items: center;
   gap: 8px;
 }
-
 .concentration-extras input {
   width: 60px;
   padding: 5px;
