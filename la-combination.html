@@ -216,7 +216,9 @@
           levoBtn.classList.remove("active");
         }   
       }
-     updateMaxSafeDose(); // Trigger recalculation after selection
+          updateMaxSafeDose(); // Trigger recalculation after selection
+     updateTotalAndRemaining();
+
     }
 
       // --- Maximum Bolus Calculation ---
@@ -295,9 +297,11 @@ function updateDose(inputElement) {
 }
 
       // Attach event listeners.
-    document.getElementById("weight").addEventListener("input", function() {
-      updateMaxSafeDose();
-    });
+  document.getElementById("weight").addEventListener("input", function() {
+  updateMaxSafeDose();
+  updateTotalAndRemaining();
+});
+
       
        function resetCalculator() {
   // Reset weight.
