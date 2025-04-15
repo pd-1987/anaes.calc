@@ -417,6 +417,7 @@ input[type=number] {
 }
 .concentration-label {
   background-color: #f0f0f0;  /* Grey background only for the concentration text */
+  text-align: left;
   padding: 10px 15px;
   border-radius: 5px;
   font-size: 16px;
@@ -430,13 +431,14 @@ input[type=number] {
 .concentration-extras {
   display: flex;
   align-items: center;
+    justify-content: center;
   gap: 8px;
 }
 .concentration-extras input {
   width: 60px;
+  text-align: center;
   padding: 5px;
   font-size: 16px;
-  text-align: right;
 }
 .concentration-input {
   display: flex;
