@@ -199,21 +199,21 @@
   <!-- Maximum Infusion Rate for the First 4 Hours Display -->
   <div class="max-infusion-rate">
     <strong>Maximum infusion rate for the first 4 hours:</strong>
-    <span id="maxInfRate4">0.00</span>
+    <span id="maxInfRate4">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Maximum Infusion Rate for the Following 20 Hours Display -->
   <div class="max-infusion-rate">
     <strong>Maximum infusion rate for the following 20 hours:</strong>
-    <span id="maxInfRate20">0.00</span>
+    <span id="maxInfRate20">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Thereafter Infusion Rate Display -->
   <div class="thereafter-rate">
     <strong>Thereafter:</strong>
-    <span id="thereafterRate">0.00</span>
+    <span id="thereafterRate">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
@@ -394,17 +394,17 @@ updateInfusionRates();
       let weight = Math.max(parseFloat(weightStr), 0);
       // Only update if weight is provided and is at least 45kg.
       if (!weightStr || isNaN(weight) || weight < 45) {
-        document.getElementById("maxInfRate4").textContent = "0.00";
-        document.getElementById("maxInfRate20").textContent = "0.00";
-        document.getElementById("thereafterRate").textContent = "0.00";
+        document.getElementById("maxInfRate4").textContent = "0";
+        document.getElementById("maxInfRate20").textContent = "0";
+        document.getElementById("thereafterRate").textContent = "0";
         return;
       }
       
       const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
       if (!activeInfBtn) {
-        document.getElementById("maxInfRate4").textContent = "0.00";
-        document.getElementById("maxInfRate20").textContent = "0.00";
-        document.getElementById("thereafterRate").textContent = "0.00";
+        document.getElementById("maxInfRate4").textContent = "0";
+        document.getElementById("maxInfRate20").textContent = "0";
+        document.getElementById("thereafterRate").textContent = "0";
         return;
       }
       
@@ -470,9 +470,9 @@ updateInfusionRates();
   maxBolusValue = 0;
   
   // Reset infusion rate displays.
-  document.getElementById("maxInfRate4").textContent = "0.00";
-  document.getElementById("maxInfRate20").textContent = "0.00";
-  document.getElementById("thereafterRate").textContent = "0.00";
+  document.getElementById("maxInfRate4").textContent = "0";
+  document.getElementById("maxInfRate20").textContent = "0";
+  document.getElementById("thereafterRate").textContent = "0";
 }
     
     function goHome() {
