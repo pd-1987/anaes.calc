@@ -73,12 +73,12 @@
     if (selectedDrug === drug) {
       // Deselect if already selected
       selectedDrug = null;
-      noradBtn.classList.remove('active-btn');
-      adBtn.classList.remove('active-btn');
+      noradBtn.classList.remove('la-buttons button.active');
+      adBtn.classList.remove('la-buttons button.active');
     } else {
       selectedDrug = drug;
-      noradBtn.classList.toggle('active-btn', drug === 'Noradrenaline');
-      adBtn.classList.toggle('active-btn', drug === 'Adrenaline');
+      noradBtn.classList.toggle('la-buttons button.active', drug === 'Noradrenaline');
+      adBtn.classList.toggle('la-buttons button.active', drug === 'Adrenaline');
     }
   }
 
@@ -111,8 +111,8 @@
     weightInput.placeholder = '0';
 
     // Clear drug selection
-    document.getElementById('NoradBtn').classList.remove('active-btn');
-    document.getElementById('AdBtn').classList.remove('active-btn');
+    document.getElementById('NoradBtn').classList.remove('la-buttons button.active');
+    document.getElementById('AdBtn').classList.remove('la-buttons button.active');
     selectedDrug = null;
 
     // Clear dose selection
