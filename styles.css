@@ -400,7 +400,6 @@ input[type=number] {
 .concentration-boxes {
   margin-top: 20px;
 }
-
 .concentration-boxes div {
   background-color: #f0f0f0;
   color: #333;
@@ -504,6 +503,12 @@ input[type=number] {
     }
     .la-buttons button.active small {
       color: white;
+    }
+/* Weight note */
+    .input-note {
+      font-size: 14px;
+      color: #555;
+      margin: 0 15px 15px;
     }
 /* Responsive Styles */
 @media (max-width: 600px) {
