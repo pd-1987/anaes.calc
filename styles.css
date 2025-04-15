@@ -5,35 +5,7 @@ body {
   margin: auto;
   padding: 20px;
 }
-/* Banner container */
-.banner {
-  text-align: center;   /* Centers the content horizontally */
-  margin: 0 auto;       /* Centers the banner container */
-  padding: 0;           /* Remove default padding */
-  max-width: 100%;      /* Ensures the container can expand full width */
-  overflow: hidden;     /* Hides overflow from large images */
-}
 
-/* Banner image */
-.banner img {
-  max-width: 100%;      /* Scales the image to be responsive */
-  height: auto;         /* Maintains the image's aspect ratio */
-  display: block;       /* Removes inline-block gaps */
-  margin: 0 auto;       /* Centers the image within the banner */
-  border: none;
-  outline: none;
-}
-/* Header Banner */
-header.banner {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  text-align: center;
-  padding: 10px;      /* reduce the internal space */
-  margin: 10px 0;     /* reduce the vertical margins */
-  border: none;       /* if you want to keep no border */
-  font-size: 28px;
-  font-weight: bold;
-}
 h1 {
   text-align: center;
   font-size: 24px;
@@ -61,6 +33,20 @@ h3 {
   text-align: center;
   font-weight: bold;
 }
+
+/* Header Banner */
+header.banner {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
 /* Input Groups */
 .input-group {
   display: flex;
@@ -74,7 +60,7 @@ h3 {
 }
 
 .input-group input {
-  width: 80px;
+  width: 40px;
   padding: 5px;
   font-size: 16px;
   box-sizing: border-box;
@@ -119,7 +105,7 @@ h3 {
 .result {
   font-size: 18px;
   font-weight: bold;
-  color: #000;
+  color: #333;
   margin-top: 10px;
 }
 
@@ -325,52 +311,52 @@ footer a:hover {
 
 /* General – Dark Blue */
 .general-btn {
-  background-color: #4c4c4c;
+  background-color: #4A90E2;  /* Dark blue */
   color: white;
 }
 
 .general-btn:hover {
-  background-color: #4c4c4c;
+  background-color: #3C7DC2;  /* Slightly darker blue */
 }
 
-/* Airway */
+/* Airway – Dark Pink */
 .airway-btn {
-  background-color: #e31717;
+  background-color: #D6336C;  /* Dark pink */
   color: white;
 }
 
 .airway-btn:hover {
-  background-color: #e31717;
+  background-color: #B8235C;  /* Darker pink on hover */
 }
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: #029658;  /* Medium dark green */
+  background-color: #388E3C;  /* Medium dark green */
   color: white;
 }
 
 .regional-btn:hover {
-  background-color: #029658;  /* A little darker green */
+  background-color: #317734;  /* A little darker green */
 }
 
-/* Obstetrics */
+/* Obstetrics – Dark Purple */
 .obstetrics-btn {
-  background-color: #c78dbd;
+  background-color: #8E24AA;  /* Dark purple */
   color: white;
 }
 
 .obstetrics-btn:hover {
-  background-color: #c78dbd; 
+  background-color: #7B1FA2;  /* Slightly darker purple */
 }
 
-/* Critical Care */
+/* Critical Care – Dark Mustard/Amber */
 .critical-btn {
-  background-color: #4B0082;
+  background-color: #ff9d00;  /* Dark amber */
   color: white;
 }
 
 .critical-btn:hover {
-  background-color: #4B0082;
+  background-color: #E68A1B;  /* Slightly darker amber */
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
@@ -382,104 +368,7 @@ footer a:hover {
 .grey-btn:hover {
   background-color: #e0e0e0;
 }
-#lidocaineInput {
-      width: 40px;
-      padding: 5px;
-    }
 
-/* Remove spinners in Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Remove spinners in Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-/* Concentration Boxes */
- .concentration-boxes {
-      display: none;  /* Hidden by default */
-      margin-top: 20px;
-    }
-
-.concentration-boxes div {
-  background-color: #f0f0f0;
-  color: #333;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
-  user-select: none;
-}
-.concentration-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;  /* Reduced from 10px */
-}
-   .concentration-label {
-      background-color: #f0f0f0;
-      padding: 5px 5px;
-      border-radius: 5px;
-      font-size: 16px;
-      color: #333;
-      user-select: none;
-      min-width: 80px;
-      text-align: center;
-      margin-right: 5px;
-      flex-shrink: 0;
-    }
-  .concentration-extras {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-.concentration-extras input {
-  width: 30px;
-  padding: 2px;   /* Reduced padding */
-  font-size: 16px;
-  text-align: right;
-}
-.concentration-input {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.concentration-input input {
-  width: 60px;
-  padding: 5px;
-  font-size: 16px;
-  text-align: right;
-}
-
-.unit-label {
-  font-size: 14px;
-  color: #555;
-}
-/* Dose Summary Styling */
-.dose-summary {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-.max-safe-dose {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin: 20px 0;
-}
-.max-safe-dose + .max-safe-dose {
-  margin-top: 10px;
-}
-.negative {
-  color: darkred;
-}
 /* Responsive Styles */
 @media (max-width: 600px) {
   body {
@@ -500,7 +389,7 @@ input[type=number] {
 
   .input-group input {
     font-size: 14px;
-    width: 50px;
+    width: 40px;
     margin: 5px 0;
   }
 
@@ -538,10 +427,6 @@ input[type=number] {
   .gender-buttons button {
     margin: 5px;
   }
-  #lidocaineInput {
-      width: 20px;
-      padding: 2px;
-    }
 }
 
 /* Specific styling for the lidocaine section:
