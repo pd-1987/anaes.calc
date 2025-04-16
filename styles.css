@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
@@ -32,7 +33,7 @@ header.banner {
   padding: 10px 10px;
   margin: 0px 0 20px; /* top left&right bottom */
   border: none;       /* if you want to keep no border */
-  border-radius: 10px; /* adds smooth curved corners */
+  border-radius: 8px; /* adds smooth curved corners */
   font-size: 28px;
   font-weight: bold;
   font-family: 'Poppins', sans-serif;
@@ -349,7 +350,7 @@ footer a:hover {
 .airway-btn {
   background-color: #D32F2F;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .airway-btn:hover {
@@ -360,7 +361,7 @@ footer a:hover {
 .regional-btn {
   background-color: #388E3C;  /* Medium dark green */
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .regional-btn:hover {
@@ -371,7 +372,7 @@ footer a:hover {
 .obstetrics-btn {
   background-color: #c78dbd;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .obstetrics-btn:hover {
@@ -382,7 +383,7 @@ footer a:hover {
 .critical-btn {
   background-color: #4B0082;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .critical-btn:hover {
