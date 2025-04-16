@@ -9,6 +9,28 @@
     header.banner {
       background-color: #c78dbd;
     }
+    /* Example styling for input groups and result */
+    .input-group {
+      margin: 10px auto;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+    }
+    .input-group label {
+      margin-right: 10px;
+    }
+    .input-group input {
+      width: 100px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    .result {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px auto;
+    }
   </style>
 </head>
 <body>
@@ -18,15 +40,21 @@
   <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
-    <input type="number" id="weight" placeholder="0" min="0">
+    <input type="number" id="weight" placeholder="0" min="0" oninput="updateBloodVolume()">
   </div>
   
   <!-- BMI Entry Group -->
   <div class="input-group">
     <label for="bmi">BMI (kg/m²):</label>
-    <input type="number" id="bmi" placeholder="0" min="0" step="any">
+    <input type="number" id="bmi" placeholder="0" min="0" step="any" oninput="updateBloodVolume()">
   </div>
-
+  
+  <!-- Calculation Output for Circulating Blood Volume -->
+  <div class="result">
+    <strong>Circulating Blood Volume (ml):</strong>
+    <span id="bloodVolumeOutput">0</span>
+  </div>
+  
   <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -37,15 +65,33 @@
   <footer>
     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
+  
   <script>
     function goHome() {
       window.location.href = "index.html";
     }
     
+    function updateBloodVolume() {
+      // Retrieve the inputs
+      const weight = parseFloat(document.getElementById('weight').value) || 0;
+      const bmi = parseFloat(document.getElementById('bmi').value) || 0;
+      const output = document.getElementById('bloodVolumeOutput');
+
+      // Only calculate if both values are positive numbers
+      if (weight > 0 && bmi > 0) {
+        // Calculate using the modified Lemmen's formula:
+        // circulatingVolume = (95 / sqrt(BMI / 22)) * Weight
+        const volume = (95 / Math.sqrt(bmi / 22)) * weight;
+        output.textContent = volume.toFixed(2);
+      } else {
+        output.textContent = "0";
+      }
+    }
+    
     function resetForm() {
-      // Reset your fields here (if needed), for example:
       document.getElementById('weight').value = "";
       document.getElementById('bmi').value = "";
+      document.getElementById('bloodVolumeOutput').textContent = "0";
     }
   </script>
 </body>
