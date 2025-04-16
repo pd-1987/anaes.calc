@@ -9,7 +9,7 @@
     header.banner {
       background-color: #c78dbd;
     }
-    /* Example styling for input groups and result */
+    /* Simple styling for input groups and result */
     .input-group {
       margin: 10px auto;
       max-width: 300px;
@@ -31,6 +31,25 @@
       font-size: 18px;
       margin: 20px auto;
     }
+    /* Styling for the shock classification table */
+    table {
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 16px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+    }
+    th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -40,13 +59,13 @@
   <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
-    <input type="number" id="weight" placeholder="0" min="0" oninput="updateBloodVolume()">
+    <input type="number" id="weight" placeholder="0" min="0" oninput="updateCalculations()">
   </div>
   
   <!-- BMI Entry Group -->
   <div class="input-group">
     <label for="bmi">BMI (kg/m²):</label>
-    <input type="number" id="bmi" placeholder="0" min="0" step="any" oninput="updateBloodVolume()">
+    <input type="number" id="bmi" placeholder="0" min="0" step="any" oninput="updateCalculations()">
   </div>
   
   <!-- Calculation Output for Circulating Blood Volume -->
@@ -55,6 +74,35 @@
     <span id="bloodVolumeOutput">0</span>
   </div>
   
+  <!-- Classification of Haemorrhagic Shock -->
+  <p class="result"><strong>Classification of Haemorrhagic Shock</strong></p>
+  <table id="shockClassificationTable">
+    <thead>
+      <tr>
+        <th>Shock Class</th>
+        <th>Blood loss (ml)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Class I (< 15%)</td>
+        <td id="classI">-</td>
+      </tr>
+      <tr>
+        <td>Class II (15 - 30%)</td>
+        <td id="classII">-</td>
+      </tr>
+      <tr>
+        <td>Class III (30 - 40%)</td>
+        <td id="classIII">-</td>
+      </tr>
+      <tr>
+        <td>Class IV (> 40%)</td>
+        <td id="classIV">-</td>
+      </tr>
+    </tbody>
+  </table>
+
   <!-- Home and Reset Buttons -->
   <div class="button-container">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -67,31 +115,71 @@
   </footer>
   
   <script>
-    function goHome() {
-      window.location.href = "index.html";
+    // Helper to format numbers: show decimals only if needed.
+    function formatNumber(num) {
+      return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
     }
     
+    // Calculate circulating blood volume using modified Lemmen's formula:
+    // Circulating blood volume = (95 / sqrt(BMI / 22)) * Weight
     function updateBloodVolume() {
-      // Retrieve the inputs
       const weight = parseFloat(document.getElementById('weight').value) || 0;
       const bmi = parseFloat(document.getElementById('bmi').value) || 0;
       const output = document.getElementById('bloodVolumeOutput');
-
-      // Only calculate if both values are positive numbers
+      
       if (weight > 0 && bmi > 0) {
-        // Calculate using the modified Lemmen's formula:
-        // circulatingVolume = (95 / sqrt(BMI / 22)) * Weight
         const volume = (95 / Math.sqrt(bmi / 22)) * weight;
-        output.textContent = volume.toFixed(2);
+        output.textContent = formatNumber(volume);
+        updateShockClassification(volume);
       } else {
         output.textContent = "0";
+        clearShockClassification();
       }
+    }
+    
+    // Update the shock classification table based on circulating blood volume.
+    function updateShockClassification(volume) {
+      const classI = document.getElementById("classI");
+      const classII = document.getElementById("classII");
+      const classIII = document.getElementById("classIII");
+      const classIV = document.getElementById("classIV");
+      
+      // Calculate boundary values.
+      const classIVal = volume * 0.15;
+      const classII_low = volume * 0.15;
+      const classII_high = volume * 0.30;
+      const classIII_low = volume * 0.30;
+      const classIII_high = volume * 0.40;
+      const classIVVal = volume * 0.40;
+      
+      classI.textContent = "< " + formatNumber(classIVal);
+      classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high);
+      classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high);
+      classIV.textContent = "> " + formatNumber(classIVVal);
+    }
+    
+    // Clear the shock classification table.
+    function clearShockClassification() {
+      document.getElementById("classI").textContent = "-";
+      document.getElementById("classII").textContent = "-";
+      document.getElementById("classIII").textContent = "-";
+      document.getElementById("classIV").textContent = "-";
+    }
+    
+    // Update all calculations (circulating volume and shock classification)
+    function updateCalculations() {
+      updateBloodVolume();
     }
     
     function resetForm() {
       document.getElementById('weight').value = "";
       document.getElementById('bmi').value = "";
       document.getElementById('bloodVolumeOutput').textContent = "0";
+      clearShockClassification();
+    }
+    
+    function goHome() {
+      window.location.href = "index.html";
     }
   </script>
 </body>
