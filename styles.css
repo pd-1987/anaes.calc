@@ -422,11 +422,15 @@ input[type=number] {
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px; /* Optional: space between rows */
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width calculation */
+  padding: 0 10px;        /* Prevent child elements from touching the viewport edges */
 }
+/* Grey Boxes (Child Divs) */
 .concentration-boxes div {
-    display: flex;
+  display: flex;
   align-items: center;
-  justify-content: center; /* if you also want horizontal centering */
+  justify-content: center;
   background-color: #f0f0f0;
   color: #333;
   padding: 5px 10px;
@@ -435,11 +439,13 @@ input[type=number] {
   text-align: center;
   font-size: 16px;
   user-select: none;
+  box-sizing: border-box; /* Ensure padding is included */
+  max-width: 100%;        /* Prevent overflow */
 }
 .concentration-row {
   display: flex;
   margin-bottom: 10px;
-  justify-content: space-evenly; /* Evenly distributes the children across the horizontal space */
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   text-align: center;
