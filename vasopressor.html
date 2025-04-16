@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noradrenaline calculator</title>
+  <title>Vasopressor calculator</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Drug selection button styling matching your la-buttons style */
@@ -69,19 +69,18 @@
       display: flex;
       align-items: center;
       margin: 20px 0;
-      gap: 10px;
+      gap: 10px; /* optional: adjusts spacing between the items */
     }
-    .infusion-input-group input {
-      flex: 1;
-      padding: 5px;
-      font-size: 16px;
-    }
+.infusion-input-group input,
+.infusion-input-group button {
+  flex: 0 0 50%;  /* fixed width of 50% for each element */
+}    
   </style>
 </head>
 <body>
   <!-- Header with Title -->
   <header class="banner">
-    Noradrenaline calculator
+    Vasopressor calculator
   </header>
 
   <!-- Weight Entry Group -->
