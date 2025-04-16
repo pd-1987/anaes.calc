@@ -39,9 +39,26 @@
       background-color: #fff;
     }
     .classification-section p {
-  margin-top: 0;    /* Remove extra top margin */
-  margin-bottom: 10px; /* Or set to match the bottom spacing */
-}
+      margin-top: 0;    
+      margin-bottom: 10px;
+    }
+    /* New Box for Allowable Blood Loss */
+    .allowable-section {
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+    .allowable-section p {
+      margin: 0 0 10px 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
     /* Input groups within sections */
     .input-group {
       margin: 10px 0;
@@ -105,42 +122,60 @@
   
     <!-- Circulating Blood Volume Output -->
     <div class="result">
-      <strong>Circulating Blood Volume:</strong>
+      <strong>Circulating Blood Volume (ml):</strong><br>
       <span id="bloodVolumeOutput">0</span>
     </div>
   </div>
   
   <!-- Classification Section -->
   <div class="classification-section">
-    <p style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;">
-      Classification of Haemorrhagic Shock
-    </p>
-   <table id="shockClassificationTable">
-  <thead>
-    <tr>
-      <th>Shock Class</th>
-      <th>Blood loss</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Class I (<15%)</td>
-      <td id="classI">-</td>
-    </tr>
-    <tr>
-      <td>Class II (15–30%)</td>
-      <td id="classII">-</td>
-    </tr>
-    <tr>
-      <td>Class III (30–40%)</td>
-      <td id="classIII">-</td>
-    </tr>
-    <tr>
-      <td>Class IV (>40%)</td>
-      <td id="classIV">-</td>
-    </tr>
-  </tbody>
-</table>
+    <p>Classification of Haemorrhagic Shock</p>
+    <table id="shockClassificationTable">
+      <thead>
+        <tr>
+          <th>Shock Class</th>
+          <th>Blood loss</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Class I (<15%)</td>
+          <td id="classI">-</td>
+        </tr>
+        <tr>
+          <td>Class II (15–30%)</td>
+          <td id="classII">-</td>
+        </tr>
+        <tr>
+          <td>Class III (30–40%)</td>
+          <td id="classIII">-</td>
+        </tr>
+        <tr>
+          <td>Class IV (>40%)</td>
+          <td id="classIV">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Allowable Blood Loss Section -->
+  <div class="allowable-section">
+    <p>Estimated Allowable Blood Loss</p>
+    <!-- Starting Haemoglobin Input Group -->
+    <div class="input-group">
+      <label for="startingHb">Starting haemoglobin (g/dL):</label>
+      <input type="number" id="startingHb" placeholder="0" min="0" step="any" oninput="updateAllowableBloodLoss()">
+    </div>
+    <!-- Transfusion Trigger Input Group -->
+    <div class="input-group">
+      <label for="transfusionTrigger">Transfusion trigger (g/dL):</label>
+      <input type="number" id="transfusionTrigger" placeholder="0" min="0" step="any" oninput="updateAllowableBloodLoss()">
+    </div>
+    <!-- Allowable Blood Loss Output -->
+    <div class="result">
+      <strong>Allowable blood loss:</strong><br>
+      <span id="allowableBloodLossOutput">0</span>
+    </div>
   </div>
   
   <!-- Home and Reset Buttons -->
@@ -155,55 +190,54 @@
   </footer>
   
   <script>
-    // Helper to format numbers
+    // Global variable to store circulating blood volume
+    let circulatingVolume = 0;
+    
+    // Helper to format numbers with zero decimals
     function formatNumber(num) {
-      return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
+      return num.toFixed(0);
     }
-
+    
     // Calculate circulating blood volume using modified Lemmen's formula:
     // Circulating blood volume = (95 / sqrt(BMI / 22)) * Weight
     function updateBloodVolume() {
-  const weight = parseFloat(document.getElementById('weight').value) || 0;
-  const bmi = parseFloat(document.getElementById('bmi').value) || 0;
-  const output = document.getElementById('bloodVolumeOutput');
-  
-  if (weight > 0 && bmi > 0) {
-    const volume = (95 / Math.sqrt(bmi / 22)) * weight;
-    // Update the circulating blood volume result to 0 decimals.
-    output.textContent = formatNumber(volume) + " ml";
-    updateShockClassification(volume);
-  } else {
-    output.textContent = "0";
-    clearShockClassification();
-  }
-}    
-    // Updated helper function to format numbers with zero decimal places
-function formatNumber(num) {
-  return num.toFixed(0);
-}
-
-// Update the shock classification table based on circulating blood volume.
-function updateShockClassification(volume) {
-  const classI = document.getElementById("classI");
-  const classII = document.getElementById("classII");
-  const classIII = document.getElementById("classIII");
-  const classIV = document.getElementById("classIV");
-  
-  // Calculate the boundary values
-  const classIVal = volume * 0.15;
-  const classII_low = volume * 0.15;
-  const classII_high = volume * 0.30;
-  const classIII_low = volume * 0.30;
-  const classIII_high = volume * 0.40;
-  const classIVVal = volume * 0.40;
-  
-  // Append " ml" to each result.
-  classI.textContent = "< " + formatNumber(classIVal) + " ml";
-  classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high) + " ml";
-  classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high) + " ml";
-  classIV.textContent = "> " + formatNumber(classIVVal) + " ml";
-}
-
+      const weight = parseFloat(document.getElementById('weight').value) || 0;
+      const bmi = parseFloat(document.getElementById('bmi').value) || 0;
+      const output = document.getElementById('bloodVolumeOutput');
+      
+      if (weight > 0 && bmi > 0) {
+        const volume = (95 / Math.sqrt(bmi / 22)) * weight;
+        circulatingVolume = volume; // store for use in allowable blood loss calculation
+        output.textContent = formatNumber(volume);
+        updateShockClassification(volume);
+      } else {
+        circulatingVolume = 0;
+        output.textContent = "0";
+        clearShockClassification();
+      }
+      // Also update the allowable blood loss if values exist
+      updateAllowableBloodLoss();
+    }
+    
+    // Update the shock classification table based on circulating blood volume.
+    function updateShockClassification(volume) {
+      const classI = document.getElementById("classI");
+      const classII = document.getElementById("classII");
+      const classIII = document.getElementById("classIII");
+      const classIV = document.getElementById("classIV");
+      
+      const classIVal = volume * 0.15;
+      const classII_low = volume * 0.15;
+      const classII_high = volume * 0.30;
+      const classIII_low = volume * 0.30;
+      const classIII_high = volume * 0.40;
+      const classIVVal = volume * 0.40;
+      
+      classI.textContent = "< " + formatNumber(classIVal) + " ml";
+      classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high) + " ml";
+      classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high) + " ml";
+      classIV.textContent = "> " + formatNumber(classIVVal) + " ml";
+    }
     
     function clearShockClassification() {
       document.getElementById("classI").textContent = "-";
@@ -212,6 +246,22 @@ function updateShockClassification(volume) {
       document.getElementById("classIV").textContent = "-";
     }
     
+    // Update allowable blood loss based on the new inputs and circulating blood volume.
+    // Formula: ((startingHb - transfusionTrigger) / startingHb) * circulatingVolume
+    function updateAllowableBloodLoss() {
+  const startingHb = parseFloat(document.getElementById('startingHb').value) || 0;
+  const transfusionTrigger = parseFloat(document.getElementById('transfusionTrigger').value) || 0;
+  const output = document.getElementById('allowableBloodLossOutput');
+  
+  if (startingHb > 0 && transfusionTrigger > 0 && circulatingVolume > 0) {
+    const ratio = (startingHb - transfusionTrigger) / startingHb;
+    const allowableLoss = ratio * circulatingVolume;
+    output.textContent = formatNumber(allowableLoss) + " ml";
+  } else {
+    output.textContent = "0";
+  }
+}    
+    // Update all calculations
     function updateCalculations() {
       updateBloodVolume();
     }
@@ -221,6 +271,10 @@ function updateShockClassification(volume) {
       document.getElementById('bmi').value = "";
       document.getElementById('bloodVolumeOutput').textContent = "0";
       clearShockClassification();
+      document.getElementById('startingHb').value = "";
+      document.getElementById('transfusionTrigger').value = "";
+      document.getElementById('allowableBloodLossOutput').textContent = "0";
+      circulatingVolume = 0;
     }
     
     function goHome() {
