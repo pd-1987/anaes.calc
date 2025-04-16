@@ -28,7 +28,7 @@ header.banner {
   background-color: #4c4c4c;
   color: white;
   text-align: center;
-  padding: 10px;      /* reduce the internal space */
+  padding: 20px 10px;
   margin: 10px 0;     /* reduce the vertical margins */
   border: none;       /* if you want to keep no border */
   border-radius: 10px; /* adds smooth curved corners */
