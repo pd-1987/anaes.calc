@@ -29,7 +29,7 @@ header.banner {
   color: white;
   text-align: center;
   padding: 20px 10px;
-  margin: 20px 0;     /* reduce the vertical margins */
+  margin: 10px 0 20px; /* top left&right bottom */
   border: none;       /* if you want to keep no border */
   border-radius: 10px; /* adds smooth curved corners */
   font-size: 28px;
