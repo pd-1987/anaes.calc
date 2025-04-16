@@ -35,7 +35,7 @@ header.banner {
   border-radius: 8px; /* adds smooth curved corners */
   font-size: 28px;
   font-family: 'Poppins', sans-serif;
-  font-weight: bold;
+  font-weight: 400;
 }
 header.banner small {
   font-size: 12px; /* or any size you like */
