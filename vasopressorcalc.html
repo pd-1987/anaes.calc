@@ -197,14 +197,24 @@
 
     // Toggle button function to switch between ml/hr and mcg/kg/min
     function toggleUnit() {
-      const unitToggle = document.getElementById("unitToggle");
-      if (unitToggle.textContent === "ml/hr") {
-        unitToggle.textContent = "mcg/kg/min";
-      } else {
-        unitToggle.textContent = "ml/hr";
-      }
-      updateInfusionRate();
-    }
+  const unitToggle = document.getElementById("unitToggle");
+  const infusionInput = document.getElementById("infusionInput");
+  
+  // Reset the number entry box if it has any value
+  if (infusionInput.value !== "") {
+    infusionInput.value = "";
+  }
+  
+  // Toggle the unit text between "ml/hr" and "mcg/kg/min"
+  if (unitToggle.textContent === "ml/hr") {
+    unitToggle.textContent = "mcg/kg/min";
+  } else {
+    unitToggle.textContent = "ml/hr";
+  }
+  
+  // Optionally call the update function to clear the infusion rate display
+  updateInfusionRate();
+}
 
     // Function to update the calculated infusion rate
     function updateInfusionRate() {
