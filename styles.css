@@ -31,6 +31,7 @@ header.banner {
   padding: 10px;      /* reduce the internal space */
   margin: 10px 0;     /* reduce the vertical margins */
   border: none;       /* if you want to keep no border */
+  border-radius: 10px; /* adds smooth curved corners */
   font-size: 28px;
   font-weight: bold;
 }
