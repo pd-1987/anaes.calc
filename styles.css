@@ -42,7 +42,7 @@ header.banner small {
   /* font-size: 0.75em; Adjust the value as needed */
 }
 header.banner div {
-  margin-top: 5px;
+  margin-top: 0px;
   padding: 0;
   line-height: 1;
 }
