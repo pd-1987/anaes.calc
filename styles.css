@@ -324,32 +324,32 @@ footer a:hover {
 
 /* General
 .general-btn {
-  background-color: #0000ff;
+  background-color: #1976D2;
   color: white;
 }
 
 .general-btn:hover {
-  background-color: #4c4c4c;
+  background-color: #1976D2;
 }
 
 /* Airway */
 .airway-btn {
-  background-color: #e31717;
+  background-color: #D32F2F;
   color: white;
 }
 
 .airway-btn:hover {
-  background-color: #e31717;
+  background-color: #D32F2F;
 }
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: #029658;  /* Medium dark green */
+  background-color: #388E3C;  /* Medium dark green */
   color: white;
 }
 
 .regional-btn:hover {
-  background-color: #029658;  /* A little darker green */
+  background-color: #388E3C;  /* A little darker green */
 }
 
 /* Obstetrics */
