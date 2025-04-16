@@ -25,8 +25,8 @@ body {
 }
 /* Header Banner */
 header.banner {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  background-color: #4c4c4c;
+  color: white;
   text-align: center;
   padding: 10px;      /* reduce the internal space */
   margin: 10px 0;     /* reduce the vertical margins */
@@ -321,7 +321,7 @@ footer a:hover {
 
 /* Darker Colours for Category-Specific Buttons */
 
-/* General – Dark Blue */
+/* General
 .general-btn {
   background-color: #4c4c4c;
   color: white;
