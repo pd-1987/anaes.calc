@@ -115,32 +115,32 @@
     <p style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;">
       Classification of Haemorrhagic Shock
     </p>
-    <table id="shockClassificationTable">
-      <thead>
-        <tr>
-          <th>Shock Class</th>
-          <th>Blood loss (ml)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Class I (<15%)</td>
-          <td id="classI">-</td>
-        </tr>
-        <tr>
-          <td>Class II (15–30%)</td>
-          <td id="classII">-</td>
-        </tr>
-        <tr>
-          <td>Class III (30–40%)</td>
-          <td id="classIII">-</td>
-        </tr>
-        <tr>
-          <td>Class IV (>40%)</td>
-          <td id="classIV">-</td>
-        </tr>
-      </tbody>
-    </table>
+   <table id="shockClassificationTable">
+  <thead>
+    <tr>
+      <th>Shock Class</th>
+      <th>Blood loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Class I (<15%)</td>
+      <td id="classI">-</td>
+    </tr>
+    <tr>
+      <td>Class II (15–30%)</td>
+      <td id="classII">-</td>
+    </tr>
+    <tr>
+      <td>Class III (30–40%)</td>
+      <td id="classIII">-</td>
+    </tr>
+    <tr>
+      <td>Class IV (>40%)</td>
+      <td id="classIV">-</td>
+    </tr>
+  </tbody>
+</table>
   </div>
   
   <!-- Home and Reset Buttons -->
@@ -159,43 +159,51 @@
     function formatNumber(num) {
       return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
     }
-    
+
     // Calculate circulating blood volume using modified Lemmen's formula:
     // Circulating blood volume = (95 / sqrt(BMI / 22)) * Weight
     function updateBloodVolume() {
-      const weight = parseFloat(document.getElementById('weight').value) || 0;
-      const bmi = parseFloat(document.getElementById('bmi').value) || 0;
-      const output = document.getElementById('bloodVolumeOutput');
-      
-      if (weight > 0 && bmi > 0) {
-        const volume = (95 / Math.sqrt(bmi / 22)) * weight;
-        output.textContent = formatNumber(volume);
-        updateShockClassification(volume);
-      } else {
-        output.textContent = "0";
-        clearShockClassification();
-      }
-    }
-    
-    // Update the shock classification table based on circulating blood volume.
-    function updateShockClassification(volume) {
-      const classI = document.getElementById("classI");
-      const classII = document.getElementById("classII");
-      const classIII = document.getElementById("classIII");
-      const classIV = document.getElementById("classIV");
-      
-      const classIVal = volume * 0.15;
-      const classII_low = volume * 0.15;
-      const classII_high = volume * 0.30;
-      const classIII_low = volume * 0.30;
-      const classIII_high = volume * 0.40;
-      const classIVVal = volume * 0.40;
-      
-      classI.textContent = "< " + formatNumber(classIVal);
-      classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high);
-      classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high);
-      classIV.textContent = "> " + formatNumber(classIVVal);
-    }
+  const weight = parseFloat(document.getElementById('weight').value) || 0;
+  const bmi = parseFloat(document.getElementById('bmi').value) || 0;
+  const output = document.getElementById('bloodVolumeOutput');
+  
+  if (weight > 0 && bmi > 0) {
+    const volume = (95 / Math.sqrt(bmi / 22)) * weight;
+    // Update the circulating blood volume result to 0 decimals.
+    output.textContent = formatNumber(volume); // The label already includes "(ml)" so no need to append " ml"
+    updateShockClassification(volume);
+  } else {
+    output.textContent = "0";
+    clearShockClassification();
+  }
+}    
+    // Updated helper function to format numbers with zero decimal places
+function formatNumber(num) {
+  return num.toFixed(0);
+}
+
+// Update the shock classification table based on circulating blood volume.
+function updateShockClassification(volume) {
+  const classI = document.getElementById("classI");
+  const classII = document.getElementById("classII");
+  const classIII = document.getElementById("classIII");
+  const classIV = document.getElementById("classIV");
+  
+  // Calculate the boundary values
+  const classIVal = volume * 0.15;
+  const classII_low = volume * 0.15;
+  const classII_high = volume * 0.30;
+  const classIII_low = volume * 0.30;
+  const classIII_high = volume * 0.40;
+  const classIVVal = volume * 0.40;
+  
+  // Append " ml" to each result.
+  classI.textContent = "< " + formatNumber(classIVal) + " ml";
+  classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high) + " ml";
+  classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high) + " ml";
+  classIV.textContent = "> " + formatNumber(classIVVal) + " ml";
+}
+
     
     function clearShockClassification() {
       document.getElementById("classI").textContent = "-";
