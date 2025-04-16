@@ -421,11 +421,12 @@ input[type=number] {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px; /* Optional: space between rows */
+  gap: 15px;
   width: 100%;
-  box-sizing: border-box; /* Include padding in width calculation */
-  padding: 0 10px;        /* Prevent child elements from touching the viewport edges */
+  box-sizing: border-box;
+  padding: 0 10px;
 }
+
 /* Grey Boxes (Child Divs) */
 .concentration-boxes div {
   display: flex;
@@ -439,9 +440,12 @@ input[type=number] {
   text-align: center;
   font-size: 16px;
   user-select: none;
-  box-sizing: border-box; /* Ensure padding is included */
-  max-width: 100%;        /* Prevent overflow */
+  box-sizing: border-box;
+  max-width: 100%;
+  line-height: 1;
 }
+
+/* Concentration Row */
 .concentration-row {
   display: flex;
   margin-bottom: 10px;
@@ -450,21 +454,25 @@ input[type=number] {
   width: 100%;
   text-align: center;
 }
+
+/* Concentration Label */
 .concentration-label {
-  background-color: #f0f0f0;  /* Grey background only for the concentration text */
-  padding: 10px 15px;
+  background-color: #f0f0f0;
+  padding: 5px 10px;  /* Reduced vertical padding for alignment */
   border-radius: 5px;
   font-size: 16px;
   color: #333;
   user-select: none;
   min-width: 80px;
-  margin-right: 10px; /* Space between grey box and extras */
+  margin-right: 10px;
   flex-shrink: 0;
 }
+
+/* Concentration Extras */
 .concentration-extras {
   display: flex;
   align-items: center;
-    justify-content: center;
+  justify-content: center;
   gap: 8px;
 }
 .concentration-extras input {
@@ -473,12 +481,13 @@ input[type=number] {
   padding: 5px;
   font-size: 16px;
 }
+
+/* Concentration Input Group (if used) */
 .concentration-input {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-
 .concentration-input input {
   width: 60px;
   padding: 5px;
