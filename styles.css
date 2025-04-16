@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
@@ -34,6 +35,7 @@ header.banner {
   border-radius: 10px; /* adds smooth curved corners */
   font-size: 28px;
   font-weight: bold;
+  font-family: 'Poppins', sans-serif;
 }
 h1 {
   text-align: center;
