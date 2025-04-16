@@ -52,6 +52,7 @@ h1 {
   border-bottom: 1px solid black;
   padding-bottom: 10px; /* spacing between text and border */
   margin-bottom: 10px;  /* spacing between border and next element */
+  font-family: 'Poppins', sans-serif;
 }
 
 h2 {
