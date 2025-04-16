@@ -68,22 +68,27 @@
     }
 
     /* Infusion input group styling */
-    .infusion-input-group {
-      display: flex;
-      align-items: center;
-      margin: 20px 0;
-      gap: 10px; /* optional: adjusts spacing between the items */
-    }
-    .infusion-input-group input,
-.infusion-input-group button {
-  flex: 0 0 calc(50% - 5px); /* subtract half the gap */
-  font-size: 16px;
-  box-sizing: border-box; /* ensures padding and borders are included in the width */
-}
     .infusion-label {
   font-size: 16px;
   font-weight: bold;
 }
+    .infusion-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto;    /* centers the container horizontally */
+  width: 100%;
+  max-width: 240px;     /* limit overall width to a size similar to your buttons */
+}
+
+.infusion-input-group input,
+.infusion-input-group button {
+  width: 48%;           /* almost equal halves, leaving a small space */
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;  /* include padding in the width */
+}
+
   </style>
 </head>
 <body>
