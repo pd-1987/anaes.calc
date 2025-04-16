@@ -125,7 +125,7 @@
   
     <!-- Circulating Blood Volume Output -->
     <div class="result">
-      <strong>Circulating Blood Volume (ml):</strong>
+      <strong>Circulating Blood Volume:</strong>
       <span id="bloodVolumeOutput">0</span>
     </div>
   </div>
@@ -211,7 +211,7 @@
       if (weight > 0 && bmi > 0) {
         const volume = (95 / Math.sqrt(bmi / 22)) * weight;
         circulatingVolume = volume; // store for use in allowable blood loss calculation
-        output.textContent = formatNumber(volume);
+        output.textContent = formatNumber(volume) + " ml";
         updateShockClassification(volume);
       } else {
         circulatingVolume = 0;
