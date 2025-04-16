@@ -25,11 +25,11 @@ body {
 }
 /* Header Banner */
 header.banner {
-  background-color: #757575;
+  background-color: #333333;
   color: white;
   text-align: center;
   padding: 20px 10px;
-  margin: 10px 0 20px; /* top left&right bottom */
+  margin: 0px 0 20px; /* top left&right bottom */
   border: none;       /* if you want to keep no border */
   border-radius: 10px; /* adds smooth curved corners */
   font-size: 28px;
