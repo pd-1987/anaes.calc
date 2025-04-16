@@ -8,61 +8,74 @@
   <style>
     /* Drug selection button styling matching your la-buttons style */
     .la-buttons button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px;
-  padding: 10px 16px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #f0f0f0; /* grey background */
-  border: 1px solid #ccc;    /* grey border */
-  border-radius: 15px;
-  color: #333;               /* dark grey text */
-  min-width: 120px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px;
+      padding: 10px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #f0f0f0; /* grey background */
+      border: 1px solid #ccc;    /* grey border */
+      border-radius: 15px;
+      color: #333;               /* dark grey text */
+      min-width: 120px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
 
-.la-buttons button.selected-drug {
-  background-color: #575757; /* darker grey when active */
-  color: white;
-  border-color: #575757;
-}
+    .la-buttons button.selected-drug {
+      background-color: #575757; /* darker grey when active */
+      color: white;
+      border-color: #575757;
+    }
     /* Dose bubble styling */
     .dose-options {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-  flex-wrap: wrap;
-}
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
 
-.dose-bubble {
-  flex: 1;
-  margin: 0 5px;
-  padding: 8px 12px;
-  font-size: 16px;
-  background-color: #f3e6fb;       /* Light purple background */
-  border: 1px solid #d3a4f0;       /* Soft purple border */
-  border-radius: 15px;
-  color: #7a29b6;                /* Deep purple text */
-  cursor: pointer;
-  text-align: center;
-}
+    .dose-bubble {
+      flex: 1;
+      margin: 0 5px;
+      padding: 8px 12px;
+      font-size: 16px;
+      background-color: #f3e6fb;       /* Light purple background */
+      border: 1px solid #d3a4f0;       /* Soft purple border */
+      border-radius: 15px;
+      color: #7a29b6;                /* Deep purple text */
+      cursor: pointer;
+      text-align: center;
+    }
 
-.dose-bubble small {
-  display: block;
-  font-size: 0.75rem;
-  color: #7a29b6;
-}
-.dose-bubble.selected small {
-  color: white; /* Change to white when the bubble is active */
-}
-.dose-bubble.selected {
-  background-color: #7a29b6;     /* Active state background purple */
-  color: white;                  /* Active state text color */
-  border-color: #7a29b6;         /* Active state border */
-}
+    .dose-bubble small {
+      display: block;
+      font-size: 0.75rem;
+      color: #7a29b6;
+    }
+    .dose-bubble.selected small {
+      color: white; /* Change to white when the bubble is active */
+    }
+    .dose-bubble.selected {
+      background-color: #7a29b6;     /* Active state background purple */
+      color: white;                  /* Active state text color */
+      border-color: #7a29b6;         /* Active state border */
+    }
+
+    /* Infusion input group styling */
+    .infusion-input-group {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+    .infusion-input-group input {
+      flex: 1;
+      padding: 5px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -74,7 +87,8 @@
   <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
-    <input type="number" id="weight" placeholder="0" min="0">
+    <!-- Added oninput to trigger a recalculation when weight is changed -->
+    <input type="number" id="weight" placeholder="0" min="0" oninput="updateInfusionRate()">
   </div>
   <p class="input-note">Use ideal body weight if BMI ≥ 35 kg/m²</p>
 
@@ -99,6 +113,14 @@
       <small>0.32 mg/mL</small>
     </div>
   </div>
+
+  <!-- Infusion Input Group -->
+  <div class="infusion-input-group">
+    <input type="number" id="infusionInput" placeholder="0" step="any" oninput="updateInfusionRate()">
+    <!-- Toggle button styled using .unit-toggle -->
+    <button type="button" id="unitToggle" class="unit-toggle" onclick="toggleUnit()">ml/hr</button>
+  </div>
+  <p>Infusion rate: <span id="infusionRateDisplay">--</span></p>
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
@@ -154,13 +176,52 @@
         document.querySelectorAll('.dose-bubble').forEach(bubble => {
           bubble.classList.remove('selected');
         });
-
         // Highlight this one
         element.classList.add('selected');
         selectedDose = {
           label: label,
           concentration: doseData[label]
         };
+      }
+      // Update the infusion rate calculation when dose changes
+      updateInfusionRate();
+    }
+
+    // Toggle button function to switch between ml/hr and mcg/kg/min
+    function toggleUnit() {
+      const unitToggle = document.getElementById("unitToggle");
+      if (unitToggle.textContent === "ml/hr") {
+        unitToggle.textContent = "mcg/kg/min";
+      } else {
+        unitToggle.textContent = "ml/hr";
+      }
+      updateInfusionRate();
+    }
+
+    // Function to update the calculated infusion rate
+    function updateInfusionRate() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const infusionVal = parseFloat(document.getElementById('infusionInput').value);
+      const infusionDisplay = document.getElementById('infusionRateDisplay');
+      const unit = document.getElementById("unitToggle").textContent; // current input unit
+
+      // Check if needed values are provided and a dose has been selected
+      if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
+        infusionDisplay.textContent = "--";
+        return;
+      }
+      
+      let result;
+      if(unit === "ml/hr") {
+        // Convert ml/hr to mcg/kg/min:
+        // (ml/hr * concentration (mg/mL) * 1000) / (weight (kg) * 60)
+        result = (infusionVal * selectedDose.concentration * 1000) / (weight * 60);
+        infusionDisplay.textContent = result.toFixed(2) + " mcg/kg/min";
+      } else {
+        // Convert mcg/kg/min to ml/hr:
+        // (mcg/kg/min * weight (kg) * 60) / (concentration (mg/mL) * 1000)
+        result = (infusionVal * weight * 60) / (selectedDose.concentration * 1000);
+        infusionDisplay.textContent = result.toFixed(2) + " ml/hr";
       }
     }
 
@@ -180,15 +241,11 @@
         bubble.classList.remove('selected');
       });
       selectedDose = null;
-    }
-
-    function getSelectedInputs() {
-      const weight = parseFloat(document.getElementById('weight').value);
-      return {
-        weight,
-        selectedDrug,
-        selectedDose
-      };
+      
+      // Clear infusion input and reset toggle
+      document.getElementById('infusionInput').value = '';
+      document.getElementById('unitToggle').textContent = 'ml/hr';
+      document.getElementById('infusionRateDisplay').textContent = '--';
     }
   </script>
 </body>
