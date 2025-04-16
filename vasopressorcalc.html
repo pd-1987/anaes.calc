@@ -74,11 +74,16 @@
       margin: 20px 0;
       gap: 10px; /* optional: adjusts spacing between the items */
     }
-.infusion-input-group input,
+    .infusion-input-group input,
 .infusion-input-group button {
-  flex: 0 0 50%;  /* fixed width of 50% for each element */
+  flex: 0 0 calc(50% - 5px); /* subtract half the gap */
   font-size: 16px;
-}    
+  box-sizing: border-box; /* ensures padding and borders are included in the width */
+}
+    .infusion-label {
+  font-size: 16px;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -123,7 +128,7 @@
     <!-- Toggle button styled using .unit-toggle -->
     <button type="button" id="unitToggle" class="unit-toggle" onclick="toggleUnit()">ml/hr</button>
   </div>
-  <p>Infusion rate: <span id="infusionRateDisplay">--</span></p>
+  <p class="infusion-label">Infusion rate: <span id="infusionRateDisplay">--</span></p>
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
