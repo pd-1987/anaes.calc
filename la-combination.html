@@ -17,7 +17,7 @@
 </head>
 <body>
   <!-- Header with Title -->
-  <header class="banner">Local Anaesthetic Combination Calculator</header>
+  <header class="banner">LA Combination Calculator</header>
  
   <!-- Weight Entry Group -->
   <div class="input-group">
@@ -214,34 +214,41 @@
     
     // --- Maximum Bolus Calculation ---
     function updateMaxSafeDose() {
-      const weightStr = document.getElementById("weight").value;
-      let weight = parseFloat(weightStr) || 0;
-      const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
-      let dose = 0;
-      let cap = Infinity;
-      const bupBtn = document.getElementById("bupivacaineBtn");
-      const levoBtn = document.getElementById("levobupivacaineBtn");
-      const ropiBtn = document.getElementById("ropivacaineBtn");
-      
-      if (bupBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 175;
-      } else if (levoBtn.classList.contains("active")) {
-        dose = 2 * weightKg;
-        cap = 200;
-      } else if (ropiBtn.classList.contains("active")) {
-        dose = 3 * weightKg;
-        cap = 200;
-      } else {
-        document.getElementById("maxSafeDose").textContent = "0";
-        maxBolusValue = 0;
-        return;
-      }
-      
-      const finalDose = Math.min(dose, cap);
-      maxBolusValue = finalDose;
-      document.getElementById("maxSafeDose").textContent = formatNumber(finalDose);
-    }
+  const weightStr = document.getElementById("weight").value;
+  // If the weight is empty, set the max safe dose to "0" and exit the function
+  if (weightStr.trim() === "") {
+    document.getElementById("maxSafeDose").textContent = "0";
+    maxBolusValue = 0;
+    return;
+  }
+
+  let weight = parseFloat(weightStr) || 0;
+  const weightKg = (weightUnit === "kg") ? weight : (weight / 2.20462);
+  let dose = 0;
+  let cap = Infinity;
+  const bupBtn = document.getElementById("bupivacaineBtn");
+  const levoBtn = document.getElementById("levobupivacaineBtn");
+  const ropiBtn = document.getElementById("ropivacaineBtn");
+  
+  if (bupBtn.classList.contains("active")) {
+    dose = 2 * weightKg;
+    cap = 175;
+  } else if (levoBtn.classList.contains("active")) {
+    dose = 2 * weightKg;
+    cap = 200;
+  } else if (ropiBtn.classList.contains("active")) {
+    dose = 3 * weightKg;
+    cap = 200;
+  } else {
+    document.getElementById("maxSafeDose").textContent = "0";
+    maxBolusValue = 0;
+    return;
+  }
+  
+  const finalDose = Math.min(dose, cap);
+  maxBolusValue = finalDose;
+  document.getElementById("maxSafeDose").textContent = formatNumber(finalDose);
+}
     
     // --- Update the blue bubble dose based on volume input ---
     function updateDose(inputElement) {
