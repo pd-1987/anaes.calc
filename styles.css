@@ -424,6 +424,9 @@ input[type=number] {
   gap: 15px; /* Optional: space between rows */
 }
 .concentration-boxes div {
+    display: flex;
+  align-items: center;
+  justify-content: center; /* if you also want horizontal centering */
   background-color: #f0f0f0;
   color: #333;
   padding: 5px 10px;
