@@ -332,6 +332,7 @@ footer a:hover {
 .general-btn {
   background-color: #1976D2;
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .general-btn:hover {
@@ -342,6 +343,7 @@ footer a:hover {
 .airway-btn {
   background-color: #D32F2F;
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .airway-btn:hover {
@@ -352,6 +354,7 @@ footer a:hover {
 .regional-btn {
   background-color: #388E3C;  /* Medium dark green */
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .regional-btn:hover {
@@ -362,6 +365,7 @@ footer a:hover {
 .obstetrics-btn {
   background-color: #c78dbd;
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .obstetrics-btn:hover {
@@ -372,6 +376,7 @@ footer a:hover {
 .critical-btn {
   background-color: #4B0082;
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .critical-btn:hover {
