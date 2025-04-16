@@ -418,6 +418,10 @@ input[type=number] {
 /* Concentration Boxes */
 .concentration-boxes {
   margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px; /* Optional: space between rows */
 }
 .concentration-boxes div {
   background-color: #f0f0f0;
@@ -431,8 +435,11 @@ input[type=number] {
 }
 .concentration-row {
   display: flex;
-  align-items: center;
   margin-bottom: 10px;
+  justify-content: space-evenly; /* Evenly distributes the children across the horizontal space */
+  align-items: center;
+  width: 100%;
+  text-align: center;
 }
 .concentration-label {
   background-color: #f0f0f0;  /* Grey background only for the concentration text */
