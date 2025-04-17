@@ -127,7 +127,7 @@
     <!-- Circulating Blood Volume Output -->
     <div class="result">
       <strong>Circulating Blood Volume:</strong>
-      <span id="bloodVolumeOutput">0 ml</span>
+      <span id="bloodVolumeOutput">0</span>
     </div>
   </div>
   
@@ -198,7 +198,7 @@
         circulatingVolume = 0;
         output.textContent = "0";
         clearShockClassification();
-      }    
+      }}    
     // Update the shock classification table based on circulating blood volume.
     function updateShockClassification(volume) {
       const classI = document.getElementById("classI");
