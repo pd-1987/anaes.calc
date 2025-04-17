@@ -175,7 +175,7 @@
   
   <script>
     // Global variable to store circulating blood volume
-    let circulatingVolume = "-";
+    let circulatingVolume = "0";
     
     // Helper to format numbers with zero decimals
     function formatNumber(num) {
@@ -236,7 +236,7 @@
       document.getElementById('bmi').value = "";
       document.getElementById('bloodVolumeOutput').textContent = "0";
       clearShockClassification();
-      circulatingVolume = "-";
+      circulatingVolume = "0";
     }
     
     function goHome() {
