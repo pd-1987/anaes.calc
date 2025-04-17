@@ -127,7 +127,7 @@
     <!-- Circulating Blood Volume Output -->
     <div class="result">
       <strong>Circulating Blood Volume:</strong>
-      <span id="bloodVolumeOutput">0</span>
+      <span id="bloodVolumeOutput">0 ml</span>
     </div>
   </div>
   
@@ -175,7 +175,7 @@
   
   <script>
     // Global variable to store circulating blood volume
-    let circulatingVolume = 0;
+    let circulatingVolume = "-";
     
     // Helper to format numbers with zero decimals
     function formatNumber(num) {
@@ -198,11 +198,7 @@
         circulatingVolume = 0;
         output.textContent = "0";
         clearShockClassification();
-      }
-      // Also update the allowable blood loss if values exist
-      updateAllowableBloodLoss();
-    }
-    
+      }    
     // Update the shock classification table based on circulating blood volume.
     function updateShockClassification(volume) {
       const classI = document.getElementById("classI");
@@ -230,21 +226,6 @@
       document.getElementById("classIV").textContent = "-";
     }
     
-    // Update allowable blood loss based on the new inputs and circulating blood volume.
-    // Formula: ((startingHb - transfusionTrigger) / startingHb) * circulatingVolume
-    function updateAllowableBloodLoss() {
-  const startingHb = parseFloat(document.getElementById('startingHb').value) || 0;
-  const transfusionTrigger = parseFloat(document.getElementById('transfusionTrigger').value) || 0;
-  const output = document.getElementById('allowableBloodLossOutput');
-  
-  if (startingHb > 0 && transfusionTrigger > 0 && circulatingVolume > 0) {
-    const ratio = (startingHb - transfusionTrigger) / startingHb;
-    const allowableLoss = ratio * circulatingVolume;
-    output.textContent = formatNumber(allowableLoss) + " ml";
-  } else {
-    output.textContent = "0";
-  }
-}    
     // Update all calculations
     function updateCalculations() {
       updateBloodVolume();
@@ -255,10 +236,7 @@
       document.getElementById('bmi').value = "";
       document.getElementById('bloodVolumeOutput').textContent = "0";
       clearShockClassification();
-      document.getElementById('startingHb').value = "";
-      document.getElementById('transfusionTrigger').value = "";
-      document.getElementById('allowableBloodLossOutput').textContent = "0";
-      circulatingVolume = 0;
+      circulatingVolume = "-";
     }
     
     function goHome() {
