@@ -127,7 +127,7 @@
     <!-- Circulating Blood Volume Output -->
     <div class="result">
       <strong>Circulating Blood Volume:</strong>
-      <span id="bloodVolumeOutput">0</span>
+      <span id="bloodVolumeOutput">-</span>
     </div>
   </div>
   
@@ -175,7 +175,7 @@
   
   <script>
     // Global variable to store circulating blood volume
-    let circulatingVolume = 0;
+    let circulatingVolume = null;
     
     // Helper to format numbers with zero decimals
     function formatNumber(num) {
@@ -196,9 +196,9 @@
         updateShockClassification(volume);
       } else {
         circulatingVolume = 0;
-        output.textContent = "0";
+        output.textContent = "-";
         clearShockClassification();
-      }
+      }}
     
     // Update the shock classification table based on circulating blood volume.
     function updateShockClassification(volume) {
@@ -235,9 +235,9 @@
     function resetForm() {
       document.getElementById('weight').value = "";
       document.getElementById('bmi').value = "";
-      document.getElementById('bloodVolumeOutput').textContent = "0";
+      document.getElementById('bloodVolumeOutput').textContent = "-";
       clearShockClassification();
-      circulatingVolume = 0;
+      circulatingVolume = null;
     }
     
     function goHome() {
