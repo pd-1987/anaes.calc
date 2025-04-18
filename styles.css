@@ -541,7 +541,6 @@ input[type=number] {
       display: flex;
       justify-content: space-around;
       margin: 15px;
-      border: 1px solid #ccc;
     }
     .la-buttons button {
       flex: 1;
@@ -549,6 +548,7 @@ input[type=number] {
       margin: 0 5px;
       padding: 10px;
       cursor: pointer;
+       border: 1px solid #ccc;
       border-radius: 5px;
       background-color: #f0f0f0;
       transition: background-color 0.2s ease;
