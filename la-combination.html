@@ -244,16 +244,26 @@
   }
 
   // — Sum up all concentrations and update “Total dose” & “Remaining” —
-  function updateTotalAndRemaining() {
-    let total = 0;
-    document.querySelectorAll('.concentration-extras input').forEach(i => {
-      const ml = parseFloat(i.value) || 0;
-      const conc = parseFloat(i.dataset.concentration);
-      total += ml * conc * 10;
-    });
-    document.getElementById('totalDoseGiven').textContent = formatNumber(total);
-    document.getElementById('doseRemaining').textContent = formatNumber(maxSafeDose - total);
+function updateTotalAndRemaining() {
+  let total = 0;
+  document.querySelectorAll('.concentration-extras input').forEach(i => {
+    const ml   = parseFloat(i.value) || 0;
+    const conc = parseFloat(i.dataset.concentration);
+    total += ml * conc * 10;
+  });
+
+  document.getElementById('totalDoseGiven').textContent = formatNumber(total);
+
+  const remaining = maxSafeDose - total;
+  const remEl    = document.getElementById('doseRemaining');
+  remEl.textContent = formatNumber(remaining);
+
+  if (remaining < 0) {
+    remEl.classList.add('negative');
+  } else {
+    remEl.classList.remove('negative');
   }
+}
 
   // — Reset everything to the initial state —
   function resetCalculator() {
