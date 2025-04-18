@@ -38,7 +38,7 @@ header.banner {
   font-weight: 700;
 }
 header.banner small {
-  font-size: 12px; /* or any size you like */
+  font-size: 8px; /* or any size you like */
   /* font-size: 0.75em; Adjust the value as needed */
 }
 header.banner div {
