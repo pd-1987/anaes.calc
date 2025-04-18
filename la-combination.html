@@ -288,13 +288,14 @@
     
     // --- Update the blue bubble dose based on volume input ---
     function updateDose(inputElement) {
-      const ml = parseFloat(inputElement.value) || 0;
-      const concentration = parseFloat(inputElement.dataset.concentration);
-      const mg = ml * concentration * 10; // 1% = 10 mg/ml
-      const bubble = inputElement.parentElement.querySelector('.bubble');
-      bubble.textContent = `${formatNumber(mg)} mg`;
-      updateTotalAndRemaining();
-    }
+  const ml = parseFloat(inputElement.value) || 0;
+  const concentration = parseFloat(inputElement.dataset.concentration);
+  const mg = ml * concentration * 10; // 1% = 10 mg/ml
+  const bubble = inputElement.parentElement.querySelector('.bubble');
+  bubble.querySelector('.bubble-value').textContent = formatNumber(mg);
+  // leave the .unit span untouched
+  updateTotalAndRemaining();
+}
      
     // --- Update total dose and dose remaining ---
     function updateTotalAndRemaining() {
