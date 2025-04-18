@@ -172,30 +172,17 @@
   </footer>
 
   <script>
-  // Helper to format numbers
+  // — Utility to format numbers (no decimals if whole, else two places) —
   function formatNumber(num) {
     return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
   }
 
-  // Calculate maximum lidocaine dose
-  function calculateResults() {
-    const lbw = parseFloat(document.getElementById('leanBodyWeight').value) || 0;
-    const max = lbw * 9;
-    document.getElementById('maximumDose').textContent = formatNumber(max);
-    updateDoseRemaining(max);
-  }
+  // — State —
+  let maxSafeDose = 0;
 
-  // Update the “Dose Remaining” paragraph
-  function updateDoseRemaining(maximumDose) {
-    const remaining = maximumDose - totalDose;
-    const el = document.getElementById('doseRemaining');
-    el.textContent = formatNumber(remaining);
-    el.style.color = remaining < 0 ? 'darkred' : '';
-  }
-
-  // --- Concentration rows reset helper ---
+  // — Hide & clear all concentration rows —
   function resetConcentrationRows() {
-    document.querySelectorAll('.concentration-boxes .concentration-row').forEach(row => {
+    document.querySelectorAll('.concentration-row').forEach(row => {
       row.style.display = 'none';
       const input = row.querySelector('input');
       if (input) input.value = '';
@@ -204,129 +191,98 @@
     });
   }
 
-  // Toggle Co-phenylcaine
-  function toggleCoPhenylcaineDose() {
-    const btn = document.getElementById('coPhenylcaineButton');
-    coPhenylcaineDose = btn.classList.toggle('active') ? 125 : 0;
-    updateTotalDose();
-  }
+  // — Called by each LA button —
+  function selectLA(selectedLA) {
+    // clear previous
+    resetConcentrationRows();
+    document.querySelectorAll('.la-buttons button').forEach(b=>b.classList.remove('active'));
 
-  // Toggle Lidocaine spray inclusion
-  function toggleLidocaineSpray() {
-    const btn = document.getElementById('lidocaineSprayButton');
-    btn.classList.toggle('active');
-    updateLidocaineDose();
-  }
+    // mark this one active
+    const btn = document.getElementById(selectedLA.toLowerCase() + 'Btn');
+    btn.classList.add('active');
 
-  function updateLidocaineDose() {
-    const sprays = parseFloat(document.getElementById('lidocaineInput').value) || 0;
-    const dose = sprays * 10;
-    lidocaineDose = document.getElementById('lidocaineSprayButton').classList.contains('active') ? dose : 0;
-    document.getElementById('lidocaineOutput').textContent = Math.floor(dose);
-    updateTotalDose();
-  }
+    // reveal the concentration grid
+    document.querySelector('.concentration-boxes').style.display = 'flex';
 
-  function applyAdditionalLidocaineDose() {
-    const btn = document.getElementById('additionalLidocaineButton');
-    additionalLidocaineDose = btn.classList.toggle('active') ? 50 : 0;
-    updateTotalDose();
-  }
+    // compute new max safe dose
+    updateMaxSafeDose();
 
-  function toggleLidocaine2Dose() {
-    const btn = document.getElementById('lidocaine2Button');
-    lidocaine2Dose = btn.classList.toggle('active') ? 40 : 0;
-    updateTotalDose();
-  }
+    // show only the rows for this LA
+    const group = (selectedLA === 'Ropivacaine') ? 'ropi' : 'bl';
+    document.querySelectorAll(`.concentration-row.${group}`)
+      .forEach(r=> r.style.display = 'flex');
 
-  function toggleLidocaine2VocalDose() {
-    const btn = document.getElementById('lidocaine2VocalButton');
-    lidocaine2VocalDose = btn.classList.toggle('active') ? 40 : 0;
-    updateTotalDose();
-  }
-
-  function toggleLidocaine2BelowDose() {
-    const btn = document.getElementById('lidocaine2BelowButton');
-    lidocaine2BelowDose = btn.classList.toggle('active') ? 40 : 0;
-    updateTotalDose();
-  }
-
-  // Update single concentration bubble on input
-  function updateDose(inputEl) {
-    const ml = parseFloat(inputEl.value) || 0;
-    const conc = parseFloat(inputEl.dataset.concentration);
-    const mg = ml * conc * 10; // 1% = 10mg/ml
-    const bubbleValue = inputEl.parentNode.querySelector('.bubble .bubble-value');
-    if (bubbleValue) bubbleValue.textContent = formatNumber(mg);
+    // recalc totals
     updateTotalAndRemaining();
   }
 
-  // Recompute total & remaining (for concentration table)
+  // — Compute max safe bolus based on weight & selected LA —
+  function updateMaxSafeDose() {
+    const w = parseFloat(document.getElementById('weight').value) || 0;
+    let dose = 0, cap = Infinity;
+
+    if (document.getElementById('bupivacaineBtn').classList.contains('active')) {
+      dose = 2 * w; cap = 175;
+    } else if (document.getElementById('levobupivacaineBtn').classList.contains('active')) {
+      dose = 2 * w; cap = 200;
+    } else if (document.getElementById('ropivacaineBtn').classList.contains('active')) {
+      dose = 3 * w; cap = 200;
+    }
+
+    maxSafeDose = Math.min(dose, cap);
+    document.getElementById('maxSafeDose').textContent = formatNumber(maxSafeDose);
+  }
+
+  // — Update one concentration bubble when its input changes —
+  function updateDose(inputEl) {
+    const ml = parseFloat(inputEl.value) || 0;
+    const conc = parseFloat(inputEl.dataset.concentration);
+    const mg = ml * conc * 10;       // 1% = 10 mg/ml
+    inputEl.parentNode.querySelector('.bubble .bubble-value')
+           .textContent = formatNumber(mg);
+    updateTotalAndRemaining();
+  }
+
+  // — Sum up all concentrations and update “Total dose” & “Remaining” —
   function updateTotalAndRemaining() {
     let total = 0;
-    document.querySelectorAll('.concentration-boxes input').forEach(inp => {
-      const ml = parseFloat(inp.value) || 0;
-      const conc = parseFloat(inp.dataset.concentration);
+    document.querySelectorAll('.concentration-extras input').forEach(i => {
+      const ml = parseFloat(i.value) || 0;
+      const conc = parseFloat(i.dataset.concentration);
       total += ml * conc * 10;
     });
     document.getElementById('totalDoseGiven').textContent = formatNumber(total);
-    updateDoseRemaining(parseFloat(document.getElementById('maxSafeDose').textContent) || 0);
+    document.getElementById('doseRemaining').textContent = formatNumber(maxSafeDose - total);
   }
 
-  // Recompute overall total dose (for sprays/buttons)
-  function updateTotalDose() {
-    totalDose = coPhenylcaineDose
-              + lidocaineDose
-              + additionalLidocaineDose
-              + lidocaine2Dose
-              + lidocaine2VocalDose
-              + lidocaine2BelowDose;
-    document.getElementById('doseGiven').textContent = Math.floor(totalDose);
-    updateDoseRemaining(parseFloat(document.getElementById('maximumDose').textContent) || 0);
-  }
-
-  // Reset everything
+  // — Reset everything to the initial state —
   function resetCalculator() {
-    // Reset inputs & buttons
-    document.getElementById('leanBodyWeight').value = '';
+    // clear weight
+    document.getElementById('weight').value = '';
+    // clear LA buttons
+    document.querySelectorAll('.la-buttons button').forEach(b=>b.classList.remove('active'));
+    // hide & clear concentration rows
     resetConcentrationRows();
-    [ 'coPhenylcaineButton'
-    ,'lidocaineSprayButton'
-    ,'additionalLidocaineButton'
-    ,'lidocaine2Button'
-    ,'lidocaine2VocalButton'
-    ,'lidocaine2BelowButton'
-    ].forEach(id => document.getElementById(id).classList.remove('active'));
-
-    // Reset totals
-    document.getElementById('maximumDose').textContent = '0';
+    document.querySelector('.concentration-boxes').style.display = 'none';
+    // clear outputs
+    document.getElementById('maxSafeDose').textContent = '0';
     document.getElementById('totalDoseGiven').textContent = '0';
     document.getElementById('doseRemaining').textContent = '0';
-    document.getElementById('doseRemaining').style.color = '';
-    totalDose = coPhenylcaineDose = lidocaineDose =
-    additionalLidocaineDose = lidocaine2Dose =
-    lidocaine2VocalDose = lidocaine2BelowDose = 0;
+    maxSafeDose = 0;
   }
 
+  // — Go back home —
   function goHome() {
     window.location.href = 'index.html';
   }
 
-  // keep track of totals
-  let totalDose = 0,
-      coPhenylcaineDose = 0,
-      lidocaineDose = 0,
-      additionalLidocaineDose = 0,
-      lidocaine2Dose = 0,
-      lidocaine2VocalDose = 0,
-      lidocaine2BelowDose = 0;
-
-  // wire up events
-  document.getElementById('leanBodyWeight').addEventListener('input', calculateResults);
-  document.querySelector('.la-buttons').addEventListener('click', () => {
-    // automatically show the concentration boxes when any LA is toggled
-    document.querySelector('.concentration-boxes').style.display = 'block';
+  // — Wire up event listeners —
+  document.getElementById('weight').addEventListener('input', () => {
+    updateMaxSafeDose();
+    updateTotalAndRemaining();
   });
 </script>
+
 
  
 </body>
