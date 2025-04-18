@@ -36,9 +36,13 @@ header.banner {
   font-size: 28px;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
+  line-height: 1.2;
 }
 header.banner small {
   font-size: 8px; /* or any size you like */
+  display: block;             /* ensure it sits on its own line */
+  margin-top: 0;              /* remove the browser’s default gap */
+  line-height: 1;             /* tight line for the small text */
   /* font-size: 0.75em; Adjust the value as needed */
 }
 header.banner div {
