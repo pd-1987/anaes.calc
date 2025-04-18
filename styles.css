@@ -98,7 +98,17 @@ h3 {
   font-size: 16px;
   box-sizing: border-box;
 }
-
+/* Buttons */
+button {
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
 /* Gender Buttons (for Weight Calculator) */
 .gender-buttons {
   display: flex;
@@ -156,7 +166,10 @@ h3 {
   font-size: 12px;
   color: #555;
 }
-
+.button-group button {
+  border: 1px solid #ccc;   /* light grey */
+  box-sizing: border-box;    /* so padding stays consistent */
+}
 .instruction-header {
   margin-top: 10px;
   font-size: 18px;
@@ -170,18 +183,6 @@ button .instruction-text {
   color: #555;
   margin-top: 5px;
   font-style: normal;
-}
-
-/* Buttons */
-button {
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  transition: background-color 0.2s ease;
-  width: 100%;
 }
 
 button small {
