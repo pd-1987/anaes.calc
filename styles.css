@@ -149,6 +149,7 @@ h3 {
   align-items: center;
   gap: 10px;
   flex-direction: row;
+  border: 1px solid #ccc;
 }
 
 .button-group-text {
