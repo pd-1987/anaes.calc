@@ -218,6 +218,10 @@ button.active small {
   font-weight: normal;
   color: #555;
 }
+/* Make the “mg” inside any .bubble inherit its blue color */
+.bubble .unit {
+  color: inherit;
+}
 .spray-units,
 .ml-units {
   font-size: 16px;
