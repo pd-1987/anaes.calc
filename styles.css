@@ -260,12 +260,12 @@ button.active small {
 .home-btn {
   text-decoration: none;
   text-align: center;
-  background-color: #D32F2F;
+  background-color: #444444;
   color: white;
 }
 
 .home-btn:hover {
-  background-color: #D32F2F;
+  background-color: #444444;
 }
 
 .full-width {
