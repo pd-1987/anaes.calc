@@ -112,7 +112,7 @@ h3 {
   padding: 10px;
   margin: 0 5px;
   cursor: pointer;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
@@ -259,7 +259,7 @@ button.active small {
 }
 
 .reset-btn:hover {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 .home-btn {
