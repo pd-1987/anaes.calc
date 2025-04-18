@@ -34,25 +34,31 @@
     <span id="maximumDose">0</span> <span class="unit">mg</span>
   </p>
 
-  <div class="button-group">
-    <button id="coPhenylcaineButton" onclick="toggleCoPhenylcaineDose()">Co-phenylcaine Spray
-        <small class="instruction-text">If nasal route</small>
+ <!-- … -->
+  <div class="button-group highlighted-section">
+    <button id="coPhenylcaineButton" onclick="toggleCoPhenylcaineDose()">
+      Co‑phenylcaine Spray
+      <small class="instruction-text">If nasal route</small>
     </button>
-    <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
+    <span class="bubble">
+      <span id="coPhenylcaineBubble">125</span>
+      <span class="unit">mg</span>
+    </span>
   </div>
 
-  <div class="button-group">
-    <!-- Toggle button for lidocaine spray -->
+  <div class="button-group highlighted-section">
     <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
-      Lidocaine 10% Spray 
-      <small class="instruction-text">20 - 30 sprays to the oropharynx, tonsillar pillars and base of tongue.</small>
+      Lidocaine 10% Spray
+      <small class="instruction-text">20 – 30 sprays …</small>
     </button>
-    <!-- Input always visible with default value of 20 -->
     <input type="number" id="lidocaineInput" value="20" oninput="updateLidocaineDose()">
     <span class="spray-units" id="sprayUnits">sprays</span>
-    <!-- Blue bubble always displays the computed dose -->
-    <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
+    <span class="bubble">
+      <span id="lidocaineOutput">200</span>
+      <span class="unit">mg</span>
+    </span>
   </div>
+<!-- … -->
 
   <div class="instruction-header">
     If inadequate:
