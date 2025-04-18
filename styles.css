@@ -104,7 +104,6 @@ h3 {
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
-  border: 1px solid #ccc;
 }
 
 .gender-buttons button {
@@ -150,7 +149,6 @@ h3 {
   align-items: center;
   gap: 10px;
   flex-direction: row;
-  border: 1px solid #ccc;
 }
 
 .button-group-text {
