@@ -112,27 +112,27 @@ button {
 /* Gender Buttons (for Weight Calculator) */
 .gender-buttons {
   display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0 10px;
 }
 
 .gender-buttons button {
   flex: 1;
   font-size: 16px;
   padding: 10px;
-  margin: 0 5px;
+ margin: 5px;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
 }
-
 .gender-buttons button.active {
   background-color: #575757;
   color: white;
 }
-
 /* Unit Toggle (for Weight Calculator) */
 .unit-toggle {
   width: 60px;
@@ -621,15 +621,6 @@ input[type=number] {
   .bubble {
     font-size: 14px;
     padding: 4px 8px;
-  }
-  .gender-buttons {
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 0 10px;
-  }
-  .gender-buttons button {
-    margin: 5px;
   }
     .la-buttons {
     justify-content: center;
