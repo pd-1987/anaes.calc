@@ -282,6 +282,7 @@ button.active small {
   margin: 0 auto;
   text-decoration: none;
   background-color: #444444;
+  border: 1px solid #ccc;
   color: white;
   text-align: center;
   padding: 10px 20px;
