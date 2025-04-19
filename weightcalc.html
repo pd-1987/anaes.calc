@@ -134,9 +134,9 @@
             let height = parseFloat(heightInput.value);
             if (!isNaN(height)) {
                 if (heightUnit === 'cm') {
-                    heightInput.value = (height / 2.54).toFixed(2);
+                    heightInput.value = (height / 2.54).toFixed(1);
                 } else {
-                    heightInput.value = (height * 2.54).toFixed(2);
+                    heightInput.value = (height * 2.54).toFixed(1);
                 }
             }
             heightUnit = heightUnit === 'cm' ? 'in' : 'cm';
@@ -149,9 +149,9 @@
             let weight = parseFloat(weightInput.value);
             if (!isNaN(weight)) {
                 if (weightUnit === 'kg') {
-                    weightInput.value = (weight * 2.20462).toFixed(2);
+                    weightInput.value = (weight * 2.20462).toFixed(1);
                 } else {
-                    weightInput.value = (weight / 2.20462).toFixed(2);
+                    weightInput.value = (weight / 2.20462).toFixed(1);
                 }
             }
             weightUnit = weightUnit === 'kg' ? 'lb' : 'kg';
