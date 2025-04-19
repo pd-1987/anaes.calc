@@ -452,14 +452,19 @@ updateInfusionRates();
       document.getElementById("maxInfRate20").textContent = rate20.toFixed(2);
       document.getElementById("thereafterRate").textContent = thereafter.toFixed(2);
     }
-    
+
     // Attach event listeners.
-    document.getElementById("weight").addEventListener("input", function() {
+document.getElementById("weight").addEventListener("input", function() {
   updateMaxSafeDose();
   updateBolusDose();      // Recalculate bolus dose based on current volume.
   updateInfusionRates();
 });
-    
+
+// *** NEW: listen for changes in bolusVolume too ***
+document
+  .getElementById("bolusVolume")
+  .addEventListener("input", updateBolusDose);
+
     function resetCalculator() {
   // Reset weight input.
   document.getElementById("weight").value = "";
