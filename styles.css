@@ -636,13 +636,6 @@ input[type=number] {
       padding: 2px;
     }
 }
-
-/* Specific styling for the lidocaine section:
-   Ensure the lidocaine section HTML is structured so that:
-   - A .button-group contains the Lidocaine 10% Spray button and its bubble on one row.
-   - A separate .input-group (with class .input-with-unit) contains the number entry box and "sprays" label.
-   The rule below centers that input group relative to the width of the button above.
-*/
 .lidocaine-group .input-with-unit {
   width: fit-content;
   margin: 0 auto;
