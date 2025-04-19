@@ -410,10 +410,11 @@ footer a:hover {
 .grey-btn {
   background-color: #f0f0f0;
   color: black;
+  border: 1px solid #ccc;
 }
 
 .grey-btn:hover {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 #lidocaineInput {
       width: 40px;
