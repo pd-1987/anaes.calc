@@ -281,7 +281,7 @@ button.active small {
   max-width: 600px; /* optional if your container is already 600px max */
   margin: 0 auto;
   text-decoration: none;
-  background-color: #007BFF;
+  background-color: #444444;
   color: white;
   text-align: center;
   padding: 10px 20px;
