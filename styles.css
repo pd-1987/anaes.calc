@@ -4,7 +4,7 @@ body {
   font-weight: 400;
   max-width: 600px;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
 }
 strong 
 { font-weight: 700;}
@@ -54,7 +54,7 @@ header.banner div {
 }
 h1 {
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   border-bottom: 1px solid black;
   padding-bottom: 5px; /* spacing between text and border */
   margin-bottom: 5px;  /* spacing between border and next element */
@@ -88,17 +88,19 @@ h3 {
   align-items: center;
   margin: 10px 0;
 }
-
 .input-group label {
-  font-size: 18px;
-  margin-right: 10px;
-}
-
-.input-group input {
-  width: 80px;
-  padding: 5px;
   font-size: 16px;
+  margin: 5px 10px 5px 0;
+  font-weight: 700;
+   width: auto;
+    flex-shrink: 0;
+}
+.input-group input {
+  width: 50px;
+  padding: 5px;
+  font-size: 14px;
   box-sizing: border-box;
+  margin: 5px 0;
 }
 /* Buttons */
 button {
@@ -209,8 +211,8 @@ button.active small {
   align-items: center;
   justify-content: center;
   margin-left: 5px;
-  padding: 5px 10px;
-  font-size: 16px;
+  padding: 4px 8px;
+  font-size: 14px;
   font-weight: bold;
   background-color: #e7f3fe;
   border: 1px solid #bcdffc;
@@ -220,6 +222,7 @@ button.active small {
   min-height: 30px;
   line-height: 1;
 }
+
 /* Units and Miscellaneous Labels */
 .unit {
   margin-left: 2px;
@@ -420,10 +423,17 @@ footer a:hover {
   background-color: #f0f0f0;
 }
 #lidocaineInput {
-      width: 50px;
-      padding: 5px;
+      width: 30px;
+      padding: 2px;
     }
-
+}
+.lidocaine-group .input-with-unit {
+  width: fit-content;
+  margin: 0 auto;
+}
+.lidocaine-group .input-with-unit input {
+  width: 20px;  /* Adjust this value to your desired size */
+}
 /* Remove spinners in Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -577,30 +587,9 @@ input[type=number] {
       color: #555;
       margin: 0 15px 15px;
     }
+
 /* Responsive Styles */
 @media (max-width: 600px) {
-  body {
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
-  .input-group label {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 5px 10px 5px 0;
-    width: auto;
-    flex-shrink: 0;
-  }
-
-  .input-group input {
-    font-size: 14px;
-    width: 50px;
-    margin: 5px 0;
-  }
-
   .unit-toggle {
     font-size: 14px;
     width: 100%;
@@ -608,11 +597,6 @@ input[type=number] {
   }
   .result {
     font-size: 16px;
-  }
-
-  .bubble {
-    font-size: 14px;
-    padding: 4px 8px;
   }
     .la-buttons {
     justify-content: center;
@@ -623,15 +607,4 @@ input[type=number] {
   .la-buttons button {
     margin: 5px;
   }
-  #lidocaineInput {
-      width: 20px;
-      padding: 2px;
-    }
-}
-.lidocaine-group .input-with-unit {
-  width: fit-content;
-  margin: 0 auto;
-}
-.lidocaine-group .input-with-unit input {
-  width: 20px;  /* Adjust this value to your desired size */
-}
+
