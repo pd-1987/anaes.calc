@@ -101,21 +101,14 @@
       margin-left: 5px;
       font-size: 16px;
     }
-    
-    /* Display areas */
-    .result.bolus-dose,
-    .max-safe-dose,
-    .max-infusion-rate,
-    .thereafter-rate {
-      margin: 10px 15px;
-      font-size: 16px;
-    }
-    .result.bolus-dose span.unit,
-    .max-safe-dose span.unit,
-    .max-infusion-rate span.unit,
-    .thereafter-rate span.unit {
-      font-size: 16px;
-      margin-left: 5px;
+.result {
+  margin: 10px 15px;
+  font-size: 16px;
+}
+.result span.unit {
+  font-size: 16px;
+  margin-left: 5px;
+}
     }
   </style>
 </head>
@@ -181,21 +174,21 @@
   </div>
   
   <!-- Maximum Infusion Rate for the First 4 Hours Display -->
-  <div class="max-infusion-rate">
+  <div class="result max-infusion-rate">
     <strong><u>Maximum infusion rate for the first 4 hours</u>:</strong>
     <span id="maxInfRate4">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Maximum Infusion Rate for the Following 20 Hours Display -->
-  <div class="max-infusion-rate">
+  <div class="result max-infusion-rate">
     <strong><u>Maximum infusion rate for the following 20 hours</u>:</strong>
     <span id="maxInfRate20">0</span>
     <span class="unit">mL/hr</span>
   </div>
   
   <!-- Thereafter Infusion Rate Display -->
-  <div class="thereafter-rate">
+  <div class="result thereafter-rate">
     <strong><u>Maximum infusion rate thereafter</u>:</strong>
     <span id="thereafterRate">0</span>
     <span class="unit">mL/hr</span>
