@@ -153,16 +153,15 @@ button {
   color: #000;
   margin-top: 10px;
 }
-
 /* Button Groups */
 .button-group {
   margin-top: 20px;
   display: flex;
+    flex-direction: row;
   align-items: center;
   gap: 10px;
   flex-direction: row;
 }
-
 .button-group-text {
   margin-top: 5px;
   font-size: 12px;
@@ -171,6 +170,7 @@ button {
 .button-group button {
   border: 1px solid #ccc;   /* light grey */
   box-sizing: border-box;    /* so padding stays consistent */
+  width: 100%;
 }
 .instruction-header {
   margin-top: 10px;
@@ -235,7 +235,7 @@ button.active small {
 .ml-units {
   font-size: 16px;
   display: inline-block;
-  margin-left: 5px;
+  margin-left: 2px;
 }
 
 /* Button Container for Reset/Home */
@@ -420,7 +420,7 @@ footer a:hover {
   background-color: #f0f0f0;
 }
 #lidocaineInput {
-      width: 40px;
+      width: 50px;
       padding: 5px;
     }
 
@@ -606,16 +606,6 @@ input[type=number] {
     width: 100%;
     margin: 5px 0;
   }
-
-  .button-group {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .button-group button {
-    width: 100%;
-  }
-
   .result {
     font-size: 16px;
   }
