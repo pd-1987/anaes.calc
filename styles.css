@@ -162,7 +162,7 @@ button {
   align-items: center;
   gap: 0.5rem;              /* space between the button, input & bubble */
   flex-direction: row;
-  margin: 0.25rem 0;     /* 0.25rem top _and_ bottom, instead of 20px top */
+  margin: 0.3rem 0;     /* 0.25rem top _and_ bottom, instead of 20px top */
 }
 .button-group-text {
   margin-top: 5px;
