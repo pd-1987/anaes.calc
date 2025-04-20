@@ -127,24 +127,24 @@
     <label for="weight">Weight (kg):</label>
     <input type="number" id="weight" placeholder="0" min="0">
      </div>
-  <p class="input-note">Use ideal body weight if BMI ≥ 30 kg/m².</p>
+  <p class="input-note">Use ideal body weight if BMI ≥30 kg/m².</p>
   
   <!-- Local Anesthetic Selection Buttons -->
   <div class="gender-buttons">
     <button id="bupivacaineBtn" onclick="selectLA('Bupivacaine')">
-      Bupivacaine<br><small>2 mg/kg</small>
+      Bupivacaine<small>2 mg/kg<br>Max. 175mg</small>
     </button>
     <button id="levobupivacaineBtn" onclick="selectLA('Levobupivacaine')">
-      Levobupivacaine<br><small>2 mg/kg</small>
+      Levobupivacaine<small>2 mg/kg<br>Max. 200mg</small>
     </button>
     <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">
-      Ropivacaine<br><small>3 mg/kg</small>
+      Ropivacaine<small>3 mg/kg<br>Max 200mg</small>
     </button>
   </div>
   
   <!-- Maximum Bolus Display -->
   <div class="max-safe-dose">
-    <strong>Maximum bolus:</strong>
+    <strong><u>Maximum bolus</u>:</strong>
     <span id="maxSafeDose">0</span>
     <span class="unit">mg</span>
   </div>
@@ -209,9 +209,9 @@
   
   <footer>
     <small>
-      <p><b>Bupivacaine / Levobupivacaine:</b> A maximum dose of 2 mg/kg should not be exceeded in any four-hour period; Bupivacaine not to exceed 175 mg per dose, Levobupivacaine not to exceed 200 mg per dose. In total ≤ 400 mg/24 h. 
+      <p><strong>Bupivacaine / Levobupivacaine:</strong> A maximum dose of 2 mg/kg should not be exceeded in any four-hour period; Bupivacaine not to exceed 175 mg per dose, Levobupivacaine not to exceed 200 mg per dose. In total ≤ 400 mg/24 h. 
         Paediatric textbooks advise an upper limit of 0.3 – 0.375 mg/kg/hour (approximately 400 mg/24h in a 45 kg patient).</p>
-      <p><b>Ropivacaine:</b> A maximum dose of 3 mg/kg should not be exceeded in any four to six hour period, not to exceed 200 mg per dose. In total ≤ 675 mg/24h.</p>
+      <p><strong>Ropivacaine:</strong> A maximum dose of 3 mg/kg should not be exceeded in any four to six hour period, not to exceed 200 mg per dose. In total ≤ 675 mg/24h.</p>
     </small>
     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
