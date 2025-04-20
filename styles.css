@@ -6,6 +6,8 @@ body {
   margin: auto;
   padding: 20px;
 }
+strong 
+{ font-weight: 700;}
 /* Banner container */
 .banner {
   text-align: center;   /* Centers the content horizontally */
