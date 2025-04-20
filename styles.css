@@ -150,8 +150,8 @@ button {
 
 /* Result Display */
 .result {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 700;
   color: #000;
   margin-top: 10px;
 }
@@ -592,9 +592,6 @@ input[type=number] {
     font-size: 14px;
     width: 100%;
     margin: 5px 0;
-  }
-  .result {
-    font-size: 16px;
   }
     .la-buttons {
     justify-content: center;
