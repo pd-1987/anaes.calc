@@ -157,12 +157,12 @@ button {
 }
 /* Button Groups */
 .button-group {
-  margin-top: 20px;
   display: flex;
-    flex-direction: row;
-  align-items: center;
-  gap: 10px;
   flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;              /* space between the button, input & bubble */
+  flex-direction: row;
+  margin: 0.25rem 0;     /* 0.25rem top _and_ bottom, instead of 20px top */
 }
 .button-group-text {
   margin-top: 5px;
