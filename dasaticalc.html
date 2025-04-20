@@ -23,6 +23,10 @@
    #lidocaineInput {
   text-align: center;
 }
+   .button-group {
+  margin-bottom: 0.5rem;    /* whatever smaller value you prefer */
+  gap: 0.5rem;              /* space between the button, input & bubble */
+}
   </style>
 </head>
 <body>
@@ -33,7 +37,7 @@
   </div>
 
   <p class="result">
-    Maximum Lidocaine Dose (9 mg/kg):
+    <u>Maximum Lidocaine Dose (9 mg/kg):</u>
     <span id="maximumDose">0</span> <span class="unit">mg</span>
   </p>
 
@@ -81,12 +85,12 @@
   </div>
 
   <p class="result">
-    Dose Given:
+    <u>Dose Given:</u>
     <span id="doseGiven">0</span> <span class="unit">mg</span>
   </p>
 
   <p class="result">
-    Dose Remaining:
+    <u>Dose Remaining:</u>
     <span id="doseRemaining">0</span> <span class="unit">mg</span>
   </p>
 
