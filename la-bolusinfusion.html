@@ -43,10 +43,11 @@
       margin: 15px 0;
     }
     .concentration-btn {
-      flex: 1;
-      margin: 0 5px;
-      padding: 8px 12px;
-      font-size: 16px;
+      flex: 1 1 auto;        /* each grows/shrinks equally */
+  min-width: 0;          /* ensure it can shrink below its content width */
+      margin: 0 3px;
+      padding: 6px 6px;
+      font-size: 14px;
       background-color: #e7f3fe;
       border: 1px solid #bcdffc;
       border-radius: 15px;
