@@ -375,55 +375,63 @@ updateInfusionRates();
       "0.2%": 2.0
     };
     
-    function updateInfusionRates() {
-      const weightStr = document.getElementById("weight").value;
-      let weight = Math.max(parseFloat(weightStr), 0);
-      // Only update if weight is provided and is at least 45kg.
-      if (!weightStr || isNaN(weight) || weight < 45) {
-        document.getElementById("maxInfRate4").textContent = "0";
-        document.getElementById("maxInfRate20").textContent = "0";
-        document.getElementById("thereafterRate").textContent = "0";
-        return;
-      }
-      
-      const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
-      if (!activeInfBtn) {
-        document.getElementById("maxInfRate4").textContent = "0";
-        document.getElementById("maxInfRate20").textContent = "0";
-        document.getElementById("thereafterRate").textContent = "0";
-        return;
-      }
-      
-      let bolusDose = parseFloat(document.getElementById("bolusDose").textContent);
-      if (isNaN(bolusDose)) bolusDose = 0;
-      
-      let infusionConc = infusionConcMap[activeInfBtn.textContent.trim()] || 0;
-      
-      let threshold = 0;
-      const bupBtn = document.getElementById("bupivacaineBtn");
-      const levoBtn = document.getElementById("levobupivacaineBtn");
-      const ropiBtn = document.getElementById("ropivacaineBtn");
-      if (bupBtn.classList.contains("active") || levoBtn.classList.contains("active")) {
-        threshold = 400;
-      } else if (ropiBtn.classList.contains("active")) {
-        threshold = 675;
-      }
-      
-      let rate4 = 0, rate20 = 0, thereafter = 0;
-      if (infusionConc > 0 && threshold > 0) {
-        rate4 = Math.max((maxBolusValue - bolusDose) / (infusionConc * 4), 0);
-        thereafter = Math.max(threshold / (infusionConc * 24), 0);
-        // Cap the 4h infusion rate to the "Thereafter" rate.
-        rate4 = Math.min(rate4, thereafter);
-        rate20 = Math.max((threshold - maxBolusValue) / (infusionConc * 20), 0);
-        // Also cap the 20h infusion rate to the "Thereafter" rate.
-        rate20 = Math.min(rate20, thereafter);
-      }
-      
-      document.getElementById("maxInfRate4").textContent = rate4.toFixed(2);
-      document.getElementById("maxInfRate20").textContent = rate20.toFixed(2);
-      document.getElementById("thereafterRate").textContent = thereafter.toFixed(2);
-    }
+   function updateInfusionRates() {
+  const weightStr = document.getElementById("weight").value;
+  let weight = Math.max(parseFloat(weightStr), 0);
+  if (!weightStr || isNaN(weight) || weight < 45) {
+    ["maxInfRate4","maxInfRate20","thereafterRate"].forEach(id => {
+      document.getElementById(id).textContent = "0";
+    });
+    return;
+  }
+
+  // find active infusion button & its concentration string
+  const activeInfBtn = document.querySelector(".infusion-concentration-btn.active");
+  if (!activeInfBtn) {
+    ["maxInfRate4","maxInfRate20","thereafterRate"].forEach(id => {
+      document.getElementById(id).textContent = "0";
+    });
+    return;
+  }
+  const concText = activeInfBtn.textContent.trim(); // "0.1%", etc.
+
+  // map concentration to mg/mL
+  const infusionConcMap = { "0.1%": 1.0, "0.125%": 1.25, "0.2%": 2.0 };
+  const conc = infusionConcMap[concText] || 0;
+  if (conc === 0) return;
+
+  // determine threshold & caps based on drug
+  const isBupiLevo = document.getElementById("bupivacaineBtn").classList.contains("active")
+                  || document.getElementById("levobupivacaineBtn").classList.contains("active");
+  const isRopi     = document.getElementById("ropivacaineBtn").classList.contains("active");
+  const threshold  = isRopi ? 675 : isBupiLevo ? 400 : 0;
+  const caps = { "0.1%": 16, "0.125%": 13, "0.2%": 14 };
+  const cap = caps[concText] || Infinity;
+
+  // bolus dose from UI
+  let bolusDose = parseFloat(document.getElementById("bolusDose").textContent) || 0;
+
+  // 1) First 4h
+  let remaining = Math.max(maxBolusValue - bolusDose, 0);         // mg
+  let rate4    = remaining / (conc * 4);                         // mL/hr
+  rate4        = Math.min(rate4, cap);                           // cap
+  // dose delivered in 4h
+  let doseIn4  = bolusDose + (rate4 * conc * 4);                 // mg
+
+  // 2) Following 20h
+  let rem20    = Math.max(threshold - doseIn4, 0);                // mg left
+  let rate20   = rem20 / (conc * 20);                             // mL/hr
+  rate20       = Math.min(rate20, cap);
+
+  // 3) Thereafter
+  let rateAfter = (threshold / (conc * 24));                      // mL/hr
+  rateAfter     = Math.min(rateAfter, cap);
+
+  // write out
+  document.getElementById("maxInfRate4").textContent      = rate4.toFixed(2);
+  document.getElementById("maxInfRate20").textContent     = rate20.toFixed(2);
+  document.getElementById("thereafterRate").textContent   = rateAfter.toFixed(2);
+}
 
     // Attach event listeners.
 document.getElementById("weight").addEventListener("input", function() {
