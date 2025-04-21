@@ -437,7 +437,44 @@ document
   .getElementById("bolusVolume")
   .addEventListener("input", updateBolusDose);
 
-    function resetCalculator() {
+   
+   function updateBolusOptions() {
+    const isBupi = document.getElementById('bupivacaineBtn').classList.contains('active');
+    const isLevo = document.getElementById('levobupivacaineBtn').classList.contains('active');
+    const isRopi = document.getElementById('ropivacaineBtn').classList.contains('active');
+    const anyLA = isBupi || isLevo || isRopi;
+
+    document.querySelectorAll('.concentration-btn').forEach(btn => {
+      const txt = btn.textContent.trim();  // "0.2%", "0.25%", "0.375%", "0.5%"
+      // If no LA selected, show all; otherwise apply drug‑specific rules
+      const show =
+        !anyLA ||
+        ((isBupi || isLevo) && ['0.25%','0.375%','0.5%'].includes(txt)) ||
+        (isRopi && ['0.2%','0.375%','0.5%'].includes(txt));
+
+      btn.style.display = show ? '' : 'none';
+      if (!show) btn.classList.remove('active');
+    });
+  }
+    function updateInfusionOptions() {
+    const isBupi = document.getElementById('bupivacaineBtn').classList.contains('active');
+    const isLevo = document.getElementById('levobupivacaineBtn').classList.contains('active');
+    const isRopi = document.getElementById('ropivacaineBtn').classList.contains('active');
+    const anyLA = isBupi || isLevo || isRopi;
+
+    document.querySelectorAll('.infusion-concentration-btn').forEach(btn => {
+      const txt = btn.textContent.trim();  // "0.1%", "0.125%", "0.2%"
+      // If no LA selected, show all; otherwise apply drug‑specific rules
+      const show =
+        !anyLA ||
+        ((isBupi || isLevo) && (txt === '0.1%' || txt === '0.125%')) ||
+        (isRopi && txt === '0.2%');
+
+      btn.style.display = show ? '' : 'none';
+      if (!show) btn.classList.remove('active');
+    });
+  }
+     function resetCalculator() {
   // Reset weight input.
   document.getElementById("weight").value = "";
   // Removed weightUnitBtn reference because it's not present on this page.
@@ -464,45 +501,10 @@ document
   document.getElementById("maxInfRate4").textContent = "0";
   document.getElementById("maxInfRate20").textContent = "0";
   document.getElementById("thereafterRate").textContent = "0";
+       
+      updateInfusionOptions();  // show all infusion buttons again
+    updateBolusOptions();     // show all bolus buttons again
 }
-    function updateBolusOptions() {
-  const isBupi = document.getElementById('bupivacaineBtn').classList.contains('active');
-  const isLevo = document.getElementById('levobupivacaineBtn').classList.contains('active');
-  const isRopi = document.getElementById('ropivacaineBtn').classList.contains('active');
-
-  document.querySelectorAll('.concentration-btn').forEach(btn => {
-    const txt = btn.textContent.trim();  // e.g. "0.2%", "0.25%" etc.
-    let show = false;
-
-    // for Bupi/Levo: show 0.25, 0.375, 0.5
-    if ((isBupi || isLevo) && ['0.25%','0.375%','0.5%'].includes(txt)) {
-      show = true;
-    }
-    // for Ropi: show 0.2, 0.375, 0.5
-    if (isRopi && ['0.2%','0.375%','0.5%'].includes(txt)) {
-      show = true;
-    }
-
-    btn.style.display = show ? '' : 'none';
-    if (!show) btn.classList.remove('active');
-  });
-}
-    function updateInfusionOptions() {
-  const isBupi    = document.getElementById('bupivacaineBtn').classList.contains('active');
-  const isLevo    = document.getElementById('levobupivacaineBtn').classList.contains('active');
-  const isRopi    = document.getElementById('ropivacaineBtn').classList.contains('active');
-  document.querySelectorAll('.infusion-concentration-btn').forEach(btn => {
-    const txt = btn.textContent.trim();  // "0.1%", "0.125%", or "0.2%"
-    // decide whether to show:
-    let show = false;
-    if ((isBupi || isLevo) && (txt === '0.1%' || txt === '0.125%')) show = true;
-    if (isRopi && txt === '0.2%')                           show = true;
-    // apply it:
-    btn.style.display = show ? '' : 'none';
-    // if it's getting hidden, also un‑activate it:
-    if (!show) btn.classList.remove('active');
-  });
-}    
     function goHome() {
       window.location.href = "index.html";
     }
