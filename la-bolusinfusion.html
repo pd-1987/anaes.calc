@@ -255,6 +255,7 @@
       updateMaxSafeDose();
 updateBolusDose();      // Ensure bolus dose is recalculated.
 updateInfusionRates();
+         updateInfusionOptions();
     }
     
     // --- Bolus Concentration Selection (toggleable) ---
@@ -462,7 +463,22 @@ document
   document.getElementById("maxInfRate20").textContent = "0";
   document.getElementById("thereafterRate").textContent = "0";
 }
-    
+    function updateInfusionOptions() {
+  const isBupi    = document.getElementById('bupivacaineBtn').classList.contains('active');
+  const isLevo    = document.getElementById('levobupivacaineBtn').classList.contains('active');
+  const isRopi    = document.getElementById('ropivacaineBtn').classList.contains('active');
+  document.querySelectorAll('.infusion-concentration-btn').forEach(btn => {
+    const txt = btn.textContent.trim();  // "0.1%", "0.125%", or "0.2%"
+    // decide whether to show:
+    let show = false;
+    if ((isBupi || isLevo) && (txt === '0.1%' || txt === '0.125%')) show = true;
+    if (isRopi && txt === '0.2%')                           show = true;
+    // apply it:
+    btn.style.display = show ? '' : 'none';
+    // if it's getting hidden, also un‑activate it:
+    if (!show) btn.classList.remove('active');
+  });
+}    
     function goHome() {
       window.location.href = "index.html";
     }
