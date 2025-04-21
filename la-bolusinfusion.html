@@ -109,6 +109,26 @@
   font-size: 16px;
   margin-left: 5px;
 }
+.bolus-section {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  margin: 10px;
+  box-sizing: border-box;
+  background-color: #fafafa;
+}
+
+.concentration-buttons,
+.bolus-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.concentration-btn,
+.bolus-group input {
+  width: 100%;
+  margin: 5px 0;
+}
   </style>
 </head>
 <body>
@@ -133,6 +153,8 @@
       Ropivacaine<small>3 mg/kg<br>Max. 200mg</small>
     </button>
   </div>
+
+<div class="bolus-section">
   
   <!-- Maximum Bolus Display -->
   <div class="result max-safe-dose">
@@ -163,6 +185,8 @@
     <span id="bolusDose">0</span>
     <span class="unit">mg</span>
   </div>
+
+</div>
   
   <!-- Infusion Concentration -->
   <div class="infusion-concentration-label"><strong>Infusion concentration:</strong></div>
