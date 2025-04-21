@@ -19,10 +19,16 @@
     }
     /* Local Anesthetic Buttons */
     .gender-buttons {
-      display: flex;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    gap: 8px;            /* space between buttons */
+       justify-content: space-around;
       margin: 15px;
     }
+      /* make the third button (Ropivacaine) sit below and span both columns */
+  .gender-buttons button:nth-child(3) {
+    grid-column: 1 / -1;
+  }
     .gender-buttons button small {
       display: block;
       font-size: 12px;
@@ -32,6 +38,7 @@
     .gender-buttons button.active small {
       color: white;
     }
+    
     /* Bolus Concentration */
     .concentration-label {
       margin: 10px 15px;
