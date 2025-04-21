@@ -583,5 +583,5 @@ input[type=number] {
     .input-note {
       font-size: 14px;
       color: #555;
-      margin: 0 15px 15px;
+      margin: 0 0 15px 0; /* top 0 | right 0 | bottom 15px | left 0 */
     }
