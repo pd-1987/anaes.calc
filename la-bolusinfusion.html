@@ -22,13 +22,14 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
     gap: 8px;            /* space between buttons */
-       justify-content: space-around;
-      margin: 15px;
+ margin: 15px 0;        /* only vertical margins */
+  justify-items: center; /* center buttons horizontally in each cell */
     }
-      /* make the third button (Ropivacaine) sit below and span both columns */
-  .gender-buttons button:nth-child(3) {
-    grid-column: 1 / -1;
-  }
+/* place Ropi under the first two, spanning both columns, and center it */
+.gender-buttons button:nth-child(3) {
+  grid-column: 1 / -1;
+  justify-self: center;
+}    
     .gender-buttons button small {
       display: block;
       font-size: 12px;
