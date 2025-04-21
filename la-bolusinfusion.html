@@ -45,49 +45,32 @@
       margin: 10px 15px;
       font-size: 16px;
     }
-    .concentration-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin: 15px 0;
-    }
-    .concentration-btn {
-      flex: 1 1 auto;        /* each grows/shrinks equally */
-  min-width: 0;          /* ensure it can shrink below its content width */
-      margin: 0 3px;
-      padding: 6px 6px;
-      font-size: 16px;
-      background-color: #e7f3fe;
-      border: 1px solid #bcdffc;
-      border-radius: 15px;
-      color: #0078d7;
-      cursor: pointer;
-    }
-    .concentration-btn.active {
-      background-color: #0078d7;
-      color: white;
-    }
+    .concentration-buttons, 
     .infusion-concentration-buttons {
       display: flex;
       justify-content: space-around;
       margin: 15px 0;
     }
-    .infusion-concentration-btn {
-      flex: 1 1 auto;
-      min-width: 0;
-      margin: 0 3px;
-      padding: 6px 6px;
-      font-size: 16px;
-      background-color: #e7f3fe;
-      border: 1px solid #bcdffc;
-      border-radius: 15px;
-      color: #0078d7;
-      cursor: pointer;
-    }  
+.concentration-btn,
+.infusion-concentration-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 3px;
+  padding: 6px 6px;
+  font-size: 16px;
+
+  /* shared look & feel */
+  background-color: #e7f3fe;
+  border: 1px solid #bcdffc;
+  border-radius: 15px;
+  color: #0078d7;      /* text color */
+  cursor: pointer;     /* pointer on hover */
+}
+    .concentration-btn.active, 
     .infusion-concentration-btn.active {
       background-color: #0078d7;
       color: white;
-    }
-    
+    }   
     /* Bolus Volume Group */
     .input-group.bolus-group {
       margin: 15px 0;
