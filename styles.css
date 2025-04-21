@@ -98,7 +98,7 @@ h3 {
 .input-group input {
   width: 50px;
   padding: 5px;
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
   margin: 5px 0;
 }
@@ -139,15 +139,15 @@ button {
 }
 /* Unit Toggle (for Weight Calculator) */
 .unit-toggle {
-  width: 60px;
+    width: 100%;
   font-size: 16px;
+     margin: 5px 0;
   padding: 5px;
   cursor: pointer;
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: #f0f0f0;
 }
-
 /* Result Display */
 .result {
   font-size: 16px;
@@ -324,7 +324,7 @@ footer a:hover {
   background-color: #007BFF;
   color: white;
   border-radius: 5px;
-  font-size: 18px;
+  font-size: 16px;
   transition: background-color 0.2s ease;
 }
 
@@ -588,11 +588,6 @@ input[type=number] {
 
 /* Responsive Styles */
 @media (max-width: 600px) {
-  .unit-toggle {
-    font-size: 14px;
-    width: 100%;
-    margin: 5px 0;
-  }
     .la-buttons {
     justify-content: center;
     flex-wrap: wrap;
