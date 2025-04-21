@@ -143,6 +143,7 @@
   <!-- Bolus Concentration -->
   <div class="input-group"><label><strong>Bolus Concentration:</strong></label></div>
   <div class="concentration-buttons">
+    <button class="concentration-btn" onclick="selectConcentration('0.2%')">0.2%</button>
     <button class="concentration-btn" onclick="selectConcentration('0.25%')">0.25%</button>
     <button class="concentration-btn" onclick="selectConcentration('0.375%')">0.375%</button>
     <button class="concentration-btn" onclick="selectConcentration('0.5%')">0.5%</button>
@@ -256,6 +257,7 @@
 updateBolusDose();      // Ensure bolus dose is recalculated.
 updateInfusionRates();
          updateInfusionOptions();
+      updateBolusOptions();
     }
     
     // --- Bolus Concentration Selection (toggleable) ---
@@ -292,12 +294,12 @@ updateInfusionRates();
     }
     
     // --- Bolus Dose Calculation ---
-    const concMap = {
-      "0.25%": 2.5,
-      "0.375%": 3.75,
-      "0.5%": 5,
-      "0.75%": 7.5
-    };
+ const concMap = {
+  "0.2%": 2.0,
+  "0.25%": 2.5,
+  "0.375%": 3.75,
+  "0.5%": 5
+};
     
     function updateBolusDose() {
       const volume = Math.max(parseFloat(document.getElementById("bolusVolume").value), 0);
@@ -462,6 +464,28 @@ document
   document.getElementById("maxInfRate4").textContent = "0";
   document.getElementById("maxInfRate20").textContent = "0";
   document.getElementById("thereafterRate").textContent = "0";
+}
+    function updateBolusOptions() {
+  const isBupi = document.getElementById('bupivacaineBtn').classList.contains('active');
+  const isLevo = document.getElementById('levobupivacaineBtn').classList.contains('active');
+  const isRopi = document.getElementById('ropivacaineBtn').classList.contains('active');
+
+  document.querySelectorAll('.concentration-btn').forEach(btn => {
+    const txt = btn.textContent.trim();  // e.g. "0.2%", "0.25%" etc.
+    let show = false;
+
+    // for Bupi/Levo: show 0.25, 0.375, 0.5
+    if ((isBupi || isLevo) && ['0.25%','0.375%','0.5%'].includes(txt)) {
+      show = true;
+    }
+    // for Ropi: show 0.2, 0.375, 0.5
+    if (isRopi && ['0.2%','0.375%','0.5%'].includes(txt)) {
+      show = true;
+    }
+
+    btn.style.display = show ? '' : 'none';
+    if (!show) btn.classList.remove('active');
+  });
 }
     function updateInfusionOptions() {
   const isBupi    = document.getElementById('bupivacaineBtn').classList.contains('active');
