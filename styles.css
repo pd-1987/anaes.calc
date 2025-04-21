@@ -351,62 +351,62 @@ footer a:hover {
 
 /* General */
 .general-btn {
-  background-color: ##1565C0;
+  background-color: #1565C0;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
 }
 
 .general-btn:hover {
-  background-color: ##1565C0;
+  background-color: #1565C0;
 }
 
 /* Airway */
 .airway-btn {
-  background-color: ##B71C1C;
+  background-color: #B71C1C;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
 }
 
 .airway-btn:hover {
-  background-color: ##B71C1C;
+  background-color: #B71C1C;
 }
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: ##2E7D32;
+  background-color: #2E7D32;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
 }
 
 .regional-btn:hover {
-  background-color: ##2E7D32;
+  background-color: #2E7D32;
 }
 
 /* Obstetrics */
 .obstetrics-btn {
-  background-color: ##B57FAE;
+  background-color: #B57FAE;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
 }
 
 .obstetrics-btn:hover {
-  background-color: ##B57FAE; 
+  background-color: #B57FAE; 
 }
 
 /* Critical Care */
 .critical-btn {
-  background-color: ##5E35B1;
+  background-color: #5E35B1;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
 }
 
 .critical-btn:hover {
-  background-color: ##5E35B1;
+  background-color: #5E35B1;
 }
 
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
