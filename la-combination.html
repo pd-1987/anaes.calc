@@ -21,6 +21,12 @@
     .concentration-boxes {
       display: none;  /* Hidden by default */
     }
+    .bubble {
+  width: 70px;              /* or bump to 70px if you need more room */
+  white-space: nowrap;      /* keep it on one line */
+  overflow: hidden;         /* don’t let it grow the box */
+  text-overflow: clip;      /* or “ellipsis” if you’d rather see “…” */
+}
   </style>
 </head>
 <body>
