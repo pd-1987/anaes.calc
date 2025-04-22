@@ -49,9 +49,10 @@
     
   <!-- Maximum Bolus Display -->
   <div class="max-safe-dose">
-    <strong>Maximum bolus:</strong>
+    <strong>Maximum dose:</strong>
     <span id="maxSafeDose">0</span>
     <span class="unit">mg</span>
+    <small>Not to be exceeded in any 4-hour period.</small>
   </div>
 
   <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
@@ -192,12 +193,27 @@
 
   // — Called by each LA button —
   function selectLA(selectedLA) {
-    // clear previous
-    resetConcentrationRows();
-    document.querySelectorAll('.la-buttons button').forEach(b=>b.classList.remove('active'));
+    const btnId = selectedLA.toLowerCase() + 'Btn';
+    const btn   = document.getElementById(btnId);
+    const wasActive = btn.classList.contains('active');
 
-    // mark this one active
-    const btn = document.getElementById(selectedLA.toLowerCase() + 'Btn');
+    // Clear any previous selection
+    resetConcentrationRows();
+    document.querySelectorAll('.la-buttons button')
+            .forEach(b => b.classList.remove('active'));
+
+    if (wasActive) {
+      // User clicked the same button again → deselect
+      document.querySelector('.concentration-boxes').style.display = 'none';
+      // reset the displayed numbers
+      maxSafeDose = 0;
+      document.getElementById('maxSafeDose').textContent    = '0';
+      document.getElementById('totalDoseGiven').textContent = '0';
+      document.getElementById('doseRemaining').textContent  = '0';
+      return;
+    }
+
+    // Otherwise, mark this one active
     btn.classList.add('active');
 
     // reveal the concentration grid
@@ -209,7 +225,7 @@
     // show only the rows for this LA
     const group = (selectedLA === 'Ropivacaine') ? 'ropi' : 'bl';
     document.querySelectorAll(`.concentration-row.${group}`)
-      .forEach(r=> r.style.display = 'flex');
+            .forEach(r => r.style.display = 'flex');
 
     // recalc totals
     updateTotalAndRemaining();
