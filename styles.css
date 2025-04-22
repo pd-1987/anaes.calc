@@ -465,6 +465,7 @@ input[type=number] {
   /* Order: top, right, bottom, left */
   padding: 5px 10px 8px 10px;
   margin-bottom: 5px;
+   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
   font-size: 16px;
