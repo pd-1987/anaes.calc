@@ -27,12 +27,22 @@
   overflow: hidden;         /* don’t let it grow the box */
   text-overflow: clip;      /* or “ellipsis” if you’d rather see “…” */
 }
+    .result {
+  margin: 10px 0;
+  font-size: 16px;
+  text-align: center;
+}
+.result span.unit {
+  font-size: 16px;
+  margin-left: 5px;
+}
   </style>
 </head>
 <body>
   <!-- Header with Title -->
   <header class="banner">LA Combination Calculator</header>
- 
+
+  <div class="boxed-section first-section">
   <!-- Weight Entry Group -->
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
@@ -54,11 +64,13 @@
   </div>
     
   <!-- Maximum Bolus Display -->
-  <div class="max-safe-dose">
+  <div class="result max-safe-dose">
     <strong><u>Maximum dose</u>:</strong>
     <span id="maxSafeDose">0</span>
-    <span class="unit">mg</span></div>
-    <div><small>Not to be exceeded in any 4-hour period.</small></div>
+    <span class="unit">mg</span>
+  </div>
+    <small class="dose-note">Not to be exceeded in any four-hour period.</small>
+  </div>
   
   <!-- Local Anaesthetic Concentrations with Live Dose Calculation -->
   <!-- Each row is tagged with either "bl" or "ropi" or both. -->
