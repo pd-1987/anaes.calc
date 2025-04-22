@@ -25,7 +25,7 @@
       margin: 5px;
       padding: 10px 16px;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 700;
       background-color: #f0f0f0; /* grey background */
       border: 1px solid #ccc;    /* grey border */
       border-radius: 15px;
@@ -77,26 +77,26 @@
     /* Infusion input group styling */
     .infusion-label {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
 }
     .infusion-input-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   margin: 20px auto;    /* centers the container horizontally */
-  width: 100%;
-  max-width: 240px;     /* limit overall width to a size similar to your buttons */
+  width: auto; 
 }
-
-.infusion-input-group input,
+.infusion-input-group input {
+  width: 60px;
+  padding: 6px;       /* you can also shrink the padding */
+  box-sizing: border-box;
+  font-size: 16px;    /* and/or the font-size if you like */
+}
 .infusion-input-group button {
-  width: 48%;           /* almost equal halves, leaving a small space */
-  padding: 10px;
-  font-size: 16px;
-  box-sizing: border-box;  /* include padding in the width */
+  width: 80px;
+  box-sizing: border-box;
 }
-
-  </style>
+    </style>
 </head>
 <body>
   <!-- Header with Title -->
