@@ -98,6 +98,15 @@
   width: 80px;
   box-sizing: border-box;
 }
+    .result {
+  margin: 10px 0;
+  font-size: 16px;
+  text-align: center;
+}
+.result span.unit {
+  font-size: 16px;
+  margin-left: 5px;
+}
     </style>
 </head>
 <body>
@@ -142,7 +151,7 @@
     <!-- Toggle button styled using .unit-toggle -->
     <button type="button" id="unitToggle" class="unit-toggle" onclick="toggleUnit()">ml/hr</button>
   </div>
-  <p class="infusion-label"><u>Infusion rate</u>: <span id="infusionRateDisplay">--</span></p>
+  <p class="infusion-label result"><u>Infusion rate</u>: <span id="infusionRateDisplay">--</span></p>
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
