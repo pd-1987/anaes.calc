@@ -151,7 +151,12 @@
     <!-- Toggle button styled using .unit-toggle -->
     <button type="button" id="unitToggle" class="unit-toggle" onclick="toggleUnit()">ml/hr</button>
   </div>
-  <p class="infusion-label result"><u>Infusion rate</u>: <span id="infusionRateDisplay">--</span></p>
+  <p class="infusion-label result">
+  <u>Infusion rate</u>:
+  <span id="infusionRateDisplay">--</span>
+</p>
+
+
 
   <!-- Home and Reset Buttons -->
   <div class="button-container">
@@ -168,128 +173,124 @@
 
   <!-- Scripts -->
   <script>
-    let selectedDrug = null;
-    let selectedDose = null;
+  let selectedDrug = null;
+  let selectedDose = null;
 
-    const doseData = {
-      "4mg in 50ml": 0.08,
-      "8mg in 50ml": 0.16,
-      "16mg in 50ml": 0.32
-    };
+  const doseData = {
+    "4mg in 50ml": 0.08,
+    "8mg in 50ml": 0.16,
+    "16mg in 50ml": 0.32
+  };
 
-    function goHome() {
-      window.location.href = "index.html";
-    }
-
-    function selectDrug(drug) {
-      const noradBtn = document.getElementById('NoradBtn');
-      const adBtn = document.getElementById('AdBtn');
-
-      if (selectedDrug === drug) {
-        // Deselect if already selected
-        selectedDrug = null;
-        noradBtn.classList.remove('selected-drug');
-        adBtn.classList.remove('selected-drug');
-      } else {
-        selectedDrug = drug;
-        noradBtn.classList.toggle('selected-drug', drug === 'Noradrenaline');
-        adBtn.classList.toggle('selected-drug', drug === 'Adrenaline');
-      }
-    }
-
-    function selectDose(element) {
-      const label = element.childNodes[0].textContent.trim();
-
-      if (selectedDose?.label === label) {
-        // Deselect if already selected
-        selectedDose = null;
-        element.classList.remove('selected');
-      } else {
-        // Clear other selections
-        document.querySelectorAll('.dose-bubble').forEach(bubble => {
-          bubble.classList.remove('selected');
-        });
-        // Highlight this one
-        element.classList.add('selected');
-        selectedDose = {
-          label: label,
-          concentration: doseData[label]
-        };
-      }
-      // Update the infusion rate calculation when dose changes
-      updateInfusionRate();
-    }
-
-    // Toggle button function to switch between ml/hr and mcg/kg/min
-    function toggleUnit() {
-  const unitToggle = document.getElementById("unitToggle");
-  const infusionInput = document.getElementById("infusionInput");
-  
-  // Reset the number entry box if it has any value
-  if (infusionInput.value !== "") {
-    infusionInput.value = "";
+  function goHome() {
+    window.location.href = "index.html";
   }
-  
-  // Toggle the unit text between "ml/hr" and "mcg/kg/min"
-  if (unitToggle.textContent === "ml/hr") {
-    unitToggle.textContent = "mcg/kg/min";
-  } else {
-    unitToggle.textContent = "ml/hr";
-  }
-  
-  // Optionally call the update function to clear the infusion rate display
-  updateInfusionRate();
-}
 
-    // Function to update the calculated infusion rate
-    function updateInfusionRate() {
-      const weight = parseFloat(document.getElementById('weight').value);
-      const infusionVal = parseFloat(document.getElementById('infusionInput').value);
-      const infusionDisplay = document.getElementById('infusionRateDisplay');
-      const unit = document.getElementById("unitToggle").textContent; // current input unit
+  function selectDrug(drug) {
+    const noradBtn = document.getElementById('NoradBtn');
+    const adBtn    = document.getElementById('AdBtn');
 
-      // Check if needed values are provided and a dose has been selected
-      if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
-        infusionDisplay.textContent = "--";
-        return;
-      }
-      
-      let result;
-      if(unit === "ml/hr") {
-        // Convert ml/hr to mcg/kg/min:
-        // (ml/hr * concentration (mg/mL) * 1000) / (weight (kg) * 60)
-        result = (infusionVal * selectedDose.concentration * 1000) / (weight * 60);
-        infusionDisplay.textContent = result.toFixed(2) + " mcg/kg/min";
-      } else {
-        // Convert mcg/kg/min to ml/hr:
-        // (mcg/kg/min * weight (kg) * 60) / (concentration (mg/mL) * 1000)
-        result = (infusionVal * weight * 60) / (selectedDose.concentration * 1000);
-        infusionDisplay.textContent = result.toFixed(2) + " ml/hr";
-      }
-    }
-
-    function resetForm() {
-      // Clear weight input (value and reset placeholder)
-      const weightInput = document.getElementById('weight');
-      weightInput.value = '';
-      weightInput.placeholder = '0';
-
-      // Clear drug selection
-      document.getElementById('NoradBtn').classList.remove('selected-drug');
-      document.getElementById('AdBtn').classList.remove('selected-drug');
+    if (selectedDrug === drug) {
+      // Deselect if already selected
       selectedDrug = null;
-
-      // Clear dose selection
-      document.querySelectorAll('.dose-bubble').forEach(bubble => {
-        bubble.classList.remove('selected');
-      });
-      selectedDose = null;
-      
-      // Clear infusion input and reset toggle
-      document.getElementById('infusionInput').value = '';
-      document.getElementById('unitToggle').textContent = 'ml/hr';
-      document.getElementById('infusionRateDisplay').textContent = '--';
+      noradBtn.classList.remove('selected-drug');
+      adBtn .classList.remove('selected-drug');
+    } else {
+      selectedDrug = drug;
+      noradBtn.classList.toggle('selected-drug', drug === 'Noradrenaline');
+      adBtn .classList.toggle('selected-drug', drug === 'Adrenaline');
     }
-  </script>
+
+    updateInfusionRate();
+  }
+
+  function selectDose(element) {
+    const label = element.childNodes[0].textContent.trim();
+
+    if (selectedDose?.label === label) {
+      // Deselect if already selected
+      selectedDose = null;
+      element.classList.remove('selected');
+    } else {
+      // Clear other selections
+      document.querySelectorAll('.dose-bubble').forEach(b => b.classList.remove('selected'));
+      // Highlight this one
+      element.classList.add('selected');
+      selectedDose = {
+        label: label,
+        concentration: doseData[label]
+      };
+    }
+
+    updateInfusionRate();
+  }
+
+  function toggleUnit() {
+    const unitToggle     = document.getElementById("unitToggle");
+    const infusionInput  = document.getElementById("infusionInput");
+
+    // Clear any existing value
+    if (infusionInput.value !== "") {
+      infusionInput.value = "";
+    }
+
+    // Switch text
+    unitToggle.textContent =
+      unitToggle.textContent === "ml/hr"
+        ? "mcg/kg/min"
+        : "ml/hr";
+
+    updateInfusionRate();
+  }
+
+  function updateInfusionRate() {
+    const weight           = parseFloat(document.getElementById('weight').value);
+    const infusionVal      = parseFloat(document.getElementById('infusionInput').value);
+    const infusionDisplay  = document.getElementById('infusionRateDisplay');
+    const currentUnit      = document.getElementById("unitToggle").textContent;
+
+    // If anything’s missing, show “--” in plain text
+    if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
+      infusionDisplay.textContent = "--";
+      return;
+    }
+
+    let resultValue, displayUnit;
+    if (currentUnit === "ml/hr") {
+      // Convert ml/hr → mcg/kg/min
+      resultValue = (infusionVal * selectedDose.concentration * 1000) / (weight * 60);
+      displayUnit = "mcg/kg/min";
+    } else {
+      // Convert mcg/kg/min → ml/hr
+      resultValue = (infusionVal * weight * 60) / (selectedDose.concentration * 1000);
+      displayUnit = "ml/hr";
+    }
+
+    // Render number in .result color + unit in .unit color
+    infusionDisplay.innerHTML =
+      resultValue.toFixed(2) +
+      '<span class="unit"> ' + displayUnit + '</span>';
+  }
+
+  function resetForm() {
+    // Reset weight
+    const weightInput = document.getElementById('weight');
+    weightInput.value       = '';
+    weightInput.placeholder = '0';
+
+    // Clear drug + dose
+    document.getElementById('NoradBtn').classList.remove('selected-drug');
+    document.getElementById('AdBtn')   .classList.remove('selected-drug');
+    selectedDrug = null;
+
+    document.querySelectorAll('.dose-bubble').forEach(b => b.classList.remove('selected'));
+    selectedDose = null;
+
+    // Reset infusion input + unit + display
+    document.getElementById('infusionInput').value       = '';
+    document.getElementById('unitToggle')   .textContent = 'ml/hr';
+    document.getElementById('infusionRateDisplay').textContent = '--';
+  }
+</script>
 </body>
 </html>
