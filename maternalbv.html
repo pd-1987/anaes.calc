@@ -43,8 +43,8 @@
       margin-top: 0;    
       margin-bottom: 10px;
       text-align: center; 
-      font-size: 18px; 
-      font-weight: bold;
+      font-size: 16px; 
+      font-weight: 700;
     }
     /* New Box for Allowable Blood Loss */
     .allowable-section {
@@ -60,30 +60,30 @@
     .allowable-section p {
       margin: 0 0 10px 0;
       text-align: center;
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 16px;
+      font-weight: 700;
     }
     /* Input groups within sections */
     .input-group {
       margin: 10px 0;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;  /* ← labels+inputs line up at the start */
+      gap: 8px;                    /* ← consistent spacing between label & input */
       font-size: 16px;
     }
     .input-group label {
-      margin-right: 10px;
-      white-space: nowrap;
+     white-space: nowrap;
     }
     .input-group input {
-      width: 100px;
+      width: 60px;
       padding: 5px;
       font-size: 16px;
     }
     /* Result styling */
     .result {
       text-align: center;
-      font-size: 18px;
+      font-size: 16px;
       margin: 20px 0;
     }
     /* Styling for the shock classification table */
@@ -147,11 +147,11 @@
           <td id="classI">-</td>
         </tr>
         <tr>
-          <td>Class II (15–30%)</td>
+          <td>Class II (15-30%)</td>
           <td id="classII">-</td>
         </tr>
         <tr>
-          <td>Class III (30–40%)</td>
+          <td>Class III (30-40%)</td>
           <td id="classIII">-</td>
         </tr>
         <tr>
@@ -214,10 +214,10 @@
       const classIII_high = volume * 0.40;
       const classIVVal = volume * 0.40;
       
-      classI.textContent = "< " + formatNumber(classIVal) + " ml";
-      classII.textContent = formatNumber(classII_low) + " - " + formatNumber(classII_high) + " ml";
-      classIII.textContent = formatNumber(classIII_low) + " - " + formatNumber(classIII_high) + " ml";
-      classIV.textContent = "> " + formatNumber(classIVVal) + " ml";
+      classI.textContent = "<" + formatNumber(classIVal) + " ml";
+      classII.textContent = formatNumber(classII_low) + "-" + formatNumber(classII_high) + " ml";
+      classIII.textContent = formatNumber(classIII_low) + "-" + formatNumber(classIII_high) + " ml";
+      classIV.textContent = ">" + formatNumber(classIVVal) + " ml";
     }
     
     function clearShockClassification() {
