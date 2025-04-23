@@ -250,9 +250,9 @@
     const infusionDisplay  = document.getElementById('infusionRateDisplay');
     const currentUnit      = document.getElementById("unitToggle").textContent;
 
-    // If anything’s missing, show “--” in plain text
+    // If anything’s missing, show “-” in plain text
     if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
-      infusionDisplay.textContent = "--";
+      infusionDisplay.textContent = "-";
       return;
     }
 
@@ -290,7 +290,7 @@
     // Reset infusion input + unit + display
     document.getElementById('infusionInput').value       = '';
     document.getElementById('unitToggle')   .textContent = 'ml/hr';
-    document.getElementById('infusionRateDisplay').textContent = '--';
+    document.getElementById('infusionRateDisplay').textContent = '-';
   }
 </script>
 </body>
