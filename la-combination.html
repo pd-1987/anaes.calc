@@ -316,6 +316,7 @@ function updateTotalAndRemaining() {
     document.getElementById('maxSafeDose').textContent = '0';
     document.getElementById('totalDoseGiven').textContent = '0';
     document.getElementById('doseRemaining').textContent = '0';
+    document.getElementById('doseRemaining').classList.remove('negative');
     maxSafeDose = 0;
   }
 
