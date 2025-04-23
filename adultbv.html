@@ -74,7 +74,7 @@
     }
     .input-group label {
       white-space: nowrap;
-       flex: 0 0 90px;     /* lock every label to 100px */
+       flex: 0 0 100px;     /* lock every label to 100px */
     }
     .input-group input {
       width: 60px;
@@ -107,7 +107,9 @@
     }
     #toggleBtn {
   margin-left: 8px;
-  padding: 5px 5px;
+  padding: 5px 4px;
+       width: auto;          /* ensure it shrinks to fit content */
+       flex: 0 0 auto;       /* in case your container is flex, don’t let it grow */
   font-size: 14px;
   cursor: pointer;
       border: 1px solid #ccc;
