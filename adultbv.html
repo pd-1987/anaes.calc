@@ -107,7 +107,7 @@
     }
     #toggleBtn {
   margin-left: 8px;
-  padding: 5px 8px;
+  padding: 5px 12px;
        width: auto;          /* ensure it shrinks to fit content */
        flex: 0 0 auto;       /* in case your container is flex, don’t let it grow */
   font-size: 14px;
@@ -198,26 +198,53 @@ let circulatingVolume = null;
 let useBMI = true;  // true = interpret secondaryInput as BMI
 
 function toggleMode() {
-  useBMI = !useBMI;
-  const label = document.getElementById('secondaryLabel');
-  const input = document.getElementById('secondaryInput');
-  const btn   = document.getElementById('toggleBtn');
+  // grab elements & readings
+  const label    = document.getElementById('secondaryLabel');
+  const input    = document.getElementById('secondaryInput');
+  const btn      = document.getElementById('toggleBtn');
+  const weight   = parseFloat(document.getElementById('weight').value) || 0;
+  const rawValue = parseFloat(input.value) || 0;
 
+  // compute the new value, if possible
+  let newValue = '';
   if (useBMI) {
-    label.textContent    = 'BMI (kg/m²):';
-    input.placeholder    = '0';
-    input.value          = '';
-    input.step           = 'any';
-    btn.textContent      = 'Use Height';
+    // we’re switching *from* BMI → *to* Height
+    if (weight > 0 && rawValue > 0) {
+      // height (m) = sqrt(weight / BMI)
+      // convert to cm:
+      newValue = (Math.sqrt(weight / rawValue) * 100).toFixed(0);
+    }
   } else {
-    label.textContent    = 'Height (cm):';
-    input.placeholder    = 'cm';
-    input.value          = '';
-    input.step           = 'any';
-    btn.textContent      = 'Use BMI';
+    // we’re switching *from* Height → *to* BMI
+    if (weight > 0 && rawValue > 0) {
+      const h_m = rawValue / 100;
+      newValue = (weight / (h_m * h_m)).toFixed(2);
+    }
   }
+
+  // flip the mode
+  useBMI = !useBMI;
+
+  // set label, placeholder, button text
+  if (useBMI) {
+    label.textContent = 'BMI (kg/m²):';
+    input.placeholder = '0';
+    btn.textContent   = 'Use Height';
+    input.step        = 'any';
+  } else {
+    label.textContent = 'Height (cm):';
+    input.placeholder = 'cm';
+    btn.textContent   = 'Use BMI';
+    input.step        = 'any';
+  }
+
+  // apply the converted value (or clear if we couldn’t)
+  input.value = newValue;
+
+  // re-run your volume calculation with the newly‐set input
   updateCalculations();
-}   
+}
+
     // Helper to format numbers with zero decimals
     function formatNumber(num) {
       return num.toFixed(0);
