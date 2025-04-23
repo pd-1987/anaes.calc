@@ -132,7 +132,7 @@
     <!-- BMI Entry Group -->
    <!-- Secondary entry: BMI or Height -->
   <div class="input-group">
-    <label for="secondaryInput" id="secondaryLabel">BMI (kg/m²):</label>
+    <label for="secondaryInput" id="secondaryLabel">Height (cm):</label>
     <input
       type="number"
       id="secondaryInput"
@@ -141,7 +141,7 @@
       step="any"
       oninput="updateCalculations()"
     >
-    <button type="button" id="toggleBtn">Use Height</button>
+    <button type="button" id="toggleBtn">Use BMI</button>
   </div>
   
     <!-- Circulating Blood Volume Output -->
@@ -196,7 +196,7 @@
   
   <script>
 let circulatingVolume = null;
-let useBMI = true;  // true = interpret secondaryInput as BMI
+let useBMI = false; // false = interpret secondaryInput as Height
 
 function toggleMode() {
   // grab elements & readings
@@ -328,8 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
   clearShockClassification();
   // reset your globals
   circulatingVolume = null;
-  // go back to BMI mode if you’d toggled to Height
-  if (!useBMI) {
+  // go back to Height mode if you’re in BMI
+  if (useBMI) {
     toggleMode();
   }
 }
