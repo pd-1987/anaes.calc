@@ -262,19 +262,11 @@ button.active small {
   border: 1px solid #ccc;
 }
 
-.reset-btn:hover {
-  background-color: #f0f0f0;
-}
-
 .home-btn {
   text-decoration: none;
   text-align: center;
   background-color: #444444;
   color: white;
-}
-
-.home-btn:hover {
-  background-color: #444444;
 }
 
 .full-width {
@@ -328,10 +320,6 @@ footer a:hover {
   transition: background-color 0.2s ease;
 }
 
-.calc-button:hover {
-  background-color: #007BFF;
-}
-
 .calc-button small {
   display: block;
   font-size: 14px;
@@ -357,20 +345,12 @@ footer a:hover {
    font-weight: 400;
 }
 
-.general-btn:hover {
-  background-color: #1565C0;
-}
-
 /* Airway */
 .airway-btn {
   background-color: #B71C1C;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
-}
-
-.airway-btn:hover {
-  background-color: #B71C1C;
 }
 
 /* Regional – Dark Green */
@@ -381,20 +361,12 @@ footer a:hover {
    font-weight: 400;
 }
 
-.regional-btn:hover {
-  background-color: #2e8b57;
-}
-
 /* Obstetrics */
 .obstetrics-btn {
   background-color: #B57FAE;
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
-}
-
-.obstetrics-btn:hover {
-  background-color: #B57FAE; 
 }
 
 /* Critical Care */
@@ -405,10 +377,6 @@ footer a:hover {
    font-weight: 400;
 }
 
-.critical-btn:hover {
-  background-color: #5E35B1;
-}
-
 /* Grey buttons (Feedback, Disclaimer) remain unchanged */
 .grey-btn {
   background-color: #f0f0f0;
@@ -416,9 +384,6 @@ footer a:hover {
   border: 1px solid #ccc;
 }
 
-.grey-btn:hover {
-  background-color: #f0f0f0;
-}
 #lidocaineInput {
       width: 30px;
       padding: 2px;
