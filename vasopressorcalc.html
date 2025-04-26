@@ -110,7 +110,7 @@
 }
     </style>
 </head>
-<body>
+<body onload="updateInfusionRate()">
   <!-- Header with Title -->
   <header class="banner">
     Vasopressor Infusion Calculator
@@ -245,16 +245,20 @@
   }
 
   function updateInfusionRate() {
-    const weight           = parseFloat(document.getElementById('weight').value);
-    const infusionVal      = parseFloat(document.getElementById('infusionInput').value);
-    const infusionDisplay  = document.getElementById('infusionRateDisplay');
-    const currentUnit      = document.getElementById("unitToggle").textContent;
+  const weight           = parseFloat(document.getElementById('weight').value);
+  const infusionVal      = parseFloat(document.getElementById('infusionInput').value);
+  const infusionDisplay  = document.getElementById('infusionRateDisplay');
+  const currentUnit      = document.getElementById("unitToggle").textContent;
 
-    // If anything’s missing, show “-” in plain text
-    if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
-      infusionDisplay.textContent = "-";
-      return;
-    }
+  // If anything’s missing, show “0 ml/hr” (or the currently-toggled unit) instead of “–”
+  if (isNaN(infusionVal) || isNaN(weight) || !selectedDose || weight === 0) {
+    // pick the right unit for the fallback
+    const unitText = (currentUnit === "ml/hr")
+      ? "ml/hr"
+      : "mcg/kg/min";
+    infusionDisplay.innerHTML = `0<span class="unit"> ${unitText}</span>`;
+    return;
+  }
 
     let resultValue, displayUnit;
     if (currentUnit === "ml/hr") {
@@ -274,24 +278,25 @@
   }
 
   function resetForm() {
-    // Reset weight
-    const weightInput = document.getElementById('weight');
-    weightInput.value       = '';
-    weightInput.placeholder = '0';
+  // Reset weight
+  const weightInput = document.getElementById('weight');
+  weightInput.value = '';
+  weightInput.placeholder = '0';
 
-    // Clear drug + dose
-    document.getElementById('NoradBtn').classList.remove('selected-drug');
-    document.getElementById('AdBtn')   .classList.remove('selected-drug');
-    selectedDrug = null;
+  // Clear drug + dose
+  document.getElementById('NoradBtn').classList.remove('selected-drug');
+  document.getElementById('AdBtn')  .classList.remove('selected-drug');
+  selectedDrug = null;
+  document.querySelectorAll('.dose-bubble').forEach(b => b.classList.remove('selected'));
+  selectedDose = null;
 
-    document.querySelectorAll('.dose-bubble').forEach(b => b.classList.remove('selected'));
-    selectedDose = null;
+  // Reset infusion input + unit toggle
+  document.getElementById('infusionInput').value = '';
+  document.getElementById('unitToggle').textContent = 'ml/hr';
 
-    // Reset infusion input + unit + display
-    document.getElementById('infusionInput').value       = '';
-    document.getElementById('unitToggle')   .textContent = 'ml/hr';
-    document.getElementById('infusionRateDisplay').textContent = '-';
-  }
+  // **Re-run the update so your fallback shows 0 ml/hr**
+  updateInfusionRate();
+}
 </script>
 </body>
 </html>
