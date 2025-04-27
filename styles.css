@@ -28,11 +28,7 @@ strong
 }
 /* Header Banner */
 header.banner {
-  background: linear-gradient(
-    to right,
-    #666666 0%,   /* medium slate grey */
-    #222222 100%  /* nearly black */
-  );
+background-color: #444444;
   color: white;
   text-align: center;
   padding: 10px 10px;
