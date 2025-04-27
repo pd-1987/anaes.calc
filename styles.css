@@ -317,7 +317,7 @@ footer a:hover {
   color: white;
   border-radius: 8px;
   font-size: 16px;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .calc-button small {
@@ -334,8 +334,6 @@ footer a:hover {
   font-size: 16px;
   font-weight: 700;
 }
-
-/* Darker Colours for Category-Specific Buttons */
 
 /* General */
 .general-btn {
