@@ -271,11 +271,13 @@
       displayUnit = "ml/hr";
     }
 
-    // Render number in .result color + unit in .unit color
-    infusionDisplay.innerHTML =
-      resultValue.toFixed(3) +
-      '<span class="unit"> ' + displayUnit + '</span>';
-  }
+   // Render number stripped of unnecessary zeros + unit
+  const raw = resultValue.toFixed(3);               // e.g. "1.200"
+  const formatted = raw.replace(/\.?0+$/, '');      // -> "1.2"
+  infusionDisplay.innerHTML =
+    formatted +
+    '<span class="unit"> ' + displayUnit + '</span>';
+}
 
   function resetForm() {
   // Reset weight
