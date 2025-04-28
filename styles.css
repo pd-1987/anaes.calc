@@ -337,7 +337,11 @@ footer a:hover {
 
 /* General */
 .general-btn {
-  background-color: #1565C0;
+  background: linear-gradient(
+    to right,
+    #1565C0 0%,   /* your original blue */
+    #003c8f 100%   /* deep navy */
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
@@ -345,7 +349,11 @@ footer a:hover {
 
 /* Airway */
 .airway-btn {
-  background-color: #B71C1C;
+  background: linear-gradient(
+    to right,
+    #b71c1c 0%,
+    #8e0000 100%
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
@@ -353,7 +361,11 @@ footer a:hover {
 
 /* Regional – Dark Green */
 .regional-btn {
-  background-color: #2e8b57;
+  background: linear-gradient(
+    to right,
+    #2e8b57 0%,   /* your original color */
+    #1b5e20 100%   /* dark green */
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
@@ -361,7 +373,11 @@ footer a:hover {
 
 /* Obstetrics */
 .obstetrics-btn {
-  background-color: #B57FAE;
+   background: linear-gradient(
+    to right,
+    #894070 0%,    /* darker lilac */
+    #5a1f4e 100%   /* deep plum-berry */
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
@@ -369,7 +385,11 @@ footer a:hover {
 
 /* Critical Care */
 .critical-btn {
-  background-color: #5E35B1;
+  background: linear-gradient(
+    to right,
+    #5E35B1 0%,   /* your original purple */
+    #3a0f81 100%   /* rich dark violet */
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
