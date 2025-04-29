@@ -97,7 +97,7 @@
 
     <footer>
         <small>
-            <strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.91 × (height in cm – 152.4); for females, 45.5 + 0.91 × (height in cm – 152.4). <strong>Ideal Body Weight (IBW) below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + 0.75 × (height in cm − 152.4); for females, 49 + 0.67 × (height in cm − 152.4). <strong>Miller formula: </strong>For males, 56.2 + 0.56 × (height in cm − 152.4); for females, 53.1 + 0.53 × (height in cm − 152.4). <strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.
+            <strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.91 × (height in cm – 152.4); for females, 45.5 + 0.91 × (height in cm – 152.4). <strong>Ideal Body Weight (IBW) below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + 0.75 × (height in cm − 152.4); for females, 49 + 0.67 × (height in cm − 152.4). <strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.
         </small>
     </footer>
     <footer>
@@ -180,30 +180,23 @@
     let ibwForAbwCalculation;
 
     if (heightCm < 152.4) {
-        // below 5 ft: show both Robinson & Miller
-        const robinsonIbw = (gender === 'male')
-            ? 52   + 0.75 * (heightCm - 152.4)
-            : 49   + 0.67 * (heightCm - 152.4);
-        const millerIbw   = (gender === 'male')
-            ? 56.2 + 0.56 * (heightCm - 152.4)
-            : 53.1 + 0.53 * (heightCm - 152.4);
+    // below 5 ft: only Robinson
+    const robinsonIbw = (gender === 'male')
+        ? 52   + 0.75 * (heightCm - 152.4)
+        : 49   + 0.67 * (heightCm - 152.4);
 
-        ibwDisplayText =
-    `<br>${robinsonIbw.toFixed(1)} kg (Robinson)<br>` +
-    `${millerIbw.toFixed(1)} kg (Miller)`;
-     
-        // pick one for adjusted BW — e.g. Miller by default
-        ibwForAbwCalculation = millerIbw;
+    ibwDisplayText = `${robinsonIbw.toFixed(1)} kg (Robinson)`;
+    ibwForAbwCalculation = robinsonIbw;
 
-    } else {
-        // at or above 5 ft: floored Devine
-        const baseIbw = (gender === 'male') ? 50 : 45.5;
-        const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
-        const devine  = Math.max(rawIbw, baseIbw);
+} else {
+    // at or above 5 ft: floored Devine
+    const baseIbw = (gender === 'male') ? 50 : 45.5;
+    const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
+    const devine  = Math.max(rawIbw, baseIbw);
 
-        ibwDisplayText = `${devine.toFixed(1)} kg`;
-        ibwForAbwCalculation = devine;
-    }
+    ibwDisplayText = `${devine.toFixed(1)} kg`;
+    ibwForAbwCalculation = devine;
+}
 
     // Adjusted Body Weight
     const abw = ibwForAbwCalculation + 0.4 * (weightKg - ibwForAbwCalculation);
