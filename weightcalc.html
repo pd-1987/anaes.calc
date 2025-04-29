@@ -154,46 +154,74 @@
             el.addEventListener('input', calculate);
         });
 
-        function calculate() {
-            const height = parseFloat(document.getElementById('height').value);
-            const weight = parseFloat(document.getElementById('weight').value);
+     function calculate() {
+    const height = parseFloat(document.getElementById('height').value);
+    const weight = parseFloat(document.getElementById('weight').value);
 
-            // If gender is not selected or height/weight are missing, clear the results.
-            if (!height || !weight || !gender) {
-                document.getElementById('bmiResult').textContent = '';
-                document.getElementById('ibwResult').textContent = '';
-                document.getElementById('abwResult').textContent = '';
-                document.getElementById('lbwResult').textContent = '';
-                return;
-            }
+    // if any input missing, clear and bail out
+    if (!height || !weight || !gender) {
+        document.getElementById('bmiResult').textContent = '';
+        document.getElementById('ibwResult').textContent = '';
+        document.getElementById('abwResult').textContent = '';
+        document.getElementById('lbwResult').textContent = '';
+        return;
+    }
 
-            // Convert height and weight to metric units if necessary.
-            const heightCm = heightUnit === 'in' ? height * 2.54 : height;
-            const weightKg = weightUnit === 'lb' ? weight / 2.20462 : weight;
-            const heightM = heightCm / 100;
-            const bmi = weightKg / (heightM * heightM);
+    // convert units to metric
+    const heightCm = (heightUnit === 'in') ? height * 2.54 : height;
+    const weightKg = (weightUnit === 'lb') ? weight / 2.20462 : weight;
+    const heightM  = heightCm / 100;
 
-// Devine baseline constants
-const baseIbw = (gender === 'male') ? 50 : 45.5;
-// Raw Devine calculation
-const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
-// Hard‐stop: never go below the baseline
-const ibw      = (heightCm < 152.4) ? baseIbw : rawIbw;
+    // BMI
+    const bmi = weightKg / (heightM * heightM);
 
-            const abw = ibw + 0.4 * (weightKg - ibw);
+    // ---- IBW logic ----
+    let ibwDisplayText;
+    let ibwForAbwCalculation;
 
-            let lbw;
-            if (gender === 'male') {
-                lbw = (0.407 * weightKg) + (0.267 * heightCm) - 19.2;
-            } else {
-                lbw = (0.252 * weightKg) + (0.473 * heightCm) - 48.3;
-            }
+    if (heightCm < 152.4) {
+        // below 5 ft: show both Robinson & Miller
+        const robinsonIbw = (gender === 'male')
+            ? 52   + 0.75 * (heightCm - 152.4)
+            : 49   + 0.67 * (heightCm - 152.4);
+        const millerIbw   = (gender === 'male')
+            ? 56.2 + 0.56 * (heightCm - 152.4)
+            : 53.1 + 0.53 * (heightCm - 152.4);
 
-            document.getElementById('bmiResult').textContent = bmi.toFixed(1) + ' kg/m²';
-            document.getElementById('ibwResult').textContent = ibw.toFixed(1) + ' kg';
-            document.getElementById('abwResult').textContent = abw.toFixed(1) + ' kg';
-            document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
-        }
+        ibwDisplayText = 
+            `${robinsonIbw.toFixed(1)} kg (Robinson), ` +
+            `${millerIbw.toFixed(1)} kg (Miller)`;
+
+        // pick one for adjusted BW — e.g. Miller by default
+        ibwForAbwCalculation = millerIbw;
+
+    } else {
+        // at or above 5 ft: floored Devine
+        const baseIbw = (gender === 'male') ? 50 : 45.5;
+        const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
+        const devine  = Math.max(rawIbw, baseIbw);
+
+        ibwDisplayText = `${devine.toFixed(1)} kg`;
+        ibwForAbwCalculation = devine;
+    }
+
+    // Adjusted Body Weight
+    const abw = ibwForAbwCalculation + 0.4 * (weightKg - ibwForAbwCalculation);
+
+    // Lean Body Weight (Boer)
+    let lbw;
+    if (gender === 'male') {
+        lbw = 0.407 * weightKg + 0.267 * heightCm - 19.2;
+    } else {
+        lbw = 0.252 * weightKg + 0.473 * heightCm - 48.3;
+    }
+
+    // Write out all results
+    document.getElementById('bmiResult').textContent = bmi.toFixed(1) + ' kg/m²';
+    document.getElementById('ibwResult').textContent = ibwDisplayText;
+    document.getElementById('abwResult').textContent = abw.toFixed(1) + ' kg';
+    document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
+}
 
         function resetCalculator() {
             // Clear input fields
