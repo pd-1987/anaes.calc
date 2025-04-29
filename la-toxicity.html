@@ -21,6 +21,14 @@
     #3a0f81 100%   /* rich dark violet */
   );
 }
+    .boxed-section {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  margin: 10px;
+  box-sizing: border-box;
+  background-color: #fafafa;
+}
   </style>
 </head>
 <body>
@@ -32,7 +40,8 @@
     <!-- Added oninput to trigger a recalculation when weight is changed -->
     <input type="number" id="weight" placeholder="0" min="0" oninput="">
   </div>
-
+ 
+ <div class="boxed-section immediate-section">
 <div class="instruction-header">
    Immediate treatment: Intralipid 20%
   </div>
@@ -45,19 +54,24 @@
     <u>Infusion (15 ml/kg/hr)</u>:
     <span id="infusion">0</span> <span class="unit">ml/hr</span>
   </p>
+ </div>
 
+ <div class="boxed-section 5min-section">
   <div class="instruction-header">
    At 5 minutes: Repeat bolus and double the infusion rate if cardiovascular stability has not been restored or an adequate circulation deteriorates.
   </div>
 
-   <div class="instruction-header">
+   <div>
   At 10 minutes: Repeat bolus if cardiovascular stability has not been restored or an adequate circulation deteriorates.
   </div>
+ </div>
 
+ <div class="boxed-section immediate-section">
   <p class="result">
     <u>Do not exceed maximum cumulative dose (12 ml/kg)</u>:
     <span id="maxdose">0</span> <span class="unit">ml</span>
   </p>
+ </div>
   
    <footer>
     <small>
