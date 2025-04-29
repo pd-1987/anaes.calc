@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LA toxcicity intralipid calculator</title>
+  <style>
+         header.banner {
+  background: linear-gradient(
+    to right,
+    #5E35B1 0%,   /* your original purple */
+    #3a0f81 100%   /* rich dark violet */
+  );
+}
+  </style>
+</head>
+<body>
+  <header class="banner">LA Toxicity Intralipid Calculator</header>
+
+  <!-- Weight Entry Group -->
+  <div class="input-group">
+    <label for="weight">Weight (kg):</label>
+    <!-- Added oninput to trigger a recalculation when weight is changed -->
+    <input type="number" id="weight" placeholder="0" min="0" oninput="">
+  </div>
+
+<div class="instruction-header">
+   Immediate treatment: Intralipid 20%
+  </div>
+ <p class="result">
+    <u>Bolus (1.5 ml/kg)</u>:
+    <span id="immediatedose">0</span> <span class="unit">ml</span>
+  </p>
+
+   <p class="result">
+    <u>Infusion (15 ml/kg/hr)</u>:
+    <span id="infusion">0</span> <span class="unit">ml/hr</span>
+  </p>
+
+  <div class="instruction-header">
+   At 5 minutes: Repeat bolus and double the infusion rate if cardiovascular stability has not been restored or an adequate circulation deteriorates.
+  </div>
+
+   <div class="instruction-header">
+  At 10 minutes: Repeat bolus if cardiovascular stability has not been restored or an adequate circulation deteriorates.
+  </div>
+
+  <p class="result">
+    <u>Do not exceed maximum cumulative dose (12 ml/kg)</u>:
+    <span id="maxdose">0</span> <span class="unit">ml</span>
+  </p>
+  
+   <footer>
+    <small>
+      <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
+  </footer>  
+
+  <script>
+    </script>
+</body>
+</html>
