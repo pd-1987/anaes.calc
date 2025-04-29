@@ -188,10 +188,10 @@
             ? 56.2 + 0.56 * (heightCm - 152.4)
             : 53.1 + 0.53 * (heightCm - 152.4);
 
-        ibwDisplayText = 
-            `${robinsonIbw.toFixed(1)} kg (Robinson), ` +
-            `${millerIbw.toFixed(1)} kg (Miller)`;
-
+        ibwDisplayText =
+    `<br>${robinsonIbw.toFixed(1)} kg (Robinson)<br>` +
+    `${millerIbw.toFixed(1)} kg (Miller)`;
+     
         // pick one for adjusted BW — e.g. Miller by default
         ibwForAbwCalculation = millerIbw;
 
@@ -218,7 +218,7 @@
 
     // Write out all results
     document.getElementById('bmiResult').textContent = bmi.toFixed(1) + ' kg/m²';
-    document.getElementById('ibwResult').textContent = ibwDisplayText;
+    document.getElementById('ibwResult').innerHTML = ibwDisplayText;
     document.getElementById('abwResult').textContent = abw.toFixed(1) + ' kg';
     document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
 }
