@@ -97,7 +97,7 @@
 
     <footer>
         <small>
-            <strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.91 × (height in cm – 152.4); for females, 45.5 + 0.91 × (height in cm – 152.4). <strong>Ideal Body Weight (IBW) below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + 0.75 × (height in cm − 152.4); for females, 49 + 0.67 × (height in cm − 152.4). <strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.
+            <strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.91 × (height in cm – 152.4); for females, 45.5 + 0.91 × (height in cm – 152.4). <strong>IBW below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + 0.75 × (height in cm − 152.4); for females, 49 + 0.67 × (height in cm − 152.4). <strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.
         </small>
     </footer>
     <footer>
@@ -154,66 +154,78 @@
             el.addEventListener('input', calculate);
         });
 
-     function calculate() {
-    const height = parseFloat(document.getElementById('height').value);
-    const weight = parseFloat(document.getElementById('weight').value);
+function calculate() {
+    // Read raw inputs
+    const hRaw = parseFloat(document.getElementById('height').value);
+    const wRaw = parseFloat(document.getElementById('weight').value);
 
-    // if any input missing, clear and bail out
-    if (!height || !weight || !gender) {
-        document.getElementById('bmiResult').textContent = '';
-        document.getElementById('ibwResult').textContent = '';
-        document.getElementById('abwResult').textContent = '';
-        document.getElementById('lbwResult').textContent = '';
-        return;
-    }
+    // Determine which values we have
+    const hasH = !isNaN(hRaw) && hRaw > 0;
+    const hasW = !isNaN(wRaw) && wRaw > 0;
 
-    // convert units to metric
-    const heightCm = (heightUnit === 'in') ? height * 2.54 : height;
-    const weightKg = (weightUnit === 'lb') ? weight / 2.20462 : weight;
-    const heightM  = heightCm / 100;
+    // Convert to metric if present
+    const heightCm = hasH
+      ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
+      : null;
+    const weightKg = hasW
+      ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
+      : null;
+    const heightM = hasH ? heightCm / 100 : null;
 
-    // BMI
-    const bmi = weightKg / (heightM * heightM);
+    // Prepare a variable for ABW calculation
+    let ibwForAbw;
 
-    // ---- IBW logic ----
-    let ibwDisplayText;
-    let ibwForAbwCalculation;
-
-    if (heightCm < 152.4) {
-    // below 5 ft: only Robinson
-    const robinsonIbw = (gender === 'male')
-        ? 52   + 0.75 * (heightCm - 152.4)
-        : 49   + 0.67 * (heightCm - 152.4);
-
-    ibwDisplayText = `${robinsonIbw.toFixed(1)} kg (Robinson)`;
-    ibwForAbwCalculation = robinsonIbw;
-
-} else {
-    // at or above 5 ft: floored Devine
-    const baseIbw = (gender === 'male') ? 50 : 45.5;
-    const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
-    const devine  = Math.max(rawIbw, baseIbw);
-
-    ibwDisplayText = `${devine.toFixed(1)} kg`;
-    ibwForAbwCalculation = devine;
-}
-
-    // Adjusted Body Weight
-    const abw = ibwForAbwCalculation + 0.4 * (weightKg - ibwForAbwCalculation);
-
-    // Lean Body Weight (Boer)
-    let lbw;
-    if (gender === 'male') {
-        lbw = 0.407 * weightKg + 0.267 * heightCm - 19.2;
+    // 1) Compute & display IBW if we have height + gender
+    if (hasH && gender) {
+        let ibw;
+        if (heightCm < 152.4) {
+            // Robinson below 5ft
+            ibw = (gender === 'male')
+                ? 52 + 0.75 * (heightCm - 152.4)
+                : 49 + 0.67 * (heightCm - 152.4);
+            document.getElementById('ibwResult').innerHTML =
+                `${ibw.toFixed(1)} kg (Robinson)`;
+        } else {
+            // Devine at/above 5ft
+            const base = gender === 'male' ? 50 : 45.5;
+            const raw  = base + 0.91 * (heightCm - 152.4);
+            ibw = Math.max(raw, base);
+            document.getElementById('ibwResult').innerHTML =
+                `${ibw.toFixed(1)} kg`;
+        }
+        ibwForAbw = ibw;
     } else {
-        lbw = 0.252 * weightKg + 0.473 * heightCm - 48.3;
+        document.getElementById('ibwResult').textContent = '';
     }
 
-    // Write out all results
-    document.getElementById('bmiResult').textContent = bmi.toFixed(1) + ' kg/m²';
-    document.getElementById('ibwResult').innerHTML = ibwDisplayText;
-    document.getElementById('abwResult').textContent = abw.toFixed(1) + ' kg';
-    document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
+    // 2) Compute & display BMI only if we have height + weight
+    if (hasH && hasW) {
+        const bmi = weightKg / (heightM * heightM);
+        document.getElementById('bmiResult').textContent =
+            bmi.toFixed(1) + ' kg/m²';
+    } else {
+        document.getElementById('bmiResult').textContent = '';
+    }
+
+    // 3) Compute & display ABW only if we have weight + IBW
+    if (hasW && typeof ibwForAbw !== 'undefined') {
+        const abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
+        document.getElementById('abwResult').textContent =
+            abw.toFixed(1) + ' kg';
+    } else {
+        document.getElementById('abwResult').textContent = '';
+    }
+
+    // 4) Compute & display LBW only if we have height + weight
+    if (hasH && hasW) {
+        const lbw = (gender === 'male')
+            ? 0.407 * weightKg + 0.267 * heightCm - 19.2
+            : 0.252 * weightKg + 0.473 * heightCm - 48.3;
+        document.getElementById('lbwResult').textContent =
+            lbw.toFixed(1) + ' kg';
+    } else {
+        document.getElementById('lbwResult').textContent = '';
+    }
 }
 
         function resetCalculator() {
