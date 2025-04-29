@@ -165,11 +165,11 @@ function calculate() {
 
     // Convert to metric if present
     const heightCm = hasH
-      ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
-      : null;
+        ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
+        : null;
     const weightKg = hasW
-      ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
-      : null;
+        ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
+        : null;
     const heightM = hasH ? heightCm / 100 : null;
 
     // Prepare a variable for ABW calculation
@@ -181,18 +181,22 @@ function calculate() {
         if (heightCm < 152.4) {
             // Robinson below 5ft
             ibw = (gender === 'male')
-                ? 52 + 0.75 * (heightCm - 152.4)
-                : 49 + 0.67 * (heightCm - 152.4);
-            document.getElementById('ibwResult').innerHTML =
-                `${ibw.toFixed(1)} kg (Robinson)`;
+                ? 52   + 0.75 * (heightCm - 152.4)
+                : 49   + 0.67 * (heightCm - 152.4);
         } else {
             // Devine at/above 5ft
             const base = gender === 'male' ? 50 : 45.5;
             const raw  = base + 0.91 * (heightCm - 152.4);
-            ibw = Math.max(raw, base);
-            document.getElementById('ibwResult').innerHTML =
-                `${ibw.toFixed(1)} kg`;
+            ibw      = Math.max(raw, base);
         }
+        // Prevent negative
+        ibw = Math.max(ibw, 0);
+
+        // Show it
+        const label = heightCm < 152.4 ? ' (Robinson)' : '';
+        document.getElementById('ibwResult').innerHTML =
+            `${ibw.toFixed(1)} kg${label}`;
+
         ibwForAbw = ibw;
     } else {
         document.getElementById('ibwResult').textContent = '';
@@ -209,7 +213,8 @@ function calculate() {
 
     // 3) Compute & display ABW only if we have weight + IBW
     if (hasW && typeof ibwForAbw !== 'undefined') {
-        const abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
+        let abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
+        abw = Math.max(abw, 0);
         document.getElementById('abwResult').textContent =
             abw.toFixed(1) + ' kg';
     } else {
@@ -218,16 +223,16 @@ function calculate() {
 
     // 4) Compute & display LBW only if we have height + weight
     if (hasH && hasW) {
-        const lbw = (gender === 'male')
+        let lbw = (gender === 'male')
             ? 0.407 * weightKg + 0.267 * heightCm - 19.2
             : 0.252 * weightKg + 0.473 * heightCm - 48.3;
+        lbw = Math.max(lbw, 0);
         document.getElementById('lbwResult').textContent =
             lbw.toFixed(1) + ' kg';
     } else {
         document.getElementById('lbwResult').textContent = '';
     }
 }
-
         function resetCalculator() {
             // Clear input fields
             document.getElementById('height').value = '';
