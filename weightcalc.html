@@ -186,38 +186,32 @@ function calculate() {
     let ibwForAbw;
 
     // Pre-compute precise per-cm factors
-    const devineFactor   = 0.9055;          // = 2.3 kg/in ÷ 2.54 cm/in
-    const maleFactor     = 1.9 / 2.54;      // ≈ 0.7480 kg/cm
-    const femaleFactor   = 1.7 / 2.54;      // ≈ 0.6693 kg/cm
+    const devineFactor = 0.9055;
+    const maleFactor   = 1.9 / 2.54;
+    const femaleFactor = 1.7 / 2.54;
 
-    // 1) Compute & display IBW if we have height + gender
+    // 1) Compute & display IBW
     if (heightCm !== null && gender) {
         let ibw;
         if (heightCm < 152.4) {
-            // Robinson below 5ft, using precise cm factors
             ibw = (gender === 'male')
                 ? 52 + maleFactor   * (heightCm - 152.4)
                 : 49 + femaleFactor * (heightCm - 152.4);
         } else {
-            // Devine at/above 5ft, using precise cm factor
             const base = (gender === 'male') ? 50 : 45.5;
             const raw  = base + devineFactor * (heightCm - 152.4);
             ibw      = Math.max(raw, base);
         }
-        // Prevent negative
         ibw = Math.max(ibw, 0);
-
-        // Show IBW with label if Robinson
         const label = (heightCm < 152.4) ? ' (Robinson)' : '';
         document.getElementById('ibwResult').innerHTML =
             `${ibw.toFixed(1)} kg${label}`;
-
         ibwForAbw = ibw;
     } else {
         document.getElementById('ibwResult').textContent = '';
     }
 
-    // 2) Compute & display BMI only if we have height + weight
+    // 2) Compute & display BMI
     if (heightCm !== null && hasW) {
         const bmi = weightKg / (heightM * heightM);
         document.getElementById('bmiResult').textContent =
@@ -226,17 +220,21 @@ function calculate() {
         document.getElementById('bmiResult').textContent = '';
     }
 
-    // 3) Compute & display ABW only if we have weight + IBW
+    // 3) Compute & display ABW only if actual > IBW
     if (hasW && typeof ibwForAbw !== 'undefined') {
-        let abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
-        abw = Math.max(abw, 0);
-        document.getElementById('abwResult').textContent =
-            abw.toFixed(1) + ' kg';
+        if (weightKg > ibwForAbw) {
+            let abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
+            abw = Math.max(abw, 0);
+            document.getElementById('abwResult').textContent =
+                abw.toFixed(1) + ' kg';
+        } else {
+            document.getElementById('abwResult').textContent = 'Not applicable';
+        }
     } else {
         document.getElementById('abwResult').textContent = '';
     }
 
-    // 4) Compute & display LBW only if we have height + weight
+    // 4) Compute & display LBW
     if (heightCm !== null && hasW) {
         let lbw = (gender === 'male')
             ? 0.407 * weightKg + 0.267 * heightCm - 19.2
