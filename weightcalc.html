@@ -173,12 +173,12 @@
             const heightM = heightCm / 100;
             const bmi = weightKg / (heightM * heightM);
 
-            let ibw;
-            if (gender === 'male') {
-                ibw = 50 + 0.91 * (heightCm - 152.4);
-            } else {
-                ibw = 45.5 + 0.91 * (heightCm - 152.4);
-            }
+// Devine baseline constants
+const baseIbw = (gender === 'male') ? 50 : 45.5;
+// Raw Devine calculation
+const rawIbw  = baseIbw + 0.91 * (heightCm - 152.4);
+// Hard‐stop: never go below the baseline
+const ibw      = (heightCm < 152.4) ? baseIbw : rawIbw;
 
             const abw = ibw + 0.4 * (weightKg - ibw);
 
