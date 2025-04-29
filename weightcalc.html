@@ -160,23 +160,36 @@ function calculate() {
     const wRaw = parseFloat(document.getElementById('weight').value);
 
     // Determine which values we have
-    const hasH = !isNaN(hRaw) && hRaw > 0;
-    const hasW = !isNaN(wRaw) && wRaw > 0;
+    const hasHraw = !isNaN(hRaw) && hRaw > 0;
+    const hasW    = !isNaN(wRaw) && wRaw > 0;
 
-    // Convert to metric if present
-    const heightCm = hasH
-        ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
-        : null;
+    // Convert height to cm if present
+    const heightCm = hasHraw
+      ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
+      : null;
+
+    // If height is below 100 cm, clear all results and bail out
+    if (heightCm !== null && heightCm < 100) {
+        document.getElementById('bmiResult').textContent = '';
+        document.getElementById('ibwResult').textContent = '';
+        document.getElementById('abwResult').textContent = '';
+        document.getElementById('lbwResult').textContent = '';
+        return;
+    }
+
+    // Convert weight to kg if present
     const weightKg = hasW
-        ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
-        : null;
-    const heightM = hasH ? heightCm / 100 : null;
+      ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
+      : null;
+
+    // Calculate height in meters
+    const heightM = heightCm !== null ? heightCm / 100 : null;
 
     // Prepare a variable for ABW calculation
     let ibwForAbw;
 
     // 1) Compute & display IBW if we have height + gender
-    if (hasH && gender) {
+    if (heightCm !== null && gender) {
         let ibw;
         if (heightCm < 152.4) {
             // Robinson below 5ft
@@ -192,7 +205,7 @@ function calculate() {
         // Prevent negative
         ibw = Math.max(ibw, 0);
 
-        // Show it
+        // Show IBW
         const label = heightCm < 152.4 ? ' (Robinson)' : '';
         document.getElementById('ibwResult').innerHTML =
             `${ibw.toFixed(1)} kg${label}`;
@@ -203,7 +216,7 @@ function calculate() {
     }
 
     // 2) Compute & display BMI only if we have height + weight
-    if (hasH && hasW) {
+    if (heightCm !== null && hasW) {
         const bmi = weightKg / (heightM * heightM);
         document.getElementById('bmiResult').textContent =
             bmi.toFixed(1) + ' kg/m²';
@@ -222,7 +235,7 @@ function calculate() {
     }
 
     // 4) Compute & display LBW only if we have height + weight
-    if (hasH && hasW) {
+    if (heightCm !== null && hasW) {
         let lbw = (gender === 'male')
             ? 0.407 * weightKg + 0.267 * heightCm - 19.2
             : 0.252 * weightKg + 0.473 * heightCm - 48.3;
@@ -233,6 +246,7 @@ function calculate() {
         document.getElementById('lbwResult').textContent = '';
     }
 }
+
         function resetCalculator() {
             // Clear input fields
             document.getElementById('height').value = '';
