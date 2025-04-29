@@ -1,280 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <link
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
-<link
-  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weight Calculator</title>
-    <style>
-            header.banner {
-  background: linear-gradient(
-    to right,
-    #1565C0 00%,   /* your original blue */
-    #003c8f 100%   /* deep navy */
-  );
-}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight Calculator</title>
+  <style>
+    header.banner {
+      background: linear-gradient(
+        to right,
+        #1565C0 0%,   /* original blue */
+        #003c8f 100%  /* deep navy */
+      );
+    }
     .input-group {
-  display: flex;
-  align-items: center;
- margin: 10px 0 10px 20px;  /* only a left indent */
-/*gap: 8px;              /* controls space between *all* children */
-}
-.input-group label {
-  width: 70px;
-  font-size: 16px;
-  margin-right: 0;
-}
-.input-group input {
-   width: 60px;     /* fixed width */
-  padding: 5px;
-  font-size: 16px;
- margin-right: 12px; /* this will only affect the spacing before the toggle */
-}
-        .unit-toggle {
-            width: 60px;
-            font-size: 16px;
-        }
-.results {
- font-size: 16px; 
- border: 1px solid #ccc;      /* light‑grey border */
-  border-radius: 8px;          /* rounded corners */
-  padding: 16px;               /* space inside box */
-  max-width: 320px;            /* limit width */
-  margin: 20px auto;           /* center horizontally & add top/bottom space */
-  text-align: left;            /* ensure inner text is left‑aligned */
-  background-color: #fafafa;   /* optional subtle background */
-}
-     
-/* if you want even tighter control on individual lines */
-.results div {
-  margin: 6px 0;
-}
-        /* Example active state styles */
-        .active {
-            background-color: #007BFF;
-            color: white;
-        }
-    </style>
+      display: flex;
+      align-items: center;
+      margin: 10px 0 10px 20px;
+    }
+    .input-group label {
+      width: 70px;
+      font-size: 16px;
+      margin-right: 0;
+    }
+    .input-group input {
+      width: 60px;
+      padding: 5px;
+      font-size: 16px;
+      margin-right: 12px;
+    }
+    .unit-toggle {
+      width: 60px;
+      font-size: 16px;
+    }
+    .results {
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 320px;
+      margin: 20px auto;
+      text-align: left;
+      background-color: #fafafa;
+    }
+    .results div {
+      margin: 6px 0;
+    }
+    .active {
+      background-color: #007BFF;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <header class="banner">Weight Calculator</header>
-    <div class="gender-buttons">
-        <button id="maleButton" onclick="selectGender('male')">Male</button>
-        <button id="femaleButton" onclick="selectGender('female')">Female</button>
-    </div>
+  <header class="banner">Weight Calculator</header>
+  <div class="gender-buttons">
+    <button id="maleButton" onclick="selectGender('male')">Male</button>
+    <button id="femaleButton" onclick="selectGender('female')">Female</button>
+  </div>
 
-    <div class="input-group">
-        <label for="height">Height:</label>
-        <input type="number" id="height" placeholder="0">
-        <button class="unit-toggle" onclick="toggleHeightUnit()" id="heightUnitBtn">cm</button>
-    </div>
+  <div class="input-group">
+    <label for="height">Height:</label>
+    <input type="number" id="height" placeholder="0">
+    <button class="unit-toggle" onclick="toggleHeightUnit()" id="heightUnitBtn">cm</button>
+  </div>
 
-    <div class="input-group">
-        <label for="weight">Weight:</label>
-        <input type="number" id="weight" placeholder="0">
-        <button class="unit-toggle" onclick="toggleWeightUnit()" id="weightUnitBtn">kg</button>
-    </div>
+  <div class="input-group">
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" placeholder="0">
+    <button class="unit-toggle" onclick="toggleWeightUnit()" id="weightUnitBtn">kg</button>
+  </div>
 
-    <div class="results">
-        <div><strong>BMI:</strong> <span id="bmiResult"></span></div>
-        <div><strong>Ideal Body Weight:</strong> <span id="ibwResult"></span></div>
-        <div><strong>Adjusted Body Weight:</strong> <span id="abwResult"></span></div>
-        <div><strong>Lean Body Weight:</strong> <span id="lbwResult"></span></div>
-    </div>
+  <div class="results">
+    <div><strong>BMI:</strong> <span id="bmiResult"></span></div>
+    <div><strong>Ideal Body Weight:</strong> <span id="ibwResult"></span></div>
+    <div><strong>Adjusted Body Weight:</strong> <span id="abwResult"></span></div>
+    <div><strong>Lean Body Weight:</strong> <span id="lbwResult"></span></div>
+  </div>
 
-    <div class="button-container">
-        <button onclick="resetCalculator()" class="reset-btn">Reset</button>
-        <button onclick="goHome()" class="home-btn">Home</button>
-    </div>
+  <div class="button-container">
+    <button onclick="resetCalculator()" class="reset-btn">Reset</button>
+    <button onclick="goHome()" class="home-btn">Home</button>
+  </div>
 
-    <footer>
-        <small>
-            <p><strong>Ideal Body Weight (IBW) – Devine formula:</strong> For males, 50 + 0.9055 × (height in cm – 152.4); for females, 45.5 + 0.9055 × (height in cm – 152.4).</p><p><strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).</p><p><strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.</p>
-        <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
-    </footer>
+  <footer>
+    <small>
+      <p><strong>Ideal Body Weight (IBW) – Devine formula:</strong> For males, 50 + 0.9055 × (height in cm – 152.4); for females, 45.5 + 0.9055 × (height in cm – 152.4). Note: Formula not validated for heights below 152.4 cm.</p>
+      <p><strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).</p>
+      <p><strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.</p>
+      <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p>
+    </small>
+  </footer>
 
-    <script>
-        // No default gender is set initially.
-        let gender = null;
-        let heightUnit = 'cm';
-        let weightUnit = 'kg';
+  <script>
+    let gender = null;
+    let heightUnit = 'cm';
+    let weightUnit = 'kg';
 
-        function selectGender(selectedGender) {
-            gender = selectedGender;
-            // Clear both buttons' active state first
-            document.getElementById('maleButton').classList.remove('active');
-            document.getElementById('femaleButton').classList.remove('active');
-            // Set active on the selected gender button
-            document.getElementById(`${selectedGender}Button`).classList.add('active');
-            calculate();
+    function selectGender(selectedGender) {
+      gender = selectedGender;
+      document.getElementById('maleButton').classList.remove('active');
+      document.getElementById('femaleButton').classList.remove('active');
+      document.getElementById(`${selectedGender}Button`).classList.add('active');
+      calculate();
+    }
+
+    function toggleHeightUnit() {
+      const heightInput = document.getElementById('height');
+      let height = parseFloat(heightInput.value);
+      if (!isNaN(height)) {
+        if (heightUnit === 'cm') {
+          heightInput.value = (height / 2.54).toFixed(1);
+        } else {
+          heightInput.value = (height * 2.54).toFixed(1);
         }
+      }
+      heightUnit = heightUnit === 'cm' ? 'in' : 'cm';
+      document.getElementById('heightUnitBtn').textContent = heightUnit;
+      calculate();
+    }
 
-        function toggleHeightUnit() {
-            const heightInput = document.getElementById('height');
-            let height = parseFloat(heightInput.value);
-            if (!isNaN(height)) {
-                if (heightUnit === 'cm') {
-                    heightInput.value = (height / 2.54).toFixed(1);
-                } else {
-                    heightInput.value = (height * 2.54).toFixed(1);
-                }
-            }
-            heightUnit = heightUnit === 'cm' ? 'in' : 'cm';
-            document.getElementById('heightUnitBtn').textContent = heightUnit;
-            calculate();
+    function toggleWeightUnit() {
+      const weightInput = document.getElementById('weight');
+      let weight = parseFloat(weightInput.value);
+      if (!isNaN(weight)) {
+        if (weightUnit === 'kg') {
+          weightInput.value = (weight * 2.20462).toFixed(1);
+        } else {
+          weightInput.value = (weight / 2.20462).toFixed(1);
         }
+      }
+      weightUnit = weightUnit === 'kg' ? 'lb' : 'kg';
+      document.getElementById('weightUnitBtn').textContent = weightUnit;
+      calculate();
+    }
 
-        function toggleWeightUnit() {
-            const weightInput = document.getElementById('weight');
-            let weight = parseFloat(weightInput.value);
-            if (!isNaN(weight)) {
-                if (weightUnit === 'kg') {
-                    weightInput.value = (weight * 2.20462).toFixed(1);
-                } else {
-                    weightInput.value = (weight / 2.20462).toFixed(1);
-                }
-            }
-            weightUnit = weightUnit === 'kg' ? 'lb' : 'kg';
-            document.getElementById('weightUnitBtn').textContent = weightUnit;
-            calculate();
-        }
+    document.querySelectorAll('input').forEach(el => {
+      el.addEventListener('input', calculate);
+    });
 
-        document.querySelectorAll('input').forEach(el => {
-            el.addEventListener('input', calculate);
-        });
+    function calculate() {
+      const hRaw = parseFloat(document.getElementById('height').value);
+      const wRaw = parseFloat(document.getElementById('weight').value);
+      const hasHraw = !isNaN(hRaw) && hRaw > 0;
+      const hasW    = !isNaN(wRaw) && wRaw > 0;
+      const heightCm = hasHraw
+        ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
+        : null;
 
-function calculate() {
-    // Read raw inputs
-    const hRaw = parseFloat(document.getElementById('height').value);
-    const wRaw = parseFloat(document.getElementById('weight').value);
-
-    // Determine which values we have
-    const hasHraw = !isNaN(hRaw) && hRaw > 0;
-    const hasW    = !isNaN(wRaw) && wRaw > 0;
-
-    // Convert height to cm if present
-    const heightCm = hasHraw
-      ? (heightUnit === 'in' ? hRaw * 2.54 : hRaw)
-      : null;
-
-    // If height is below 100 cm, clear all results and bail out
-    if (heightCm !== null && heightCm < 100) {
+      if (heightCm !== null && heightCm < 100) {
         document.getElementById('bmiResult').textContent = '';
         document.getElementById('ibwResult').textContent = '';
         document.getElementById('abwResult').textContent = '';
         document.getElementById('lbwResult').textContent = '';
         return;
-    }
+      }
 
-    // Convert weight to kg if present
-    const weightKg = hasW
-      ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
-      : null;
+      const weightKg = hasW
+        ? (weightUnit === 'lb' ? wRaw / 2.20462 : wRaw)
+        : null;
+      const heightM = heightCm !== null ? heightCm / 100 : null;
+      const devineFactor = 0.9055;
+      let ibwForAbw;
 
-    // Calculate height in meters
-    const heightM = heightCm !== null ? heightCm / 100 : null;
-
-    // Prepare a variable for ABW calculation
-    let ibwForAbw;
-
-    // Pre-compute precise per-cm factors
-    const devineFactor = 0.9055;
-    const maleFactor   = 1.9 / 2.54;
-    const femaleFactor = 1.7 / 2.54;
-
-    // 1) Compute & display IBW
-    if (heightCm !== null && gender) {
-        let ibw;
-        if (heightCm < 152.4) {
-            ibw = (gender === 'male')
-                ? 52 + maleFactor   * (heightCm - 152.4)
-                : 49 + femaleFactor * (heightCm - 152.4);
-        } else {
-            const base = (gender === 'male') ? 50 : 45.5;
-            const raw  = base + devineFactor * (heightCm - 152.4);
-            ibw      = Math.max(raw, base);
-        }
-        ibw = Math.max(ibw, 0);
-        const label = (heightCm < 152.4) ? ' (Robinson)' : '';
-        document.getElementById('ibwResult').innerHTML =
-            `${ibw.toFixed(1)} kg${label}`;
+      // 1) Compute & display IBW using Devine only
+      if (heightCm !== null && gender) {
+        const base = gender === 'male' ? 50 : 45.5;
+        const raw = base + devineFactor * (heightCm - 152.4);
+        const ibw = Math.max(raw, 0);
+        const label = heightCm < 152.4 ? ' (Not validated)' : '';
+        document.getElementById('ibwResult').innerHTML = `${ibw.toFixed(1)} kg${label}`;
         ibwForAbw = ibw;
-    } else {
+      } else {
         document.getElementById('ibwResult').textContent = '';
-    }
+      }
 
-    // 2) Compute & display BMI
-    if (heightCm !== null && hasW) {
+      // 2) Compute & display BMI
+      if (heightCm !== null && hasW) {
         const bmi = weightKg / (heightM * heightM);
-        document.getElementById('bmiResult').textContent =
-            bmi.toFixed(1) + ' kg/m²';
-    } else {
+        document.getElementById('bmiResult').textContent = bmi.toFixed(1) + ' kg/m²';
+      } else {
         document.getElementById('bmiResult').textContent = '';
-    }
+      }
 
-    // 3) Compute & display ABW only if actual > IBW
-    if (hasW && typeof ibwForAbw !== 'undefined') {
+      // 3) Compute & display ABW if actual > IBW
+      if (hasW && typeof ibwForAbw !== 'undefined') {
         if (weightKg > ibwForAbw) {
-            let abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
-            abw = Math.max(abw, 0);
-            document.getElementById('abwResult').textContent =
-                abw.toFixed(1) + ' kg';
+          let abw = ibwForAbw + 0.4 * (weightKg - ibwForAbw);
+          abw = Math.max(abw, 0);
+          document.getElementById('abwResult').textContent = abw.toFixed(1) + ' kg';
         } else {
-            document.getElementById('abwResult').textContent = 'Not applicable';
+          document.getElementById('abwResult').textContent = 'Not applicable';
         }
-    } else {
+      } else {
         document.getElementById('abwResult').textContent = '';
-    }
+      }
 
-    // 4) Compute & display LBW
-    if (heightCm !== null && hasW) {
-        let lbw = (gender === 'male')
-            ? 0.407 * weightKg + 0.267 * heightCm - 19.2
-            : 0.252 * weightKg + 0.473 * heightCm - 48.3;
+      // 4) Compute & display LBW
+      if (heightCm !== null && hasW) {
+        let lbw;
+        if (gender === 'male') {
+          lbw = 0.407 * weightKg + 0.267 * heightCm - 19.2;
+        } else {
+          lbw = 0.252 * weightKg + 0.473 * heightCm - 48.3;
+        }
         lbw = Math.max(lbw, 0);
-        document.getElementById('lbwResult').textContent =
-            lbw.toFixed(1) + ' kg';
-    } else {
+        document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
+      } else {
         document.getElementById('lbwResult').textContent = '';
+      }
     }
-}
-        function resetCalculator() {
-            // Clear input fields
-            document.getElementById('height').value = '';
-            document.getElementById('weight').value = '';
 
-            // Clear result fields
-            document.getElementById('bmiResult').textContent = '';
-            document.getElementById('ibwResult').textContent = '';
-            document.getElementById('abwResult').textContent = '';
-            document.getElementById('lbwResult').textContent = '';
+    function resetCalculator() {
+      document.getElementById('height').value = '';
+      document.getElementById('weight').value = '';
+      document.getElementById('bmiResult').textContent = '';
+      document.getElementById('ibwResult').textContent = '';
+      document.getElementById('abwResult').textContent = '';
+      document.getElementById('lbwResult').textContent = '';
+      gender = null;
+      document.getElementById('maleButton').classList.remove('active');
+      document.getElementById('femaleButton').classList.remove('active');
+      heightUnit = 'cm';
+      weightUnit = 'kg';
+      document.getElementById('heightUnitBtn').textContent = 'cm';
+      document.getElementById('weightUnitBtn').textContent = 'kg';
+      calculate();
+    }
 
-            // Clear gender selection
-            gender = null;
-            document.getElementById('maleButton').classList.remove('active');
-            document.getElementById('femaleButton').classList.remove('active');
-
-            // Reset unit states and button labels to defaults
-            heightUnit = 'cm';
-            weightUnit = 'kg';
-            document.getElementById('heightUnitBtn').textContent = 'cm';
-            document.getElementById('weightUnitBtn').textContent = 'kg';
-
-            // Recalculate to clear any residual data.
-            calculate();
-        }
-
-        function goHome() {
-            window.location.href = "index.html";
-        }
-    </script>
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>
