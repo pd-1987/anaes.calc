@@ -97,7 +97,7 @@
 
     <footer>
         <small>
-            <p><strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.9055 × (height in cm – 152.4); for females, 45.5 + 0.9055 × (height in cm – 152.4).</p><p><strong>IBW below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + 0.75 × (height in cm − 152.4); for females, 49 + 0.67 × (height in cm − 152.4).</p><p><strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.</p>
+            <p><strong>Ideal Body Weight (IBW) above 152.4cm / 5ft – Devine formula:</strong> For males, 50 + 0.9055 × (height in cm – 152.4); for females, 45.5 + 0.9055 × (height in cm – 152.4).</p><p><strong>IBW below 152.4cm / 5ft – Robinson formula: </strong>For males, 52 + (1.9/2.54) × (height in cm − 152.4); for females, 49 + (1.7/2.54) × (height in cm − 152.4).</p><p><strong>Adjusted Body Weight:</strong> IBW + 0.4 × (Actual weight – IBW).  <strong>Lean Body Weight – Boer formula:</strong> For males, 0.407 × weight + 0.267 × height in cm – 19.2; for females, 0.252 × weight + 0.473 × height in cm – 48.3.</p>
         <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
     </footer>
 
@@ -185,25 +185,30 @@ function calculate() {
     // Prepare a variable for ABW calculation
     let ibwForAbw;
 
+    // Pre-compute precise per-cm factors
+    const devineFactor   = 0.9055;          // = 2.3 kg/in ÷ 2.54 cm/in
+    const maleFactor     = 1.9 / 2.54;      // ≈ 0.7480 kg/cm
+    const femaleFactor   = 1.7 / 2.54;      // ≈ 0.6693 kg/cm
+
     // 1) Compute & display IBW if we have height + gender
     if (heightCm !== null && gender) {
         let ibw;
         if (heightCm < 152.4) {
-            // Robinson below 5ft
+            // Robinson below 5ft, using precise cm factors
             ibw = (gender === 'male')
-                ? 52   + 0.75 * (heightCm - 152.4)
-                : 49   + 0.67 * (heightCm - 152.4);
+                ? 52 + maleFactor   * (heightCm - 152.4)
+                : 49 + femaleFactor * (heightCm - 152.4);
         } else {
-            // Devine at/above 5ft
-            const base = gender === 'male' ? 50 : 45.5;
-            const raw  = base + 0.9055 * (heightCm - 152.4);
+            // Devine at/above 5ft, using precise cm factor
+            const base = (gender === 'male') ? 50 : 45.5;
+            const raw  = base + devineFactor * (heightCm - 152.4);
             ibw      = Math.max(raw, base);
         }
         // Prevent negative
         ibw = Math.max(ibw, 0);
 
-        // Show IBW
-        const label = heightCm < 152.4 ? ' (Robinson)' : '';
+        // Show IBW with label if Robinson
+        const label = (heightCm < 152.4) ? ' (Robinson)' : '';
         document.getElementById('ibwResult').innerHTML =
             `${ibw.toFixed(1)} kg${label}`;
 
@@ -243,7 +248,6 @@ function calculate() {
         document.getElementById('lbwResult').textContent = '';
     }
 }
-
         function resetCalculator() {
             // Clear input fields
             document.getElementById('height').value = '';
