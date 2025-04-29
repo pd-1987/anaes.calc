@@ -204,19 +204,20 @@
         document.getElementById('abwResult').textContent = '';
       }
 
-      // 4) Compute & display LBW
-      if (heightCm !== null && hasW) {
-        let lbw;
-        if (gender === 'male') {
-          lbw = 0.407 * weightKg + 0.267 * heightCm - 19.2;
-        } else {
-          lbw = 0.252 * weightKg + 0.473 * heightCm - 48.3;
-        }
-        lbw = Math.max(lbw, 0);
-        document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
-      } else {
-        document.getElementById('lbwResult').textContent = '';
-      }
+     // 4) Compute & display LBW (only if gender is selected)
+if (heightCm !== null && hasW && gender) {
+  let lbw;
+  if (gender === 'male') {
+    lbw = 0.407 * weightKg + 0.267 * heightCm - 19.2;
+  } else { // female
+    lbw = 0.252 * weightKg + 0.473 * heightCm - 48.3;
+  }
+  lbw = Math.max(lbw, 0);
+  document.getElementById('lbwResult').textContent = lbw.toFixed(1) + ' kg';
+} else {
+  // no gender (or no height/weight) → clear the display
+  document.getElementById('lbwResult').textContent = '';
+}
     }
 
     function resetCalculator() {
