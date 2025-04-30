@@ -38,14 +38,14 @@
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
     <!-- Added oninput to trigger a recalculation when weight is changed -->
-    <input type="number" id="weight" placeholder="0" min="0" oninput="">
+    <input type="number" id="weight" placeholder="0" min="0" oninput="calculateResults()">
   </div>
  
  <div class="boxed-section immediate-section">
 <h3>Immediate treatment</h3>
  <p class="result">
     <u>Bolus (1.5 ml/kg)</u>:
-    <span id="immediatedose">0</span> <span class="unit">ml</span>
+    <span id="intralipidbolus">0</span> <span class="unit">ml</span>
   </p>
 
    <p class="result">
@@ -59,7 +59,7 @@
    Repeat bolus and double the infusion rate if cardiovascular stability has not been restored or an adequate circulation deteriorates.
    <p class="result">
     <u>Repeat bolus (1.5 ml/kg)</u>:
-    <span id="repeatdose1">0</span> <span class="unit">ml</span>
+    <span id="intralipidbolus">0</span> <span class="unit">ml</span>
   </p>  
   <p class="result">
     <u>Infusion (30 ml/kg/hr)</u>:
@@ -72,7 +72,7 @@
     Repeat bolus if cardiovascular stability has not been restored or an adequate circulation deteriorates.
     <p class="result">
     <u>Repeat bolus (1.5 ml/kg)</u>:
-    <span id="repeatdose2">0</span> <span class="unit">ml</span>
+    <span id="intralipidbolus">0</span> <span class="unit">ml</span>
   </p> 
    </div>
 
@@ -85,10 +85,14 @@
   
    <footer>
     <small>
+     <p><a href="/documents/QRH_3-10_Local_anaesthetic_toxicity_v2_June 2023.pdf">AAGBI Quick Reference Handbook: Local Anaesthetic Toxicity</a></p>
       <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
   </footer>  
 
   <script>
+
+   function calculateResults() {
+   
     </script>
 </body>
 </html>
