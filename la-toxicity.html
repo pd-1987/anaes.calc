@@ -135,15 +135,16 @@ function formatValue(x) {
 
   // 1) time-to-max at 15 ml/kg/hr (after only 1 bolus)
   const rem1 = maxD - bolus;
-  const t15  = inf15 > 0
-    ? Math.max(0, Math.round((rem1 / inf15) * 60))
-    : 0;
+  const t15 = inf15 > 0
+  // compute rem1/inf15*60, keep one decimal, then clamp ≥0
+  ? Math.max(0, Number(((rem1 / inf15) * 60).toFixed(1)))
+  : 0;
 
   // 2) time-to-max at 30 ml/kg/hr (after 2 boluses + 5 min @15)
   const rem2 = maxD - (bolus * 2) - infusedIn5at15;
-  const t30  = inf30 > 0
-    ? Math.max(0, Math.round((rem2 / inf30) * 60))
-    : 0;
+  const t30 = inf30 > 0
+  ? Math.max(0, Number(((rem2 / inf30) * 60).toFixed(1)))
+  : 0;
 
   // 3) time-to-max at 30 ml/kg/hr (after 3 boluses + full 10 min infusion)
   const deliveredAt10 =
@@ -152,9 +153,9 @@ function formatValue(x) {
     + infusedIn5at30;  // next 5 min @30
 
   const rem3 = maxD - deliveredAt10;
-  const t3   = inf30 > 0
-    ? Math.max(0, Math.round((rem3 / inf30) * 60))
-    : 0;
+ const t3 = inf30 > 0
+  ? Math.max(0, Number(((rem3 / inf30) * 60).toFixed(1)))
+  : 0;
 
   // write back out
   document.getElementById('bolus1').textContent     = formatValue(bolus);
