@@ -120,27 +120,36 @@ function formatValue(x) {
   return s.endsWith('.0') ? s.slice(0, -2) : s;
 }
     
-  function calculateResults() {
+ function calculateResults() {
   const w     = parseFloat(document.getElementById('weight').value) || 0;
-  const bolus = 1.5  * w;
-  const inf15 = 15   * w;
-  const inf30 = 30   * w;
-  const maxD  = 12   * w;
+  const bolus = 1.5  * w;      // ml per bolus
+  const inf15 = 15   * w;      // ml per hour
+  const inf30 = 30   * w;      // ml per hour
+  const maxD  = 12   * w;      // ml total
 
   const infusedIn5min = inf15 * (5/60);
-  const remAfter1     = maxD - bolus;
-  const t15           = Math.max(0, Math.round((remAfter1    / inf15) * 60));
-  const remAfter2Plus = maxD - (bolus * 2) - infusedIn5min;
-  const t30           = Math.max(0, Math.round((remAfter2Plus / inf30) * 60));
 
-  // now use formatValue() so "5.0" → "5", but "5.2" stays "5.2"
-  document.getElementById('bolus1').textContent    = formatValue(bolus);
-  document.getElementById('bolus2').textContent    = formatValue(bolus);
-  document.getElementById('bolus3').textContent    = formatValue(bolus);
+  // remaining after first bolus
+  const remAfter1 = maxD - bolus;
+  // only divide if inf15 > 0
+  const t15 = inf15 > 0
+    ? Math.max(0, Math.round((remAfter1    / inf15) * 60))
+    : 0;
+
+  // remaining after two boluses + 5min @ 15ml/kg/hr
+  const remAfter2Plus = maxD - (bolus * 2) - infusedIn5min;
+  // only divide if inf30 > 0
+  const t30 = inf30 > 0
+    ? Math.max(0, Math.round((remAfter2Plus / inf30) * 60))
+    : 0;
+
+  // write back out
+  document.getElementById('bolus1').textContent     = formatValue(bolus);
+  document.getElementById('bolus2').textContent     = formatValue(bolus);
+  document.getElementById('bolus3').textContent     = formatValue(bolus);
   document.getElementById('infusion15').textContent = formatValue(inf15);
   document.getElementById('infusion30').textContent = formatValue(inf30);
   document.getElementById('maxdose').textContent    = formatValue(maxD);
-
   document.getElementById('time15').textContent     = t15;
   document.getElementById('time30').textContent     = t30;
 }
