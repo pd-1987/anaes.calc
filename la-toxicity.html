@@ -92,6 +92,12 @@
       <span id="bolus3">0</span> <span class="unit">ml</span>
     </p>
   </div>
+
+   <div class="button-container">
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+    <button type="button" class="home-btn" onclick="goHome()">Home</button>
+  </div>
+  
   <footer>
     <small>
       <p>
@@ -108,34 +114,55 @@
   </footer>
 
   <script>
-   function calculateResults() {
+// if x.toFixed(1) ends in ".0" drop it, otherwise keep the one decimal
+function formatValue(x) {
+  const s = x.toFixed(1);
+  return s.endsWith('.0') ? s.slice(0, -2) : s;
+}
+    
+  function calculateResults() {
   const w     = parseFloat(document.getElementById('weight').value) || 0;
-  const bolus = 1.5  * w;      // ml per bolus
-  const inf15 = 15   * w;      // ml per hour
-  const inf30 = 30   * w;      // ml per hour
-  const maxD  = 12   * w;      // ml total
+  const bolus = 1.5  * w;
+  const inf15 = 15   * w;
+  const inf30 = 30   * w;
+  const maxD  = 12   * w;
 
-  // volume infused over the first 5 minutes at 15 ml/kg/hr
   const infusedIn5min = inf15 * (5/60);
+  const remAfter1     = maxD - bolus;
+  const t15           = Math.max(0, Math.round((remAfter1    / inf15) * 60));
+  const remAfter2Plus = maxD - (bolus * 2) - infusedIn5min;
+  const t30           = Math.max(0, Math.round((remAfter2Plus / inf30) * 60));
 
-  // time-to-max at 15 ml/kg/hr starts after the first bolus only
-  const remAfter1 = maxD - bolus;
-  const t15 = Math.max(0, Math.round((remAfter1 / inf15) * 60));
+  // now use formatValue() so "5.0" → "5", but "5.2" stays "5.2"
+  document.getElementById('bolus1').textContent    = formatValue(bolus);
+  document.getElementById('bolus2').textContent    = formatValue(bolus);
+  document.getElementById('bolus3').textContent    = formatValue(bolus);
+  document.getElementById('infusion15').textContent = formatValue(inf15);
+  document.getElementById('infusion30').textContent = formatValue(inf30);
+  document.getElementById('maxdose').textContent    = formatValue(maxD);
 
-  // time-to-max at 30 ml/kg/hr starts after two boluses + 5 min infusion
-  const remAfter2PlusInfusion = maxD - (bolus * 2) - infusedIn5min;
-  const t30 = Math.max(0, Math.round((remAfter2PlusInfusion / inf30) * 60));
-
-  // write back out
-  document.getElementById('bolus1').textContent    = bolus.toFixed(1);
-  document.getElementById('bolus2').textContent    = bolus.toFixed(1);
-  document.getElementById('bolus3').textContent    = bolus.toFixed(1);
-  document.getElementById('infusion15').textContent = inf15.toFixed(1);
-  document.getElementById('infusion30').textContent = inf30.toFixed(1);
-  document.getElementById('maxdose').textContent    = maxD.toFixed(1);
   document.getElementById('time15').textContent     = t15;
   document.getElementById('time30').textContent     = t30;
 }
+
+function resetForm() {
+    // 1) clear the weight input
+    const wt = document.getElementById('weight');
+    wt.value = '';
+
+    // 2) recalculate (empty → 0), which resets all the spans to “0”
+    calculateResults();
+
+    // 3) (optional) put focus back on the weight field
+    wt.focus();
+  }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    window.addEventListener('DOMContentLoaded', calculateResults);
+    
   </script>
 </body>
 </html>
