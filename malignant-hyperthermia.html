@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LA Toxicity Intralipid Calculator</title>
+  <style>
+    header.banner {
+      background: linear-gradient(
+        to right,
+        #5E35B1 0%,
+        #3a0f81 100%
+      );
+    }
+    .boxed-section {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px;
+      margin: 10px;
+      box-sizing: border-box;
+      background-color: #fafafa;
+    }
+.input-group {
+  margin-left: 1rem; /* pushes the entire group (label + input) right */
+}
+  </style>
+</head>
+<body>
+  <header class="banner">Malignant Hyperthermia
+    <br>Dantrolene</header>
+
+  <!-- Weight Entry -->
+  <div class="input-group">
+    <label for="weight">Weight (kg):</label>
+    <input
+      type="number"
+      id="weight"
+      placeholder="0"
+      min="0"
+      oninput="calculateResults()"
+    >
+  </div>
+
+  <div class="boxed-section immediate-section">
+    <h3>Immediate treatment</h3>
+    <p class="result">
+      <u>Bolus (2-3 mg/kg)</u>:
+      <span id="bolus1">0</span> <span class="unit">mg</span>
+    </p>
+      <p class="result">
+      <u>Maximum dose (10mg/kg)</u>:
+      <span id="maxdose">0</span> <span class="unit">mg</span>
+    </p>
+  </div>
+
+  <div class="boxed-section 5min-section">
+    <h3>Every 5 minutes, until ETCO2 &lt;6 kPa and temperature &lt;38.5C.</h3>
+       <p class="result">
+      <u>Bolus (1 mg/kg)</u>:
+      <span id="bolus2">0</span> <span class="unit">mg</span>
+    </p>
+    </div>
+      
+<div class="boxed-section pause-section">
+<h3>Pause and observe</h3>
+  </div>
+
+ <div class="boxed-section later-section">
+  <h3>Repeat 1 mg.kg-1 to maintain ETCO2 &lt;6 kPa and temp &lt;38.5C, even if it exceeds
+‘maximum’ dose 10 mg/kg.</h3>
+</p>
+</div>
+
+   <div class="button-container">
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+    <button type="button" class="home-btn" onclick="goHome()">Home</button>
+  </div>
+  
+  <footer>
+    <small>
+      <p>
+        <a
+  href="/documents/QRH_3-8_Malignant_hyperthermia_crisis_v2.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  AAGBI Quick Reference Handbook: Malignant hyperthermia crisis 
+</a>
+      </p>
+      <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p>
+    </small>
+  </footer>
+
+  <script>
+<script>
+// helper to trim off “.0”
+function formatValue(x) {
+  const s = x.toFixed(1);
+  return s.endsWith('.0') ? s.slice(0, -2) : s;
+}
+
+function calculateResults() {
+  const w = parseFloat(document.getElementById('weight').value) || 0;
+
+  // 2–3 mg/kg bolus range
+  const bolus1Min = 2 * w;
+  const bolus1Max = 3 * w;
+  const bolus1Text = `${formatValue(bolus1Min)}–${formatValue(bolus1Max)}`;
+
+  // 10 mg/kg max dose
+  const maxDose = 10 * w;
+
+  // 1 mg/kg repeated bolus
+  const bolus2 = 1 * w;
+
+  // write back out
+  document.getElementById('bolus1').textContent  = bolus1Text;
+  document.getElementById('maxdose').textContent = formatValue(maxDose);
+  document.getElementById('bolus2').textContent  = formatValue(bolus2);
+}
+
+function resetForm() {
+  const wt = document.getElementById('weight');
+  wt.value = '';
+  calculateResults();  // push everything back to “0” or “0–0”
+  wt.focus();
+}
+
+function goHome() {
+  window.location.href = 'index.html';
+}
+
+// initialize on page-load (in case of pre-filled value)
+window.addEventListener('DOMContentLoaded', calculateResults);
+</script>
+</body>
+</html>
