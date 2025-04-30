@@ -186,16 +186,10 @@ function formatValue(x) {
 }
 
 function resetForm() {
-    // 1) clear the weight input
-    const wt = document.getElementById('weight');
-    wt.value = '';
-
-    // 2) recalculate (empty → 0), which resets all the spans to “0”
-    calculateResults();
-
-    // 3) (optional) put focus back on the weight field
-    wt.focus();
-  }
+  const wt = document.getElementById('weight');
+  wt.value = '';
+  calculateResults();
+}
 
     function goHome() {
       window.location.href = "index.html";
