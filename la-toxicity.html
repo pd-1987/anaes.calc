@@ -72,7 +72,7 @@
 
   <div class="boxed-section 5min-section">
     <h3>At 5 minutes</h3>
-    Repeat bolus and double the infusion rate if cardiovascular stability has not been restored.
+    Repeat bolus and double the infusion rate if cardiovascular stability has not been restored or an adequate circulation deteriorates.
     <p class="result">
       <u>Repeat bolus (1.5 ml/kg)</u>:
       <span id="bolus2">0</span> <span class="unit">ml</span>
@@ -84,14 +84,16 @@
   </p>
   </div>
 
-  <div class="boxed-section 10min-section">
-    <h3>At 10 minutes</h3>
-    Repeat bolus if cardiovascular stability has not been restored.
-    <p class="result">
-      <u>Repeat bolus (1.5 ml/kg)</u>:
-      <span id="bolus3">0</span> <span class="unit">ml</span>
-    </p>
-  </div>
+ <div class="boxed-section 10min-section">
+  <h3>At 10 minutes</h3>
+  Repeat bolus if cardiovascular stability has not been restored or an adequate circulation deteriorates.
+  <p class="result">
+    <u>Repeat bolus (1.5 ml/kg)</u>:
+    <span id="bolus3">0</span> <span class="unit">ml</span>
+    → <span id="time3" class="highlight">0</span>
+    <span class="unit">min to max cumulative dose</span>
+  </p>
+</div>
 
    <div class="button-container">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -121,26 +123,37 @@ function formatValue(x) {
 }
     
  function calculateResults() {
-  const w     = parseFloat(document.getElementById('weight').value) || 0;
-  const bolus = 1.5  * w;      // ml per bolus
-  const inf15 = 15   * w;      // ml per hour
-  const inf30 = 30   * w;      // ml per hour
-  const maxD  = 12   * w;      // ml total
+  const w      = parseFloat(document.getElementById('weight').value) || 0;
+  const bolus  = 1.5 * w;     // ml per bolus
+  const inf15  = 15  * w;     // ml per hour
+  const inf30  = 30  * w;     // ml per hour
+  const maxD   = 12  * w;     // ml total allowed
 
-  const infusedIn5min = inf15 * (5/60);
+  // infusion volumes in the first two windows
+  const infusedIn5at15 = inf15 * (5/60);   // first 5 min @ 15ml/kg/hr
+  const infusedIn5at30 = inf30 * (5/60);   // next 5 min @ 30ml/kg/hr
 
-  // remaining after first bolus
-  const remAfter1 = maxD - bolus;
-  // only divide if inf15 > 0
-  const t15 = inf15 > 0
-    ? Math.max(0, Math.round((remAfter1    / inf15) * 60))
+  // 1) time-to-max at 15 ml/kg/hr (after only 1 bolus)
+  const rem1 = maxD - bolus;
+  const t15  = inf15 > 0
+    ? Math.max(0, Math.round((rem1 / inf15) * 60))
     : 0;
 
-  // remaining after two boluses + 5min @ 15ml/kg/hr
-  const remAfter2Plus = maxD - (bolus * 2) - infusedIn5min;
-  // only divide if inf30 > 0
-  const t30 = inf30 > 0
-    ? Math.max(0, Math.round((remAfter2Plus / inf30) * 60))
+  // 2) time-to-max at 30 ml/kg/hr (after 2 boluses + 5 min @15)
+  const rem2 = maxD - (bolus * 2) - infusedIn5at15;
+  const t30  = inf30 > 0
+    ? Math.max(0, Math.round((rem2 / inf30) * 60))
+    : 0;
+
+  // 3) time-to-max at 30 ml/kg/hr (after 3 boluses + full 10 min infusion)
+  const deliveredAt10 =
+      bolus * 3        // three boluses
+    + infusedIn5at15   // first 5 min @15
+    + infusedIn5at30;  // next 5 min @30
+
+  const rem3 = maxD - deliveredAt10;
+  const t3   = inf30 > 0
+    ? Math.max(0, Math.round((rem3 / inf30) * 60))
     : 0;
 
   // write back out
@@ -150,8 +163,10 @@ function formatValue(x) {
   document.getElementById('infusion15').textContent = formatValue(inf15);
   document.getElementById('infusion30').textContent = formatValue(inf30);
   document.getElementById('maxdose').textContent    = formatValue(maxD);
+
   document.getElementById('time15').textContent     = t15;
   document.getElementById('time30').textContent     = t30;
+  document.getElementById('time3').textContent      = t3;
 }
 
 function resetForm() {
