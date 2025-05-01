@@ -1,267 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <link
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
-<link
-  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
-  <link rel="stylesheet" href="styles.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAS ATI calculator</title>
+  <title>DAS ATI Calculator</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css">
   <style>
-         header.banner {
-  background: linear-gradient(
-    to right,
-    #b71c1c 0%,
-    #8e0000 100%
-  );
-}
+    header.banner {
+      background: linear-gradient(to right, #b71c1c 0%, #8e0000 100%);
+      color: white;
+      padding: 1rem;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Roboto', sans-serif;
+    }
+    .input-group label {
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+    }
+    /* Numeric inputs */
+    .input-group input[type=number] {
+      font-size: 1rem;
+      padding: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    /* Result spans match dose styling */
+    .input-group span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0;
+      border: none;
+    }
+    .gender-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .result {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+    .unit {
+      margin-left: 0.25rem;
+    }
+    .bubble {
+      display: inline-block;
+      background: #e0e0e0;
+      border-radius: 12px;
+      padding: 0.25rem 0.75rem;
+      margin-left: 0.5rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .button-group {
+      margin: 0.5rem 0;
+    }
+    .button-group button.active {
+      background-color: #b71c1c;
+      color: white;
+    }
+    .button-group button {
+      font-family: 'Roboto', sans-serif;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      background: white;
+    }
+    .spray-units {
+      margin: 0 0.5rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .reset-btn, .home-btn {
+      font-family: 'Roboto', sans-serif;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .reset-btn { background: #f5f5f5; }
+    .home-btn { background: #e0e0e0; }
+    footer { margin-top: 2rem; font-family: 'Roboto', sans-serif; font-size: 0.8rem; text-align: center; }
+    footer a { color: #8e0000; text-decoration: none; }
   </style>
 </head>
 <body>
   <header class="banner">DAS ATI Topicalisation</header>
-  <div class="input-group">
-    <label for="leanBodyWeight">Lean Body Weight (kg):</label>
-    <input type="number" id="leanBodyWeight" placeholder="0" oninput="calculateResults()">
+
+  <!-- Inputs: weight, height, gender, LBW -->
+  <div class="input-row">
+    <div class="input-group">
+      <label for="weight">Weight (kg):</label>
+      <input type="number" id="weight" placeholder="0" oninput="calculateResults()">
+    </div>
+    <div class="input-group">
+      <label for="height">Height (cm):</label>
+      <input type="number" id="height" placeholder="0" oninput="calculateResults()">
+    </div>
+    <div class="input-group">
+      <label>Gender:</label>
+      <div class="gender-group">
+        <label><input type="radio" name="gender" value="male" checked onchange="calculateResults()"> Male</label>
+        <label><input type="radio" name="gender" value="female" onchange="calculateResults()"> Female</label>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Lean Body Weight (kg):</label>
+      <span id="leanBodyWeight">0.0</span>
+    </div>
   </div>
 
+  <!-- Max safe dose -->
   <p class="result">
-    <u>Maximum Lidocaine Dose (9mg/kg)</u>:
+    <u>Maximum Lidocaine Dose (9mg/kg)</u>: 
     <span id="maximumDose">0</span> <span class="unit">mg</span>
   </p>
 
- <div class="button-group">
-    <button id="coPhenylcaineButton" onclick="toggleCoPhenylcaineDose()">Co-phenylcaine Spray
-        <small class="instruction-text">If nasal route</small>
-    </button>
+  <!-- Dose buttons -->
+  <div class="button-group">
+    <button id="coPhenylcaineButton" onclick="toggleCoPhenylcaineDose()">Co-phenylcaine Spray<small>If nasal route</small></button>
     <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
   </div>
 
   <div class="button-group">
-    <!-- Toggle button for lidocaine spray -->
-    <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">
-      Lidocaine 10%
-      <small class="instruction-text">20–30 sprays to the oropharynx, tonsillar pillars and tongue base</small>
-    </button>
-    <!-- Input always visible with default value of 20 -->
+    <button id="lidocaineSprayButton" onclick="toggleLidocaineSpray()">Lidocaine 10%<small>20–30 sprays</small></button>
     <input type="number" id="lidocaineInput" value="20" oninput="updateLidocaineDose()">
-    <span class="spray-units" id="sprayUnits">sprays</span>
-    <!-- Blue bubble always displays the computed dose -->
+    <span class="spray-units">sprays</span>
     <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
   </div>
 
-  <div class="instruction-header">
-    If inadequate:
-  </div>
+  <div class="instruction-header">If inadequate:</div>
   <div class="button-group">
-    <button id="additionalLidocaineButton" onclick="applyAdditionalLidocaineDose()">Lidocaine 10%<small>Give a further 5 sprays to tongue base</small></button>
+    <button id="additionalLidocaineButton" onclick="applyAdditionalLidocaineDose()">Lidocaine 10%<small>+5 sprays</small></button>
     <span class="bubble"><span id="additionalLidocaineBubble">50</span> <span class="unit">mg</span></span>
   </div>
 
   <div class="button-group">
-    <button id="lidocaine2Button" onclick="toggleLidocaine2Dose()">Lidocaine 2% 2ml <small>Spray as you go: Above vocal cords</small></button>
+    <button id="lidocaine2Button" onclick="toggleLidocaine2Dose()">Lidocaine 2% 2ml<small>Above cords</small></button>
     <span class="bubble"><span id="lidocaine2Bubble">40</span> <span class="unit">mg</span></span>
   </div>
-
   <div class="button-group">
-    <button id="lidocaine2VocalButton" onclick="toggleLidocaine2VocalDose()">Lidocaine 2% 2ml <small>Spray as you go: At vocal cords</small></button>
+    <button id="lidocaine2VocalButton" onclick="toggleLidocaine2VocalDose()">Lidocaine 2% 2ml<small>At cords</small></button>
     <span class="bubble"><span id="lidocaine2VocalBubble">40</span> <span class="unit">mg</span></span>
   </div>
-
   <div class="button-group">
-    <button id="lidocaine2BelowButton" onclick="toggleLidocaine2BelowDose()">Lidocaine 2% 2ml <small>Spray as you go: Below vocal cords</small></button>
+    <button id="lidocaine2BelowButton" onclick="toggleLidocaine2BelowDose()">Lidocaine 2% 2ml<small>Below cords</small></button>
     <span class="bubble"><span id="lidocaine2BelowBubble">40</span> <span class="unit">mg</span></span>
   </div>
 
-  <p class="result">
-    <u>Total Dose Given</u>:
-    <span id="doseGiven">0</span> <span class="unit">mg</span>
-  </p>
-
-  <p class="result">
-    <u>Dose Remaining</u>:
-    <span id="doseRemaining">0</span> <span class="unit">mg</span>
-  </p>
+  <!-- Totals -->
+  <p class="result"><u>Total Dose Given</u>: <span id="doseGiven">0</span> <span class="unit">mg</span></p>
+  <p class="result"><u>Dose Remaining</u>: <span id="doseRemaining">0</span> <span class="unit">mg</span></p>
 
   <div class="button-container">
-    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
-    <button type="button" class="home-btn" onclick="goHome()">Home</button>
+    <button class="reset-btn" onclick="resetForm()">Reset</button>
+    <button class="home-btn" onclick="goHome()">Home</button>
   </div>
 
   <footer>
     <small>
-      <p><a href="https://das.uk.com/guidelines/das-guidelines-for-awake-tracheal-intubation-ati-in-adults/#" target="_blank" rel="noopener noreferrer">
-        Difficult Airway Society guidelines for awake tracheal intubation (ATI) in adults (2019).</a></p>
-    <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
-  </footer>  
+      <p><a href="https://das.uk.com/guidelines/das-guidelines-for-awake-tracheal-intubation-ati-in-adults/#" target="_blank">DAS ATI Guidelines (2019)</a></p>
+      <p>&copy; 2025 #OneTeam Anaesthesia</p>
+    </small>
+  </footer>
 
   <script>
-    let totalDose = 0;
-    let coPhenylcaineDose = 0;
-    // The lidocaine dose is counted only if the spray button is active.
-    let lidocaineDose = 0;
-    let additionalLidocaineDose = 0;
-    let lidocaine2Dose = 0;
-    let lidocaine2VocalDose = 0;
-    let lidocaine2BelowDose = 0;
-
-    // Default spray value for lidocaine.
-    const defaultSprayValue = 20;
-
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('lidocaineInput').value = defaultSprayValue;
-      // Update blue bubble with computed dose.
-      document.getElementById('lidocaineOutput').textContent = defaultSprayValue * 10;
-    });
-
-    function calculateResults() {
-      const leanBodyWeight = parseFloat(document.getElementById('leanBodyWeight').value) || 0;
-      const maximumDose = leanBodyWeight * 9;
-      document.getElementById('maximumDose').textContent = maximumDose.toFixed(0);
-      updateDoseRemaining(maximumDose);
+    let totalDose=0,coPhenylcaineDose=0,lidocaineDose=0,additionalLidocaineDose=0,lidocaine2Dose=0,lidocaine2VocalDose=0,lidocaine2BelowDose=0;
+    const defaultSprayValue=20;
+    document.addEventListener('DOMContentLoaded',()=>{calculateResults();document.getElementById('lidocaineInput').value=defaultSprayValue;document.getElementById('lidocaineOutput').textContent=defaultSprayValue*10;});
+    function calculateResults(){
+      const w=parseFloat(document.getElementById('weight').value)||0,h=parseFloat(document.getElementById('height').value)||0,gender=document.querySelector('input[name="gender"]:checked').value;
+      let lbw=gender==='male'?0.407*w+0.267*h-19.2:0.252*w+0.473*h-48.3;
+      lbw=lbw>0?lbw:0;document.getElementById('leanBodyWeight').textContent=lbw.toFixed(1);
+      const max=lbw*9;document.getElementById('maximumDose').textContent=Math.floor(max);
+      updateDoseRemaining(max);
     }
-
-    function toggleCoPhenylcaineDose() {
-      const button = document.getElementById('coPhenylcaineButton');
-      if (button.classList.contains('active')) {
-        coPhenylcaineDose = 0;
-        button.classList.remove('active');
-      } else {
-        coPhenylcaineDose = 125;
-        button.classList.add('active');
-      }
-      updateTotalDose();
-    }
-
-    // Toggle inclusion of lidocaine dose.
-    function toggleLidocaineSpray() {
-      const button = document.getElementById('lidocaineSprayButton');
-      if (button.classList.contains('active')) {
-        button.classList.remove('active');
-      } else {
-        button.classList.add('active');
-      }
-      updateLidocaineDose();
-    }
-
-    function updateLidocaineDose() {
-      const lidocaineInputValue = parseFloat(document.getElementById('lidocaineInput').value) || 0;
-      const computedDose = lidocaineInputValue * 10;
-      document.getElementById('lidocaineOutput').textContent = Math.floor(computedDose);
-      
-      if (document.getElementById('lidocaineSprayButton').classList.contains('active')) {
-        lidocaineDose = computedDose;
-      } else {
-        lidocaineDose = 0;
-      }
-      updateTotalDose();
-    }
-
-    function applyAdditionalLidocaineDose() {
-      const button = document.getElementById('additionalLidocaineButton');
-      if (button.classList.contains('active')) {
-        additionalLidocaineDose = 0;
-        button.classList.remove('active');
-      } else {
-        additionalLidocaineDose = 50;
-        button.classList.add('active');
-      }
-      updateTotalDose();
-    }
-
-    function toggleLidocaine2Dose() {
-      const button = document.getElementById('lidocaine2Button');
-      if (button.classList.contains('active')) {
-        lidocaine2Dose = 0;
-        button.classList.remove('active');
-      } else {
-        lidocaine2Dose = 40;
-        button.classList.add('active');
-      }
-      updateTotalDose();
-    }
-
-    function toggleLidocaine2VocalDose() {
-      const button = document.getElementById('lidocaine2VocalButton');
-      if (button.classList.contains('active')) {
-        lidocaine2VocalDose = 0;
-        button.classList.remove('active');
-      } else {
-        lidocaine2VocalDose = 40;
-        button.classList.add('active');
-      }
-      updateTotalDose();
-    }
-
-    function toggleLidocaine2BelowDose() {
-      const button = document.getElementById('lidocaine2BelowButton');
-      if (button.classList.contains('active')) {
-        lidocaine2BelowDose = 0;
-        button.classList.remove('active');
-      } else {
-        lidocaine2BelowDose = 40;
-        button.classList.add('active');
-      }
-      updateTotalDose();
-    }
-
-    function updateTotalDose() {
-      totalDose = coPhenylcaineDose + lidocaineDose + additionalLidocaineDose +
-                  lidocaine2Dose + lidocaine2VocalDose + lidocaine2BelowDose;
-      const maximumDose = parseFloat(document.getElementById('maximumDose').textContent) || 0;
-      document.getElementById('doseGiven').textContent = Math.floor(totalDose);
-      const remainingDose = maximumDose - totalDose;
-      const doseRemainingElement = document.getElementById('doseRemaining');
-      doseRemainingElement.textContent = Math.floor(remainingDose);
-      doseRemainingElement.style.color = (remainingDose < 0) ? 'darkred' : '';
-    }
-
-    function updateDoseRemaining(maximumDose) {
-      const remainingDose = maximumDose - totalDose;
-      const doseRemainingElement = document.getElementById('doseRemaining');
-      doseRemainingElement.textContent = Math.floor(remainingDose);
-      doseRemainingElement.style.color = (remainingDose < 0) ? 'darkred' : '';
-    }
-
-    function resetForm() {
-      calculateResults();
-      
-      document.getElementById('doseGiven').textContent = '0';
-      document.getElementById('doseRemaining').textContent = '0';
-
-      totalDose = 0;
-      coPhenylcaineDose = 0;
-      lidocaineDose = 0;
-      additionalLidocaineDose = 0;
-      lidocaine2Dose = 0;
-      lidocaine2VocalDose = 0;
-      lidocaine2BelowDose = 0;
-
-      resetButtons();
-
-      document.getElementById('lidocaineInput').value = defaultSprayValue;
-      document.getElementById('lidocaineOutput').textContent = defaultSprayValue * 10;
-
-      updateDoseRemaining(parseFloat(document.getElementById('maximumDose').textContent) || 0);
-    }
-
-    function resetButtons() {
-      document.getElementById('coPhenylcaineButton').classList.remove('active');
-      document.getElementById('lidocaineSprayButton').classList.remove('active');
-      document.getElementById('additionalLidocaineButton').classList.remove('active');
-      document.getElementById('lidocaine2Button').classList.remove('active');
-      document.getElementById('lidocaine2VocalButton').classList.remove('active');
-      document.getElementById('lidocaine2BelowButton').classList.remove('active');
-    }
-
-    function goHome() {
-      window.location.href = "index.html";
-    }
+    function toggleCoPhenylcaineDose(){coPhenylcaineDose=document.getElementById('coPhenylcaineButton').classList.toggle('active')?125:0;updateTotalDose();}
+    function toggleLidocaineSpray(){document.getElementById('lidocaineSprayButton').classList.toggle('active');updateLidocaineDose();}
+    function updateLidocaineDose(){const v=parseFloat(document.getElementById('lidocaineInput').value)||0,calc=v*10;document.getElementById('lidocaineOutput').textContent=Math.floor(calc);lidocaineDose=document.getElementById('lidocaineSprayButton').classList.contains('active')?calc:0;updateTotalDose();}
+    function applyAdditionalLidocaineDose(){additionalLidocaineDose=document.getElementById('additionalLidocaineButton').classList.toggle('active')?50:0;updateTotalDose();}
+    function toggleLidocaine2Dose(){lidocaine2Dose=document.getElementById('lidocaine2Button').classList.toggle('active')?40:0;updateTotalDose();}
+    function toggleLidocaine2VocalDose(){lidocaine2VocalDose=document.getElementById('lidocaine2VocalButton').classList.toggle('active')?40:0;updateTotalDose();}
+    function toggleLidocaine2BelowDose(){lidocaine2BelowDose=document.getElementById('lidocaine2BelowButton').classList.toggle('active')?40:0;updateTotalDose();}
+    function updateTotalDose(){totalDose=coPhenylcaineDose+lidocaineDose+additionalLidocaineDose+lidocaine2Dose+lidocaine2VocalDose+lidocaine2BelowDose;document.getElementById('doseGiven').textContent=Math.floor(totalDose);const max=parseFloat(document.getElementById('maximumDose').textContent)||0;updateDoseRemaining(max);}    
+    function updateDoseRemaining(max){const rem=max-totalDose,el=document.getElementById('doseRemaining');el.textContent=Math.floor(rem);el.style.color=rem<0?'darkred':'';}
+    function resetForm(){document.getElementById('weight').value=0;document.getElementById('height').value=0;calculateResults();totalDose=coPhenylcaineDose=lidocaineDose=additionalLidocaineDose=lidocaine2Dose=lidocaine2VocalDose=lidocaine2BelowDose=0;['coPhenylcaineButton','lidocaineSprayButton','additionalLidocaineButton','lidocaine2Button','lidocaine2VocalButton','lidocaine2BelowButton'].forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById('lidocaineInput').value=defaultSprayValue;document.getElementById('lidocaineOutput').textContent=defaultSprayValue*10;updateDoseRemaining(parseFloat(document.getElementById('maximumDose').textContent));}
+    function goHome(){window.location.href='index.html';}
   </script>
 </body>
 </html>
