@@ -38,40 +38,45 @@
   <div class="boxed-section">
     <div class="input-group">
       <label for="nhfsAge">Age (years):</label>
-      <input type="number" id="nhfsAge" min="0" max="120" value="70" oninput="calculateNHFS()">
+      <input type="number" id="nhfsAge" min="0" max="120" value="" oninput="calculateNHFS()">
     </div>
+ 
     <div class="input-group">
       <label>Gender:</label>
       <div class="gender-buttons">
-        <button type="button" id="nhfsMale" class="gender-btn active" onclick="setGender('male')">Male</button>
+        <button type="button" id="nhfsMale" class="gender-btn" onclick="setGender('male')">Male</button>
         <button type="button" id="nhfsFemale" class="gender-btn" onclick="setGender('female')">Female</button>
       </div>
     </div>
-    <div class="input-group">
-      <label for="nhfsAMTS">AMT score (0–10):</label>
-      <input type="number" id="nhfsAMTS" min="0" max="10" value="10" oninput="calculateNHFS()">
-    </div>
-    <div class="input-group">
-      <label>Residence:</label>
-      <div class="gender-buttons">
-        <button type="button" id="nhfsHome" class="gender-btn active" onclick="setResidence('home')">Home</button>
-        <button type="button" id="nhfsInst" class="gender-btn" onclick="setResidence('inst')">Institution</button>
-      </div>
-    </div>
-    <div class="input-group">
-      <label for="nhfsComorb">Number of major comorbidities:</label>
-      <input type="number" id="nhfsComorb" min="0" value="0" oninput="calculateNHFS()">
-    </div>
-    <!-- NEW: Admission Haemoglobin -->
+
     <div class="input-group">
       <label for="nhfsHgb">Haemoglobin on admission (g/L):</label>
       <input type="number" id="nhfsHgb" min="0" value="120" oninput="calculateNHFS()">
     </div>
+
+        <div class="input-group">
+      <label for="nhfsComorb">Number of major comorbidities:</label>
+      <input type="number" id="nhfsComorb" min="0" value="0" oninput="calculateNHFS()">
+    </div>
+
     <div class="input-group">
       <label>Active malignancy:</label>
       <div class="gender-buttons">
-        <button type="button" id="nhfsMaligNo" class="gender-btn active" onclick="setMalignancy(false)">No</button>
+        <button type="button" id="nhfsMaligNo" class="gender-btn" onclick="setMalignancy(false)">No</button>
         <button type="button" id="nhfsMaligYes" class="gender-btn" onclick="setMalignancy(true)">Yes</button>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label for="nhfsAMTS">AMT score (0–10):</label>
+      <input type="number" id="nhfsAMTS" min="0" max="10" value="10" oninput="calculateNHFS()">
+    </div>
+   
+    <div class="input-group">
+      <label>Residence:</label>
+      <div class="gender-buttons">
+        <button type="button" id="nhfsHome" class="gender-btn" onclick="setResidence('home')">Home</button>
+        <button type="button" id="nhfsInst" class="gender-btn" onclick="setResidence('inst')">Institution</button>
       </div>
     </div>
   </div>
@@ -96,8 +101,17 @@
   </footer>
 
   <script>
+function clearToggles() {
+  [
+    'nhfsMale','nhfsFemale',
+    'nhfsHome','nhfsInst',
+    'nhfsMaligNo','nhfsMaligYes'
+  ].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+}
 // state
-    let gender = 'male', residence = 'home', malignancy = false;
+    let gender = null, residence = null, malignancy = null;
 
     function setGender(g) {
       gender = g;
@@ -124,6 +138,12 @@
       const comorb = +document.getElementById('nhfsComorb').value;
       const hgb    = +document.getElementById('nhfsHgb').value;
 
+if (gender===null || residence===null || malignancy===null) {
+    document.getElementById('nhfsScore').textContent = '—';
+    document.getElementById('nhfsRisk').textContent  = 'Please select all options';
+    return;
+  }
+      
       let score = 0;
       // Age
       if      (age <= 65) score += 0;
@@ -152,19 +172,27 @@
       document.getElementById('nhfsRisk').textContent = riskText;
     }
 
-    // Update reset to clear Hgb too
-    function resetForm() {
-      document.getElementById('nhfsAge').value   = 70;
-      document.getElementById('nhfsAMTS').value  = 10;
-      document.getElementById('nhfsComorb').value= 0;
-      document.getElementById('nhfsHgb').value   = 120;    // ← NEW
-      setGender('male');
-      setResidence('home');
-      setMalignancy(false);
-      calculateNHFS();
-    }
-    // initialize
-    document.addEventListener('DOMContentLoaded', calculateNHFS);
+   document.addEventListener('DOMContentLoaded', () => {
+  clearToggles();       // start everything “off”
+  calculateNHFS();      // compute initial score (probably zero)
+});
+
+function resetForm() {
+  // reset numeric fields
+  document.getElementById('nhfsAge').value    = 70;
+  document.getElementById('nhfsAMTS').value   = 10;
+  document.getElementById('nhfsComorb').value = 0;
+  document.getElementById('nhfsHgb').value    = 120;
+
+  // clear every toggle back to “off”
+  clearToggles();
+
+  // recalc
+  calculateNHFS();
+}
+    function goHome() {
+  window.location.href = 'index.html';
+}
   </script>
 </body>
 </html>
