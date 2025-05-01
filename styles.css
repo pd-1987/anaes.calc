@@ -409,7 +409,6 @@ footer a:hover {
       width: 30px;
       padding: 2px;
   text-align: center;
-    }
 }
 .lidocaine-group .input-with-unit {
   width: fit-content;
@@ -449,7 +448,7 @@ input[type=number] {
   justify-content: center;
   background-color: #f0f0f0;
   color: #333;
-  padding: 4px
+  padding: 4px;
   text-align: center;
   font-size: 16px;
   user-select: none;
@@ -537,7 +536,7 @@ input[type=number] {
     .la-buttons {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center
+      justify-content: center;
        margin: 0;
       padding: 0 10px;
     }
