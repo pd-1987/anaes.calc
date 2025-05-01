@@ -571,3 +571,9 @@ input[type=number] {
       color: #555;
       margin: 0 0 15px 0; /* top 0 | right 0 | bottom 15px | left 0 */
     }
+/* iOS Safari fix for blue button text */
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  color: inherit;
+}
