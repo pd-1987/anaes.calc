@@ -62,6 +62,11 @@
       <label for="nhfsComorb">Number of major comorbidities:</label>
       <input type="number" id="nhfsComorb" min="0" value="0" oninput="calculateNHFS()">
     </div>
+    <!-- NEW: Admission Haemoglobin -->
+    <div class="input-group">
+      <label for="nhfsHgb">Haemoglobin on admission (g/L):</label>
+      <input type="number" id="nhfsHgb" min="0" value="120" oninput="calculateNHFS()">
+    </div>
     <div class="input-group">
       <label>Active malignancy:</label>
       <div class="gender-buttons">
@@ -114,45 +119,47 @@
     }
 
     function calculateNHFS() {
-      const age = +document.getElementById('nhfsAge').value;
-      const amts = +document.getElementById('nhfsAMTS').value;
+      const age    = +document.getElementById('nhfsAge').value;
+      const amts   = +document.getElementById('nhfsAMTS').value;
       const comorb = +document.getElementById('nhfsComorb').value;
+      const hgb    = +document.getElementById('nhfsHgb').value;
 
       let score = 0;
-      // Age points
-      if (age <= 65) score += 0;
+      // Age
+      if      (age <= 65) score += 0;
       else if (age <= 85) score += 3;
-      else score += 4;
+      else                score += 4;
       // Male
       if (gender === 'male') score += 1;
-      // AMTS < 7
+      // AMTS <7
       if (amts < 7) score += 1;
-      // Institution
+      // Institutional residence
       if (residence === 'inst') score += 1;
       // >2 comorbidities
       if (comorb > 2) score += 1;
+      // Admission Hb <100 g/L  ← NEW
+      if (hgb < 100) score += 1;
       // Active malignancy
       if (malignancy) score += 1;
 
-      // Update display
       document.getElementById('nhfsScore').textContent = score;
 
-      // Risk lookup
+      // risk categories unchanged
       let riskText;
-      if (score <= 3)       riskText = 'Low (≈1%)';
-      else if (score <= 6)  riskText = 'Medium (≈8%)';
-      else                  riskText = 'High (≈35%)';
-
+      if      (score <= 3) riskText = 'Low (≈1%)';
+      else if (score <= 6) riskText = 'Medium (≈8%)';
+      else                 riskText = 'High (≈35%)';
       document.getElementById('nhfsRisk').textContent = riskText;
     }
 
-    // hook reset to zero everything
+    // Update reset to clear Hgb too
     function resetForm() {
-      document.getElementById('nhfsAge').value = 70;
+      document.getElementById('nhfsAge').value   = 70;
+      document.getElementById('nhfsAMTS').value  = 10;
+      document.getElementById('nhfsComorb').value= 0;
+      document.getElementById('nhfsHgb').value   = 120;    // ← NEW
       setGender('male');
-      document.getElementById('nhfsAMTS').value = 10;
       setResidence('home');
-      document.getElementById('nhfsComorb').value = 0;
       setMalignancy(false);
       calculateNHFS();
     }
