@@ -1,4 +1,12 @@
 /* Global Styles */
+:root {
+  --clr-light-grey: #f0f0f0;
+  --clr-med-grey:   #ccc;
+  --clr-dark-grey:  #555;
+  --clr-primary:    #007BFF;
+  --radius:         5px;
+  --gap:            0.5rem;
+}
 body {
   width: 100%;
   font-family: 'Roboto', sans-serif;
