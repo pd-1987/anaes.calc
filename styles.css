@@ -1,13 +1,29 @@
 /* Global Styles */
 body {
+  width: 100%;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   max-width: 600px;
-  margin: auto;
+  margin: 0 auto;
   padding: 10px;
 }
-strong 
-{ font-weight: 700;}
+.full-width {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  text-decoration: none;
+  background-color: #444444;
+  border: 1px solid #ccc;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+strong { 
+  font-weight: 700;
+}
 /* Banner container */
 .banner {
   text-align: center;   /* Centers the content horizontally */
@@ -107,6 +123,8 @@ h3 {
 }
 /* Buttons */
 button {
+  -webkit-appearance: none;
+  appearance: none;      /* iOS Safari fix + standard reset */
   font-size: 16px;
   padding: 10px;
   cursor: pointer;
@@ -115,6 +133,7 @@ button {
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
   width: 100%;
+  color: inherit;
 }
 /* Gender Buttons (for Weight Calculator) */
 .gender-buttons {
@@ -271,22 +290,6 @@ button.active small {
   background-color: #444444;
   color: white;
 }
-
-.full-width {
-  display: block;
-  width: 100%;
-  max-width: 600px; /* optional if your container is already 600px max */
-  margin: 0 auto;
-  text-decoration: none;
-  background-color: #444444;
-  border: 1px solid #ccc;
-  color: white;
-  text-align: center;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
 /* Footer Styles */
 footer {
   margin-top: 30px;
@@ -415,18 +418,7 @@ footer a:hover {
   margin: 0 auto;
 }
 .lidocaine-group .input-with-unit input {
-  width: 20px;  /* Adjust this value to your desired size */
-}
-/* Remove spinners in Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Remove spinners in Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+  width: 20px;
 }
 /* Concentration Boxes */
 .concentration-boxes {
@@ -570,9 +562,17 @@ input[type=number] {
       color: #555;
       margin: 0 0 15px 0; /* top 0 | right 0 | bottom 15px | left 0 */
     }
-/* iOS Safari fix for blue button text */
-button {
+
+/* Remove number spinners in all modern browsers */
+input[type=number] {
+  -moz-appearance: textfield;      /* Firefox */
+  appearance: none;                /* Standard unprefixed */
+  --webkit-inner-spin-button: none;/* Old Android fallback */
+  --webkit-outer-spin-button: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   appearance: none;
-  color: inherit;
+  margin: 0;
 }
