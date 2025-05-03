@@ -145,7 +145,7 @@
       padding: 0.1rem;
     }
       .instruction-header {
-    margin-top: 0px;
+    margin-top: 20px;
         margin-bottom: 5px;
   }
       .spray-row {
@@ -195,7 +195,7 @@
     <div class="flex-item full-row">
       <!-- another full-width input or content -->
       <div class="result">
-   <u>Max Lidocaine Dose (9 mg/kg)</u>: 
+   <u>Max Lidocaine (9 mg/kg)</u>: 
         <span id="maxLidoDose">0</span>
         <span class="unit">mg</span>
       </div>
@@ -203,51 +203,43 @@
   </div>
     </div>
      
-    <div class="topicalise-container">
-    <div class="vertical-item">
-      <div class="instruction-header">
+   <div class="instruction-header">
       Topicalise:
-    </div></div>
-    <div class="vertical-item">
+    </div>
       <div class="button-group">
       <button id="coPhenylcaineButton">Co-phenylcaine Spray<br><small>If nasal route</small></button>
    <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
-    </div></div>
-    <div class="vertical-item">
+    </div>
+    
      <div class="button-group">
       <button id="lidocaineSprayButton">Lidocaine 10%<br><small>20–30 sprays to the oropharynx, tonsillar pillars and tongue base</small></button>
+           <input type="number" id="lidocaineInput" value="20" min="0">
+      <span class="spray-units" id="sprayUnits">sprays</span>
        <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
     </div>
-    <div class="vertical-item spray-row"> 
-      <input type="number" id="lidocaineInput" value="20" min="0">
-      <span class="spray-units" id="sprayUnits">sprays</span></div>
-  </div></div>
     
-  <div class="topicalise-container">
-    <div class="topicalise-item">
       <div class="instruction-header">
       If inadequate:
-    </div></div>
-    <div class="vertical-item">  
+    </div> 
       <div class="button-group">
       <button id="additionalLidocaineButton">Lidocaine 10%<br><small>Give a further 5 sprays to tongue base</small></button>
       <span class="bubble"><span id="additionalLidocaineBubble">50</span> <span class="unit">mg</span></span>
-    </div></div>
-    <div class="vertical-item">
+    </div>
+    
       <div class="button-group">
       <button id="lidocaine2Button">Lidocaine 2% 2ml<br><small>Spray as you go: Above vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2Bubble">40</span> <span class="unit">mg</span></span>
-    </div></div>
-    <div class="vertical-item">
+    </div>
+    
        <div class="button-group">
       <button id="lidocaine2VocalButton">Lidocaine 2% 2ml<br><small>Spray as you go: At vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2VocalBubble">40</span> <span class="unit">mg</span></span>
-    </div></div>
-    <div class="vertical-item">
+    </div>
+  
       <div class="button-group">
       <button id="lidocaine2BelowButton">Lidocaine 2% 2ml<br><small>Spray as you go: Below vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2BelowBubble">40</span> <span class="unit">mg</span></span>
-    </div></div>
+    </div>
   </div>  
     </div>
    
