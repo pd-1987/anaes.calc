@@ -26,7 +26,7 @@
       .flex-container {
         display: flex;
         flex-wrap: wrap;
-        margin: 5px auto;
+        margin: 0 auto 1rem;
         padding: 10px 15px;
         border: 1px solid #ccc;
         border-radius: 10px;
@@ -160,6 +160,10 @@
   .spray-row .spray-units {
     margin: 3px 0;
   }
+      .result.max-dose {
+    /* adjust this value to taste */
+    padding-bottom: 0.3rem;
+  }
     </style>
   </head>
   <body>
@@ -194,7 +198,7 @@
     </div>
     <div class="flex-item full-row">
       <!-- another full-width input or content -->
-      <div class="result">
+      <div class="result max-dose">
    <u>Max Lidocaine (9 mg/kg)</u>: 
         <span id="maxLidoDose">0</span>
         <span class="unit">mg</span>
