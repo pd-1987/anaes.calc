@@ -16,7 +16,11 @@
   />
   <style>
     header.banner {
-      background: linear-gradient(to right, #26C6DA 0%, #00ACC1 100%);
+ background: linear-gradient(
+    to right,
+    #607D8B 0%,   /* Blue Grey 500 */
+    #455A64 100%  /* Blue Grey 700 */
+  );
     }
     .boxed-section {
       border: 1px solid #ddd;
@@ -25,23 +29,29 @@
       margin: 10px;
       background-color: #fafafa;
     }
+    .result {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 20px;
+      margin-left: 10px
+}
   </style>
 </head>
 <body>
   <header class="banner">Nottingham Hip Fracture Score</header>
-  <h3>Risk of death within 30 days of hip fracture surgery</h3>
 
   <div class="boxed-section">
     <!-- Inputs in any order -->
     <div class="input-group">
       <label for="nhfsAge">Age (years):</label>
-      <input type="number" id="nhfsAge" min="0" max="120" value="80" oninput="calculateNHFS()">
+      <input type="number" id="nhfsAge" min="0" max="120" value="70" oninput="calculateNHFS()">
     </div>
     <div class="input-group">
       <label>Gender:</label>
       <div class="gender-buttons">
         <button id="nhfsMale" class="gender-btn" onclick="setGender('male')">Male</button>
-        <button id="nhfsFemale" class="gender-btn active" onclick="setGender('female')">Female</button>
+        <button id="nhfsFemale" class="gender-btn" onclick="setGender('female')">Female</button>
       </div>
     </div>
     <div class="input-group">
@@ -55,7 +65,7 @@
     <div class="input-group">
       <label>Active malignancy:</label>
       <div class="gender-buttons">
-        <button id="nhfsMaligNo"  class="gender-btn active" onclick="setMalignancy(false)">No</button>
+        <button id="nhfsMaligNo"  class="gender-btn" onclick="setMalignancy(false)">No</button>
         <button id="nhfsMaligYes" class="gender-btn" onclick="setMalignancy(true)">Yes</button>
       </div>
     </div>
@@ -66,7 +76,7 @@
     <div class="input-group">
       <label>Residence:</label>
       <div class="gender-buttons">
-        <button id="nhfsHome" class="gender-btn active" onclick="setResidence('home')">Home</button>
+        <button id="nhfsHome" class="gender-btn" onclick="setResidence('home')">Home</button>
         <button id="nhfsInst" class="gender-btn" onclick="setResidence('inst')">Institution</button>
       </div>
     </div>
@@ -76,8 +86,10 @@
     <u>NHFS Score:</u> <span id="nhfsScore">0</span>
   </p>
   <p class="result">
-    <u>30-day Mortality Risk:</u> <span id="nhfsRisk">—</span>
+    <u>30-day Mortality:</u> <span id="nhfsRisk">—</span>
   </p>
+  <p><small>NHFS ≤4: low risk; 30-day survival 84.1%, 1-year survival 84.1%. 
+   <br>NHFS ≥5: high risk; 30-day survival 86.3%, 1-year survival 54.5%.</small></p>
 
   <div class="button-container">
     <button class="reset-btn" onclick="resetForm()">Reset</button>
@@ -159,12 +171,7 @@ const hgb    = Number(document.getElementById('nhfsHgb').value);
     }
 
     //–– INITIALIZE ––//
-document.addEventListener('DOMContentLoaded', () => {
-  setGender('female');
-  setResidence('home');
-  setMalignancy(false);
-  calculateNHFS();
-});
+document.addEventListener('DOMContentLoaded', resetForm);
   </script>
 </body>
 </html>

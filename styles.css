@@ -97,12 +97,11 @@ h2 {
   margin-bottom: 10px;
   text-align: center; /* Or left-align if that fits your layout better */
   font-weight: 400;
-  border-bottom: 1px solid #007BFF; /* A nod to your accent blue in buttons */
   padding-bottom: 5px;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 20px;
   margin-top: 5px;
   margin-bottom: 10px;
   text-align: center;
@@ -402,6 +401,17 @@ footer a:hover {
     to right,
     #5E35B1 0%,   /* your original purple */
     #3a0f81 100%   /* rich dark violet */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.other-btn {
+  background: linear-gradient(
+    to right,
+    #607D8B 0%,   /* Blue Grey 500 */
+    #455A64 100%  /* Blue Grey 700 */
   );
   color: white;
   font-family: 'Roboto', sans-serif;
