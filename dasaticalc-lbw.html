@@ -96,6 +96,17 @@
     color: #555;
     margin-bottom: 0px;
   }
+      .results-section {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -121,47 +132,53 @@
         </div>
       </div>
     </div>
-  
+    
+  <div class="results-section">
     <div class="result">
       <u>Lean Body Weight</u>: <span id="leanBodyWeight">0.0</span>
         <span class="unit">kg</span>
-      <p><u>Max Safe Lidocaine Dose (9 mg/kg)</u>: <span id="maxLidoDose">0</span> mg</p>
+      <p><u>Max Lidocaine Dose (9 mg/kg)</u>: <span id="maxLidoDose">0</span> mg</p>
+    </div></div>
+    
+  <div class="instruction-header">
+      Topicalise:
     </div>
-  
     <!-- Drug/dose buttons -->
     <div class="button-group">
       <button id="coPhenylcaineButton">Co-phenylcaine Spray<br><small>If nasal route</small></button>
-    <span class="bubble" id="coPhenylcaineBubble">125 mg</span>
+   <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
     </div>
     <div class="button-group">
       <button id="lidocaineSprayButton">Lidocaine 10%<br><small>20–30 sprays to the oropharynx, tonsillar pillars and tongue base</small></button>
       <input type="number" id="lidocaineInput" value="20" min="0">
-      <span class="bubble" id="lidocaineBubble">200 mg</span>
+      <span class="spray-units" id="sprayUnits">sprays</span>
+       <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
     </div>
      <div class="instruction-header">
       If inadequate:
     </div>
     <div class="button-group">
       <button id="additionalLidocaineButton">Lidocaine 10%<br><small>Give a further 5 sprays to tongue base</small></button>
-     <span class="bubble" id="additionalLidocaineBubble">50 mg</span>
+      <span class="bubble"><span id="additionalLidocaineBubble">50</span> <span class="unit">mg</span></span>
     </div>
     <div class="button-group">
       <button id="lidocaine2Button">Lidocaine 2% 2ml<br><small>Spray as you go: Above vocal cords</small></button>
-      <span class="bubble" id="lidocaine2Bubble">40 mg</span>
+      <span class="bubble"><span id="lidocaine2Bubble">40</span> <span class="unit">mg</span></span>
     </div>
     <div class="button-group">
       <button id="lidocaine2VocalButton">Lidocaine 2% 2ml<br><small>Spray as you go: At vocal cords</small></button>
-      <span class="bubble" id="lidocaine2VocalBubble">40 mg</span>
+      <span class="bubble"><span id="lidocaine2VocalBubble">40</span> <span class="unit">mg</span></span>
     </div>
     <div class="button-group">
       <button id="lidocaine2BelowButton">Lidocaine 2% 2ml<br><small>Spray as you go: Below vocal cords</small></button>
-      <span class="bubble" id="lidocaine2BelowBubble">40 mg</span>
+      <span class="bubble"><span id="lidocaine2BelowBubble">40</span> <span class="unit">mg</span></span>
     </div>
     
+    <div class="results-section">
       <div class="result">
       <p><u>Total Dose Given</u>: <span id="doseGiven">0</span> mg</p>
       <p><u>Dose Remaining</u>: <span id="doseRemaining">0</span> mg</p>
-    </div>
+      </div></div>
   
      <div class="button-container">
       <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -176,152 +193,201 @@
     </footer>  
   
     <script>
-      let selectedGender = null;
-      let coPhenylDose = 0, lidoSprayDose = 0, extraLidoDose = 0;
-      let lido2Dose = 0, lido2VocalDose = 0, lido2BelowDose = 0;
+    // === State variables ===
+    let selectedGender = null;
+    let coPhenylDose = 0, lidoSprayDose = 0, extraLidoDose = 0;
+    let lido2Dose = 0, lido2VocalDose = 0, lido2BelowDose = 0;
   
-      const maleBtn = document.getElementById('maleButton');
-      const femaleBtn = document.getElementById('femaleButton');
-      const wtInput = document.getElementById('weight');
-      const htInput = document.getElementById('height');
-      const lbwSpan = document.getElementById('leanBodyWeight');
-      const maxSpan = document.getElementById('maxLidoDose');
-      const givenSpan = document.getElementById('doseGiven');
-      const remSpan = document.getElementById('doseRemaining');
-      const coBtn = document.getElementById('coPhenylcaineButton');
-      const coBubble = document.getElementById('coPhenylcaineBubble');
-      const lidBtn = document.getElementById('lidocaineSprayButton');
-      const lidInput = document.getElementById('lidocaineInput');
-      const lidBubble = document.getElementById('lidocaineBubble');
-      const addBtn = document.getElementById('additionalLidocaineButton');
-      const addBubble = document.getElementById('additionalLidocaineBubble');
-      const l2Btn = document.getElementById('lidocaine2Button');
-      const l2Bubble = document.getElementById('lidocaine2Bubble');
-      const l2vBtn = document.getElementById('lidocaine2VocalButton');
-      const l2vBubble = document.getElementById('lidocaine2VocalBubble');
-      const l2bBtn = document.getElementById('lidocaine2BelowButton');
-      const l2bBubble = document.getElementById('lidocaine2BelowBubble');
-      const resetBtn = document.getElementById('resetBtn');
+    // === Element references ===
+    const maleBtn        = document.getElementById('maleButton');
+    const femaleBtn      = document.getElementById('femaleButton');
+    const wtInput        = document.getElementById('weight');
+    const htInput        = document.getElementById('height');
+    const lbwSpan        = document.getElementById('leanBodyWeight');
+    const maxSpan        = document.getElementById('maxLidoDose');
+    const givenSpan      = document.getElementById('doseGiven');
+    const remSpan        = document.getElementById('doseRemaining');
   
-      // Bind events
-      maleBtn.addEventListener('click', () => selectGender('male'));
-      femaleBtn.addEventListener('click', () => selectGender('female'));
-      wtInput.addEventListener('input', calculateAll);
-      htInput.addEventListener('input', calculateAll);
-      coBtn.addEventListener('click', () => toggleDose('co'));
-      lidBtn.addEventListener('click', () => toggleDose('spray'));
-      lidInput.addEventListener('input', () => { updateLidoSpray(); calculateAll(); });
-      addBtn.addEventListener('click', () => toggleDose('extra'));
-      l2Btn.addEventListener('click', () => toggleDose('l2'));
-      l2vBtn.addEventListener('click', () => toggleDose('l2v'));
-      l2bBtn.addEventListener('click', () => toggleDose('l2b'));
-      resetBtn.addEventListener('click', resetForm);
+    const coBtn          = document.getElementById('coPhenylcaineButton');
+    const coDoseSpan     = document.getElementById('coPhenylcaineBubble');
   
-      function selectGender(g) {
-        selectedGender = g;
-        maleBtn.classList.toggle('active', g === 'male');
-        femaleBtn.classList.toggle('active', g === 'female');
-        calculateAll();
-      }
+    const lidBtn         = document.getElementById('lidocaineSprayButton');
+    const lidInput       = document.getElementById('lidocaineInput');
+    const lidDoseSpan    = document.getElementById('lidocaineOutput');
   
-      function calculateAll() {
-        const w = parseFloat(wtInput.value) || 0;
-        const h = parseFloat(htInput.value) || 0;
-        if (!selectedGender || w <= 0 || h <= 0) {
-          lbwSpan.textContent = '0.0'; maxSpan.textContent = '0'; updateTotal(); return;
-        }
-        let lbw = selectedGender === 'male'
-          ? 0.407 * w + 0.267 * h - 19.2
-          : 0.252 * w + 0.473 * h - 48.3;
-        lbw = Math.max(lbw, 0);
-        lbwSpan.textContent = lbw.toFixed(1);
-        maxSpan.textContent = (lbw * 9).toFixed(1);
+    const addBtn         = document.getElementById('additionalLidocaineButton');
+    const extraDoseSpan  = document.getElementById('additionalLidocaineBubble');
+  
+    const l2Btn          = document.getElementById('lidocaine2Button');
+    const l2DoseSpan     = document.getElementById('lidocaine2Bubble');
+  
+    const l2vBtn         = document.getElementById('lidocaine2VocalButton');
+    const l2vDoseSpan    = document.getElementById('lidocaine2VocalBubble');
+  
+    const l2bBtn         = document.getElementById('lidocaine2BelowButton');
+    const l2bDoseSpan    = document.getElementById('lidocaine2BelowBubble');
+  
+    // === Event bindings ===
+    maleBtn.addEventListener('click', () => selectGender('male'));
+    femaleBtn.addEventListener('click', () => selectGender('female'));
+    wtInput.addEventListener('input', calculateAll);
+    htInput.addEventListener('input', calculateAll);
+  
+    coBtn.addEventListener('click', () => toggleDose('co'));
+    lidBtn.addEventListener('click', () => toggleDose('spray'));
+    lidInput.addEventListener('input', () => { updateLidoSpray(); calculateAll(); });
+    addBtn.addEventListener('click', () => toggleDose('extra'));
+    l2Btn.addEventListener('click', () => toggleDose('l2'));
+    l2vBtn.addEventListener('click', () => toggleDose('l2v'));
+    l2bBtn.addEventListener('click', () => toggleDose('l2b'));
+    // resetForm() and goHome() are called via inline onclick attributes
+  
+    // === Functions ===
+  
+    function selectGender(g) {
+      selectedGender = g;
+      maleBtn.classList.toggle('active', g === 'male');
+      femaleBtn.classList.toggle('active', g === 'female');
+      calculateAll();
+    }
+  
+    function calculateAll() {
+      const w = parseFloat(wtInput.value) || 0;
+      const h = parseFloat(htInput.value) || 0;
+      if (!selectedGender || w <= 0 || h <= 0) {
+        lbwSpan.textContent = '0.0';
+        maxSpan.textContent = '0';
         updateTotal();
+        return;
       }
-  
-      function toggleDose(type) {
-        switch (type) {
-          case 'co':
-            coPhenylDose = coPhenylDose ? 0 : 125;
-            coBtn.classList.toggle('active', coPhenylDose > 0);
-            coBubble.textContent = coPhenylDose + ' mg';
-            break;
-          case 'spray':
-            lidoSprayDose = lidoSprayDose ? 0 : (parseFloat(lidInput.value) || 0) * 10;
-            lidBtn.classList.toggle('active', lidoSprayDose > 0);
-            lidBubble.textContent = lidoSprayDose + ' mg';
-            break;
-          case 'extra':
-            extraLidoDose = extraLidoDose ? 0 : 50;
-            addBtn.classList.toggle('active', extraLidoDose > 0);
-            addBubble.textContent = extraLidoDose + ' mg';
-            break;
-          case 'l2':
-            lido2Dose = lido2Dose ? 0 : 40;
-            l2Btn.classList.toggle('active', lido2Dose > 0);
-            l2Bubble.textContent = lido2Dose + ' mg';
-            break;
-          case 'l2v':
-            lido2VocalDose = lido2VocalDose ? 0 : 40;
-            l2vBtn.classList.toggle('active', lido2VocalDose > 0);
-            l2vBubble.textContent = lido2VocalDose + ' mg';
-            break;
-          case 'l2b':
-            lido2BelowDose = lido2BelowDose ? 0 : 40;
-            l2bBtn.classList.toggle('active', lido2BelowDose > 0);
-            l2bBubble.textContent = lido2BelowDose + ' mg';
-            break;
-        }
-        updateTotal();
-      }
-  
-  function updateLidoSpray() {
-    // compute the new dose
-    const sprays = parseFloat(lidInput.value) || 0;
-    const dose   = sprays * 10;
-  
-    // always update the blue bubble
-    lidBubble.textContent = dose + ' mg';
-  
-    // if the spray-button is toggled on, update your total
-    if (lidBtn.classList.contains('active')) {
-      lidoSprayDose = dose;
+      let lbw = selectedGender === 'male'
+        ? 0.407 * w + 0.267 * h - 19.2
+        : 0.252 * w + 0.473 * h - 48.3;
+      lbw = Math.max(lbw, 0);
+      lbwSpan.textContent = lbw.toFixed(1);
+      maxSpan.textContent = (lbw * 9).toFixed(1);
       updateTotal();
     }
-  }
   
-      function updateTotal() {
-        const total = coPhenylDose + lidoSprayDose + extraLidoDose + lido2Dose + lido2VocalDose + lido2BelowDose;
-        const maxSafe = parseInt(maxSpan.textContent) || 0;
-        givenSpan.textContent = total;
-        const remain = maxSafe - total;
-        remSpan.textContent = remain;
-        remSpan.style.color = remain < 0 ? 'darkred' : '';
+    function toggleDose(type) {
+      switch (type) {
+        case 'co':
+          if (coPhenylDose) {
+            coPhenylDose = 0;
+            coBtn.classList.remove('active');
+          } else {
+            coPhenylDose = 125;
+            coBtn.classList.add('active');
+            coDoseSpan.textContent = coPhenylDose;
+          }
+          break;
+  
+        case 'spray':
+          const sprayVal = (parseFloat(lidInput.value) || 0) * 10;
+          if (lidoSprayDose) {
+            lidoSprayDose = 0;
+            lidBtn.classList.remove('active');
+          } else {
+            lidoSprayDose = sprayVal;
+            lidBtn.classList.add('active');
+            lidDoseSpan.textContent = sprayVal;
+          }
+          break;
+  
+        case 'extra':
+          if (extraLidoDose) {
+            extraLidoDose = 0;
+            addBtn.classList.remove('active');
+          } else {
+            extraLidoDose = 50;
+            addBtn.classList.add('active');
+            extraDoseSpan.textContent = extraLidoDose;
+          }
+          break;
+  
+        case 'l2':
+          if (lido2Dose) {
+            lido2Dose = 0;
+            l2Btn.classList.remove('active');
+          } else {
+            lido2Dose = 40;
+            l2Btn.classList.add('active');
+            l2DoseSpan.textContent = lido2Dose;
+          }
+          break;
+  
+        case 'l2v':
+          if (lido2VocalDose) {
+            lido2VocalDose = 0;
+            l2vBtn.classList.remove('active');
+          } else {
+            lido2VocalDose = 40;
+            l2vBtn.classList.add('active');
+            l2vDoseSpan.textContent = lido2VocalDose;
+          }
+          break;
+  
+        case 'l2b':
+          if (lido2BelowDose) {
+            lido2BelowDose = 0;
+            l2bBtn.classList.remove('active');
+          } else {
+            lido2BelowDose = 40;
+            l2bBtn.classList.add('active');
+            l2bDoseSpan.textContent = lido2BelowDose;
+          }
+          break;
       }
+      updateTotal();
+    }
   
-      function resetForm() {
-        selectedGender = null;
-        maleBtn.classList.remove('active'); femaleBtn.classList.remove('active');
-        wtInput.value = ''; htInput.value = '';
-        lbwSpan.textContent = '0.0'; maxSpan.textContent = '0';
-        coPhenylDose = lidoSprayDose = extraLidoDose = 0;
-        lido2Dose = lido2VocalDose = lido2BelowDose = 0;
-        [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => b.classList.remove('active'));
-         coBubble.textContent  = '125 mg';
-    lidBubble.textContent = (parseFloat(lidInput.value)||20) * 10 + ' mg'; // default spray
-    addBubble.textContent = '50 mg';
-    l2Bubble.textContent  = '40 mg';
-    l2vBubble.textContent = '40 mg';
-    l2bBubble.textContent = '40 mg';
+    function updateLidoSpray() {
+      const sprays = parseFloat(lidInput.value) || 0;
+      const dose   = sprays * 10;
+      lidDoseSpan.textContent = dose;
+      if (lidBtn.classList.contains('active')) {
+        lidoSprayDose = dose;
         updateTotal();
       }
+    }
   
-      // Initialize on load
-      resetForm();
-      
-       function goHome() {
-        window.location.href = "index.html";
-      }
-    </script>
+    function updateTotal() {
+      const total   = coPhenylDose + lidoSprayDose + extraLidoDose
+                    + lido2Dose + lido2VocalDose + lido2BelowDose;
+      const maxSafe = parseInt(maxSpan.textContent, 10) || 0;
+      givenSpan.textContent = total;
+      const remain = maxSafe - total;
+      remSpan.textContent = remain;
+      remSpan.style.color = remain < 0 ? 'darkred' : '';
+    }
+  
+    function resetForm() {
+      selectedGender = null;
+      maleBtn.classList.remove('active');
+      femaleBtn.classList.remove('active');
+      wtInput.value = '';
+      htInput.value = '';
+      lbwSpan.textContent = '0.0';
+      maxSpan.textContent = '0';
+      coPhenylDose = lidoSprayDose = extraLidoDose = 0;
+      lido2Dose = lido2VocalDose = lido2BelowDose = 0;
+      [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => b.classList.remove('active'));
+      coDoseSpan.textContent    = '125';
+      lidDoseSpan.textContent   = (parseFloat(lidInput.value)||20)*10;
+      extraDoseSpan.textContent = '50';
+      l2DoseSpan.textContent    = '40';
+      l2vDoseSpan.textContent   = '40';
+      l2bDoseSpan.textContent   = '40';
+      updateTotal();
+    }
+  
+    function goHome() {
+      window.location.href = 'index.html';
+    }
+  
+    // Initialize on load
+    resetForm();
+  </script>
+  
   </body>
   </html>
