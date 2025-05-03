@@ -26,9 +26,14 @@
       .flex-container {
         display: flex;
         flex-wrap: wrap;
-        margin: 0 auto;
+        margin: 5px auto;
         padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         background-color: #fff;
+        row-gap: 1rem;      /* vertical space */
+    column-gap: 0rem; /* horizontal space */
       }
       .flex-item {
         display: flex;
@@ -108,6 +113,53 @@
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         background-color: #fff;
       }
+      /* make full-row items span 100% of the container */
+  .flex-item.full-row {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+      .result {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 0px;
+  }
+      .topicalise-container {
+      display: flex;
+      flex-direction: column;  /* stack items as rows */
+      row-gap: 0rem;           /* space between each row */
+      width: 100%;
+      max-width: 600px;        /* optional max */
+        margin: 5px auto;
+      padding: 1rem;
+      box-sizing: border-box;  /* include padding in width */
+             border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: #fff;
+    }
+  
+    .topicalise-container .vertical-item {
+      /* full-width row styling */
+      width: 100%;
+      padding: 0.1rem;
+    }
+      .instruction-header {
+    margin-top: 0px;
+        margin-bottom: 5px;
+  }
+      .spray-row {
+    display: flex;
+    justify-content: center;  /* center horizontally */
+    align-items: center;      /* center vertically */
+    gap: 0.25rem;             /* space between input & text (tweak to taste) */
+  }
+  
+  /* optional: remove any stray margins */
+  .spray-row input,
+  .spray-row .spray-units {
+    margin: 3px 0;
+  }
     </style>
   </head>
   <body>
@@ -132,49 +184,73 @@
           <input type="number" id="height" min="0">
         </div>
       </div>
-    </div>
-    
-  <div class="results-section">
-    <div class="result">
+     <!-- two full-width rows -->
+    <div class="flex-item full-row">
+      <!-- put whatever you need here -->
+      <div class="result">
+        <br>
       <u>Lean Body Weight</u>: <span id="leanBodyWeight">0.0</span>
         <span class="unit">kg</span>
-      <p><u>Max Lidocaine Dose (9 mg/kg)</u>: <span id="maxLidoDose">0</span> mg</p>
-    </div></div>
-    
-  <div class="instruction-header">
-      Topicalise:
     </div>
-    <!-- Drug/dose buttons -->
-    <div class="button-group">
+    <div class="flex-item full-row">
+      <!-- another full-width input or content -->
+      <div class="result">
+   <u>Max Lidocaine Dose (9 mg/kg)</u>: 
+        <span id="maxLidoDose">0</span>
+        <span class="unit">mg</span>
+      </div>
+    </div>
+  </div>
+    </div>
+     
+    <div class="topicalise-container">
+    <div class="vertical-item">
+      <div class="instruction-header">
+      Topicalise:
+    </div></div>
+    <div class="vertical-item">
+      <div class="button-group">
       <button id="coPhenylcaineButton">Co-phenylcaine Spray<br><small>If nasal route</small></button>
    <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
-    </div>
-    <div class="button-group">
+    </div></div>
+    <div class="vertical-item">
+     <div class="button-group">
       <button id="lidocaineSprayButton">Lidocaine 10%<br><small>20–30 sprays to the oropharynx, tonsillar pillars and tongue base</small></button>
-      <input type="number" id="lidocaineInput" value="20" min="0">
-      <span class="spray-units" id="sprayUnits">sprays</span>
        <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
     </div>
-     <div class="instruction-header">
+    <div class="vertical-item spray-row"> 
+      <input type="number" id="lidocaineInput" value="20" min="0">
+      <span class="spray-units" id="sprayUnits">sprays</span></div>
+  </div></div>
+    
+  <div class="topicalise-container">
+    <div class="topicalise-item">
+      <div class="instruction-header">
       If inadequate:
-    </div>
-    <div class="button-group">
+    </div></div>
+    <div class="vertical-item">  
+      <div class="button-group">
       <button id="additionalLidocaineButton">Lidocaine 10%<br><small>Give a further 5 sprays to tongue base</small></button>
       <span class="bubble"><span id="additionalLidocaineBubble">50</span> <span class="unit">mg</span></span>
-    </div>
-    <div class="button-group">
+    </div></div>
+    <div class="vertical-item">
+      <div class="button-group">
       <button id="lidocaine2Button">Lidocaine 2% 2ml<br><small>Spray as you go: Above vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2Bubble">40</span> <span class="unit">mg</span></span>
-    </div>
-    <div class="button-group">
+    </div></div>
+    <div class="vertical-item">
+       <div class="button-group">
       <button id="lidocaine2VocalButton">Lidocaine 2% 2ml<br><small>Spray as you go: At vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2VocalBubble">40</span> <span class="unit">mg</span></span>
-    </div>
-    <div class="button-group">
+    </div></div>
+    <div class="vertical-item">
+      <div class="button-group">
       <button id="lidocaine2BelowButton">Lidocaine 2% 2ml<br><small>Spray as you go: Below vocal cords</small></button>
       <span class="bubble"><span id="lidocaine2BelowBubble">40</span> <span class="unit">mg</span></span>
+    </div></div>
+  </div>  
     </div>
-    
+   
     <div class="results-section">
       <div class="result">
       <p><u>Total Dose Given</u>: <span id="doseGiven">0</span> mg</p>
@@ -363,24 +439,38 @@
     }
   
     function resetForm() {
-      selectedGender = null;
-      maleBtn.classList.remove('active');
-      femaleBtn.classList.remove('active');
-      wtInput.value = '';
-      htInput.value = '';
-      lbwSpan.textContent = '0.0';
-      maxSpan.textContent = '0';
-      coPhenylDose = lidoSprayDose = extraLidoDose = 0;
-      lido2Dose = lido2VocalDose = lido2BelowDose = 0;
-      [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => b.classList.remove('active'));
-      coDoseSpan.textContent    = '125';
-      lidDoseSpan.textContent   = (parseFloat(lidInput.value)||20)*10;
-      extraDoseSpan.textContent = '50';
-      l2DoseSpan.textContent    = '40';
-      l2vDoseSpan.textContent   = '40';
-      l2bDoseSpan.textContent   = '40';
-      updateTotal();
-    }
+    // clear gender and demographics
+    selectedGender = null;
+    maleBtn.classList.remove('active');
+    femaleBtn.classList.remove('active');
+    wtInput.value = '';
+    htInput.value = '';
+  
+    // reset lean body weight & max dose displays
+    lbwSpan.textContent = '0.0';
+    maxSpan.textContent = '0';
+  
+    // zero out all internal dose counters
+    coPhenylDose = lidoSprayDose = extraLidoDose = 0;
+    lido2Dose = lido2VocalDose = lido2BelowDose = 0;
+  
+    // clear all button active states
+    [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => b.classList.remove('active'));
+  
+    // reset the **input** for sprays back to 20
+    lidInput.value = 20;
+  
+    // put the bubbles back to their defaults
+    coDoseSpan.textContent    = '125';
+    lidDoseSpan.textContent   = '200';   // 20 sprays × 10 mg/spray
+    extraDoseSpan.textContent = '50';
+    l2DoseSpan.textContent    = '40';
+    l2vDoseSpan.textContent   = '40';
+    l2bDoseSpan.textContent   = '40';
+  
+    // and finally refresh the totals
+    updateTotal();
+  }
   
     function goHome() {
       window.location.href = 'index.html';
