@@ -332,9 +332,14 @@ maxSpan.textContent = formatValue(0, 1); // → "0"
       let lbw = selectedGender === 'male'
         ? 0.407 * w + 0.267 * h - 19.2
         : 0.252 * w + 0.473 * h - 48.3;
-      lbw = Math.max(lbw, 0);
-     lbwSpan.textContent = formatValue(lbw, 1);
-maxSpan.textContent = formatValue(lbw * 9, 1);
+        lbw = Math.max(lbw, 0);
+// 1) format & display LBW
+const formattedLBW = formatValue(lbw, 1);
+lbwSpan.textContent = formattedLBW;
+
+// 2) re-parse that displayed LBW and compute max off *exactly* what the user sees
+const displayedLBW = parseFloat(formattedLBW) || 0;
+maxSpan.textContent = formatValue(displayedLBW * 9, 1);
       updateTotal();
     }
   
