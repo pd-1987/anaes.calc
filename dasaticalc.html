@@ -122,7 +122,7 @@
     function calculateResults() {
       const leanBodyWeight = parseFloat(document.getElementById('leanBodyWeight').value) || 0;
       const maximumDose = leanBodyWeight * 9;
-      document.getElementById('maximumDose').textContent = maximumDose.toFixed(0);
+      document.getElementById('maximumDose').textContent = maximumDose.toFixed(1);
       updateDoseRemaining(maximumDose);
     }
 
