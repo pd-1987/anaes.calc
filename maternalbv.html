@@ -137,27 +137,21 @@
   cursor: pointer;
       border: 1px solid #ccc;
 }
-       /* Class I – mild blood loss (<15%) */
-#classI {
-  background-color: #FFEBEE;  /* very light red */
+/* instead of #classI, #classII, etc. use: */
+.classI {
+  background-color: #FFEBEE;
   color: black;
 }
-    
-/* Class II – moderate blood loss (15–30%) */
-#classII {
-  background-color: #FFCDD2;  /* light red */
+.classII {
+  background-color: #FFCDD2;
   color: black;
 }
-
-/* Class III – significant blood loss (30–40%) */
-#classIII {
-  background-color: #EF9A9A;  /* medium pastel red */
+.classIII {
+  background-color: #EF9A9A;
   color: black;
 }
-
-/* Class IV – severe blood loss (>40%) */
-#classIV {
-  background-color: #E57373;  /* darker pastel red */
+.classIV {
+  background-color: #E57373;
   color: black;
 }
   </style>
@@ -195,36 +189,61 @@
     </div>
   </div>
   
-  <!-- Classification Section -->
   <div class="classification-section">
     <p><u>Classification of Haemorrhagic Shock</u></p>
     <table id="shockClassificationTable">
-      <thead>
-        <tr>
-          <th>Shock Class</th>
-          <th>Blood loss</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Class I (<15%)</td>
-          <td id="classI">-</td>
-        </tr>
-        <tr>
-          <td>Class II (15-30%)</td>
-          <td id="classII">-</td>
-        </tr>
-        <tr>
-          <td>Class III (30-40%)</td>
-          <td id="classIII">-</td>
-        </tr>
-        <tr>
-          <td>Class IV (>40%)</td>
-          <td id="classIV">-</td>
-        </tr>
-      </tbody>
-    </table>
+  <tr>
+    <th>Class</th>
+    <th>%</th>
+    <th>Blood loss</th>
+  </tr>
+  <tr>
+    <td rowspan="2">I</td>
+    <td>5</td>
+    <td class="classI" data-percent="5">-</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td class="classI" data-percent="10">-</td>
+  </tr>
+  <tr>
+    <td rowspan="3">II</td>
+    <td>15</td>
+    <td class="classII" data-percent="15">-</td>
+  </tr>
+  <tr>
+    <td>20</td>
+    <td class="classII" data-percent="20">-</td>
+  </tr>
+  <tr>
+    <td>25</td>
+    <td class="classII" data-percent="25">-</td>
+  </tr>
+  <tr>
+    <td rowspan="2">III</td>
+    <td>30</td>
+    <td class="classIII" data-percent="30">-</td>
+  </tr>
+  <tr>
+    <td>35</td>
+    <td class="classIII" data-percent="35">-</td>
+  </tr>
+  <tr>
+    <td rowspan="3">IV</td>
+    <td>40</td>
+    <td class="classIV" data-percent="40">-</td>
+  </tr>
+  <tr>
+    <td>45</td>
+    <td class="classIV" data-percent="45">-</td>
+  </tr>
+  <tr>
+    <td>&gt;50</td>
+    <td class="classIV" data-percent=">50">-</td>
+  </tr>
+</table>
   </div>
+
  
   <!-- Home and Reset Buttons -->
   <div class="button-container" style="text-align: center; margin-bottom: 20px;">
@@ -327,32 +346,26 @@ function toggleMode() {
   }
 }
     
-    // Update the shock classification table based on circulating blood volume.
     function updateShockClassification(volume) {
-      const classI = document.getElementById("classI");
-      const classII = document.getElementById("classII");
-      const classIII = document.getElementById("classIII");
-      const classIV = document.getElementById("classIV");
-      
-      const classIVal = volume * 0.15;
-      const classII_low = volume * 0.15;
-      const classII_high = volume * 0.30;
-      const classIII_low = volume * 0.30;
-      const classIII_high = volume * 0.40;
-      const classIVVal = volume * 0.40;
-      
-      classI.textContent = "<" + formatNumber(classIVal) + " ml";
-      classII.textContent = formatNumber(classII_low) + "-" + formatNumber(classII_high) + " ml";
-      classIII.textContent = formatNumber(classIII_low) + "-" + formatNumber(classIII_high) + " ml";
-      classIV.textContent = ">" + formatNumber(classIVVal) + " ml";
-    }
-    
-    function clearShockClassification() {
-      document.getElementById("classI").textContent = "-";
-      document.getElementById("classII").textContent = "-";
-      document.getElementById("classIII").textContent = "-";
-      document.getElementById("classIV").textContent = "-";
-    }
+  document
+    .querySelectorAll('#shockClassificationTable td[data-percent]')
+    .forEach(cell => {
+      const pctText = cell.getAttribute('data-percent');
+      const raw     = pctText.startsWith('>')
+                        ? pctText.slice(1)
+                        : pctText;
+      const percent = parseFloat(raw);
+      const loss    = volume * percent/100;
+      const sign    = pctText.startsWith('>') ? '>' : '';
+      cell.textContent = sign + formatNumber(loss) + ' ml';
+    });
+}
+
+function clearShockClassification() {
+  document
+    .querySelectorAll('#shockClassificationTable td[data-percent]')
+    .forEach(cell => cell.textContent = '-');
+}
     
     // Update all calculations
     function updateCalculations() {
