@@ -118,6 +118,7 @@
     font-weight: 700;
     color: #000;
     margin-top: 0px;
+    text-align: center;
   }
       .topicalise-container {
       display: flex;
@@ -188,7 +189,7 @@
       <!-- put whatever you need here -->
       <div class="result">
         <br>
-      <u>Lean Body Weight</u>: <span id="leanBodyWeight">0.0</span>
+      <u>Lean Body Weight</u>: <span id="leanBodyWeight">0</span>
         <span class="unit">kg</span>
     </div>
     <div class="flex-item full-row">
@@ -323,8 +324,8 @@
       const w = parseFloat(wtInput.value) || 0;
       const h = parseFloat(htInput.value) || 0;
       if (!selectedGender || w <= 0 || h <= 0) {
-        lbwSpan.textContent = '0.0';
-        maxSpan.textContent = '0';
+       lbwSpan.textContent = formatValue(0, 1); // → "0"
+maxSpan.textContent = formatValue(0, 1); // → "0"
         updateTotal();
         return;
       }
@@ -332,8 +333,8 @@
         ? 0.407 * w + 0.267 * h - 19.2
         : 0.252 * w + 0.473 * h - 48.3;
       lbw = Math.max(lbw, 0);
-      lbwSpan.textContent = lbw.toFixed(1);
-      maxSpan.textContent = (lbw * 9).toFixed(1);
+     lbwSpan.textContent = formatValue(lbw, 1);
+maxSpan.textContent = formatValue(lbw * 9, 1);
       updateTotal();
     }
   
@@ -438,8 +439,9 @@
     htInput.value = '';
   
     // reset lean body weight & max dose displays
-    lbwSpan.textContent = '0.0';
-    maxSpan.textContent = '0';
+    lbwSpan.textContent = formatValue(0, 1); // → "0"
+maxSpan.textContent = formatValue(0, 1); // → "0"
+
   
     // zero out all internal dose counters
     coPhenylDose = lidoSprayDose = extraLidoDose = 0;
@@ -462,6 +464,16 @@
     // and finally refresh the totals
     updateTotal();
   }
+      
+      function formatValue(num, decimals = 1) {
+  // always format to the requested number of decimals
+  const str = num.toFixed(decimals);
+  // if it ends in “.0” (or “.00”, etc.), strip off the decimal part
+  const regex = new RegExp(`\\.0{1,${decimals}}$`);
+  return regex.test(str)
+    ? parseInt(str, 10).toString()     // “54.0” → “54”
+    : str;                            // “54.3” → “54.3”
+}
   
     function goHome() {
       window.location.href = 'index.html';
