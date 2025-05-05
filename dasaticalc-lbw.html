@@ -26,8 +26,8 @@
       .flex-container {
         display: flex;
         flex-wrap: wrap;
-        margin: 0 auto 1rem;
-        padding: 10px 15px;
+        margin: 0 auto 0rem;
+        padding: 10px 15px 0px;
    
         background-color: #fff;
         row-gap: 1rem;      /* vertical space */
@@ -141,7 +141,7 @@
       padding: 0.1rem;
     }
       .instruction-header {
-    margin-top: 20px;
+    margin-top: 10px;
         margin-bottom: 5px;
   }
       .spray-row {
@@ -158,7 +158,7 @@
   }
       .result.max-dose {
     /* adjust this value to taste */
-    padding-bottom: 0.3rem;
+    padding-bottom: 0rem;
   }
     </style>
   </head>
@@ -188,10 +188,10 @@
     <div class="flex-item full-row">
       <!-- put whatever you need here -->
       <div class="result">
-        <br>
       <u>Lean Body Weight</u>: <span id="leanBodyWeight">0</span>
         <span class="unit">kg</span>
     </div>
+      </div>
     <div class="flex-item full-row">
       <!-- another full-width input or content -->
       <div class="result max-dose">
@@ -201,7 +201,6 @@
       </div>
     </div>
   </div>
-    </div>
      
    <div class="instruction-header">
       Topicalise:
@@ -217,7 +216,6 @@
       <span class="spray-units" id="sprayUnits">sprays</span>
        <span class="bubble"><span id="lidocaineOutput">200</span> <span class="unit">mg</span></span>
     </div>
-    
       <div class="instruction-header">
       If inadequate:
     </div> 
@@ -339,7 +337,9 @@ lbwSpan.textContent = formattedLBW;
 
 // 2) re-parse that displayed LBW and compute max off *exactly* what the user sees
 const displayedLBW = parseFloat(formattedLBW) || 0;
-maxSpan.textContent = formatValue(displayedLBW * 9, 1);
+// multiply first, then floor to drop any fraction
+const maxDose = Math.floor(displayedLBW * 9);
+maxSpan.textContent = maxDose;
       updateTotal();
     }
   
@@ -435,40 +435,29 @@ maxSpan.textContent = formatValue(displayedLBW * 9, 1);
       remSpan.style.color = remain < 0 ? 'darkred' : '';
     }
   
-    function resetForm() {
-    // clear gender and demographics
-    selectedGender = null;
-    maleBtn.classList.remove('active');
-    femaleBtn.classList.remove('active');
-    wtInput.value = '';
-    htInput.value = '';
-  
-    // reset lean body weight & max dose displays
-    lbwSpan.textContent = formatValue(0, 1); // → "0"
-maxSpan.textContent = formatValue(0, 1); // → "0"
+   function resetForm() {
+  // --- 1) Zero out all internal dose counters (but NOT gender or demographics) ---
+  coPhenylDose = lidoSprayDose = extraLidoDose = 0;
+  lido2Dose = lido2VocalDose = lido2BelowDose = 0;
 
-  
-    // zero out all internal dose counters
-    coPhenylDose = lidoSprayDose = extraLidoDose = 0;
-    lido2Dose = lido2VocalDose = lido2BelowDose = 0;
-  
-    // clear all button active states
-    [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => b.classList.remove('active'));
-  
-    // reset the **input** for sprays back to 20
-    lidInput.value = 20;
-  
-    // put the bubbles back to their defaults
-    coDoseSpan.textContent    = '125';
-    lidDoseSpan.textContent   = '200';   // 20 sprays × 10 mg/spray
-    extraDoseSpan.textContent = '50';
-    l2DoseSpan.textContent    = '40';
-    l2vDoseSpan.textContent   = '40';
-    l2bDoseSpan.textContent   = '40';
-  
-    // and finally refresh the totals
-    updateTotal();
-  }
+  // --- 2) Clear all the active classes on your dosing buttons ---
+  [coBtn, lidBtn, addBtn, l2Btn, l2vBtn, l2bBtn].forEach(b => 
+    b.classList.remove('active')
+  );
+
+  // --- 3) Reset any dosing inputs/bubbles to their defaults ---
+  lidInput.value        = 20;    // sprays back to 20
+  lidDoseSpan.textContent    = '200';  // 20 × 10  
+  coDoseSpan.textContent     = '125';
+  extraDoseSpan.textContent  = '50';
+  l2DoseSpan.textContent     = '40';
+  l2vDoseSpan.textContent    = '40';
+  l2bDoseSpan.textContent    = '40';
+
+  // --- 4) Recalculate totals (uses the existing LBW & max-dose) ---
+  updateTotal();
+}
+
       
       function formatValue(num, decimals = 1) {
   // always format to the requested number of decimals
