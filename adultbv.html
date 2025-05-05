@@ -332,30 +332,25 @@ function toggleMode() {
     
     // Update the shock classification table based on circulating blood volume.
     function updateShockClassification(volume) {
-      const classI = document.getElementById("classI");
-      const classII = document.getElementById("classII");
-      const classIII = document.getElementById("classIII");
-      const classIV = document.getElementById("classIV");
-      
-      const classIVal = volume * 0.15;
-      const classII_low = volume * 0.15;
-      const classII_high = volume * 0.30;
-      const classIII_low = volume * 0.30;
-      const classIII_high = volume * 0.40;
-      const classIVVal = volume * 0.40;
-      
-      classI.textContent = "<" + formatNumber(classIVal) + " ml";
-      classII.textContent = formatNumber(classII_low) + "-" + formatNumber(classII_high) + " ml";
-      classIII.textContent = formatNumber(classIII_low) + "-" + formatNumber(classIII_high) + " ml";
-      classIV.textContent = ">" + formatNumber(classIVVal) + " ml";
-    }
-    
-    function clearShockClassification() {
-      document.getElementById("classI").textContent = "-";
-      document.getElementById("classII").textContent = "-";
-      document.getElementById("classIII").textContent = "-";
-      document.getElementById("classIV").textContent = "-";
-    }
+  document
+    .querySelectorAll('#shockClassificationTable td[data-percent]')
+    .forEach(cell => {
+      const pctText = cell.getAttribute('data-percent');
+      const raw     = pctText.startsWith('>')
+                        ? pctText.slice(1)
+                        : pctText;
+      const percent = parseFloat(raw);
+      const loss    = volume * percent/100;
+      const sign    = pctText.startsWith('>') ? '>' : '';
+      cell.textContent = sign + formatNumber(loss) + ' ml';
+    });
+}
+
+function clearShockClassification() {
+  document
+    .querySelectorAll('#shockClassificationTable td[data-percent]')
+    .forEach(cell => cell.textContent = '-');
+}
     
     // Update all calculations
     function updateCalculations() {
