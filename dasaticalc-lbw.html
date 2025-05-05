@@ -27,10 +27,12 @@
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto 0rem;
-        padding: 10px 15px 0px;
-   
+        padding: 10px 15px 10px;
+   border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         background-color: #fff;
-        row-gap: 1rem;      /* vertical space */
+        row-gap: 0.6rem;      /* vertical space */
     column-gap: 0rem; /* horizontal space */
       }
       .flex-item {
@@ -141,7 +143,7 @@
       padding: 0.1rem;
     }
       .instruction-header {
-    margin-top: 10px;
+    margin-top: 15px;
         margin-bottom: 5px;
   }
       .spray-row {
@@ -243,8 +245,11 @@
    
     <div class="results-section">
       <div class="result">
-      <p><u>Total Dose Given</u>: <span id="doseGiven">0</span> mg</p>
-      <p><u>Dose Remaining</u>: <span id="doseRemaining">0</span> mg</p>
+      <p>Total Dose Given: <span id="doseGiven">0</span>
+        <span class="unit">mg</span></p></div>
+        <div class="result">
+          <p>Dose Remaining: <span id="doseRemaining">0</span>
+            <span class="unit">mg</span></p>
       </div></div>
   
      <div class="button-container">
