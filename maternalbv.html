@@ -113,14 +113,12 @@
     }
         #shockClassificationTable td:nth-child(2),
 #shockClassificationTable th:nth-child(2) {
-  width: 140px; /* Adjust based on expected max content like "1400-2000 ml" */
   max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; /* Optional: if text ever exceeds */
 }
     #classI, #classII, #classIII, #classIV {
-  width: 140px;
   max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
@@ -193,9 +191,9 @@
     <p><u>Classification of Haemorrhagic Shock</u></p>
     <table id="shockClassificationTable">
   <colgroup>
-<col style="width 30%;">
-<col style="width 15%;">
- <col style="width 55%;">   
+<col style="width: 30%;">
+<col style="width: 15%;">
+ <col style="width: 55%;">   
   </colgroup>
       <tr>
     <th>Class</th>
