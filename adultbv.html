@@ -93,40 +93,23 @@
       margin: 20px 0;
     }
     /* Styling for the shock classification table */
-    table {
+    #shockClassificationTable {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       font-size: 16px;
       table-layout: fixed; /* This enforces fixed widths */
     }
-    table, th, td {
+     #shockClassificationTable th, 
+    #shockClassificationTable td {
       border: 1px solid #ccc;
-    }
-    th, td {
       padding: 8px;
       text-align: center;
     }
-    th {
+    #shockClassificationTable th {
       background-color: #f0f0f0;
       color: #333;
     }
-    #shockClassificationTable td:nth-child(2),
-#shockClassificationTable th:nth-child(2) {
-  width: 140px; /* Adjust based on expected max content like "1400-2000 ml" */
-  max-width: 140px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Optional: if text ever exceeds */
-}
-    #classI, #classII, #classIII, #classIV {
-  width: 140px;
-  max-width: 140px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-      vertical-align: middle;
-}
     #toggleBtn {
   margin-left: 8px;
   padding: 5px 8px;
@@ -137,27 +120,20 @@
   cursor: pointer;
       border: 1px solid #ccc;
 }
-   /* Class I – mild blood loss (<15%) */
-#classI {
-  background-color: #FFEBEE;  /* very light red */
+   .classI {
+  background-color: #FFEBEE;
   color: black;
 }
-    
-/* Class II – moderate blood loss (15–30%) */
-#classII {
-  background-color: #FFCDD2;  /* light red */
+.classII {
+  background-color: #FFCDD2;
   color: black;
 }
-
-/* Class III – significant blood loss (30–40%) */
-#classIII {
-  background-color: #EF9A9A;  /* medium pastel red */
+.classIII {
+  background-color: #EF9A9A;
   color: black;
 }
-
-/* Class IV – severe blood loss (>40%) */
-#classIV {
-  background-color: #E57373;  /* darker pastel red */
+.classIV {
+  background-color: #E57373;
   color: black;
 }
   </style>
@@ -195,36 +171,65 @@
       <span id="bloodVolumeOutput">-</span>
     </div>
   </div>
-  
-  <!-- Classification Section -->
+
   <div class="classification-section">
     <p><u>Classification of Haemorrhagic Shock</u></p>
     <table id="shockClassificationTable">
-      <thead>
-        <tr>
-          <th>Shock Class</th>
-          <th>Blood loss</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Class I (<15%)</td>
-          <td id="classI">-</td>
-        </tr>
-        <tr>
-          <td>Class II (15-30%)</td>
-          <td id="classII">-</td>
-        </tr>
-        <tr>
-          <td>Class III (30-40%)</td>
-          <td id="classIII">-</td>
-        </tr>
-        <tr>
-          <td>Class IV (>40%)</td>
-          <td id="classIV">-</td>
-        </tr>
-      </tbody>
-    </table>
+  <colgroup>
+<col style="width: 30%;">
+<col style="width: 15%;">
+ <col style="width: 55%;">   
+  </colgroup>
+      <tr>
+    <th>Class</th>
+    <th>%</th>
+    <th>Blood loss</th>
+  </tr>
+  <tr>
+    <td rowspan="2">I</td>
+    <td>5</td>
+    <td class="classI" data-percent="5">-</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td class="classI" data-percent="10">-</td>
+  </tr>
+  <tr>
+    <td rowspan="3">II</td>
+    <td>15</td>
+    <td class="classII" data-percent="15">-</td>
+  </tr>
+  <tr>
+    <td>20</td>
+    <td class="classII" data-percent="20">-</td>
+  </tr>
+  <tr>
+    <td>25</td>
+    <td class="classII" data-percent="25">-</td>
+  </tr>
+  <tr>
+    <td rowspan="2">III</td>
+    <td>30</td>
+    <td class="classIII" data-percent="30">-</td>
+  </tr>
+  <tr>
+    <td>35</td>
+    <td class="classIII" data-percent="35">-</td>
+  </tr>
+  <tr>
+    <td rowspan="3">IV</td>
+    <td>40</td>
+    <td class="classIV" data-percent="40">-</td>
+  </tr>
+  <tr>
+    <td>45</td>
+    <td class="classIV" data-percent="45">-</td>
+  </tr>
+  <tr>
+    <td>&gt;50</td>
+    <td class="classIV" data-percent=">50">-</td>
+  </tr>
+</table>
   </div>
    
   <!-- Home and Reset Buttons -->
