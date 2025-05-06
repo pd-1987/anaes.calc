@@ -29,62 +29,60 @@
     to right,
     #1abc9c 0%,   /* bright turquoise */
     #117a65 100%  /* deep teal */
-  );
-    </style>
-</head>
-<body>
-  <header class="banner">Reversal of Sugammadex</header>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>3×4 Table Example</title>
-  <style>
-    table {
-      width: 50%;
+ );}
+ table {
+    width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 16px;
+      table-layout: fixed; /* This enforces fixed widths */
+     border-collapse: separate;      /* allow rounded corners */
+  border-spacing: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
     }
     th, td {
-      border: 1px solid #333;
+      border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
     }
     th {
       background-color: #f0f0f0;
-    }
-  </style>
+      color: #333;
+    }   
+    </style>
 </head>
 <body>
-
+  <header class="banner">Reversal of Sugammadex</header>
   <table>
     <tr>
       <th>Type of block</th>
       <th>Dose of sugammadex</th>
-      <th>Time to TOF&gt9</th>
+      <th>Time to TOF &gt0.9</th>
     </tr>
     <tr>
-      <td>Moderate block (Train-of-four count 2) </td>
+      <td><b>Moderate</b><br>(Train-of-four count ≥2)</td>
       <td>2 mg/kg</td>
       <td>2 minutes</td>
     </tr>
     <tr>
-      <td>Deep block (Post-tetanic count 1-2)</td>
+      <td><b>Deep</b><br>(Post-tetanic count 1-2)</td>
       <td>4 mg/kg</td>
       <td>3 minutes</td>
     </tr>
     <tr>
-      <td>Immediate reversal of rocuronium-induced blockade</td>
+      <td><b>Immediate reversal</b> of rocuronium-induced blockade</td>
       <td>16 mg/kg</td>
       <td>1.5 minutes</td>
     </tr>
   </table>
 
 </body>
-</html>
-  
-https://www.medicines.org.uk/emc/product/6409/smpc
-  https://resources.wfsahq.org/atotw/an-overview-of-sugammadex/
+
   
     <footer>
     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>

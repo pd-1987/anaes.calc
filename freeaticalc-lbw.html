@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <title>ATI calculator</title>
+  <style>
+    header.banner {
+      background: linear-gradient(to right, #b71c1c 0%, #8e0000 100%);
+    }
+    #lidocaineInput, #instillagelInput, #lidocaine4Input, #lidocaine2Input, #lidocaine1Input {
+      width: 20px;
+      padding: 5px;
+      text-align: center;
+    }
+    .flex-container { display: flex; flex-wrap: wrap; margin: 0 auto; padding: 10px 15px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; row-gap: 0.25rem; column-gap: 0; }
+    .flex-item.full-row { flex: 0 0 100%; max-width: 100%; margin: 0 auto; }
+    .flex-item { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 0 0 50%; box-sizing: border-box; border-radius: 6px; padding: 0 0.5rem; text-align: center; margin: 0 auto 3px; }
+    .flex-item button { flex: 1; font-size: 16px; padding: 10px; margin: 5px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px; background-color: #f0f0f0; transition: background-color 0.2s; }
+    .flex-item button.active { background-color: #575757; color: white; }
+    .input-group { display: flex; align-items: center; gap: 0.25rem; }
+    .input-group label { font-size: 16px; margin: 0; font-weight: 400; flex-shrink: 0; }
+    .input-group input { width: 50px; padding: 5px; font-size: 16px; box-sizing: border-box; margin: 0; }
+    .button-group { display: flex; align-items: center; gap: 0.5rem; margin: 0.3rem 0; }
+    .button-group button { border: 1px solid #ccc; width: 100%; }
+    button small { display: block; font-size: 12px; color: #555; margin-bottom: 0; }
+    .results-section { display: flex; flex-direction: column; row-gap: 0.25rem; width: 100%; max-width: 600px; margin: 10px auto 20px; padding: 0 10px; background-color: #fff; }
+    .result { font-size: 16px; font-weight: 700; text-align: center; margin: 0; }
+    .result.max-dose { padding-bottom: 0; }
+  </style>
+</head>
+<body>
+  <header class="banner">ATI Topicalisation</header>
+
+  <div class="flex-container">
+    <div class="flex-item"><button id="maleButton">Male</button></div>
+    <div class="flex-item"><button id="femaleButton">Female</button></div>
+    <div class="flex-item"><div class="input-group"><label for="weight">Weight (kg):</label><input type="number" id="weight" min="0"></div></div>
+    <div class="flex-item"><div class="input-group"><label for="height">Height (cm):</label><input type="number" id="height" min="0"></div></div>
+    <div class="flex-item full-row"><div class="result">Lean Body Weight: <span id="leanBodyWeight">0</span> <span class="unit">kg</span></div></div>
+    <div class="flex-item full-row"><div class="result max-dose">Max Lidocaine (9 mg/kg): <span id="maximumDose">0</span> <span class="unit">mg</span></div></div>
+  </div>
+
+  <div class="button-group">
+    <button id="coPhenylcaineButton">Co-phenylcaine Spray<small>If nasal route</small></button>
+    <span class="bubble"><span id="coPhenylcaineBubble">125</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="button-group">
+    <button id="instillagelButton">Instillagel<small>Lidocaine 2.09%</small></button>
+    <input type="number" id="instillagelInput" placeholder="0">
+    <span class="ml-units" id="instillagelUnits">ml</span>
+    <span class="bubble"><span id="instillagelOutput">0</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="button-group">
+    <button id="lidocaineSprayButton">Lidocaine 10%</button>
+    <input type="number" id="lidocaineInput" placeholder="0">
+    <span class="spray-units" id="sprayUnits">sprays</span>
+    <span class="bubble"><span id="lidocaineOutput">0</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="button-group">
+    <button id="lidocaine4Button">Lidocaine 4%<small>e.g. transtracheal puncture</small></button>
+    <input type="number" id="lidocaine4Input" placeholder="0">
+    <span class="ml-units" id="lidocaine4Units">ml</span>
+    <span class="bubble"><span id="lidocaine4Output">0</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="button-group">
+    <button id="lidocaine2Button">Lidocaine 2%</button>
+    <input type="number" id="lidocaine2Input" placeholder="0">
+    <span class="ml-units" id="lidocaine2Units">ml</span>
+    <span class="bubble"><span id="lidocaine2Output">0</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="button-group">
+    <button id="lidocaine1Button">Lidocaine 1%</button>
+    <input type="number" id="lidocaine1Input" placeholder="0">
+    <span class="ml-units" id="lidocaine1Units">ml</span>
+    <span class="bubble"><span id="lidocaine1Output">0</span> <span class="unit">mg</span></span>
+  </div>
+
+  <div class="results-section">
+    <div class="result"><u>Total Dose Given</u>: <span id="doseGiven">0</span> <span class="unit">mg</span></div>
+    <div class="result"><u>Dose Remaining</u>: <span id="doseRemaining">0</span> <span class="unit">mg</span></div>
+  </div>
+
+  <div class="button-container">
+    <button type="button" class="reset-btn">Reset</button>
+    <button type="button" class="home-btn">Home</button>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // globals
+    let totalDose = 0;
+    let coPhenylcaineDose = 0, lidocaineDose = 0,
+        instillagelDose = 0, lidocaine4Dose = 0,
+        lidocaine2Dose = 0, lidocaine1Dose = 0;
+    let gender = null;
+
+    // DOM refs
+    const maleBtn     = document.getElementById('maleButton');
+    const femaleBtn   = document.getElementById('femaleButton');
+    const wtInput     = document.getElementById('weight');
+    const htInput     = document.getElementById('height');
+    const lbwSpan     = document.getElementById('leanBodyWeight');
+    const maxDoseSpan = document.getElementById('maximumDose');
+    const coBtn       = document.getElementById('coPhenylcaineButton');
+    const sprayBtn    = document.getElementById('lidocaineSprayButton');
+    const instBtn     = document.getElementById('instillagelButton');
+    const l4Btn       = document.getElementById('lidocaine4Button');
+    const l2Btn       = document.getElementById('lidocaine2Button');
+    const l1Btn       = document.getElementById('lidocaine1Button');
+
+    // wire events
+    maleBtn  .addEventListener('click', () => selectGender('male'));
+    femaleBtn.addEventListener('click', () => selectGender('female'));
+    wtInput  .addEventListener('input', calculateResults);
+    htInput  .addEventListener('input', calculateResults);
+    coBtn   .addEventListener('click', toggleCoPhenylcaineDose);
+    sprayBtn.addEventListener('click', toggleLidocaineSpray);
+    instBtn .addEventListener('click', toggleInstillagel);
+    l4Btn   .addEventListener('click', toggleLidocaine4Dose);
+    l2Btn   .addEventListener('click', toggleLidocaine2);
+    l1Btn   .addEventListener('click', toggleLidocaine1);
+    document.querySelector('.reset-btn').addEventListener('click', resetForm);
+    document.querySelector('.home-btn').addEventListener('click', goHome);
+
+    // live input listeners
+    document.getElementById('instillagelInput').addEventListener('input', () =>
+      updateFromInput('instillagel', 21, instBtn, d => instillagelDose = d)
+    );
+    document.getElementById('lidocaineInput').addEventListener('input', () =>
+      updateFromInput('lidocaine', 10, sprayBtn, d => lidocaineDose = d)
+    );
+    document.getElementById('lidocaine4Input').addEventListener('input', () =>
+      updateFromInput('lidocaine4', 40, l4Btn, d => lidocaine4Dose = d)
+    );
+    document.getElementById('lidocaine2Input').addEventListener('input', () =>
+      updateFromInput('lidocaine2', 20, l2Btn, d => lidocaine2Dose = d)
+    );
+    document.getElementById('lidocaine1Input').addEventListener('input', () =>
+      updateFromInput('lidocaine1', 10, l1Btn, d => lidocaine1Dose = d)
+    );
+
+    // functions
+    function selectGender(g) {
+      gender = g;
+      maleBtn.classList.toggle('active', g==='male');
+      femaleBtn.classList.toggle('active', g==='female');
+      calculateResults();
+    }
+
+    function calculateResults() {
+      const wtRaw = wtInput.value.trim();
+      const htRaw = htInput.value.trim();
+      if (!gender || !wtRaw || !htRaw) {
+        lbwSpan.textContent     = '0';
+        maxDoseSpan.textContent = '0';
+        updateTotalDose(); return;
+      }
+      const wt = parseFloat(wtRaw), ht = parseFloat(htRaw);
+      let lbw = gender==='male'
+        ? 0.407*wt + 0.267*ht - 19.2
+        : 0.252*wt + 0.473*ht - 48.3;
+      lbw = Math.max(0, Math.round(lbw*10)/10);
+      lbwSpan.textContent     = lbw.toFixed(1);
+      maxDoseSpan.textContent = Math.floor(lbw*9);
+      updateTotalDose();
+    }
+
+    function toggleCoPhenylcaineDose() {
+      coBtn.classList.toggle('active');
+      coPhenylcaineDose = coBtn.classList.contains('active') ? 125 : 0;
+      updateTotalDose();
+    }
+    function toggleLidocaineSpray()    { sprayBtn.classList.toggle('active'); updateFromInput('lidocaine',10,sprayBtn,d=>lidocaineDose=d); }
+    function toggleInstillagel()        { instBtn.classList.toggle('active');  updateFromInput('instillagel',21,instBtn,d=>instillagelDose=d); }
+    function toggleLidocaine4Dose()     { l4Btn.classList.toggle('active');  updateFromInput('lidocaine4',40,l4Btn,d=>lidocaine4Dose=d); }
+    function toggleLidocaine2()         { l2Btn.classList.toggle('active');  updateFromInput('lidocaine2',20,l2Btn,d=>lidocaine2Dose=d); }
+    function toggleLidocaine1()         { l1Btn.classList.toggle('active');  updateFromInput('lidocaine1',10,l1Btn,d=>lidocaine1Dose=d); }
+
+    function updateFromInput(pref,mg,btn,setter) {
+      const v = parseFloat(document.getElementById(pref+'Input').value)||0;
+      const d = v*mg;
+      document.getElementById(pref+'Output').textContent = Math.floor(d);
+      setter(btn.classList.contains('active') ? d : 0);
+      updateTotalDose();
+    }
+
+    function updateTotalDose() {
+      totalDose = coPhenylcaineDose + lidocaineDose + instillagelDose + lidocaine4Dose + lidocaine2Dose + lidocaine1Dose;
+      document.getElementById('doseGiven').textContent = Math.floor(totalDose);
+      const rem = (parseFloat(maxDoseSpan.textContent)||0) - totalDose;
+      const el  = document.getElementById('doseRemaining');
+      el.textContent = Math.floor(rem);
+      el.style.color = rem<0 ? 'darkred':'';
+    }
+
+    function resetForm() {
+      [coBtn,sprayBtn,instBtn,l4Btn,l2Btn,l1Btn].forEach(b=>b.classList.remove('active'));
+      coPhenylcaineDose=lidocaineDose=instillagelDose=lidocaine4Dose=lidocaine2Dose=lidocaine1Dose=0;
+      ['lidocaine','instillagel','lidocaine4','lidocaine2','lidocaine1'].forEach(pref=>{
+        document.getElementById(pref+'Input').value='';
+        document.getElementById(pref+'Output').textContent='0';
+      });
+      updateTotalDose();
+    }
+
+    function goHome() { window.location.href='index.html'; }
+  });
+  </script>
+
+  <footer><small><p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small></footer>
+</body>
+</html>

@@ -30,11 +30,16 @@
         padding: 10px 15px 10px;
    border: 1px solid #ccc;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         background-color: #fff;
-        row-gap: 0.6rem;      /* vertical space */
+        row-gap: 0.25rem;      /* vertical space */
     column-gap: 0rem; /* horizontal space */
       }
+           /* make full-row items span 100% of the container */
+  .flex-item.full-row {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin: 0px auto 0px;
+  }
       .flex-item {
         display: flex;
         flex-direction: column;
@@ -46,6 +51,7 @@
         border-radius: 6px;
         padding: 0 0.5rem;     /* 0 on top/bottom, 0.5rem left/right */
         text-align: center;
+        margin: 0px auto 3px;
       }
       .flex-item button {
         flex: 1;
@@ -103,45 +109,24 @@
     margin-bottom: 0px;
   }
       .results-section {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.25rem;
         box-sizing: border-box;
         width: 100%;
         max-width: 600px;
         margin: 20px auto 20px;
-        padding: 0px 10px;        /* 6px top/bottom, 10px left/right */
+        padding: 0px 10px;
         background-color: #fff;
       }
-      /* make full-row items span 100% of the container */
-  .flex-item.full-row {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
       .result {
     font-size: 16px;
     font-weight: 700;
     color: #000;
     margin-top: 0px;
+    margin-bottom: 0rem;
     text-align: center;
   }
-      .topicalise-container {
-      display: flex;
-      flex-direction: column;  /* stack items as rows */
-      row-gap: 0rem;           /* space between each row */
-      width: 100%;
-      max-width: 600px;        /* optional max */
-        margin: 5px auto;
-      padding: 1rem;
-      box-sizing: border-box;  /* include padding in width */
-             border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        background-color: #fff;
-    }
-  
-    .topicalise-container .vertical-item {
-      /* full-width row styling */
-      width: 100%;
-      padding: 0.1rem;
-    }
       .instruction-header {
     margin-top: 15px;
         margin-bottom: 5px;
@@ -162,6 +147,7 @@
     /* adjust this value to taste */
     padding-bottom: 0rem;
   }
+
     </style>
   </head>
   <body>
@@ -245,11 +231,11 @@
    
     <div class="results-section">
       <div class="result">
-      <p>Total Dose Given: <span id="doseGiven">0</span>
-        <span class="unit">mg</span></p></div>
+      Total Dose Given: <span id="doseGiven">0</span>
+        <span class="unit">mg</span></div>
         <div class="result">
-          <p>Dose Remaining: <span id="doseRemaining">0</span>
-            <span class="unit">mg</span></p>
+          Dose Remaining: <span id="doseRemaining">0</span>
+            <span class="unit">mg</span>
       </div></div>
   
      <div class="button-container">
