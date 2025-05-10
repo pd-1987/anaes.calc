@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LA max combined dose</title>
+
+  <style>
+    :root {
+      --clr-light-grey: #f0f0f0;
+      --clr-med-grey:  #ccc;
+      --radius:        5px;
+    }
+
+    /* Base */
+    body {
+      font-family: 'Roboto', sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    header.banner {
+      background: linear-gradient(to right, #2e8b57, #1b5e20);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    /* Inputs */
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .input-group label {
+      font-weight: 700;
+      margin-right: 10px;
+    }
+    .input-group input {
+      width: 60px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    .input-note {
+      font-size: 0.9em;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    /* LA sections – single column */
+    /* LA sections – single column */
+.la-sections {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.la-column {
+  background-color: #fafafa;  /* or white if you prefer */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 1rem;
+   box-sizing: border-box;
+
+  /* LEFT-ALIGN EVERYTHING inside */
+  text-align: left;
+}
+    .la-column h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .la-label {
+      text-align: center;
+      font-size: 16px;
+      margin: 8px 0;
+      color: #333;
+    }
+    .result {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    /* Dose-option buttons under LA2 */
+    /* Under LA2, left-align the mg/kg buttons */
+.dose-options {
+  display: flex;
+  justify-content: flex-start;  /* instead of center */
+  margin: 8px 0 12px;            /* same vertical spacing */
+  width: auto;                   /* shrink-wrap */
+}
+    .dose-options .concentration-btn {
+      background-color: #e7f3fe;
+      border: 1px solid #bcdffc;
+      border-radius: 15px;
+      color: #0078d7;
+      cursor: pointer;
+      margin: 0 6px;
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+    .dose-options .concentration-btn.active {
+      background-color: #0078d7;
+      color: white;
+    }
+
+    /* Combined box */
+    .combined-box {
+     background-color: #fafafa;  /* or white if you prefer */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 20px;
+       box-sizing: border-box;
+    }
+    .combined-box h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    /* Override combined-results to be block, not flex */
+.combined-results {
+  display: block;       /* stack them vertically */
+  margin-bottom: 10px;
+  font-size: 15px;
+  text-align: left;     /* left-align content */
+}
+
+/* Give each inner result its own line and spacing */
+.combined-results > div {
+  margin-bottom: 8px;
+}
+
+/* Also left-align that “Max 50:50 volume” header */
+.combined-box .result {
+  text-align: left;
+  font-weight: 600;     /* optional: make it stand out */
+}
+    /* Make sure inline percents flow on the same line */
+.combined-percent {
+  display: inline;     /* instead of block */
+  margin: 0;           /* cancel any top/bottom margins */
+  font-size: 14px;
+  color: #555;
+}
+    .instruction.header {
+      font-weight: 700
+    }
+/* Increase the gap under the "Max 50:50 volume" heading */
+.combined-box .instruction.header {
+  margin-bottom: 10px; /* or whatever spacing you like */
+}
+  </style>
+</head>
+<body>
+
+  <header class="banner">Short and long-acting local anaesthetic 50:50 mix max combined dose</header>
+
+  <div class="input-group">
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" min="0" placeholder="0" />
+  </div>
+  <p class="input-note">Use ideal body weight if BMI ≥ 30 kg/m².</p>
+
+  <div class="la-sections">
+    <!-- LA 1 -->
+    <div class="la-column" id="la1">
+      <div class="instruction header">LA 1: Short-acting</div>
+      <p class="la-label">
+        Lidocaine 2% with 1:200,000 adrenaline
+      </p>
+      <div class="result">
+        Max single dose: <span id="la1-max">0 mg</span>
+      </div>
+    </div>
+
+    <!-- LA 2 -->
+    <div class="la-column" id="la2">
+      <div class="instruction header">LA 2: Long-acting</div>
+      <p class="la-label">Levobupivacaine 0.5%</p>
+      <div class="dose-options">
+        <button class="concentration-btn" data-dose="2">Max: 2 mg/kg</button>
+        <button class="concentration-btn" data-dose="2.5">Max: 2.5 mg/kg</button>
+        <button class="concentration-btn" data-dose="3">Max: 3 mg/kg</button>
+      </div>
+      <div class="result">
+        Max single dose: <span id="la2-max">0 mg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combined 50:50 -->
+  <div class="combined-box">
+    <div class="instruction header"><strong>Max 50:50 dose/volume mix</strong></div>
+   <div class="combined-results">
+  <div>
+    LA 1: <span id="comb1-dose">0 mg</span> in <span id="comb1-vol">0 mL</span>
+    (<span class="combined-percent" id="comb1-perc">0 %</span>)
+  </div>
+  <div>
+    LA 2: <span id="comb2-dose">0 mg</span> in <span id="comb2-vol">0 mL</span>
+    (<span class="combined-percent" id="comb2-perc">0 %</span>)
+  </div>
+</div>
+
+  </div>
+
+  <div class="button-container">
+    <button class="reset-btn" onclick="resetCalculator()">Reset</button>
+    <button class="home-btn" onclick="goHome()">Home</button>
+  </div>
+  
+  <footer>
+    <small>
+      <p><strong>Lidocaine with adrenaline:</strong> A maximum dose of 7 mg/kg should not be exceeded in any four-hour period; not to exceed 500 mg per dose.</p>
+      <p><strong>Levobupivacaine with adrenaline:</strong> A maximum dose of 2-3 mg/kg should not be exceeded in any four-hour period; not to exceed 200-225 mg per dose. In total ≤400 mg/24h. </p>
+      <p><strong>Adrenaline</strong>:</p>
+    <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
+  </footer>
+
+<script>
+  // Grab all elements
+  const weightInput = document.getElementById('weight');
+  const la1Max       = document.getElementById('la1-max');
+  const la2Max       = document.getElementById('la2-max');
+
+  const comb1Dose   = document.getElementById('comb1-dose');
+  const comb1Vol    = document.getElementById('comb1-vol');
+  const comb1Perc   = document.getElementById('comb1-perc');
+  const comb2Dose   = document.getElementById('comb2-dose');
+  const comb2Vol    = document.getElementById('comb2-vol');
+  const comb2Perc   = document.getElementById('comb2-perc');
+
+  const doseButtons = document.querySelectorAll('.dose-options .concentration-btn');
+  const resetBtn    = document.querySelector('.reset-btn');
+  const homeBtn     = document.querySelector('.home-btn');
+
+  let levaPerKg = null;
+
+  // Compute safe single doses for LA1 and LA2
+  function getSafeDoses() {
+    const w = parseFloat(weightInput.value) || 0;
+    return {
+      s1: Math.min(w * 7, 500),                          // Lidocaine
+      s2: levaPerKg ? Math.min(w * levaPerKg, 225) : 0   // Levobupivacaine
+    };
+  }
+
+  // Update the LA1/LA2 max‐dose displays and recalc combined volumes
+  function updateDoses() {
+    const { s1, s2 } = getSafeDoses();
+
+    la1Max.textContent = `${Math.round(s1)} mg`;
+    la2Max.textContent = `${Math.round(s2)} mg`;
+
+    updateCombined(s1, s2);
+  }
+
+  // Calculate and display the 50:50 combined volume/dose/percent
+  function updateCombined(s1, s2) {
+    const c1 = 2   * 10;  // 2% → 20 mg/mL
+    const c2 = 0.5 * 10;  // 0.5% →  5 mg/mL
+
+    let V = 0, d1 = 0, d2 = 0;
+    if (s1 > 0 && s2 > 0) {
+      const sum = (c1 / s1) + (c2 / s2);
+      V  = 1 / sum;
+      d1 = c1 * V;
+      d2 = c2 * V;
+    }
+
+    const p1 = s1 ? (d1 / s1) * 100 : 0;
+    const p2 = s2 ? (d2 / s2) * 100 : 0;
+
+    comb1Vol.textContent  = `${V.toFixed(1)} mL`;
+    comb1Dose.textContent = `${Math.round(d1)} mg`;
+    comb1Perc.textContent = `${p1.toFixed(1)} %`;
+
+    comb2Vol.textContent  = `${V.toFixed(1)} mL`;
+    comb2Dose.textContent = `${Math.round(d2)} mg`;
+    comb2Perc.textContent = `${p2.toFixed(1)} %`;
+  }
+
+  // When a concentration button is clicked…
+  doseButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      doseButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      levaPerKg = parseFloat(btn.dataset.dose);
+      updateDoses();
+    });
+  });
+
+  // Recalc on weight change
+  weightInput.addEventListener('input', updateDoses);
+
+  // Reset everything to defaults
+  resetBtn.addEventListener('click', () => {
+    weightInput.value = '';
+    levaPerKg = null;
+    doseButtons.forEach(b => b.classList.remove('active'));
+    la1Max.textContent = '0 mg';
+    la2Max.textContent = '0 mg';
+    comb1Vol.textContent  = '0 mL';
+    comb1Dose.textContent = '0 mg';
+    comb1Perc.textContent = '0 %';
+    comb2Vol.textContent  = '0 mL';
+    comb2Dose.textContent = '0 mg';
+    comb2Perc.textContent = '0 %';
+  });
+
+  // Go home
+  homeBtn.addEventListener('click', () => {
+    window.location.href = '/';
+  });
+</script>
+</body>
+</html>
