@@ -143,7 +143,7 @@
   display: block;       /* stack them vertically */
   margin-bottom: 10px;
   font-size: 16px;
-  text-align: center;     /* left-align content */
+  text-align: left;     /* left-align content */
   font-weight: 700;
 }
 
@@ -165,7 +165,8 @@
   color: #555;
 }
     .instruction.header {
-      font-weight: 700
+      font-weight: 700;
+        text-align: left;
     }
 /* Increase the gap under the "Max 50:50 volume" heading */
 .combined-box .instruction.header {
@@ -174,11 +175,38 @@
     .maxresult {
       text-align: center;
     }
+    .given-volume-box {
+ background-color: #fafafa;  /* or white if you prefer */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+      padding: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.given-volume-box label {
+  font-weight: 700;
+}
+
+.given-volume-box input {
+  width: 60px;
+  padding: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.given-volume-box .given-percent {
+  margin-left: auto;
+  font-weight: 700;
+}
   </style>
 </head>
 <body>
 
-  <header class="banner">Short and long-acting local anaesthetic 50:50 mix max combined dose</header>
+  <header class="banner">Local anaesthetic 50:50 maximum combined dose</header>
 
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
@@ -192,8 +220,7 @@
       <div class="instruction header">LA 1: Short-acting</div>
      <div class="la-buttons">
   <button type="button" disabled>
-    Lidocaine 2% with 1:200,000 adrenaline
-  </button>
+    Lidocaine 2% with 1:200,000 adrenaline</button>
 </div>
 
      <div class="maxresult">
@@ -206,13 +233,12 @@
       <div class="instruction header">LA 2: Long-acting</div>
       <div class="la-buttons">
   <button type="button" disabled>
-    Levobupivacaine 0.5%
-  </button>
+    Levobupivacaine 0.5%</button>
 </div>
       <div class="dose-options">
-        <button class="concentration-btn" data-dose="2">Max: 2 mg/kg</button>
-        <button class="concentration-btn" data-dose="2.5">Max: 2.5 mg/kg</button>
-        <button class="concentration-btn" data-dose="3">Max: 3 mg/kg</button>
+        <button class="concentration-btn" data-dose="2">Max: <br>2 mg/kg</button>
+        <button class="concentration-btn" data-dose="2.5">Max: <br>2.5 mg/kg</button>
+        <button class="concentration-btn" data-dose="3">Max: <br>3 mg/kg</button>
       </div>
        <div class="maxresult">
         Max single dose: <span id="la2-max">0</span><span class="unit"> mg</span>
@@ -222,19 +248,31 @@
 
   <!-- Combined 50:50 -->
   <div class="combined-box">
-    <div class="instruction header"><strong><u>Max 50:50 dose/volume mix</u>:</strong></div>
+    <div class="instruction header"><u>50:50 Maximum Combined Dose</u>:</div>
    <div class="combined-results">
   <div>
-    <span id="comb1-label">LA 1</span>: 
-    <span id="comb1-dose">0</span><span class="unit"> mg</span> in <span id="comb1-vol">0</span><span class="unit"> mL</span> (<span class="combined-percent unit" id="comb1-perc">0</span><span class="unit"> %</span>)
+    <span id="comb1-label">LA 1</span>:<br>
+    <span id="comb1-dose">0</span><span class="unit"> mg</span> in <span id="comb1-vol">0</span><span class="unit"> mL</span> (<span class="combined-percent unit" id="comb1-perc">0</span><span class="unit">%</span>)
       </div>
       <div>
-         <span id="comb2-label">LA 2</span>:
-        <span id="comb2-dose">0</span><span class="unit"> mg</span> in <span id="comb2-vol">0</span><span class="unit"> mL</span> (<span class="combined-percent unit" id="comb2-perc">0</span><span class="unit"> %</span>)
+         <span id="comb2-label">LA 2</span>:<br>
+        <span id="comb2-dose">0</span><span class="unit"> mg</span> in <span id="comb2-vol">0</span><span class="unit"> mL</span> (<span class="combined-percent unit" id="comb2-perc">0</span><span class="unit">%</span>)
       </div>
+      <div class="total-volume">
+  Total volume: <span id="total-vol">0</span><span class="unit"> mL</span>
 </div>
-
+</div>
   </div>
+  
+  <div class="given-volume-box">
+  <label for="given-vol">Volume given:</label>
+  <input type="number" id="given-vol" min="0" placeholder="0" />
+  <span class="unit">mL</span>
+
+  <div class="given-percent">
+    <span id="given-perc">0</span><span class="unit">%</span>
+  </div>
+</div>
 
   <div class="button-container">
     <button class="reset-btn">Reset</button>
@@ -269,8 +307,15 @@
 const la2NameBtn = document.querySelector('#la2 .la-buttons button');
 const comb1Label  = document.getElementById('comb1-label');
 const comb2Label  = document.getElementById('comb2-label');
+  const totalVolSpan = document.getElementById('total-vol');
+  const givenVolInput  = document.getElementById('given-vol');
+const givenPercSpan  = document.getElementById('given-perc');
 
   let levaPerKg = null;
+  
+function fmt2(val) {
+  return val.toFixed(2).replace(/\.00$/, '');
+}
 
   // Compute safe single doses for LA1 and LA2
   function getSafeDoses() {
@@ -296,28 +341,37 @@ comb2Label.textContent = la2NameBtn.textContent;
 
   // Calculate and display the 50:50 combined volume/dose/percent
   function updateCombined(s1, s2) {
-    const c1 = 2   * 10;  // 2% → 20 mg/mL
-    const c2 = 0.5 * 10;  // 0.5% →  5 mg/mL
+  // concentrations in mg/mL
+  const c1 = 2   * 10;  // 2% → 20 mg/mL
+  const c2 = 0.5 * 10;  // 0.5% →  5 mg/mL
 
-    let V = 0, d1 = 0, d2 = 0;
-    if (s1 > 0 && s2 > 0) {
-      const sum = (c1 / s1) + (c2 / s2);
-      V  = 1 / sum;
-      d1 = c1 * V;
-      d2 = c2 * V;
-    }
-
-    const p1 = s1 ? (d1 / s1) * 100 : 0;
-    const p2 = s2 ? (d2 / s2) * 100 : 0;
-
-    comb1Vol.textContent  = V.toFixed(1);
-    comb1Dose.textContent = Math.round(d1);
-    comb1Perc.textContent = p1.toFixed(1);
-
-    comb2Vol.textContent  = V.toFixed(1);
-    comb2Dose.textContent = Math.round(d2);
-    comb2Perc.textContent = p2.toFixed(1);
+  let V = 0, d1 = 0, d2 = 0;
+  if (s1 > 0 && s2 > 0) {
+    const sum = (c1 / s1) + (c2 / s2);
+    V  = 1 / sum;
+    d1 = c1 * V;
+    d2 = c2 * V;
   }
+
+  const p1 = s1 ? (d1 / s1) * 100 : 0;
+  const p2 = s2 ? (d2 / s2) * 100 : 0;
+
+  // component volumes
+  comb1Vol.textContent    = fmt2(V);
+  comb2Vol.textContent    = fmt2(V);
+
+  // total volume = 2 * V
+  totalVolSpan.textContent = fmt2(2 * V);
+
+  // doses & percents
+  comb1Dose.textContent   = Math.round(d1);
+  comb1Perc.textContent   = fmt2(p1);
+  comb2Dose.textContent   = Math.round(d2);
+  comb2Perc.textContent   = fmt2(p2);
+
+  // update the user-entered % too
+  updateGivenPerc();
+}
 
   // When a concentration button is clicked…
   doseButtons.forEach(btn => {
@@ -328,30 +382,49 @@ comb2Label.textContent = la2NameBtn.textContent;
       updateDoses();
     });
   });
+  
+function updateGivenPerc() {
+  const givenVol = parseFloat(givenVolInput.value) || 0;
+  const maxVol   = parseFloat(totalVolSpan.textContent) || 0;
+  const percent  = maxVol ? (givenVol / maxVol) * 100 : 0;
+  givenPercSpan.textContent = fmt2(percent);
+}
 
   // Recalc on weight change
   weightInput.addEventListener('input', updateDoses);
 
   // Reset everything to defaults
   resetBtn.addEventListener('click', () => {
-    weightInput.value = '';
-    levaPerKg = null;
-    doseButtons.forEach(b => b.classList.remove('active'));
-    la1Max.textContent = '0';
-    la2Max.textContent = '0';
-    comb1Vol.textContent  = '0';
-    comb1Dose.textContent = '0';
-    comb1Perc.textContent = '0';
-    comb2Vol.textContent  = '0';
-    comb2Dose.textContent = '0';
-    comb2Perc.textContent = '0';
-  });
+  weightInput.value = '';
+  levaPerKg = null;
+  doseButtons.forEach(b => b.classList.remove('active'));
+
+  // Clear LA max‐dose displays
+  la1Max.textContent = '0';
+  la2Max.textContent = '0';
+
+  // Clear combined‐mix component volumes, doses & percents
+  comb1Vol.textContent  = '0';
+  comb1Dose.textContent = '0';
+  comb1Perc.textContent = '0';
+  comb2Vol.textContent  = '0';
+  comb2Dose.textContent = '0';
+  comb2Perc.textContent = '0';
+
+  // **NEW** Clear total volume and given‐volume controls
+  totalVolSpan.textContent   = '0';
+  givenVolInput.value        = '';    // empties the input box
+  givenPercSpan.textContent  = '0';   // resets the % display
+
+  // No need to call updateGivenPerc() here since we manually zeroed everything
+});
 
   // Go home
   homeBtn.addEventListener('click', () => {
     window.location.href = '/';
   });
   document.addEventListener('DOMContentLoaded', updateDoses);
+  givenVolInput.addEventListener('input', updateGivenPerc);
 </script>
 </body>
 </html>
