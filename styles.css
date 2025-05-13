@@ -593,3 +593,40 @@ input[type=number]::-webkit-outer-spin-button {
   appearance: none;
   margin: 0;
 }
+.ad-toggle {
+  display: none;
+  justify-content: center;
+  margin: 16px 0;
+}
+.toggle-container {
+  position: relative;
+  display: inline-flex;
+  background: #e4e4e4;
+  border-radius: 20px;
+  user-select: none;
+  overflow: hidden;
+}
+.toggle-container input {
+  display: none;
+}
+.toggle-label {
+  flex: 1;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+}
+.toggle-slider {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: calc(50% - 4px);
+  height: calc(100% - 4px);
+  background: white;
+  border-radius: 18px;
+  transition: transform 0.3s;
+}
+/* move slider when “With adrenaline” is checked */
+#lidoNoAd:checked ~ .toggle-slider {
+  transform: translateX(100%);
+}
