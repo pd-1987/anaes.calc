@@ -13,7 +13,7 @@
   href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
   rel="stylesheet"
 />
-  <title>LA max combined dose</title>
+  <title>Local anaesthetic combined dose calculator</title>
 
   <style>
     :root {
@@ -242,11 +242,15 @@
   background-color: #0078d7;
   color: white;
 }
-  </style>
+.overlimit { 
+    color: darkred; 
+    }
+    
+</style>
 </head>
 <body>
 
-  <header class="banner">Local anaesthetic maximum combined dose</header>
+  <header class="banner">Local anaesthetic combined dose</header>
 
   <div class="input-group">
     <label for="weight">Weight (kg):</label>
@@ -367,7 +371,9 @@
   const la1ConcDyn      = document.getElementById('la1-conc-dyn');
   const la2ConcDyn      = document.getElementById('la2-conc-dyn');
   const la1GivenTotal   = document.getElementById('la1-given-total');
+  const la1GivenPct     = document.getElementById('la1-given-pct');
   const la2GivenTotal   = document.getElementById('la2-given-total');
+  const la2GivenPct     = document.getElementById('la2-given-pct');
   const combinedPctSpan = document.getElementById('combined-dose-percent');
   const resetBtn        = document.querySelector('.reset-btn');
   const homeBtn         = document.querySelector('.home-btn');
@@ -379,11 +385,11 @@
   let la2SelConcs = [];
 
   // 3) HELPERS
-  const fmt2    = v => v.toFixed(2).replace(/\.00$/,'');
+  const fmt2     = v => v.toFixed(2).replace(/\.00$/,'');
   const pctToNum = s => parseFloat(s.replace('%',''))/100;
 
   function getSafeDoses() {
-    const w = parseFloat(weightInput.value) || 0;
+    const w  = parseFloat(weightInput.value) || 0;
     const n1 = la1Btn.textContent.trim();
     const n2 = la2Btn.textContent.trim();
     const k1 = la1WithAd ? 'withAd' : 'withoutAd';
@@ -405,8 +411,7 @@
       b.className = 'bubble' + (selArr.includes(opt) ? ' active' : '');
       b.addEventListener('click', () => {
         const idx = selArr.indexOf(opt);
-        if (idx<0) selArr.push(opt);
-        else       selArr.splice(idx,1);
+        idx < 0 ? selArr.push(opt) : selArr.splice(idx,1);
         updateAll();
       });
       container.appendChild(b);
@@ -414,15 +419,13 @@
   }
 
   function renderRows(btnEl, dynContainer, selArr) {
-    // preserve old volumes
     const old = {};
     dynContainer.querySelectorAll('.concentration-row').forEach(r => {
       const lbl = r.querySelector('.concentration-label').textContent;
       old[lbl] = r.querySelector('input').value;
     });
-
     dynContainer.innerHTML = '';
-    selArr.forEach(opt=>{
+    selArr.forEach(opt => {
       const row = document.createElement('div');
       row.className = 'concentration-row';
       row.innerHTML = `
@@ -435,12 +438,12 @@
       const inp = row.querySelector('input');
       const bub = row.querySelector('.bubble-value');
       const mgpm = pctToNum(opt)*1000;
-      if (old[opt] != null && old[opt] !== '') {
-        inp.value   = old[opt];
+      if (old[opt]) {
+        inp.value = old[opt];
         bub.textContent = fmt2(old[opt]*mgpm);
       }
-      inp.addEventListener('input', ()=>{
-        const v = parseFloat(inp.value)||0;
+      inp.addEventListener('input', () => {
+        const v = parseFloat(inp.value) || 0;
         bub.textContent = fmt2(v*mgpm);
         updateTotalsAndCombined();
       });
@@ -448,31 +451,34 @@
     });
   }
 
- function updateTotalsAndCombined() {
-  const { s1, s2 } = getSafeDoses();
-  let sum1 = 0, sum2 = 0;
-  la1ConcDyn.querySelectorAll('.bubble-value').forEach(el => sum1 += parseFloat(el.textContent) || 0);
-  la2ConcDyn.querySelectorAll('.bubble-value').forEach(el => sum2 += parseFloat(el.textContent) || 0);
+  function updateTotalsAndCombined() {
+    const { s1, s2 } = getSafeDoses();
+    let sum1=0, sum2=0;
+    la1ConcDyn.querySelectorAll('.bubble-value').forEach(el=> sum1 += parseFloat(el.textContent)||0);
+    la2ConcDyn.querySelectorAll('.bubble-value').forEach(el=> sum2 += parseFloat(el.textContent)||0);
 
-  const pct1 = s1 ? sum1 / s1 * 100 : 0;
-  const pct2 = s2 ? sum2 / s2 * 100 : 0;
+    const pct1 = s1 ? (sum1/s1)*100 : 0;
+    const pct2 = s2 ? (sum2/s2)*100 : 0;
+    const totalPct = pct1 + pct2;
 
-  document.getElementById('la1-given-total').textContent = fmt2(sum1);
-  document.getElementById('la1-given-pct').textContent   = fmt2(pct1);
+    // update numbers
+    la1GivenTotal.textContent = fmt2(sum1);
+    la1GivenPct.textContent   = fmt2(pct1);
+    la2GivenTotal.textContent = fmt2(sum2);
+    la2GivenPct.textContent   = fmt2(pct2);
+    combinedPctSpan.textContent= fmt2(totalPct);
 
-  document.getElementById('la2-given-total').textContent = fmt2(sum2);
-  document.getElementById('la2-given-pct').textContent   = fmt2(pct2);
-
-  // combined %
-  combinedPctSpan.textContent = fmt2(pct1 + pct2);
-}
+    // highlight if over 100%
+    [ la1GivenPct, la2GivenPct, combinedPctSpan ].forEach(el => {
+      el.classList.toggle('overlimit', totalPct > 100);
+    });
+  }
 
   function updateAll() {
-    // 1) update small-print limits & max‐single
-    const n1 = la1Btn.textContent.trim();
-    const n2 = la2Btn.textContent.trim();
-    const p1 = drugParams[n1][ la1WithAd ? 'withAd'    : 'withoutAd' ];
-    const p2 = drugParams[n2][ la2WithAd ? 'withAd'    : 'withoutAd' ];
+    // 1) small-print & max doses
+    const n1 = la1Btn.textContent.trim(), n2 = la2Btn.textContent.trim();
+    const p1 = drugParams[n1][ la1WithAd?'withAd':'withoutAd' ];
+    const p2 = drugParams[n2][ la2WithAd?'withAd':'withoutAd' ];
     la1PerKgSpan.textContent  = p1.perKg  + ' mg/kg';
     la1MaxTotSpan.textContent = p1.maxTotal + ' mg';
     la2PerKgSpan.textContent  = p2.perKg  + ' mg/kg';
@@ -481,36 +487,31 @@
     la1MaxSpan.textContent = Math.round(s1);
     la2MaxSpan.textContent = Math.round(s2);
 
-    // 2) render bubbles & rows — pass the element, not a function
-    renderBubbles( la1Btn,        la1ConcBubbles, la1SelConcs );
-    renderRows(   la1Btn,        la1ConcDyn,     la1SelConcs );
-    renderBubbles( la2Btn,        la2ConcBubbles, la2SelConcs );
-    renderRows(   la2Btn,        la2ConcDyn,     la2SelConcs );
+    // 2) render concentrations
+    renderBubbles(la1Btn, la1ConcBubbles, la1SelConcs);
+    renderRows(  la1Btn, la1ConcDyn,     la1SelConcs);
+    renderBubbles(la2Btn, la2ConcBubbles, la2SelConcs);
+    renderRows(  la2Btn, la2ConcDyn,     la2SelConcs);
 
-    // 3) update totals + combined %
+    // 3) recalc totals & highlighting
     updateTotalsAndCombined();
   }
 
   // 4) EVENTS
-  la1Btn.addEventListener('click', ()=> {
-    const arr = ['Lidocaine','Levobupivacaine','Bupivacaine','Ropivacaine'];
-    const i = arr.indexOf(la1Btn.textContent);
-    la1Btn.textContent = arr[(i+1) % arr.length];
-    la1SelConcs = [];
-    updateAll();
+  [la1Btn, la2Btn].forEach((btn, idx) => {
+    btn.addEventListener('click', () => {
+      const arr = ['Lidocaine','Levobupivacaine','Bupivacaine','Ropivacaine'];
+      const i = arr.indexOf(btn.textContent);
+      btn.textContent = arr[(i+1)%arr.length];
+      idx === 0 ? la1SelConcs = [] : la2SelConcs = [];
+      updateAll();
+    });
   });
-  la2Btn.addEventListener('click', ()=> {
-    const arr = ['Lidocaine','Levobupivacaine','Bupivacaine','Ropivacaine'];
-    const i = arr.indexOf(la2Btn.textContent);
-    la2Btn.textContent = arr[(i+1) % arr.length];
-    la2SelConcs = [];
-    updateAll();
-  });
-  la1AdToggle.addEventListener('change', ()=>{ la1WithAd = la1AdToggle.checked; updateAll(); });
-  la2AdToggle.addEventListener('change', ()=>{ la2WithAd = la2AdToggle.checked; updateAll(); });
+  la1AdToggle.addEventListener('change', () => { la1WithAd = la1AdToggle.checked; updateAll(); });
+  la2AdToggle.addEventListener('change', () => { la2WithAd = la2AdToggle.checked; updateAll(); });
   weightInput.addEventListener('input', updateAll);
 
-  resetBtn.addEventListener('click', ()=> {
+  resetBtn.addEventListener('click', () => {
     weightInput.value = '';
     la1WithAd = la2WithAd = false;
     la1AdToggle.checked = la2AdToggle.checked = false;
@@ -521,14 +522,17 @@
     la1MaxSpan.textContent = la2MaxSpan.textContent = '0';
     la1PerKgSpan.textContent = la2PerKgSpan.textContent = '0 mg/kg';
     la1MaxTotSpan.textContent = la2MaxTotSpan.textContent = '0 mg';
-    la1GivenTotal.textContent = la2GivenTotal.textContent = '0 mg (0%)';
-    combinedPctSpan.textContent = '0';
+    la1GivenTotal.textContent = la2GivenTotal.textContent = '0';
+    la1GivenPct.textContent   = la2GivenPct.textContent   = '0';
+    combinedPctSpan.textContent= '0';
+    [la1GivenPct, la2GivenPct, combinedPctSpan].forEach(el=>el.classList.remove('overlimit'));
     updateAll();
   });
 
   homeBtn.addEventListener('click', ()=> window.location.href = '/' );
   document.addEventListener('DOMContentLoaded', updateAll);
 </script>
+
 
 </body>
 </html>
