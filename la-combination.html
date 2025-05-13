@@ -13,7 +13,7 @@
   href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
   rel="stylesheet"
 />
-  <title>LA combination calculator</title>
+  <title>LA concentration combination calculator</title>
   <style>
         header.banner {
   background: linear-gradient(
@@ -51,7 +51,7 @@
 </head>
 <body>
   <!-- Header with Title -->
-  <header class="banner">LA Combinations</header>
+  <header class="banner">LA Concentration Combinations</header>
 
   <div class="boxed-section first-section">
   <!-- Weight Entry Group -->
@@ -69,10 +69,31 @@
     <button id="levobupivacaineBtn" onclick="selectLA('Levobupivacaine')">
       Levobupivacaine<small>2 mg/kg<br>Max. 200mg</small>
     </button>
+     <button id="lidocaineBtn" onclick="selectLA('lidocaine')">
+      Lidocaine
+    </button>
     <button id="ropivacaineBtn" onclick="selectLA('Ropivacaine')">
       Ropivacaine<small>3 mg/kg<br>Max. 200mg</small>
     </button>
   </div>
+    
+    <!-- Lidocaine adrenaline toggle (hidden by default) -->
+<div id="lidoToggle" class="ad-toggle">
+  <div class="toggle-container">
+  
+    <input type="radio" id="lidoWithAd" name="lidoAd" value="7" checked>
+    <label for="lidoWithAd" class="toggle-label">
+      With adrenaline<br><small>7 mg/kg<br>Max. 500mg</small>
+    </label>
+    
+     <input type="radio" id="lidoNoAd"   name="lidoAd" value="3">
+    <label for="lidoNoAd" class="toggle-label">
+      Without adrenaline<br><small>3 mg/kg<br>Max. 200mg</small>
+    </label>
+
+    <div class="toggle-slider"></div>
+  </div>
+</div>
     
   <!-- Maximum Bolus Display -->
   <div class="result max-safe-dose">
@@ -170,6 +191,46 @@
 
       </div>
     </div>
+    
+        <div class="concentration-row lido">
+      <div class="concentration-label">1%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="1.0" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+       <span class="bubble">
+  <span class="bubble-value">0</span>
+  <span class="unit">mg</span>
+</span>
+
+      </div>
+    </div>
+    
+            <div class="concentration-row lido">
+      <div class="concentration-label">1.5%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="1.5" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+       <span class="bubble">
+  <span class="bubble-value">0</span>
+  <span class="unit">mg</span>
+</span>
+
+      </div>
+    </div>
+    
+           <div class="concentration-row lido">
+      <div class="concentration-label">2%</div>
+      <div class="concentration-extras">
+        <input type="number" min="0" max="999" data-concentration="2.0" oninput="updateDose(this)" />
+        <span class="unit-label">ml</span>
+       <span class="bubble">
+  <span class="bubble-value">0</span>
+  <span class="unit">mg</span>
+</span>
+
+      </div>
+    </div>
+    
   </div>
   
   <!-- Dose Summary Section -->
@@ -194,12 +255,13 @@
   <footer>
     <small>
       <p><b>Bupivacaine / Levobupivacaine:</b> A maximum dose of 2 mg/kg should not be exceeded in any four-hour period; Bupivacaine not to exceed 175 mg per dose, Levobupivacaine not to exceed 200 mg per dose. In total ≤400 mg/24h.</p>
+      <p><b>Lidocaine</b>: Single doses of Lidocaine without adrenaline should not exceed 4.5 mg/kg, up to 200 mg. The maximum single dose of lidocaine when given with adrenaline is 7 mg/kg, up to 500 mg.</p>
       <p><b>Ropivacaine:</b> A maximum dose of 3 mg/kg should not be exceeded in any four- to six-hour period; not to exceed 200 mg per dose. In total ≤675 mg/24h.</p>
     </small>
     <small>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</small>
   </footer>
 
-  <script>
+<script>
   // — Utility to format numbers (no decimals if whole, else two places) —
   function formatNumber(num) {
     return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
@@ -221,19 +283,19 @@
 
   // — Called by each LA button —
   function selectLA(selectedLA) {
-    const btnId = selectedLA.toLowerCase() + 'Btn';
-    const btn   = document.getElementById(btnId);
+    const btnId     = selectedLA.toLowerCase() + 'Btn';
+    const btn       = document.getElementById(btnId);
     const wasActive = btn.classList.contains('active');
 
     // Clear any previous selection
     resetConcentrationRows();
     document.querySelectorAll('.la-buttons button')
             .forEach(b => b.classList.remove('active'));
+    document.getElementById('lidoToggle').style.display = 'none'; // hide toggle by default
 
     if (wasActive) {
       // User clicked the same button again → deselect
       document.querySelector('.concentration-boxes').style.display = 'none';
-      // reset the displayed numbers
       maxSafeDose = 0;
       document.getElementById('maxSafeDose').textContent    = '0';
       document.getElementById('totalDoseGiven').textContent = '0';
@@ -247,13 +309,32 @@
     // reveal the concentration grid
     document.querySelector('.concentration-boxes').style.display = 'flex';
 
+    // show the lidocaine toggle if needed
+    if (selectedLA.toLowerCase() === 'lidocaine') {
+      document.getElementById('lidoToggle').style.display = 'flex';
+    }
+
     // compute new max safe dose
     updateMaxSafeDose();
 
     // show only the rows for this LA
-    const group = (selectedLA === 'Ropivacaine') ? 'ropi' : 'bl';
-    document.querySelectorAll(`.concentration-row.${group}`)
-            .forEach(r => r.style.display = 'flex');
+    let group = '';
+    switch (selectedLA.toLowerCase()) {
+      case 'bupivacaine':
+      case 'levobupivacaine':
+        group = 'bl';
+        break;
+      case 'ropivacaine':
+        group = 'ropi';
+        break;
+      case 'lidocaine':
+        group = 'lido';
+        break;
+    }
+    if (group) {
+      document.querySelectorAll(`.concentration-row.${group}`)
+              .forEach(r => r.style.display = 'flex');
+    }
 
     // recalc totals
     updateTotalAndRemaining();
@@ -270,6 +351,16 @@
       dose = 2 * w; cap = 200;
     } else if (document.getElementById('ropivacaineBtn').classList.contains('active')) {
       dose = 3 * w; cap = 200;
+    } else if (document.getElementById('lidocaineBtn').classList.contains('active')) {
+      // read 3 or 7 mg/kg from the toggle
+      const factor = parseFloat(
+        document.querySelector('input[name="lidoAd"]:checked').value
+      );
+      dose = factor * w;
+
+    // set absolute cap based on adrenaline toggle
+    const withAd = document.getElementById('lidoWithAd').checked;
+    cap = withAd ? 500 : 200;
     }
 
     maxSafeDose = Math.min(dose, cap);
@@ -278,49 +369,46 @@
 
   // — Update one concentration bubble when its input changes —
   function updateDose(inputEl) {
-    const ml = parseFloat(inputEl.value) || 0;
+    const ml   = parseFloat(inputEl.value) || 0;
     const conc = parseFloat(inputEl.dataset.concentration);
-    const mg = ml * conc * 10;       // 1% = 10 mg/ml
+    const mg   = ml * conc * 10;       // 1% = 10 mg/ml
     inputEl.parentNode.querySelector('.bubble .bubble-value')
            .textContent = formatNumber(mg);
     updateTotalAndRemaining();
   }
 
   // — Sum up all concentrations and update “Total dose” & “Remaining” —
-function updateTotalAndRemaining() {
-  let total = 0;
-  document.querySelectorAll('.concentration-extras input').forEach(i => {
-    const ml   = parseFloat(i.value) || 0;
-    const conc = parseFloat(i.dataset.concentration);
-    total += ml * conc * 10;
-  });
+  function updateTotalAndRemaining() {
+    let total = 0;
+    document.querySelectorAll('.concentration-extras input').forEach(i => {
+      const ml   = parseFloat(i.value) || 0;
+      const conc = parseFloat(i.dataset.concentration);
+      total += ml * conc * 10;
+    });
 
-  document.getElementById('totalDoseGiven').textContent = formatNumber(total);
+    document.getElementById('totalDoseGiven').textContent = formatNumber(total);
 
-  const remaining = maxSafeDose - total;
-  const remEl    = document.getElementById('doseRemaining');
-  remEl.textContent = formatNumber(remaining);
+    const remaining = maxSafeDose - total;
+    const remEl    = document.getElementById('doseRemaining');
+    remEl.textContent = formatNumber(remaining);
 
-  if (remaining < 0) {
-    remEl.classList.add('negative');
-  } else {
-    remEl.classList.remove('negative');
+    if (remaining < 0) {
+      remEl.classList.add('negative');
+    } else {
+      remEl.classList.remove('negative');
+    }
   }
-}
 
   // — Reset everything to the initial state —
   function resetCalculator() {
-    // clear weight
     document.getElementById('weight').value = '';
-    // clear LA buttons
-    document.querySelectorAll('.la-buttons button').forEach(b=>b.classList.remove('active'));
-    // hide & clear concentration rows
+    document.querySelectorAll('.la-buttons button').forEach(b => b.classList.remove('active'));
     resetConcentrationRows();
     document.querySelector('.concentration-boxes').style.display = 'none';
-    // clear outputs
-    document.getElementById('maxSafeDose').textContent = '0';
+    document.getElementById('lidoToggle').style.display       = 'none';
+    document.getElementById('maxSafeDose').textContent    = '0';
     document.getElementById('totalDoseGiven').textContent = '0';
-    document.getElementById('doseRemaining').textContent = '0';
+    document.getElementById('doseRemaining').textContent  = '0';
     document.getElementById('doseRemaining').classList.remove('negative');
     maxSafeDose = 0;
   }
@@ -335,8 +423,13 @@ function updateTotalAndRemaining() {
     updateMaxSafeDose();
     updateTotalAndRemaining();
   });
+  document.querySelectorAll('input[name="lidoAd"]').forEach(radio =>
+    radio.addEventListener('change', () => {
+      updateMaxSafeDose();
+      updateTotalAndRemaining();
+    })
+  );
 </script>
-
 
  
 </body>
