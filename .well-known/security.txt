@@ -1,1 +1,4 @@
-
+Contact: mailto:peterdaum@nhs.net
+Expires: 2030-01-01T00:00:00.000Z
+Preferred-Languages: en
+Policy: https://gas-calc.xyz/.well-known/disclosurepolicy.html
