@@ -229,15 +229,18 @@
 }
     .concentration-bubbles {
  display: flex;
-  flex-wrap: wrap;         /* allow wrapping onto multiple lines */
-  justify-content: center; /* centre the items in each line */
-  gap: 0.5rem;             /* spacing between buttons */
+  flex-wrap: wrap;         /* allow wrapping onto multiple lines */  
+      justify-content: center; /* centre the items in each line */
+  align-content: center;
+      gap: 0.5rem;             /* spacing between buttons */
   margin-top: 8px;
   padding: 0;              /* remove that left/right inset */
   overflow: visible;       /* no scrollbar */
     }
  .concentration-bubbles .bubble {
   flex: 0 0 auto; /* no grow, no shrink, size to content */
+   width: auto;
+  max-width: none;
 }
 .bubble.active {
   background-color: #0078d7;
