@@ -208,7 +208,7 @@
     /* small text for per-kg and total limits */
 .dose-info {
   text-align: center;
-  margin: 0px 0;
+  margin: 4px 0;
 }
 .dose-info small {
   font-size: 0.8em;
@@ -262,6 +262,9 @@
   font-size: 0.8em;
   color: #555;
 }
+.dose-info.dose-remaining {
+  margin-top: 4px;  /* tweak as you like */
+}
 </style>
 </head>
 <body>
@@ -300,6 +303,9 @@
         <span id="la1-given-total">0</span><span class="unit"> mg</span>
     (<span id="la1-given-pct">0</span><span class="unit">%</span>)
     </div>
+      <div class="dose-info dose-remaining">
+  Dose remaining: <span id="la1-remaining">0</span><span class="unit"> mg</span>
+</div>
     </div>
 
     <!-- LA 2 -->
@@ -326,6 +332,9 @@
       Dose given:  <span id="la2-given-total">0</span><span class="unit"> mg</span>
     (<span id="la2-given-pct">0</span><span class="unit">%</span>)
     </div>
+      <div class="dose-info dose-remaining">
+  Dose remaining: <span id="la2-remaining">0</span><span class="unit"> mg</span>
+</div>
     </div>
   </div> 
 
@@ -485,6 +494,14 @@
     [la1GivenPct, la2GivenPct, combinedPctSpan].forEach(el =>
       el.classList.toggle('overlimit', totalPct > 100)
     );
+    // compute remaining
+const remainingFraction = Math.max(1 - totalPct/100, 0);
+    const rem1 = s1 * remainingFraction;
+    const rem2 = s2 * remainingFraction;
+
+// update the new elements
+document.getElementById('la1-remaining').textContent = fmt2(rem1);
+document.getElementById('la2-remaining').textContent = fmt2(rem2);
   }
 
   // 8) UPDATE ALL
