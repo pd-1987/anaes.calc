@@ -122,7 +122,7 @@
   border: 1px solid #ddd;
   border-radius: 6px;
       padding: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
        box-sizing: border-box;
       text-align: center;
     }
@@ -136,7 +136,7 @@
     /* Override combined-results to be block, not flex */
 .combined-results {
   display: block;       /* stack them vertically */
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-size: 18px;
   text-align: center;     /* left-align content */
   font-weight: 400;
@@ -213,18 +213,7 @@
   font-size: 0.8em;
   color: #555;
 }
-    .concentration-bubbles {
-  display: flex;
-  justify-content: center;    /* or space-between/around as you prefer */
-  flex-wrap: nowrap;          /* force one single row */
-  overflow-x: auto;           /* allow scrolling if it’s too wide */
-  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-  gap: 0.5rem;
-  margin-top: 8px;
-  padding: 0 0.5rem;          /* small side padding so bubbles aren’t flush to edges */
-}
-/* you already have .bubble styles; if not, add: */
-.bubble {
+    .bubble {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -237,6 +226,18 @@
   color: #0078d7;
   cursor: pointer;
   user-select: none;
+}
+    .concentration-bubbles {
+ display: flex;
+  flex-wrap: wrap;         /* allow wrapping onto multiple lines */
+  justify-content: center; /* centre the items in each line */
+  gap: 0.5rem;             /* spacing between buttons */
+  margin-top: 8px;
+  padding: 0;              /* remove that left/right inset */
+  overflow: visible;       /* no scrollbar */
+    }
+ .concentration-bubbles .bubble {
+  flex: 0 0 auto; /* no grow, no shrink, size to content */
 }
 .bubble.active {
   background-color: #0078d7;
@@ -336,7 +337,7 @@
   </div>
   
   <footer>
-    <small>
+   <small>
       <p><strong>Adrenaline</strong>: No differences in blood flow reduction between adrenaline concentrations of 1:100,000, 1:200,000, and 1:400,000. However, 1:800,000 provides significantly less vasoconstriction.</p>
     <p><a href="references.html">References</a> - <a href="disclaimer.html">Disclaimer</a></p>
       <p>&copy; 2025 #OneTeam Anaesthesia. All rights reserved.</p></small>
