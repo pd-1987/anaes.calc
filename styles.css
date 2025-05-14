@@ -31,6 +31,11 @@ body {
 strong { 
   font-weight: 700;
 }
+small sup {
+  font-size: 0.6em;    /* or whatever fraction you like */
+  line-height: 0;      /* to pull it up a little */
+  vertical-align: super;
+}
 /* Banner container */
 .banner {
   text-align: center;   /* Centers the content horizontally */
