@@ -22,12 +22,6 @@
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
-  .grey-btn {
-      margin-top: 10px;
-      display: block;            /* so it’s full‐width */
-  position: relative;        /* just in case you want to absolutely position */
-  padding-left: 2.5em;       /* make room for the number */
-    }
     .grey-btn small {
   display: block;
   font-size: 14px;
@@ -42,36 +36,55 @@
   text-align: left;
   font-weight: 700;
 }
-  /* make those “fake” li-titles span 100% and hide their numbers */
-.section-title {
-  list-style: none;     /* remove the bullet/number */
-  width: 100%;          /* full width */
-  margin: 1em 0;        /* spacing */
+/* 1) Reset the counter and remove the default list indent */
+ol {
+  counter-reset: item;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+/* 2) Turn off bullets/numbers and strip any LI padding/margin */
+ol li {
+  list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+/* 3) Only increment the counter on LI’s that are *not* section titles */
+ol li:not(.section-title) {
+  counter-increment: item;
+}
+
+/* 4) Style your “titles” so they’re full-width and un-numbered */
+.section-title {
+  /* we already set list-style:none above */
+  width: 100%;
+  margin: 1em 0;
+  padding: 0.5em 0;
   font-size: 1.25em;
   font-weight: bold;
   text-align: center;
   border-bottom: 1px solid #000;
 }
-  /* 1) Turn off the browser’s default numbers */
-ol {
-  counter-reset: item;
-}
-ol li {
-  list-style: none;
+
+/* 5) Make your grey buttons full-width blocks and room for the number */
+.grey-btn {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em 1em 0.5em 2.5em; /* left‐pad for the “N. ” */
+  margin: 0.5em 0;
 }
 
-/* 2) Increment the counter on each li */
-ol li {
-  counter-increment: item;
-}
-
-/* 3) Insert the “1.”, “2.” etc. inside the grey button */
+/* 6) Inject the counter “N. ” inside each grey button */
 .grey-btn::before {
   content: counter(item) ". ";
   position: absolute;
-  left: 0;                   /* sits at the very left of the button */
-  width: 2em;                /* reserve the same space as your padding */
+  left: 0.8em;    /* tweak until it sits nicely */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2em;
   text-align: right;
   font-weight: bold;
 }
