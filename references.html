@@ -24,6 +24,9 @@
 }
   .grey-btn {
       margin-top: 10px;
+      display: block;            /* so it’s full‐width */
+  position: relative;        /* just in case you want to absolutely position */
+  padding-left: 2.5em;       /* make room for the number */
     }
     .grey-btn small {
   display: block;
@@ -50,6 +53,28 @@
   text-align: center;
   border-bottom: 1px solid #000;
 }
+  /* 1) Turn off the browser’s default numbers */
+ol {
+  counter-reset: item;
+}
+ol li {
+  list-style: none;
+}
+
+/* 2) Increment the counter on each li */
+ol li {
+  counter-increment: item;
+}
+
+/* 3) Insert the “1.”, “2.” etc. inside the grey button */
+.grey-btn::before {
+  content: counter(item) ". ";
+  position: absolute;
+  left: 0;                   /* sits at the very left of the button */
+  width: 2em;                /* reserve the same space as your padding */
+  text-align: right;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -75,9 +100,9 @@
       <li class="section-title">Regional</li>
      <li><a href="https://pubmed.ncbi.nlm.nih.gov/30122981/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">El-Boghdadly K, Pawa A, Chin KJ. Local anesthetic systemic toxicity: current perspectives. Local Reg Anesth. 2018;11:35-44. Published 2018 Aug 8. doi:10.2147/LRA.S154512</a></li>
 
-      <li><a href="https://bnf.nice.org.uk/drugs/bupivacaine-hydrochloride/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Bupivacaine in British National Formulary. Joint Formulary Committee (2024). Accessed: 19 April 2025.</a></li>
+      <li><a href="https://bnf.nice.org.uk/drugs/bupivacaine-hydrochloride/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Bupivacaine hydrochloride in British National Formulary. Joint Formulary Committee (2024). Accessed: 19 April 2025.</a></li>
       <li><a href="https://www.medicines.org.uk/emc/product/11611/smpc#gref" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Bupivacaine 2.5 mg/ml Solution for Injection at Electronic Medicines Compendium. Baxter Healthcare Ltd. Accessed 19 April 2025.</a></li>
-      <li><a href="https://bnf.nice.org.uk/drugs/ropivacaine-hydrochloride/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Ropivacaine in British National Formulary. Joint Formulary Committee (2024). Accessed: 19 April 2025.</a></li>
+      <li><a href="https://bnf.nice.org.uk/drugs/ropivacaine-hydrochloride/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Ropivacaine hydrochloride in British National Formulary. Joint Formulary Committee (2024). Accessed: 19 April 2025.</a></li>
         <li><a href="https://www.medicines.org.uk/emc/product/100394/smpc" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Ropivacaine 2 mg/ml solution for infusion at Electronic Medicines Compendium. Sandoz Limited. Accessed 19 April 2025.</a></li>
       <li><a href="https://bnf.nice.org.uk/drugs/lidocaine-hydrochloride/" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Lidocaine hydrochloride at British National Formulary. Joint Formulary Committee (2024). Accessed: 14 May 2025.</a></li>
       <li><a href="https://www.medicines.org.uk/emc/product/6277/smpc" class="calc-button grey-btn" target="_blank" rel="noopener noreferrer">Lidocaine Hydrochloride Injection BP 1% w/v at Electronic Medicines Compendium. hameln pharma ltd. Accessed: 14 May 2025.</a></li>
