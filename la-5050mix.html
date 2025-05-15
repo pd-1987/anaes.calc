@@ -242,8 +242,9 @@
     <div class="la-column" id="la2">
       <div class="instruction header">LA 2: Long-acting</div>
       <div class="la-buttons">
-  <button type="button" disabled>
-    Levobupivacaine 0.5%</button>
+  <button type="button" id="la2-name-btn">
+  Levobupivacaine 0.5%
+</button>
 </div>
       <div class="dose-options">
         <button class="concentration-btn" data-dose="2">Max: <br>2 mg/kg</button>
@@ -301,48 +302,71 @@
 
 <script>
   // Grab all elements
-  const weightInput = document.getElementById('weight');
-  const la1Max       = document.getElementById('la1-max');
-  const la2Max       = document.getElementById('la2-max');
+  const weightInput   = document.getElementById('weight');
+  const la1Max        = document.getElementById('la1-max');
+  const la2Max        = document.getElementById('la2-max');
 
-  const comb1Dose   = document.getElementById('comb1-dose');
-  const comb1Vol    = document.getElementById('comb1-vol');
-  const comb1Perc   = document.getElementById('comb1-perc');
-  const comb2Dose   = document.getElementById('comb2-dose');
-  const comb2Vol    = document.getElementById('comb2-vol');
-  const comb2Perc   = document.getElementById('comb2-perc');
+  const comb1Dose     = document.getElementById('comb1-dose');
+  const comb1Vol      = document.getElementById('comb1-vol');
+  const comb1Perc     = document.getElementById('comb1-perc');
+  const comb2Dose     = document.getElementById('comb2-dose');
+  const comb2Vol      = document.getElementById('comb2-vol');
+  const comb2Perc     = document.getElementById('comb2-perc');
 
-  const doseButtons = document.querySelectorAll('.dose-options .concentration-btn');
-  const resetBtn    = document.querySelector('.reset-btn');
-  const homeBtn     = document.querySelector('.home-btn');
-  const la1NameBtn = document.querySelector('#la1 .la-buttons button');
-const la2NameBtn = document.querySelector('#la2 .la-buttons button');
-const comb1Label  = document.getElementById('comb1-label');
-const comb2Label  = document.getElementById('comb2-label');
-  const totalVolSpan = document.getElementById('total-vol');
-  const givenVolInput  = document.getElementById('given-vol');
-const givenPercSpan  = document.getElementById('given-perc');
+  const doseButtons   = document.querySelectorAll('.dose-options .concentration-btn');
+  const resetBtn      = document.querySelector('.reset-btn');
+  const homeBtn       = document.querySelector('.home-btn');
+  const la1NameBtn    = document.querySelector('#la1 .la-buttons button');
+  const la2NameBtn = document.getElementById('la2-name-btn');
+  const comb1Label    = document.getElementById('comb1-label');
+  const comb2Label    = document.getElementById('comb2-label');
+  const totalVolSpan  = document.getElementById('total-vol');
+  const givenVolInput = document.getElementById('given-vol');
+  const givenPercSpan = document.getElementById('given-perc');
 
-  let levaPerKg = null;
-  
-function fmt2(val) {
-  return val.toFixed(2).replace(/\.00$/, '');
-}
+  let levaPerKg = null;   // selected mg/kg for LA-2
+  let isLevo    = true;   // are we showing Levobupivacaine? (true) or Bupivacaine? (false)
+
+  // Format to up to 2 decimals, strip trailing .00
+  function fmt2(val) {
+    return val.toFixed(2).replace(/\.00$/, '');
+  }
 
   // Compute safe single doses for LA1 and LA2
   function getSafeDoses() {
     const w = parseFloat(weightInput.value) || 0;
-    return {
-      s1: Math.min(w * 7, 500),                          // Lidocaine
-      s2: levaPerKg ? Math.min(w * levaPerKg, 225) : 0   // Levobupivacaine
-    };
+
+    // LA1: lidocaine 7 mg/kg, cap 500 mg
+    const s1 = Math.min(w * 7, 500);
+
+    // LA2: raw = weight × mg/kg
+    let s2 = levaPerKg ? w * levaPerKg : 0;
+
+    if (levaPerKg) {
+      if (isLevo) {
+        // levobupivacaine caps
+        s2 = Math.min(
+          s2,
+          levaPerKg < 3 ? 200 : 225
+        );
+      } else {
+        // bupivacaine caps
+        s2 = Math.min(
+          s2,
+          levaPerKg < 3 ? 175 : 225
+        );
+      }
+    }
+
+    return { s1, s2 };
   }
 
-  // Update the LA1/LA2 max‐dose displays and recalc combined volumes
+  // Update the LA max-dose displays and recalc combined mix
   function updateDoses() {
+    // update labels in combined box
     comb1Label.textContent = la1NameBtn.textContent;
-comb2Label.textContent = la2NameBtn.textContent;
-    
+    comb2Label.textContent = la2NameBtn.textContent;
+
     const { s1, s2 } = getSafeDoses();
 
     la1Max.textContent = Math.round(s1);
@@ -351,41 +375,42 @@ comb2Label.textContent = la2NameBtn.textContent;
     updateCombined(s1, s2);
   }
 
-  // Calculate and display the 50:50 combined volume/dose/percent
+  // Calculate and display 50:50 combined volumes, doses & percents
   function updateCombined(s1, s2) {
-  // concentrations in mg/mL
-  const c1 = 2   * 10;  // 2% → 20 mg/mL
-  const c2 = 0.5 * 10;  // 0.5% →  5 mg/mL
+    const c1 = 2   * 10;  // 2% lidocaine → 20 mg/mL
+    const c2 = 0.5 * 10;  // 0.5% LA-2 → 5 mg/mL
 
-  let V = 0, d1 = 0, d2 = 0;
-  if (s1 > 0 && s2 > 0) {
-    const sum = (c1 / s1) + (c2 / s2);
-    V  = 1 / sum;
-    d1 = c1 * V;
-    d2 = c2 * V;
+    let V = 0, d1 = 0, d2 = 0;
+    if (s1 > 0 && s2 > 0) {
+      const sum = (c1 / s1) + (c2 / s2);
+      V  = 1 / sum;
+      d1 = c1 * V;
+      d2 = c2 * V;
+    }
+
+    // component and total volumes
+    comb1Vol.textContent   = fmt2(V);
+    comb2Vol.textContent   = fmt2(V);
+    totalVolSpan.textContent = fmt2(2 * V);
+
+    // component doses & percents
+    comb1Dose.textContent = Math.round(d1);
+    comb1Perc.textContent = fmt2(s1 ? (d1 / s1) * 100 : 0);
+    comb2Dose.textContent = Math.round(d2);
+    comb2Perc.textContent = fmt2(s2 ? (d2 / s2) * 100 : 0);
+
+    updateGivenPerc();
   }
 
-  const p1 = s1 ? (d1 / s1) * 100 : 0;
-  const p2 = s2 ? (d2 / s2) * 100 : 0;
+  // Update “given volume” percentage
+  function updateGivenPerc() {
+    const givenVol = parseFloat(givenVolInput.value) || 0;
+    const maxVol   = parseFloat(totalVolSpan.textContent) || 0;
+    const pct      = maxVol ? (givenVol / maxVol) * 100 : 0;
+    givenPercSpan.textContent = fmt2(pct);
+  }
 
-  // component volumes
-  comb1Vol.textContent    = fmt2(V);
-  comb2Vol.textContent    = fmt2(V);
-
-  // total volume = 2 * V
-  totalVolSpan.textContent = fmt2(2 * V);
-
-  // doses & percents
-  comb1Dose.textContent   = Math.round(d1);
-  comb1Perc.textContent   = fmt2(p1);
-  comb2Dose.textContent   = Math.round(d2);
-  comb2Perc.textContent   = fmt2(p2);
-
-  // update the user-entered % too
-  updateGivenPerc();
-}
-
-  // When a concentration button is clicked…
+  // Handle mg/kg button clicks
   doseButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       doseButtons.forEach(b => b.classList.remove('active'));
@@ -394,49 +419,53 @@ comb2Label.textContent = la2NameBtn.textContent;
       updateDoses();
     });
   });
-  
-function updateGivenPerc() {
-  const givenVol = parseFloat(givenVolInput.value) || 0;
-  const maxVol   = parseFloat(totalVolSpan.textContent) || 0;
-  const percent  = maxVol ? (givenVol / maxVol) * 100 : 0;
-  givenPercSpan.textContent = fmt2(percent);
-}
 
-  // Recalc on weight change
+  // Toggle LA-2 between Levobupivacaine and Bupivacaine
+  la2NameBtn.style.cursor = 'pointer';
+  la2NameBtn.addEventListener('click', () => {
+    isLevo = !isLevo;
+    la2NameBtn.textContent = isLevo
+      ? 'Levobupivacaine 0.5%'
+      : 'Bupivacaine 0.5%';
+    updateDoses();
+  });
+
+  // Recalc when weight changes
   weightInput.addEventListener('input', updateDoses);
 
-  // Reset everything to defaults
+  // Recalc given-% when user enters a volume
+  givenVolInput.addEventListener('input', updateGivenPerc);
+
+  // Reset everything
   resetBtn.addEventListener('click', () => {
-  weightInput.value = '';
-  levaPerKg = null;
-  doseButtons.forEach(b => b.classList.remove('active'));
+    weightInput.value = '';
+    levaPerKg         = null;
+    isLevo            = true;
+    doseButtons.forEach(b => b.classList.remove('active'));
+    la2NameBtn.textContent = 'Levobupivacaine 0.5%';
 
-  // Clear LA max‐dose displays
-  la1Max.textContent = '0';
-  la2Max.textContent = '0';
+    // zero out displays
+    la1Max.textContent    = '0';
+    la2Max.textContent    = '0';
+    comb1Vol.textContent  = '0';
+    comb1Dose.textContent = '0';
+    comb1Perc.textContent = '0';
+    comb2Vol.textContent  = '0';
+    comb2Dose.textContent = '0';
+    comb2Perc.textContent = '0';
+    totalVolSpan.textContent  = '0';
+    givenVolInput.value       = '';
+    givenPercSpan.textContent = '0';
+  });
 
-  // Clear combined‐mix component volumes, doses & percents
-  comb1Vol.textContent  = '0';
-  comb1Dose.textContent = '0';
-  comb1Perc.textContent = '0';
-  comb2Vol.textContent  = '0';
-  comb2Dose.textContent = '0';
-  comb2Perc.textContent = '0';
-
-  // **NEW** Clear total volume and given‐volume controls
-  totalVolSpan.textContent   = '0';
-  givenVolInput.value        = '';    // empties the input box
-  givenPercSpan.textContent  = '0';   // resets the % display
-
-  // No need to call updateGivenPerc() here since we manually zeroed everything
-});
-
-  // Go home
+  // Home button
   homeBtn.addEventListener('click', () => {
     window.location.href = '/';
   });
+
+  // Initial calculation on page load
   document.addEventListener('DOMContentLoaded', updateDoses);
-  givenVolInput.addEventListener('input', updateGivenPerc);
 </script>
+
 </body>
 </html>
