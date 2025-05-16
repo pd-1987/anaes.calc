@@ -1,4 +1,6 @@
-/* Global Styles */
+/*=============================================
+=            1. CSS Variables                  =
+=============================================*/
 :root {
   --clr-light-grey: #f0f0f0;
   --clr-med-grey:   #ccc;
@@ -7,6 +9,16 @@
   --radius:         5px;
   --gap:            0.5rem;
 }
+
+/*=============================================
+=            2. Base & Resets                  =
+=============================================*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -14,6 +26,37 @@ body {
   margin: 0 auto;
   padding: 10px;
 }
+
+strong { 
+  font-weight: 700;
+}
+
+small sup {
+  font-size: 0.6em;    /* or whatever fraction you like */
+  line-height: 0;      /* to pull it up a little */
+  vertical-align: super;
+}
+
+.negative {
+  color: darkred;
+}
+
+/* Remove number spinners in inputs */
+input[type="number"] {
+  -moz-appearance: textfield;      /* Firefox */
+  -webkit-appearance: none;        /* Chrome, Safari */
+  appearance: none;                /* Standard */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/*=============================================
+=          3. Layout & Containers              =
+=============================================*/
 .full-width {
   display: block;
   width: 100%;
@@ -28,15 +71,23 @@ body {
   border-radius: 5px;
   box-sizing: border-box;
 }
-strong { 
-  font-weight: 700;
+
+.button-container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
 }
-small sup {
-  font-size: 0.6em;    /* or whatever fraction you like */
-  line-height: 0;      /* to pull it up a little */
-  vertical-align: super;
+
+.button-container.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-/* Banner container */
+
+/*=============================================
+=            4. Banner & Header                =
+=============================================*/
 .banner {
   text-align: center;   /* Centers the content horizontally */
   margin: 0 auto;       /* Centers the banner container */
@@ -45,7 +96,6 @@ small sup {
   overflow: hidden;     /* Hides overflow from large images */
 }
 
-/* Banner image */
 .banner img {
   max-width: 100%;      /* Scales the image to be responsive */
   height: auto;         /* Maintains the image's aspect ratio */
@@ -54,7 +104,7 @@ small sup {
   border: none;
   outline: none;
 }
-/* Header Banner */
+
 header.banner {
 background: linear-gradient(
     to right,
@@ -72,6 +122,7 @@ background: linear-gradient(
   font-weight: 700;
   line-height: 1.2;
 }
+
 header.banner small {
   font-size: 8px; /* or any size you like */
   display: block;             /* ensure it sits on its own line */
@@ -79,11 +130,16 @@ header.banner small {
   line-height: 1;             /* tight line for the small text */
   /* font-size: 0.75em; Adjust the value as needed */
 }
+
 header.banner div {
   margin-top: 0px;
   padding: 0;
   line-height: 1;
 }
+
+/*=============================================
+=            5. Headings                       =
+=============================================*/
 h1 {
   text-align: center;
   font-size: 20px;
@@ -112,12 +168,35 @@ h3 {
   text-align: center;
   font-weight: 700;
 }
-/* Input Groups */
+
+/*=============================================
+=          6. Form Elements & Inputs           =
+=============================================*/
+.instruction-header {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.result {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 10px;
+}
+
+.input-note {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 15px 0; /* top 0 | right 0 | bottom 15px | left 0 */
+}
+
 .input-group {
   display: flex;
   align-items: center;
   margin: 10px 0;
 }
+
 .input-group label {
   font-size: 16px;
   margin: 5px 10px 5px 0;
@@ -125,6 +204,7 @@ h3 {
    width: auto;
     flex-shrink: 0;
 }
+
 .input-group input {
   width: 50px;
   padding: 5px;
@@ -132,7 +212,71 @@ h3 {
   box-sizing: border-box;
   margin: 5px 0;
 }
-/* Buttons */
+
+.concentration-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.concentration-input input {
+  width: 60px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: right;
+}
+
+.unit-label {
+  font-size: 14px;
+  color: #555;
+}
+
+.toggle-container {
+  position: relative;
+  display: inline-flex;
+  background: #e4e4e4;
+  border-radius: 20px;
+  user-select: none;
+  overflow: hidden;
+}
+
+.toggle-container input {
+  display: none;
+}
+
+.toggle-label {
+  flex: 1;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: calc(50% - 4px);
+  height: calc(100% - 4px);
+  background: white;
+  border-radius: 18px;
+  transition: transform 0.3s;
+}
+
+/* new – works for every .ad-toggle inside .toggle-container */
+.toggle-container .ad-toggle:checked ~ .toggle-slider {
+  transform: translateX(100%);
+}
+
+.ad-toggle {
+  display: none;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+/*=============================================
+=            7. Buttons                       =
+=============================================*/
 button {
   -webkit-appearance: none;
   appearance: none;      /* iOS Safari fix + standard reset */
@@ -146,7 +290,7 @@ button {
   width: 100%;
   color: inherit;
 }
-/* Gender Buttons (for Weight Calculator) */
+
 .gender-buttons {
   display: flex;
     justify-content: center;
@@ -166,11 +310,12 @@ button {
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
 }
+
 .gender-buttons button.active {
   background-color: #575757;
   color: white;
 }
-/* Unit Toggle (for Weight Calculator) */
+
 .unit-toggle {
     width: 100%;
   font-size: 16px;
@@ -181,20 +326,12 @@ button {
   border: 1px solid #ccc;
   background-color: #f0f0f0;
 }
-/* Result Display */
-.result {
-  font-size: 16px;
-  font-weight: 700;
-  color: #000;
-  margin-top: 10px;
-}
-/* Button Groups */
+
 .button-group {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;              /* space between the button, input & bubble */
-  flex-direction: row;
   margin: 0.3rem 0;     /* 0.25rem top _and_ bottom, instead of 20px top */
 }
 .button-group-text {
@@ -206,9 +343,6 @@ button {
   border: 1px solid #ccc;   /* light grey */
   box-sizing: border-box;    /* so padding stays consistent */
   width: 100%;
-}
-.instruction-header {
-  margin-top: 20px;
 }
 
 button .instruction-text {
@@ -235,7 +369,65 @@ button.active small {
   color: white;
 }
 
-/* Blue Bubbles for Dose Display */
+.calc-button {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 15px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.calc-button small {
+  display: block;
+  font-size: 14px;
+  margin-top: 5px;
+  color: #ffffff;
+  font-style: italic;
+}
+
+    .la-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+       margin: 0;
+      padding: 0 10px;
+    }
+
+    .la-buttons button {
+      flex: 1;
+      font-size: 16px;
+      margin: 5px;
+      padding: 10px;
+      cursor: pointer;
+       border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      transition: background-color 0.2s ease;
+    }
+
+    .la-buttons button.active {
+      background-color: #575757;
+      color: white;
+    }
+
+    .la-buttons button small {
+      display: block;
+      font-size: 12px;
+      color: #555;
+      margin-top: 3px;
+    }
+
+    .la-buttons button.active small {
+      color: white;
+    }
+
+/*=============================================
+=          8. Bubbles & Labels                 =
+=============================================*/
 .bubble {
   display: inline-flex;
   align-items: center;
@@ -253,17 +445,17 @@ button.active small {
   line-height: 1;
 }
 
-/* Units and Miscellaneous Labels */
+.bubble .unit {
+  color: inherit;
+  font-weight: 400;
+}
+
 .unit {
   margin-left: 2px;
   font-weight: normal;
   color: #555;
 }
-/* Make the “mg” inside any .bubble inherit its blue color */
-.bubble .unit {
-  color: inherit;
-  font-weight: 400;
-}
+
 .spray-units,
 .ml-units {
   font-size: 16px;
@@ -271,12 +463,79 @@ button.active small {
   margin-left: 0px;
 }
 
-/* Button Container for Reset/Home */
-.button-container {
-  display: flex;
-  width: 100%;
-  gap: 10px;
-  margin-top: 20px;
+/*=============================================
+=           9. Button Variants                 =
+=============================================*/
+.general-btn {
+  background: linear-gradient(
+    to right,
+    #1565C0 0%,   /* your original blue */
+    #003c8f 100%   /* deep navy */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.airway-btn {
+  background: linear-gradient(
+    to right,
+    #b71c1c 0%,
+    #8e0000 100%
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.regional-btn {
+  background: linear-gradient(
+    to right,
+    #2e8b57 0%,   /* your original color */
+    #1b5e20 100%   /* dark green */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.obstetrics-btn {
+   background: linear-gradient(
+    to right,
+    #894070 0%,    /* darker lilac */
+    #5a1f4e 100%   /* deep plum-berry */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.critical-btn {
+  background: linear-gradient(
+    to right,
+    #5E35B1 0%,   /* your original purple */
+    #3a0f81 100%   /* rich dark violet */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.other-btn {
+  background: linear-gradient(
+    to right,
+    #1abc9c 0%,   /* bright turquoise */
+    #117a65 100%  /* deep teal */
+  );
+  color: white;
+  font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+}
+
+.grey-btn {
+  background-color: #f0f0f0;
+  color: black;
+  border: 1px solid #ccc;
 }
 
 .reset-btn,
@@ -301,148 +560,25 @@ button.active small {
   background-color: #444444;
   color: white;
 }
-/* Footer Styles */
-footer {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 12px;
-  color: #555;
-}
 
-footer a {
-  color: #007BFF;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-/* Calculator Home Page Button Styles */
-.button-container.calc {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.calc-button {
-  display: block;
-  text-decoration: none;
-  text-align: center;
-  padding: 15px;
-  background-color: #007BFF;
-  color: white;
-  border-radius: 8px;
-  font-size: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-.calc-button small {
-  display: block;
-  font-size: 14px;
-  margin-top: 5px;
-  color: #ffffff;
-  font-style: italic;
-}
-
-.input-group label,
-.result,
-.instruction-header {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-/* General */
-.general-btn {
-  background: linear-gradient(
-    to right,
-    #1565C0 0%,   /* your original blue */
-    #003c8f 100%   /* deep navy */
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-/* Airway */
-.airway-btn {
-  background: linear-gradient(
-    to right,
-    #b71c1c 0%,
-    #8e0000 100%
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-/* Regional – Dark Green */
-.regional-btn {
-  background: linear-gradient(
-    to right,
-    #2e8b57 0%,   /* your original color */
-    #1b5e20 100%   /* dark green */
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-/* Obstetrics */
-.obstetrics-btn {
-   background: linear-gradient(
-    to right,
-    #894070 0%,    /* darker lilac */
-    #5a1f4e 100%   /* deep plum-berry */
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-/* Critical Care */
-.critical-btn {
-  background: linear-gradient(
-    to right,
-    #5E35B1 0%,   /* your original purple */
-    #3a0f81 100%   /* rich dark violet */
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-.other-btn {
-  background: linear-gradient(
-    to right,
-    #1abc9c 0%,   /* bright turquoise */
-    #117a65 100%  /* deep teal */
-  );
-  color: white;
-  font-family: 'Roboto', sans-serif;
-   font-weight: 400;
-}
-
-/* Grey buttons (Feedback, Disclaimer) remain unchanged */
-.grey-btn {
-  background-color: #f0f0f0;
-  color: black;
-  border: 1px solid #ccc;
-}
-
+/*=============================================
+=           10. Concentration & Doses           =
+=============================================*/
 #lidocaineInput {
       width: 30px;
       padding: 2px;
   text-align: center;
 }
+
 .lidocaine-group .input-with-unit {
   width: fit-content;
   margin: 0 auto;
 }
+
 .lidocaine-group .input-with-unit input {
   width: 20px;
 }
-/* Concentration Boxes */
+
 .concentration-boxes {
   margin-top: 20px;
   display: flex;
@@ -455,7 +591,6 @@ footer a:hover {
   padding: 0 10px;
 }
 
-/* Grey Boxes (Child Divs) */
 .concentration-boxes div {
   display: flex;
   align-items: center;
@@ -471,7 +606,6 @@ footer a:hover {
   line-height: 1;
 }
 
-/* Concentration Row */
 .concentration-row {
   display: flex;
   border: 1px solid #ccc;
@@ -483,7 +617,6 @@ footer a:hover {
   text-align: center;
 }
 
-/* Concentration Label */
 .concentration-label {
   background-color: #f0f0f0;
   padding: 5px 10px;  /* Reduced vertical padding for alignment */
@@ -496,13 +629,13 @@ footer a:hover {
   flex-shrink: 0;
 }
 
-/* Concentration Extras */
 .concentration-extras {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 }
+
 .concentration-extras input {
   width: 60px;
   text-align: center;
@@ -510,24 +643,9 @@ footer a:hover {
   font-size: 16px;
 }
 
-/* Concentration Input Group (if used) */
-.concentration-input {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.concentration-input input {
-  width: 60px;
-  padding: 5px;
-  font-size: 16px;
-  text-align: right;
-}
-
-.unit-label {
-  font-size: 14px;
-  color: #555;
-}
-/* Dose Summary Styling */
+/*=============================================
+=         11. Dose Summary & Safe Dose         =
+=============================================*/
 .dose-summary {
   margin-top: 20px;
   text-align: center;
@@ -535,103 +653,32 @@ footer a:hover {
   font-weight: 700;
   color: #333;
 }
+
 .max-safe-dose {
   font-size: 16px;
   font-weight: 700;
   margin: 20px 0;
 }
+
 .max-safe-dose + .max-safe-dose {
   margin-top: 10px;
 }
-.negative {
-  color: darkred;
-}
- /* Local Anesthetic Buttons */
-    .la-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-       margin: 0;
-      padding: 0 10px;
-    }
-    .la-buttons button {
-      flex: 1;
-      font-size: 16px;
-      margin: 5px;
-      padding: 10px;
-      cursor: pointer;
-       border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f0f0f0;
-      transition: background-color 0.2s ease;
-    }
-    .la-buttons button.active {
-      background-color: #575757;
-      color: white;
-    }
-    .la-buttons button small {
-      display: block;
-      font-size: 12px;
-      color: #555;
-      margin-top: 3px;
-    }
-    .la-buttons button.active small {
-      color: white;
-    }
-/* Weight note */
-    .input-note {
-      font-size: 14px;
-      color: #555;
-      margin: 0 0 15px 0; /* top 0 | right 0 | bottom 15px | left 0 */
-    }
 
-/* Remove number spinners in all modern browsers */
-input[type=number] {
-  -moz-appearance: textfield;      /* Firefox */
-  appearance: none;                /* Standard unprefixed */
-  --webkit-inner-spin-button: none;/* Old Android fallback */
-  --webkit-outer-spin-button: none;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
-}
-.ad-toggle {
-  display: none;
-  justify-content: center;
-  margin: 16px 0;
-}
-.toggle-container {
-  position: relative;
-  display: inline-flex;
-  background: #e4e4e4;
-  border-radius: 20px;
-  user-select: none;
-  overflow: hidden;
-}
-.toggle-container input {
-  display: none;
-}
-.toggle-label {
-  flex: 1;
-  padding: 8px 16px;
+/*=============================================
+=          12. Footer                         =
+=============================================*/
+footer {
+  margin-top: 30px;
   text-align: center;
-  font-size: 14px;
-  cursor: pointer;
-  z-index: 1;
+  font-size: 12px;
+  color: #555;
 }
-.toggle-slider {
-  position: absolute;
-  top: 2px; left: 2px;
-  width: calc(50% - 4px);
-  height: calc(100% - 4px);
-  background: white;
-  border-radius: 18px;
-  transition: transform 0.3s;
+
+footer a {
+  color: #007BFF;
+  text-decoration: none;
 }
-/* new – works for every .ad-toggle inside .toggle-container */
-.toggle-container .ad-toggle:checked ~ .toggle-slider {
-  transform: translateX(100%);
+
+footer a:hover {
+  text-decoration: underline;
 }
