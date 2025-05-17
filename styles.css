@@ -167,11 +167,12 @@ header.banner2 div {
 h1 {
   text-align: center;
   font-size: 20px;
-  border-bottom: 1px solid black;
-  padding-bottom: 5px; /* spacing between text and border */
-  margin-bottom: 5px;  /* spacing between border and next element */
+  border-bottom: 2px solid black;
+  padding-bottom: 2px; /* spacing between text and border */
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
   font-family: 'Poppins', sans-serif;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 h2 {
@@ -410,7 +411,7 @@ button.active small {
   font-size: 14px;
   margin-top: 5px;
   color: #ffffff;
-  font-style: italic;
+  font-style: normal;
 }
 
     .la-buttons {
@@ -490,76 +491,70 @@ button.active small {
 /*=============================================
 =           9. Button Variants                 =
 =============================================*/
-.general-btn {
-  background: linear-gradient(
-    to right,
-    #666666 0%,   /* medium slate grey */
-    #222222 100%  /* nearly black */
-  );
+.general-btn
+  { background: linear-gradient(130deg, #666 0%, #222 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
-.airway-btn {
-  background: linear-gradient(
-    to right,
-    #b71c1c 0%,
-    #8e0000 100%
-  );
+.airway-btn 
+{ background: linear-gradient(130deg, #b71c1c 0%, #8e0000 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .regional-btn {
-  background: linear-gradient(
-    to right,
-    #1565C0 0%,   /* your original blue */
-    #003c8f 100%   /* deep navy */
-  );
+  background: linear-gradient(130deg, #1565C0 0%, #003c8f 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .obstetrics-btn {
-   background: linear-gradient(
-    to right,
-    #894070 0%,    /* darker lilac */
-    #5a1f4e 100%   /* deep plum-berry */
-  );
+   background: linear-gradient(130deg, #894070 0%, #5a1f4e 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .critical-btn {
-  background: linear-gradient(
-    to right,
-    #5E35B1 0%,   /* your original purple */
-    #3a0f81 100%   /* rich dark violet */
-  );
+  background: linear-gradient(130deg, #5E35B1 0%, #3a0f81 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .other-btn {
-  background: linear-gradient(
-    to right,
-    #1abc9c 0%,   /* bright turquoise */
-    #117a65 100%  /* deep teal */
-  );
+  background: linear-gradient(130deg, #1abc9c 0%, #117a65 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
-   font-weight: 400;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0.5rem; /* same as banner */
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .grey-btn {
   background-color: #f0f0f0;
   color: black;
-  border: 1px solid #ccc;
+  border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
 .reset-btn,
