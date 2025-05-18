@@ -134,8 +134,12 @@ header.banner div {
 }
 
 header.banner2 {
-background: white;
-  color: #222;
+background: linear-gradient(
+    to right,
+    #666666 0%,   /* medium slate grey */
+    #222222 100%  /* nearly black */
+  );
+  color: white;
   text-align: center;
   padding: 0.6rem 0.6rem;
   margin: 0px 0 20px; /* top left&right bottom */
@@ -495,7 +499,7 @@ button.active small {
 =           9. Button Variants                 =
 =============================================*/
 .general-btn
-  { background: linear-gradient(130deg, #666 0%, #222 100%);
+  { background: linear-gradient(130deg, #1565C0 0%, #003c8f 100%);
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
@@ -514,8 +518,9 @@ button.active small {
   border: 2px solid hsl(0,0%,85%); /* light grey outline */
 }
 
-.regional-btn {
-  background: linear-gradient(130deg, #1565C0 0%, #003c8f 100%);
+.regional-btn 
+{ background: linear-gradient(130deg, #2e8b57 0%, #1b5e20 100%   /* dark green */
+  );
   color: white;
   font-family: 'Roboto', sans-serif;
    font-weight: 400;
