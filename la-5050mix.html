@@ -192,6 +192,9 @@
   font-size: 0.8em;
   color: #555;
 }
+    .overlimit { 
+    color: darkred; 
+    }
   </style>
 </head>
 <body>
@@ -389,6 +392,13 @@
     const maxVol   = parseFloat(totalVolSpan.textContent) || 0;
     const pct      = maxVol ? (givenVol / maxVol) * 100 : 0;
     givenPercSpan.textContent = fmt2(pct);
+
+  if (pct > 100) {
+    givenPercSpan.classList.add('overlimit');
+ } else {
+    givenPercSpan.classList.remove('overlimit');
+        }
+    
   }
 
   // Handle mg/kg button clicks
