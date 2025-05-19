@@ -350,17 +350,21 @@
     return { s1, s2 };
   }
 
+  // helper: given a button, remove any <small> text and return just the “big” label
+function getMainLabel(btn) {
+    const small = btn.querySelector('small');
+    let txt = btn.textContent;
+    if (small) txt = txt.replace(small.textContent, '');
+    return txt.replace(/\s+/g,' ').trim();
+  }
+  
   // Update the LA max-dose displays and recalc combined mix
   function updateDoses() {
-    // update labels in combined box
-    comb1Label.textContent = la1NameBtn.textContent;
-    comb2Label.textContent = la2NameBtn.textContent;
-
+    comb1Label.textContent = getMainLabel(la1NameBtn);
+    comb2Label.textContent = la2NameBtn.textContent.trim();
     const { s1, s2 } = getSafeDoses();
-
     la1Max.textContent = Math.round(s1);
     la2Max.textContent = Math.round(s2);
-
     updateCombined(s1, s2);
   }
 
@@ -452,6 +456,7 @@
     totalVolSpan.textContent  = '0';
     givenVolInput.value       = '';
     givenPercSpan.textContent = '0';
+     updateDoses();
   });
 
   // Home button
