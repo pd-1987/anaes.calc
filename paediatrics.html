@@ -46,11 +46,45 @@
     .unit {
       font-weight: 700;
     }
+    .normal-values {
+  font-family: inherit;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+      box-sizing: border-box;
+}
+    .section {
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+      box-sizing: border-box;
+    }
+      .instruction.header {
+      font-weight: 700;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+    .normal-values .static {
+  display: none;
+}
+.result {
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  margin-top: 10px;
+}
   </style>
 </head>
 <body>
-  <header class="banner">Paediatric anaesthetics</header>
+  <header class="banner">Paediatric anaesthesia</header>
 
+  <div class="section">
   <div class="input-group">
     <label for="age">Age:</label>
     <input type="number" id="age" min="0" placeholder="0" />
@@ -65,7 +99,53 @@
 
   <!-- new container for showing the two formula lines -->
   <div id="weight-calculations"></div>
+  </div>
+    
+    <!-- Paediatric normal values -->
+  <div class="normal-values">
+  <div class="result">
+    <strong>Systolic blood pressure</strong>:
+  <span id="sbp-50"></span>
+    <span class="static unit"> mmHg</span>
+  <span class="static">(</span>
+    <span id="sbp-5"></span>
+    <span class="static"> – </span>
+    <span id="sbp-95"></span>
+    
+  <span class="static">)</span>
+</div>
 
+  <div class="result">
+    <strong>Heart rate</strong>:
+  <span id="hr-5"></span>
+  <span class="static"> – </span>
+  <span id="hr-95"></span>
+  <span class="static unit"> beats per minute</span>
+</div>
+    
+  <div class="result">
+    <strong>Respiratory rate</strong>:
+  <span id="rr-5"></span>
+  <span class="static"> – </span>
+  <span id="rr-95"></span>
+  <span class="static unit"> breaths per minute</span>
+</div>
+</div>
+
+  <div class="section">
+    Airway and Ventilation
+    ETT: size, length at lips
+    LMA:
+    i-Gel:
+    
+  </div>
+   <div class="section">
+    Emergencies
+  </div>
+   <div class="section">
+    Routine General Anaesthetic
+  </div>
+  
   <footer>
     <small>
       <p>
@@ -76,65 +156,142 @@
     </small>
   </footer>
 
-  <script>
-    let ageUnit = 'years';
+<script>
+  let ageUnit = 'years';
 
-    const ageInput    = document.getElementById('age');
-    const weightIn    = document.getElementById('weight');
-    const unitBtn     = document.getElementById('AgeUnitBtn');
-    const estBtn      = document.getElementById('EstimateBtn');
-    const calcDiv     = document.getElementById('weight-calculations');
+  // grab your nodes once
+  const ageInput = document.getElementById('age');
+  const weightIn = document.getElementById('weight');
+  const unitBtn  = document.getElementById('AgeUnitBtn');
+  const estBtn   = document.getElementById('EstimateBtn');
+  const calcDiv  = document.getElementById('weight-calculations');
 
-    function clearWeight() {
-      if (weightIn.value !== '') {
-        weightIn.value = '';
-      }
-      // also clear any old calculations
-      calcDiv.innerHTML = '';
+  // hide static bits (hyphens & unit labels) by default
+  function setStaticVisibility(show) {
+    document.querySelectorAll('.normal-values .static')
+      .forEach(el => el.style.display = show ? 'inline' : 'none');
+  }
+
+  // clear everything: weight, formulas, centile numbers & static bits
+  function clearWeight() {
+  weightIn.value    = '';
+  calcDiv.innerHTML = '';
+  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95']
+    .forEach(id => document.getElementById(id).textContent = '');
+  // hide every .static (parentheses, hyphens & units)
+  document.querySelectorAll('.normal-values .static')
+    .forEach(el => el.style.display = 'none');
+}
+
+  // toggle years ↔ months
+  function toggleAgeUnit() {
+    clearWeight();
+    const val = parseFloat(ageInput.value) || 0;
+    if (ageUnit === 'years') {
+      ageUnit = 'months';
+      unitBtn.textContent = 'months';
+      ageInput.value = Math.round(val * 12);
+    } else {
+      ageUnit = 'years';
+      unitBtn.textContent = 'years';
+      ageInput.value = (Math.round((val / 12) * 10) / 10) || '';
     }
+  }
 
-    function toggleAgeUnit() {
-      clearWeight();
-      let val = parseFloat(ageInput.value) || 0;
-
-      if (ageUnit === 'years') {
-        ageUnit = 'months';
-        unitBtn.textContent = ageUnit;
-        ageInput.value = Math.round(val * 12);
-      } else {
-        ageUnit = 'years';
-        unitBtn.textContent = ageUnit;
-        ageInput.value = (Math.round((val / 12) * 10) / 10) || '';
-      }
+  // estimate weight (unchanged)
+  function estimateWeight() {
+    clearWeight();
+    const raw = parseFloat(ageInput.value);
+    if (isNaN(raw) || raw < 0) {
+      alert('Please enter a valid age.');
+      return;
     }
+    const totalMonths = ageUnit === 'months' ? raw : raw * 12;
 
-    function estimateWeight() {
-      clearWeight();
-      const ageVal = parseFloat(ageInput.value) || 0;
-      let primaryWeight = null;
-
-      // only support year-based formulas here
-      if (ageUnit === 'years' && ageVal >= 1 && ageVal <= 14) {
-        // primary for the weight box
-        primaryWeight = (2 * ageVal) + 8;
-        weightIn.value = Math.round(primaryWeight * 10) / 10;
-
-        // now compute both lines
-        const w1 = Math.round((2 * ageVal + 8) * 10) / 10;
-        const w2 = Math.round((3 * ageVal + 7) * 10) / 10;
-
-        calcDiv.innerHTML = `
-          <p>(2 * Age) + 8 = ${w1} <span class="unit">kg</span></p>
-          <p>(3 * Age) + 7 = ${w2} <span class="unit">kg</span></p>
-        `;
-      } else {
-        alert('Age must be 1–14 years (in years) to show both formulas.');
-      }
+    // <12 months
+    if (totalMonths < 12) {
+      const w = Math.round((0.5 * totalMonths + 4) * 10) / 10;
+      weightIn.value = w;
+      calcDiv.innerHTML = `<p>(0.5 × Age in months) + 4 = ${w} <span class="unit">kg</span></p>`;
+      return;
     }
+    // 1–14 years
+    const years = totalMonths / 12;
+    if (years <= 14) {
+      const w1 = Math.round(((2 * years) + 8) * 10) / 10;
+      weightIn.value = w1;
+      let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
+      if (years >= 6) {
+        const w2 = Math.round(((3 * years) + 7) * 10) / 10;
+        html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
+      }
+      calcDiv.innerHTML = html;
+      return;
+    }
+    alert('Age must be between 0 months and 14 years to estimate weight.');
+  }
 
-    unitBtn.addEventListener('click', toggleAgeUnit);
-    estBtn.addEventListener('click', estimateWeight);
-    ageInput.addEventListener('input', clearWeight);
-  </script>
+  // normal-values lookup (unchanged)
+  const paediatricNormals = {
+    0: { respRate:[25,50],  heartRate:[120,170], bp:{p5:65,  p50:85,  p95:105} },
+    1: { respRate:[25,50],  heartRate:[120,170], bp:{p5:65,  p50:85,  p95:105} },
+    3: { respRate:[25,45],  heartRate:[115,160], bp:{p5:65,  p50:85,  p95:105} },
+    6: { respRate:[20,40],  heartRate:[110,160], bp:{p5:65,  p50:85,  p95:105} },
+   12: { respRate:[20,40],  heartRate:[110,160], bp:{p5:70,  p50:90,  p95:105} },
+   18: { respRate:[20,35],  heartRate:[100,155], bp:{p5:70,  p50:90,  p95:105} },
+   24: { respRate:[20,30],  heartRate:[100,150], bp:{p5:70,  p50:90,  p95:110} },
+   36: { respRate:[20,30],  heartRate:[ 90,140], bp:{p5:70,  p50:90,  p95:110} },
+   48: { respRate:[20,30],  heartRate:[ 80,135], bp:{p5:70,  p50:90,  p95:110} },
+   60: { respRate:[20,30],  heartRate:[ 80,135], bp:{p5:80,  p50:95,  p95:120} },
+   72: { respRate:[20,30],  heartRate:[ 80,130], bp:{p5:80,  p50:95,  p95:120} },
+   84: { respRate:[20,30],  heartRate:[ 80,130], bp:{p5:80,  p50:95,  p95:120} },
+   96: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95,  p95:120} },
+   108: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95,  p95:120} },  
+  120: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95, p95:120} },
+    132: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95, p95:120} },
+    144: { respRate:[12,24],  heartRate:[ 65,115], bp:{p5:90,  p50:110, p95:140} },
+    168: { respRate:[12,24],  heartRate:[ 60,110], bp:{p5:90,  p50:110, p95:140} }
+  };
+
+  function getNormalValues(ageValue, ageUnit) {
+    const totalMonths = ageUnit === 'months' ? ageValue : ageValue * 12;
+    if (totalMonths < 12) {
+      return paediatricNormals[Math.floor(totalMonths)] || null;
+    }
+    const years = Math.floor(totalMonths / 12);
+    return paediatricNormals[Math.min(years * 12, 120)] || null;
+  }
+
+  // fill in the numbers and then show static bits
+  function updateNormalCentiles(normals) {
+  // direct assignments to the right bp props:
+  document.getElementById('sbp-5') .textContent = normals.bp.p5;
+  document.getElementById('sbp-50').textContent = normals.bp.p50;
+  document.getElementById('sbp-95').textContent = normals.bp.p95;
+
+  document.getElementById('hr-5')  .textContent = normals.heartRate[0];
+  document.getElementById('hr-95') .textContent = normals.heartRate[1];
+
+  document.getElementById('rr-5')  .textContent = normals.respRate[0];
+  document.getElementById('rr-95') .textContent = normals.respRate[1];
+
+  // now show *all* the bits we wrapped in .static
+  document.querySelectorAll('.normal-values .static')
+    .forEach(el => el.style.display = 'inline');
+}
+
+  // wire up events
+  unitBtn.addEventListener('click', toggleAgeUnit);
+  estBtn .addEventListener('click', () => {
+    estimateWeight();
+    const normals = getNormalValues(parseFloat(ageInput.value)||0, ageUnit);
+    if (normals) updateNormalCentiles(normals);
+  });
+  ageInput.addEventListener('input', clearWeight);
+
+  // on load, clear everything
+  document.addEventListener('DOMContentLoaded', clearWeight);
+</script>
+
 </body>
 </html>
