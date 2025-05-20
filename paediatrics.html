@@ -68,7 +68,7 @@
 }
     .section {
       margin: 0 auto 20px auto;
-      padding: 15px;
+      padding: 10px;
       border: 1px solid #ccc;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -87,10 +87,15 @@
   font-size: 16px;
   font-weight: 400;
   color: #000;
-  margin-top: 5px;
+  margin: 5px;
 }
     .normal-values .result:first-child {
   margin-top: 0;
+}
+    .input-group {
+  display: flex;
+  align-items: center;
+  margin: 5px;
 }
   </style>
 </head>
@@ -116,9 +121,9 @@
     
     <!-- Paediatric normal values -->
   <div class="normal-values">
-    <div class="section-header"><u>Normal values</u></div>
+    <div class="section-header"><u>Normal physiological values</u></div>
   <div class="result">
-    <strong>Systolic blood pressure</strong>:
+    <strong>SBP</strong>:
   <span id="sbp-50"></span>
     <span class="static unit"> mmHg</span>
   <span class="static">(</span>
@@ -130,7 +135,7 @@
 </div>
 
   <div class="result">
-    <strong>Heart rate</strong>:
+    <strong>HR</strong>:
   <span id="hr-5"></span>
   <span class="static">–</span>
   <span id="hr-95"></span>
@@ -138,7 +143,7 @@
 </div>
     
   <div class="result">
-    <strong>Respiratory rate</strong>:
+    <strong>RR</strong>:
   <span id="rr-5"></span>
   <span class="static">–</span>
   <span id="rr-95"></span>
@@ -148,18 +153,27 @@
 
   <div class="airway-section">
       <div class="section-header"><u>Airway and Ventilation</u></div>
-<div class="result"><strong>Endotracheal tube size</strong>:
-  <div><span id="ett-uncuffed"></span> <small id="uncuffed-label">(Uncuffed)</small></div>
-  <div><span id="ett-cuffed"></span> <small id="cuffed-label">(Cuffed)</small></div>
+<div class="result">
+  <strong>ETT size</strong>:
+  <div>
+    <span id="ett-uncuffed"></span>
+    <small id="uncuffed-label">(Uncuffed)</small>
+  </div>
+  <div>
+    <span id="ett-cuffed"></span>
+    <small id="cuffed-label">(Cuffed)</small>
+  </div>
 </div>
-    <div class="result"><strong>Endotracheal length at lips</strong>:
+    <div class="result"><strong>ETT length at lips</strong>:
    <span id="ett-length"></span>
     <span class="static unit"> cm</span></div>
     
-    <div class="result">LMA size:
-  <span id="lma"</span></div>
-   <div class="result">i-Gel size:
-  <span id="igel"</span></div>  
+    <div class="result"><strong>LMA size</strong>:
+  <span id="lma"></span></div>
+    <div class="result">
+  <strong>i-Gel size</strong>:
+  <div><span id="igel"></span></div>
+</div> 
   </div>
   
    <div class="section">
@@ -169,8 +183,14 @@
     Routine General Anaesthetic
   </div>
   
+   <div class="button-container" style="text-align: center; margin-bottom: 20px;">
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+    <button type="button" class="home-btn" onclick="goHome()">Home</button>
+  </div>
+  
   <footer>
     <small>
+      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway</p>
       <p>
         <a href="references.html">References</a> - 
         <a href="disclaimer.html">Disclaimer</a>
@@ -189,289 +209,219 @@
   const estBtn   = document.getElementById('EstimateBtn');
   const calcDiv  = document.getElementById('weight-calculations');
 
-  // hide static bits (hyphens & unit labels) by default
-  function setStaticVisibility(show) {
-    document.querySelectorAll('.normal-values .static')
-      .forEach(el => el.style.display = show ? 'inline' : 'none');
-  }
-
+  // clear everything and hide all outputs
   function clearWeight() {
-  calcDiv.innerHTML = '';
-  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
-   'ett-uncuffed','ett-cuffed','ett-length'
-  ].forEach(id => document.getElementById(id).textContent = '');
-  
-  document.querySelectorAll('.normal-values .static, .airway-section .unit')
+    calcDiv.innerHTML = '';
+    ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
+     'ett-uncuffed','ett-cuffed','ett-length','igel'
+    ].forEach(id => document.getElementById(id).textContent = '');
+
+    document.querySelectorAll('.normal-values .static')
     .forEach(el => el.style.display = 'none');
 
-  document.getElementById('ett-cuffed').parentElement.style.display = 'none';
-  document.getElementById('ett-uncuffed').parentElement.style.display = 'none';
-}
+  }
 
   // toggle years ↔ months
   function toggleAgeUnit() {
-  clearWeight();
-  const raw = ageInput.value.trim();
-  const num = parseFloat(raw);
-
-  if (ageUnit === 'years') {
-    ageUnit = 'months';
-    unitBtn.textContent = 'months';
-    // only convert if there's actually a number in the box
-    if (raw !== '' && !isNaN(num)) {
-      ageInput.value = Math.round(num * 12);
+    clearWeight();
+    const raw = ageInput.value.trim();
+    const n   = parseFloat(raw);
+    if (ageUnit === 'years') {
+      ageUnit = 'months';
+      unitBtn.textContent = 'months';
+      ageInput.value = raw!=='' && !isNaN(n) ? Math.round(n*12) : '';
     } else {
-      ageInput.value = '';
-    }
-  } else {
-    ageUnit = 'years';
-    unitBtn.textContent = 'years';
-    if (raw !== '' && !isNaN(num)) {
-      ageInput.value = (Math.round((num / 12) * 10) / 10);
-    } else {
-      ageInput.value = '';
+      ageUnit = 'years';
+      unitBtn.textContent = 'years';
+      ageInput.value = raw!=='' && !isNaN(n) ? Math.round((n/12)*10)/10 : '';
     }
   }
-}
 
-  // estimate weight (unchanged)
+  // estimate weight button
   function estimateWeight() {
     clearWeight();
-    const raw = parseFloat(ageInput.value);
-    if (isNaN(raw) || raw < 0) {
-      alert('Please enter a valid age.');
-      return;
-    }
-    const totalMonths = ageUnit === 'months' ? raw : raw * 12;
-
-    // <12 months
-    if (totalMonths < 12) {
-      const w = Math.round((0.5 * totalMonths + 4) * 10) / 10;
+    const a = parseFloat(ageInput.value);
+    if (isNaN(a) || a<0) { alert('Please enter a valid age.'); return; }
+    const m = ageUnit==='months' ? a : a*12;
+    if (m < 12) {
+      const w = Math.round((0.5*m+4)*10)/10;
       weightIn.value = w;
       calcDiv.innerHTML = `<p>(0.5 × Age in months) + 4 = ${w} <span class="unit">kg</span></p>`;
       return;
     }
-    // 1–14 years
-    const years = totalMonths / 12;
-    if (years <= 14) {
-      const w1 = Math.round(((2 * years) + 8) * 10) / 10;
-      weightIn.value = w1;
+    const y = m/12;
+    if (y <= 14) {
+      const w1 = Math.round((2*y+8)*10)/10;
       let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
-      if (years >= 6) {
-        const w2 = Math.round(((3 * years) + 7) * 10) / 10;
+      if (y>=6) {
+        const w2 = Math.round((3*y+7)*10)/10;
         html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
       }
+      weightIn.value = w1;
       calcDiv.innerHTML = html;
       return;
     }
     alert('Age must be between 0 months and 14 years to estimate weight.');
   }
 
-  // normal-values lookup (unchanged)
+  // paediatric normals table
   const paediatricNormals = {
-    0: { respRate:[25,50],  heartRate:[120,170], bp:{p5:65,  p50:85,  p95:105} },
-    1: { respRate:[25,50],  heartRate:[120,170], bp:{p5:65,  p50:85,  p95:105} },
-    3: { respRate:[25,45],  heartRate:[115,160], bp:{p5:65,  p50:85,  p95:105} },
-    6: { respRate:[20,40],  heartRate:[110,160], bp:{p5:65,  p50:85,  p95:105} },
-   12: { respRate:[20,40],  heartRate:[110,160], bp:{p5:70,  p50:90,  p95:105} },
-   18: { respRate:[20,35],  heartRate:[100,155], bp:{p5:70,  p50:90,  p95:105} },
-   24: { respRate:[20,30],  heartRate:[100,150], bp:{p5:70,  p50:90,  p95:110} },
-   36: { respRate:[20,30],  heartRate:[ 90,140], bp:{p5:70,  p50:90,  p95:110} },
-   48: { respRate:[20,30],  heartRate:[ 80,135], bp:{p5:70,  p50:90,  p95:110} },
-   60: { respRate:[20,30],  heartRate:[ 80,135], bp:{p5:80,  p50:95,  p95:120} },
-   72: { respRate:[20,30],  heartRate:[ 80,130], bp:{p5:80,  p50:95,  p95:120} },
-   84: { respRate:[20,30],  heartRate:[ 80,130], bp:{p5:80,  p50:95,  p95:120} },
-   96: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95,  p95:120} },
-   108: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95,  p95:120} },  
-  120: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95, p95:120} },
-    132: { respRate:[15,25],  heartRate:[ 70,120], bp:{p5:80,  p50:95, p95:120} },
-    144: { respRate:[12,24],  heartRate:[ 65,115], bp:{p5:90,  p50:110, p95:140} },
-    168: { respRate:[12,24],  heartRate:[ 60,110], bp:{p5:90,  p50:110, p95:140} }
+    0:   { respRate:[25,50], heartRate:[120,170], bp:{p5:65, p50:85, p95:105} },
+    1:   { respRate:[25,50], heartRate:[120,170], bp:{p5:65, p50:85, p95:105} },
+    3:   { respRate:[25,45], heartRate:[115,160], bp:{p5:65, p50:85, p95:105} },
+    6:   { respRate:[20,40], heartRate:[110,160], bp:{p5:65, p50:85, p95:105} },
+    12:  { respRate:[20,40], heartRate:[110,160], bp:{p5:70, p50:90, p95:105} },
+    18:  { respRate:[20,35], heartRate:[100,155], bp:{p5:70, p50:90, p95:105} },
+    24:  { respRate:[20,30], heartRate:[100,150], bp:{p5:70, p50:90, p95:110} },
+    36:  { respRate:[20,30], heartRate:[90,140],  bp:{p5:70, p50:90, p95:110} },
+    48:  { respRate:[20,30], heartRate:[80,135],  bp:{p5:70, p50:90, p95:110} },
+    60:  { respRate:[20,30], heartRate:[80,135],  bp:{p5:80, p50:95, p95:120} },
+    72:  { respRate:[20,30], heartRate:[80,130],  bp:{p5:80, p50:95, p95:120} },
+    84:  { respRate:[20,30], heartRate:[80,130],  bp:{p5:80, p50:95, p95:120} },
+    96:  { respRate:[15,25], heartRate:[70,120],  bp:{p5:80, p50:95, p95:120} },
+    108: { respRate:[15,25], heartRate:[70,120],  bp:{p5:80, p50:95, p95:120} },
+    120: { respRate:[15,25], heartRate:[70,120],  bp:{p5:80, p50:95, p95:120} },
+    132: { respRate:[15,25], heartRate:[70,120],  bp:{p5:80, p50:95, p95:120} },
+    144: { respRate:[12,24], heartRate:[65,115],  bp:{p5:90, p50:110,p95:140} },
+    168: { respRate:[12,24], heartRate:[60,110],  bp:{p5:90, p50:110,p95:140} }
   };
 
-  function getNormalValues(ageValue, ageUnit) {
-  const totalMonths = ageUnit === 'months'
-    ? ageValue
-    : ageValue * 12;
-
-  // collect all numeric keys from your lookup
-  const allKeys = Object.keys(paediatricNormals)
-                        .map(k => parseInt(k, 10))
-                        .sort((a, b) => a - b);
-
-  let key;
-  if (totalMonths < 12) {
-    // only the month-based entries (<12)
-    const monthKeys = allKeys.filter(k => k < 12);
-    // pick the monthKey with minimal |monthKey - totalMonths|
-    key = monthKeys.reduce((nearest, k) =>
-      Math.abs(k - totalMonths) < Math.abs(nearest - totalMonths)
-        ? k
-        : nearest
-    , monthKeys[0]);
-  } else {
-    // for ≥12 months, first compute your ideal “year*12”
-    const ideal = Math.floor(totalMonths / 12) * 12;
-    // then pick the largest defined key ≤ ideal
-    key = allKeys.filter(k => k <= ideal).pop();
-    // if somehow nothing, fall back to the smallest ≥12
-    if (key === undefined)
-      key = allKeys.find(k => k >= 12);
-  }
-
-  return paediatricNormals[key] || null;
-}
-
-  function updateNormalCentiles(normals) {
-    // SBP
-    document.getElementById('sbp-5')   .textContent = normals.bp.p5;
-    document.getElementById('sbp-50')  .textContent = normals.bp.p50;
-    document.getElementById('sbp-95')  .textContent = normals.bp.p95;
-    // HR
-    document.getElementById('hr-5')    .textContent = normals.heartRate[0];
-    document.getElementById('hr-95')   .textContent = normals.heartRate[1];
-    // RR
-    document.getElementById('rr-5')    .textContent = normals.respRate[0];
-    document.getElementById('rr-95')   .textContent = normals.respRate[1];
-
-    // now show all your wrapped “static” bits
-    document.querySelectorAll('.normal-values .static')
-      .forEach(el => el.style.display = 'inline');
-  }
-  
-function updateAirwayCalculations(ageYears) {
-  const weight = parseFloat(weightIn.value) || 0;
-  const totalMonths = ageUnit === 'months' ? parseFloat(ageInput.value) : ageYears * 12;
-
-  let uncuffed = '', cuffed = '', length = '';
-
-  const cuffedEl = document.getElementById('ett-cuffed').parentElement;
-  const uncuffedEl = document.getElementById('ett-uncuffed').parentElement;
-  const lengthUnit = document.querySelector('#ett-length + .unit');
-
-  // If inputs are missing, clear and hide
-  if (isNaN(totalMonths) || isNaN(weight) || totalMonths === 0 || weight === 0) {
-    document.getElementById('ett-uncuffed').textContent = '';
-    document.getElementById('ett-cuffed').textContent = '';
-    document.getElementById('ett-length').textContent = '';
-    cuffedEl.style.display = 'none';
-    uncuffedEl.style.display = 'none';
-    if (lengthUnit) lengthUnit.style.display = 'none';
-    return;
-  }
-
-  if (totalMonths < 12) {
-    if (weight < 1.0) {
-      uncuffed = 2.5; length = 6.5;
-    } else if (weight < 2.0) {
-      uncuffed = 2.5; length = 7.0;
-    } else if (weight < 3.0) {
-      uncuffed = 3.0; length = 8.0;
-    } else if (weight < 4.0) {
-      uncuffed = 3.5; length = 9.0;
+  // pick the nearest key
+  function getNormalValues(age, unit) {
+    const months = unit==='months'? age : age*12;
+    const keys = Object.keys(paediatricNormals).map(k=>+k).sort((a,b)=>a-b);
+    if (months < 12) {
+      const mks = keys.filter(k=>k<12);
+      return paediatricNormals[mks.reduce((a,b)=>Math.abs(b-months)<Math.abs(a-months)?b:a, mks[0])];
     } else {
-      uncuffed = 4.0; length = 10.0;
+      const ideal = Math.floor(months/12)*12;
+      const below = keys.filter(k=>k<=ideal);
+      const key   = below.length? below.pop() : keys.find(k=>k>=12);
+      return paediatricNormals[key];
     }
-    cuffed = '';
-  } else {
-    uncuffed = Math.round((ageYears / 4 + 4) * 10) / 10;
-    cuffed   = Math.round((ageYears / 4 + 3.5) * 10) / 10;
-    length   = Math.round((ageYears / 2 + 12) * 10) / 10;
   }
 
-  // Update DOM
-  document.getElementById('ett-uncuffed').textContent = uncuffed;
-  document.getElementById('ett-cuffed').textContent = cuffed;
-  document.getElementById('ett-length').textContent = length;
-
-  // Show or hide parent spans
-  uncuffedEl.style.display = uncuffed ? 'block' : 'none';
-  cuffedEl.style.display = cuffed ? 'block' : 'none';
-  if (lengthUnit) lengthUnit.style.display = length ? 'inline' : 'none';
-    document.getElementById('uncuffed-label').style.display = uncuffed ? 'inline' : 'none';
-document.getElementById('cuffed-label').style.display = cuffed ? 'inline' : 'none';
-}
-  
-   // wire up events
-  unitBtn.addEventListener('click', toggleAgeUnit);
-  estBtn.addEventListener('click', () => {
-  estimateWeight();
-  const v = parseFloat(ageInput.value) || 0;
-  const ageInYears = ageUnit === 'months' ? v / 12 : v;
-
-  const normals = getNormalValues(v, ageUnit);
-  if (normals) updateNormalCentiles(normals);
-  if (!isNaN(ageInYears)) updateAirwayCalculations(ageInYears);
-});
-  
- ageInput.addEventListener('input', () => {
-  const ageVal = parseFloat(ageInput.value);
-  if (!isNaN(ageVal)) {
-    const ageInYears = ageUnit === 'months' ? ageVal / 12 : ageVal;
-    updateAirwayCalculations(ageInYears);
-
-    const normals = getNormalValues(ageVal, ageUnit);
-    if (normals) updateNormalCentiles(normals);
-  }
-
-  // Only clear the formula display if the field is empty
-  if (ageInput.value.trim() === '') {
-    calcDiv.innerHTML = '';
+  // show centiles
+  function updateNormalCentiles(n) {
+    document.getElementById('sbp-5').textContent   = n.bp.p5;
+    document.getElementById('sbp-50').textContent  = n.bp.p50;
+    document.getElementById('sbp-95').textContent  = n.bp.p95;
+    document.getElementById('hr-5').textContent    = n.heartRate[0];
+    document.getElementById('hr-95').textContent   = n.heartRate[1];
+    document.getElementById('rr-5').textContent    = n.respRate[0];
+    document.getElementById('rr-95').textContent   = n.respRate[1];
     document.querySelectorAll('.normal-values .static')
-      .forEach(el => el.style.display = 'none');
-    ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95']
-      .forEach(id => document.getElementById(id).textContent = '');
-    document.getElementById('uncuffed-label').style.display = 'none';
-document.getElementById('cuffed-label').style.display = 'none';
-
-  }
-});
-
-   
- weightIn.addEventListener('input', () => {
-  const ageVal = parseFloat(ageInput.value);
-  const weightVal = parseFloat(weightIn.value);
-  if (isNaN(ageVal) || isNaN(weightVal)) {
-    calcDiv.innerHTML = '';
-    return;
+      .forEach(el => el.style.display='inline');
   }
 
-  const ageInYears = ageUnit === 'months' ? ageVal / 12 : ageVal;
-  const totalMonths = ageUnit === 'months' ? ageVal : ageVal * 12;
+  // airway calcs (unchanged)
+  function updateAirwayCalculations(ageYears) {
+    const w = parseFloat(weightIn.value)||0;
+    const m = ageUnit==='months'? parseFloat(ageInput.value) : ageYears*12;
+    let unc='', cuff='', len='';
+    const uncEl  = document.getElementById('ett-uncuffed').parentElement;
+    const cuffEl = document.getElementById('ett-cuffed').parentElement;
+    const lenUnit= document.querySelector('#ett-length + .unit');
 
-  // Recalculate airway
-  updateAirwayCalculations(ageInYears);
-
-  // Update centiles
-  const normals = getNormalValues(ageVal, ageUnit);
-  if (normals) updateNormalCentiles(normals);
-
-  // Try to match formula
-  let display = '';
-  if (totalMonths < 12) {
-    const est = 0.5 * totalMonths + 4;
-    if (Math.abs(est - weightVal) < 0.2) {
-      display = `<p>(0.5 × Age in months) + 4 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
+    if (isNaN(m) || m <= 0) {
+  uncEl.style.display = 'none';
+  cuffEl.style.display = 'none';
+  lenUnit && (lenUnit.style.display = 'none');
+} else if (m<12) {
+      if(w<1) unc=2.5,len=6.5;
+      else if(w<2) unc=2.5,len=7;
+      else if(w<3) unc=3,len=8;
+      else if(w<4) unc=3.5,len=9;
+      else unc=4,len=10;
+    } else {
+      unc  = Math.round((ageYears/4+4)*10)/10;
+      cuff = Math.round((ageYears/4+3.5)*10)/10;
+      len  = Math.round((ageYears/2+12)*10)/10;
     }
-  } else {
-    const est1 = 2 * ageInYears + 8;
-    if (Math.abs(est1 - weightVal) < 0.2) {
-      display = `<p>(2 × Age) + 8 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
-    } else if (ageInYears >= 6) {
-      const est2 = 3 * ageInYears + 7;
-      if (Math.abs(est2 - weightVal) < 0.2) {
-        display = `<p>(3 × Age) + 7 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
+
+    document.getElementById('ett-uncuffed').textContent = unc;
+    document.getElementById('ett-cuffed').textContent   = cuff;
+    document.getElementById('ett-length').textContent   = len;
+    uncEl.style.display  = unc  ? 'block':'none';
+    cuffEl.style.display = cuff ? 'block':'none';
+    lenUnit && (lenUnit.style.display = len ? 'inline':'none');
+
+    const igel = (w<=0||isNaN(w))? '' :
+      w<=5?'1.0 (Neonate)':
+      w<=10?'1.5 (Infant)':
+      w<=25?'2.0 (Small Paediatric)':
+      w<=35?'2.5 (Large Paediatric)':
+      w<=60?'3.0 (Small Adult)':
+      w<=90?'4.0 (Medium Adult)':'5.0 (Large Adult)';
+
+    document.getElementById('igel').textContent = igel;
+    document.getElementById('igel').parentElement.style.display = igel? 'block':'none';
+  }
+
+  // event wiring
+  unitBtn.addEventListener('click', toggleAgeUnit);
+  estBtn .addEventListener('click', () => {
+    estimateWeight();
+    const a = parseFloat(ageInput.value)||0,
+          y = ageUnit==='months'? a/12 : a;
+    const normals = getNormalValues(a, ageUnit);
+    if(normals) updateNormalCentiles(normals);
+    if(!isNaN(y)) updateAirwayCalculations(y);
+  });
+
+  ageInput.addEventListener('input', () => {
+    const a = parseFloat(ageInput.value);
+    if(isNaN(a)) return clearWeight();
+    const y = ageUnit==='months'? a/12 : a;
+    updateAirwayCalculations(y);
+    const normals = getNormalValues(a, ageUnit);
+    if(normals) updateNormalCentiles(normals);
+  });
+
+  weightIn.addEventListener('input', () => {
+    const a = parseFloat(ageInput.value),
+          w = parseFloat(weightIn.value);
+    if(isNaN(a)||isNaN(w)) return clearWeight();
+    const y = ageUnit==='months'? a/12 : a;
+    updateAirwayCalculations(y);
+    const normals = getNormalValues(a, ageUnit);
+    if(normals) updateNormalCentiles(normals);
+
+    let disp = '', m = ageUnit==='months'? a : a*12;
+    if(m<12) {
+      const e = 0.5*m+4;
+      if(Math.abs(e-w)<0.2) disp = `<p>(0.5 × Age in months) + 4 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
+    } else {
+      const e1 = 2*y+8;
+      if(Math.abs(e1-w)<0.2) disp = `<p>(2 × Age) + 8 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
+      else if(y>=6) {
+        const e2 = 3*y+7;
+        if(Math.abs(e2-w)<0.2) disp = `<p>(3 × Age) + 7 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
       }
     }
-  }
+    calcDiv.innerHTML = disp;
+  });
 
-  calcDiv.innerHTML = display;
-});
-  
-  // on load, clear everything
   document.addEventListener('DOMContentLoaded', clearWeight);
   
-  </script>
+  // Reset everything back to the initial state
+function resetForm() {
+  // 1) clear the inputs
+  ageInput.value = '';
+  weightIn.value = '';
+  // 2) reset the toggle back to years
+  ageUnit = 'years';
+  unitBtn.textContent = 'years';
+  // 3) hide all existing outputs
+  clearWeight();
+}
+
+// Optional: home button handler if you want
+function goHome() {
+  window.location.href = '/'; // or 'index.html'
+}
+  
+</script>
 
 </body>
 </html>
