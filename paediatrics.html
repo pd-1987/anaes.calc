@@ -16,7 +16,7 @@
   />
   <style>
     header.banner {
-      background: linear-gradient(130deg, #FFA726 0%, #FB8C00 100%);
+      background: linear-gradient(130deg, #E65100 0%, #F57C00 100%);
     }
     .unit-toggle, .estimate-btn {
       font-size: 16px;
@@ -56,6 +56,16 @@
       background-color: #fff;
       box-sizing: border-box;
 }
+     .airway-section {
+  font-family: inherit;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+      box-sizing: border-box;
+}
     .section {
       margin: 0 auto 20px auto;
       padding: 15px;
@@ -65,10 +75,10 @@
       background-color: #fff;
       box-sizing: border-box;
     }
-      .instruction.header {
+      .section-header {
       font-weight: 700;
-        text-align: left;
-        margin-bottom: 5px;
+        text-align: center;
+        margin: 0 0 10px;
     }
     .normal-values .static {
   display: none;
@@ -77,7 +87,10 @@
   font-size: 16px;
   font-weight: 400;
   color: #000;
-  margin-top: 10px;
+  margin-top: 5px;
+}
+    .normal-values .result:first-child {
+  margin-top: 0;
 }
   </style>
 </head>
@@ -103,42 +116,52 @@
     
     <!-- Paediatric normal values -->
   <div class="normal-values">
+    <div class="section-header"><u>Normal values</u></div>
   <div class="result">
     <strong>Systolic blood pressure</strong>:
   <span id="sbp-50"></span>
     <span class="static unit"> mmHg</span>
   <span class="static">(</span>
     <span id="sbp-5"></span>
-    <span class="static"> – </span>
+    <span class="static">–</span>
     <span id="sbp-95"></span>
     
-  <span class="static">)</span>
+  <span class="static"><span class="static unit"> mmHg</span>)</span>
 </div>
 
   <div class="result">
     <strong>Heart rate</strong>:
   <span id="hr-5"></span>
-  <span class="static"> – </span>
+  <span class="static">–</span>
   <span id="hr-95"></span>
-  <span class="static unit"> beats per minute</span>
+  <span class="static unit"> bpm</span>
 </div>
     
   <div class="result">
     <strong>Respiratory rate</strong>:
   <span id="rr-5"></span>
-  <span class="static"> – </span>
+  <span class="static">–</span>
   <span id="rr-95"></span>
-  <span class="static unit"> breaths per minute</span>
+  <span class="static unit"> bpm</span>
 </div>
 </div>
 
-  <div class="section">
-    Airway and Ventilation
-    ETT: size, length at lips
-    LMA:
-    i-Gel:
+  <div class="airway-section">
+      <div class="section-header"><u>Airway and Ventilation</u></div>
+<div class="result"><strong>Endotracheal tube size</strong>:
+  <div><span id="ett-uncuffed"></span> <small id="uncuffed-label">(Uncuffed)</small></div>
+  <div><span id="ett-cuffed"></span> <small id="cuffed-label">(Cuffed)</small></div>
+</div>
+    <div class="result"><strong>Endotracheal length at lips</strong>:
+   <span id="ett-length"></span>
+    <span class="static unit"> cm</span></div>
     
+    <div class="result">LMA size:
+  <span id="lma"</span></div>
+   <div class="result">i-Gel size:
+  <span id="igel"</span></div>  
   </div>
+  
    <div class="section">
     Emergencies
   </div>
@@ -172,15 +195,17 @@
       .forEach(el => el.style.display = show ? 'inline' : 'none');
   }
 
-  // clear everything: weight, formulas, centile numbers & static bits
   function clearWeight() {
-  weightIn.value    = '';
   calcDiv.innerHTML = '';
-  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95']
-    .forEach(id => document.getElementById(id).textContent = '');
-  // hide every .static (parentheses, hyphens & units)
-  document.querySelectorAll('.normal-values .static')
+  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
+   'ett-uncuffed','ett-cuffed','ett-length'
+  ].forEach(id => document.getElementById(id).textContent = '');
+  
+  document.querySelectorAll('.normal-values .static, .airway-section .unit')
     .forEach(el => el.style.display = 'none');
+
+  document.getElementById('ett-cuffed').parentElement.style.display = 'none';
+  document.getElementById('ett-uncuffed').parentElement.style.display = 'none';
 }
 
   // toggle years ↔ months
@@ -313,20 +338,140 @@
     document.querySelectorAll('.normal-values .static')
       .forEach(el => el.style.display = 'inline');
   }
+  
+function updateAirwayCalculations(ageYears) {
+  const weight = parseFloat(weightIn.value) || 0;
+  const totalMonths = ageUnit === 'months' ? parseFloat(ageInput.value) : ageYears * 12;
 
-  // wire up events
+  let uncuffed = '', cuffed = '', length = '';
+
+  const cuffedEl = document.getElementById('ett-cuffed').parentElement;
+  const uncuffedEl = document.getElementById('ett-uncuffed').parentElement;
+  const lengthUnit = document.querySelector('#ett-length + .unit');
+
+  // If inputs are missing, clear and hide
+  if (isNaN(totalMonths) || isNaN(weight) || totalMonths === 0 || weight === 0) {
+    document.getElementById('ett-uncuffed').textContent = '';
+    document.getElementById('ett-cuffed').textContent = '';
+    document.getElementById('ett-length').textContent = '';
+    cuffedEl.style.display = 'none';
+    uncuffedEl.style.display = 'none';
+    if (lengthUnit) lengthUnit.style.display = 'none';
+    return;
+  }
+
+  if (totalMonths < 12) {
+    if (weight < 1.0) {
+      uncuffed = 2.5; length = 6.5;
+    } else if (weight < 2.0) {
+      uncuffed = 2.5; length = 7.0;
+    } else if (weight < 3.0) {
+      uncuffed = 3.0; length = 8.0;
+    } else if (weight < 4.0) {
+      uncuffed = 3.5; length = 9.0;
+    } else {
+      uncuffed = 4.0; length = 10.0;
+    }
+    cuffed = '';
+  } else {
+    uncuffed = Math.round((ageYears / 4 + 4) * 10) / 10;
+    cuffed   = Math.round((ageYears / 4 + 3.5) * 10) / 10;
+    length   = Math.round((ageYears / 2 + 12) * 10) / 10;
+  }
+
+  // Update DOM
+  document.getElementById('ett-uncuffed').textContent = uncuffed;
+  document.getElementById('ett-cuffed').textContent = cuffed;
+  document.getElementById('ett-length').textContent = length;
+
+  // Show or hide parent spans
+  uncuffedEl.style.display = uncuffed ? 'block' : 'none';
+  cuffedEl.style.display = cuffed ? 'block' : 'none';
+  if (lengthUnit) lengthUnit.style.display = length ? 'inline' : 'none';
+    document.getElementById('uncuffed-label').style.display = uncuffed ? 'inline' : 'none';
+document.getElementById('cuffed-label').style.display = cuffed ? 'inline' : 'none';
+}
+  
+   // wire up events
   unitBtn.addEventListener('click', toggleAgeUnit);
-  estBtn .addEventListener('click', () => {
-    estimateWeight();
-    const v = parseFloat(ageInput.value) || 0;
-    const normals = getNormalValues(v, ageUnit);
-    if (normals) updateNormalCentiles(normals);
-  });
-  ageInput.addEventListener('input', clearWeight);
+  estBtn.addEventListener('click', () => {
+  estimateWeight();
+  const v = parseFloat(ageInput.value) || 0;
+  const ageInYears = ageUnit === 'months' ? v / 12 : v;
 
+  const normals = getNormalValues(v, ageUnit);
+  if (normals) updateNormalCentiles(normals);
+  if (!isNaN(ageInYears)) updateAirwayCalculations(ageInYears);
+});
+  
+ ageInput.addEventListener('input', () => {
+  const ageVal = parseFloat(ageInput.value);
+  if (!isNaN(ageVal)) {
+    const ageInYears = ageUnit === 'months' ? ageVal / 12 : ageVal;
+    updateAirwayCalculations(ageInYears);
+
+    const normals = getNormalValues(ageVal, ageUnit);
+    if (normals) updateNormalCentiles(normals);
+  }
+
+  // Only clear the formula display if the field is empty
+  if (ageInput.value.trim() === '') {
+    calcDiv.innerHTML = '';
+    document.querySelectorAll('.normal-values .static')
+      .forEach(el => el.style.display = 'none');
+    ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95']
+      .forEach(id => document.getElementById(id).textContent = '');
+    document.getElementById('uncuffed-label').style.display = 'none';
+document.getElementById('cuffed-label').style.display = 'none';
+
+  }
+});
+
+   
+ weightIn.addEventListener('input', () => {
+  const ageVal = parseFloat(ageInput.value);
+  const weightVal = parseFloat(weightIn.value);
+  if (isNaN(ageVal) || isNaN(weightVal)) {
+    calcDiv.innerHTML = '';
+    return;
+  }
+
+  const ageInYears = ageUnit === 'months' ? ageVal / 12 : ageVal;
+  const totalMonths = ageUnit === 'months' ? ageVal : ageVal * 12;
+
+  // Recalculate airway
+  updateAirwayCalculations(ageInYears);
+
+  // Update centiles
+  const normals = getNormalValues(ageVal, ageUnit);
+  if (normals) updateNormalCentiles(normals);
+
+  // Try to match formula
+  let display = '';
+  if (totalMonths < 12) {
+    const est = 0.5 * totalMonths + 4;
+    if (Math.abs(est - weightVal) < 0.2) {
+      display = `<p>(0.5 × Age in months) + 4 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
+    }
+  } else {
+    const est1 = 2 * ageInYears + 8;
+    if (Math.abs(est1 - weightVal) < 0.2) {
+      display = `<p>(2 × Age) + 8 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
+    } else if (ageInYears >= 6) {
+      const est2 = 3 * ageInYears + 7;
+      if (Math.abs(est2 - weightVal) < 0.2) {
+        display = `<p>(3 × Age) + 7 = ${weightVal.toFixed(1)} <span class="unit">kg</span></p>`;
+      }
+    }
+  }
+
+  calcDiv.innerHTML = display;
+});
+  
   // on load, clear everything
   document.addEventListener('DOMContentLoaded', clearWeight);
-</script>
+  
+  </script>
 
 </body>
 </html>
