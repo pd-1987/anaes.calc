@@ -185,18 +185,29 @@
 
   // toggle years ↔ months
   function toggleAgeUnit() {
-    clearWeight();
-    const val = parseFloat(ageInput.value) || 0;
-    if (ageUnit === 'years') {
-      ageUnit = 'months';
-      unitBtn.textContent = 'months';
-      ageInput.value = Math.round(val * 12);
+  clearWeight();
+  const raw = ageInput.value.trim();
+  const num = parseFloat(raw);
+
+  if (ageUnit === 'years') {
+    ageUnit = 'months';
+    unitBtn.textContent = 'months';
+    // only convert if there's actually a number in the box
+    if (raw !== '' && !isNaN(num)) {
+      ageInput.value = Math.round(num * 12);
     } else {
-      ageUnit = 'years';
-      unitBtn.textContent = 'years';
-      ageInput.value = (Math.round((val / 12) * 10) / 10) || '';
+      ageInput.value = '';
+    }
+  } else {
+    ageUnit = 'years';
+    unitBtn.textContent = 'years';
+    if (raw !== '' && !isNaN(num)) {
+      ageInput.value = (Math.round((num / 12) * 10) / 10);
+    } else {
+      ageInput.value = '';
     }
   }
+}
 
   // estimate weight (unchanged)
   function estimateWeight() {
@@ -254,37 +265,61 @@
   };
 
   function getNormalValues(ageValue, ageUnit) {
-    const totalMonths = ageUnit === 'months' ? ageValue : ageValue * 12;
-    if (totalMonths < 12) {
-      return paediatricNormals[Math.floor(totalMonths)] || null;
-    }
-    const years = Math.floor(totalMonths / 12);
-    return paediatricNormals[Math.min(years * 12, 120)] || null;
+  const totalMonths = ageUnit === 'months'
+    ? ageValue
+    : ageValue * 12;
+
+  // collect all numeric keys from your lookup
+  const allKeys = Object.keys(paediatricNormals)
+                        .map(k => parseInt(k, 10))
+                        .sort((a, b) => a - b);
+
+  let key;
+  if (totalMonths < 12) {
+    // only the month-based entries (<12)
+    const monthKeys = allKeys.filter(k => k < 12);
+    // pick the monthKey with minimal |monthKey - totalMonths|
+    key = monthKeys.reduce((nearest, k) =>
+      Math.abs(k - totalMonths) < Math.abs(nearest - totalMonths)
+        ? k
+        : nearest
+    , monthKeys[0]);
+  } else {
+    // for ≥12 months, first compute your ideal “year*12”
+    const ideal = Math.floor(totalMonths / 12) * 12;
+    // then pick the largest defined key ≤ ideal
+    key = allKeys.filter(k => k <= ideal).pop();
+    // if somehow nothing, fall back to the smallest ≥12
+    if (key === undefined)
+      key = allKeys.find(k => k >= 12);
   }
 
-  // fill in the numbers and then show static bits
-  function updateNormalCentiles(normals) {
-  // direct assignments to the right bp props:
-  document.getElementById('sbp-5') .textContent = normals.bp.p5;
-  document.getElementById('sbp-50').textContent = normals.bp.p50;
-  document.getElementById('sbp-95').textContent = normals.bp.p95;
-
-  document.getElementById('hr-5')  .textContent = normals.heartRate[0];
-  document.getElementById('hr-95') .textContent = normals.heartRate[1];
-
-  document.getElementById('rr-5')  .textContent = normals.respRate[0];
-  document.getElementById('rr-95') .textContent = normals.respRate[1];
-
-  // now show *all* the bits we wrapped in .static
-  document.querySelectorAll('.normal-values .static')
-    .forEach(el => el.style.display = 'inline');
+  return paediatricNormals[key] || null;
 }
+
+  function updateNormalCentiles(normals) {
+    // SBP
+    document.getElementById('sbp-5')   .textContent = normals.bp.p5;
+    document.getElementById('sbp-50')  .textContent = normals.bp.p50;
+    document.getElementById('sbp-95')  .textContent = normals.bp.p95;
+    // HR
+    document.getElementById('hr-5')    .textContent = normals.heartRate[0];
+    document.getElementById('hr-95')   .textContent = normals.heartRate[1];
+    // RR
+    document.getElementById('rr-5')    .textContent = normals.respRate[0];
+    document.getElementById('rr-95')   .textContent = normals.respRate[1];
+
+    // now show all your wrapped “static” bits
+    document.querySelectorAll('.normal-values .static')
+      .forEach(el => el.style.display = 'inline');
+  }
 
   // wire up events
   unitBtn.addEventListener('click', toggleAgeUnit);
   estBtn .addEventListener('click', () => {
     estimateWeight();
-    const normals = getNormalValues(parseFloat(ageInput.value)||0, ageUnit);
+    const v = parseFloat(ageInput.value) || 0;
+    const normals = getNormalValues(v, ageUnit);
     if (normals) updateNormalCentiles(normals);
   });
   ageInput.addEventListener('input', clearWeight);
