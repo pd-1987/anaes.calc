@@ -167,13 +167,18 @@
     <div class="result"><strong>ETT length at lips</strong>:
    <span id="ett-length"></span>
     <span class="static unit"> cm</span></div>
-    
+   <br> 
     <div class="result"><strong>LMA size</strong>:
   <span id="lma"></span></div>
     <div class="result">
   <strong>i-Gel size</strong>:
-  <div><span id="igel"></span></div>
-</div> 
+  <span id="igel"></span>
+</div>
+    <br>
+    <div class="result">
+  <strong>Tidal volume (6-8 ml/kg)</strong>:
+  <span id="tidalvolume"></span>
+  </div>
   </div>
   
    <div class="section">
@@ -211,15 +216,27 @@
 
   // clear everything and hide all outputs
   function clearWeight() {
-    calcDiv.innerHTML = '';
-    ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
-     'ett-uncuffed','ett-cuffed','ett-length','igel'
-    ].forEach(id => document.getElementById(id).textContent = '');
+  calcDiv.innerHTML = '';
+  // clear all the normal / airway spans
+  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
+   'ett-uncuffed','ett-cuffed','ett-length','lma'
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    el.textContent = '';
+  });
 
-    document.querySelectorAll('.normal-values .static')
+  // *only* clear & hide the number spans for i-gel & tidal volume
+  const igelEl = document.getElementById('igel');
+  igelEl.textContent = '';
+  igelEl.style.display = 'none';
+
+  const tvEl = document.getElementById('tidalvolume');
+  tvEl.textContent = '';
+  tvEl.style.display = 'none';
+
+  document.querySelectorAll('.normal-values .static')
     .forEach(el => el.style.display = 'none');
-
-  }
+}
 
   // toggle years ↔ months
   function toggleAgeUnit() {
@@ -329,8 +346,8 @@
   lenUnit && (lenUnit.style.display = 'none');
 } else if (m<12) {
       if(w<1) unc=2.5,len=6.5;
-      else if(w<2) unc=2.5,len=7;
-      else if(w<3) unc=3,len=8;
+      else if(w<2) unc=3,len=7;
+      else if(w<3) unc=3.5,len=8;
       else if(w<4) unc=3.5,len=9;
       else unc=4,len=10;
     } else {
@@ -347,16 +364,47 @@
     lenUnit && (lenUnit.style.display = len ? 'inline':'none');
 
     const igel = (w<=0||isNaN(w))? '' :
-      w<=5?'1.0 (Neonate)':
-      w<=10?'1.5 (Infant)':
-      w<=25?'2.0 (Small Paediatric)':
-      w<=35?'2.5 (Large Paediatric)':
-      w<=60?'3.0 (Small Adult)':
-      w<=90?'4.0 (Medium Adult)':'5.0 (Large Adult)';
-
-    document.getElementById('igel').textContent = igel;
-    document.getElementById('igel').parentElement.style.display = igel? 'block':'none';
-  }
+      w<=5?'1.0 (Neonate, 2-5 kg)':
+      w<=10?'1.5 (Infant, 5-12 kg)':
+      w<=25?'2.0 (Small Paediatric, 10-25 kg)':
+      w<=35?'2.5 (Large Paediatric, 25-35 kg)':
+      w<=60?'3.0 (Small Adult, 30-60 kg)':
+      w<=90?'4.0 (Medium Adult)':'5.0 (Large Adult, 50-90 kg)';
+    
+    // block for LMA sizing ---
+  const lmaSize = (w <= 0 || isNaN(w)) ? '' :
+    w <= 5   ? '1.0 (<5kg)'   :
+    w <= 10  ? '1.5 (5-10 kg)' :
+    w <= 20  ? '2.0 (10-20 kg)'   :
+    w <= 30  ? '2.5 (20-30 kg)' :
+    w <= 50  ? '3.0 (30-50 kg)'   :
+    w <= 70  ? '4.0 (50-70 kg)'   :
+    w <= 100 ? '5.0 (70-100 kg)'   :
+               '';
+   
+    const igelEl = document.getElementById('igel');
+if (igel) {
+  igelEl.textContent    = igel;
+  igelEl.style.display  = 'inline';
+} else {
+  igelEl.style.display  = 'none';
+}
+    
+    const lmaEl = document.getElementById('lma');
+  lmaEl.textContent = lmaSize;
+  // show or hide the <div> around it
+  lmaEl.parentElement.style.display = lmaSize ? 'block' : 'none';
+    
+    // tidal volume 6–8 ml/kg
+ const tvEl = document.getElementById('tidalvolume');
+if (w > 0 && !isNaN(w)) {
+  const tvMin = Math.round(6 * w);
+  const tvMax = Math.round(8 * w);
+  tvEl.textContent      = `${tvMin} – ${tvMax} ml`;
+  tvEl.style.display    = 'inline';
+} else {
+  tvEl.style.display    = 'none';
+  }}
 
   // event wiring
   unitBtn.addEventListener('click', toggleAgeUnit);
