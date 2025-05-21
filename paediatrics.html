@@ -66,6 +66,16 @@
       background-color: #fff;
       box-sizing: border-box;
 }
+    .emergency-section {
+  font-family: inherit;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+      box-sizing: border-box;
+}
     .section {
       margin: 0 auto 20px auto;
       padding: 10px;
@@ -132,6 +142,7 @@
     <span id="sbp-95"></span>
     
   <span class="static"><span class="static unit"> mmHg</span>)</span>
+    <small>(50th centile, 5th–95th)</small>
 </div>
 
   <div class="result">
@@ -140,6 +151,7 @@
   <span class="static">–</span>
   <span id="hr-95"></span>
   <span class="static unit"> bpm</span>
+    <small>(5th–95th centile)</small>
 </div>
     
   <div class="result">
@@ -148,6 +160,7 @@
   <span class="static">–</span>
   <span id="rr-95"></span>
   <span class="static unit"> bpm</span>
+    <small>(5th–95th centile)</small>
 </div>
 </div>
 
@@ -181,9 +194,54 @@
   </div>
   </div>
   
-   <div class="section">
-    Emergencies
+  <div class="emergency-section">
+      <div class="section-header"><u>Emergencies / RSI</u></div>
+     <div class="result">
+  <strong>Fentanyl (1-2 mcg/kg)</strong>:
+  <span id="fentanyl"></span><span class="static unit"> mcg</span>
+</div>
+    <div class="result">
+  <strong>Ketamine (1-2 mg/kg)</strong>:
+  <span id="ketamine"></span><span class="static unit"> mg</span>
+</div>
+    <div class="result">
+  <strong>Rocuronium (1 mg/kg)</strong>:
+  <span id="rocuronium"></span><span class="static unit"> mg</span>
+</div>
+    <br>
+    <div class="result">
+  <strong>Atropine (20 mcg/kg)</strong>:
+  <span id="atropine"></span><span class="static unit"> mcg</span>
+</div>
+    <br>
+    <div class="result">
+  <strong>Suxamethonium IV (1-2 mg/kg)</strong>:
+  <span id="sux-iv"></span><span class="static unit"> mg</span>
+</div>
+    <div class="result">
+  <strong>Suxamethonium IM (4 mg/kg; Max 150 mg)</strong>:
+  <span id="sux-im"></span><span class="static unit"> mg</span>
+</div>
+      <br>
+      <div class="result">
+  <strong>Defibrillation energy (4 J/kg)</strong>:
+  <span id="defib"></span><span class="static unit"> J</span>
+</div>
+    <div class="result">
+  <strong>Adrenaline IV 1:10,000 (0.1 ml/kg)</strong>:
+  <span id="adrenalineiv"></span><span class="static unit"> ml</span>
+</div>
+      <div class="result">
+  <strong>Fluid bolus (10-20 ml/kg)</strong>:
+  <span id="fluidbolus"></span><span class="static unit"> ml</span>
+</div>
+      <div class="result">
+  <strong>Glucose 10% (2 ml/kg)</strong>:
+  <span id="glucose10"></span><span class="static unit"> ml</span>
+</div>
   </div>
+
+  
    <div class="section">
     Routine General Anaesthetic
   </div>
@@ -195,7 +253,7 @@
   
   <footer>
     <small>
-      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway</p>
+      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway; RSI: Rapid sequence intubation</p>
       <p>
         <a href="references.html">References</a> - 
         <a href="disclaimer.html">Disclaimer</a>
@@ -219,11 +277,28 @@
   calcDiv.innerHTML = '';
   // clear all the normal / airway spans
   ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
-   'ett-uncuffed','ett-cuffed','ett-length','lma'
+   'ett-uncuffed','ett-cuffed','ett-length','lma','fentanyl','ketamine','rocuronium'
   ].forEach(id => {
     const el = document.getElementById(id);
     el.textContent = '';
   });
+    
+    ['fentanyl','ketamine','rocuronium',
+   'atropine','sux-iv','sux-im',
+   'defib','adrenalineiv','fluidbolus','glucose10'
+  ].forEach(id => {
+    const el   = document.getElementById(id);
+    const unit = el.nextElementSibling;           // the <span class="static unit">
+    el.textContent   = '';
+    el.style.display = 'none';
+    if (unit && unit.classList.contains('unit')) {
+      unit.style.display = 'none';
+    }
+  });
+    
+// hide the “cm” on ETT length until we have a value
+const lenUnit = document.querySelector('#ett-length + .unit');
+lenUnit && (lenUnit.style.display = 'none');
 
   // *only* clear & hide the number spans for i-gel & tidal volume
   const igelEl = document.getElementById('igel');
@@ -404,7 +479,193 @@ if (w > 0 && !isNaN(w)) {
   tvEl.style.display    = 'inline';
 } else {
   tvEl.style.display    = 'none';
-  }}
+  
+}
+     updateEmergencyDrugs(w);
+  }
+  
+function updateEmergencyDrugs(w) {
+  // grab each numeric element + unit span
+  const fentanylEl     = document.getElementById('fentanyl'),
+        fentanylUnit   = fentanylEl.nextElementSibling,
+        ketamineEl     = document.getElementById('ketamine'),
+        ketamineUnit   = ketamineEl.nextElementSibling,
+        rocuroniumEl   = document.getElementById('rocuronium'),
+        rocuroniumUnit = rocuroniumEl.nextElementSibling,
+        atropineEl     = document.getElementById('atropine'),
+        atropineUnit   = atropineEl.nextElementSibling,
+        suxIvEl        = document.getElementById('sux-iv'),
+        suxIvUnit      = suxIvEl.nextElementSibling,
+        suxImEl        = document.getElementById('sux-im'),
+        suxImUnit      = suxImEl.nextElementSibling,
+        defibEl        = document.getElementById('defib'),
+        defibUnit      = defibEl.nextElementSibling,
+        adrenalineEl   = document.getElementById('adrenalineiv'),
+        adrenalineUnit = adrenalineEl.nextElementSibling,
+        bolusEl        = document.getElementById('fluidbolus'),
+        bolusUnit      = bolusEl.nextElementSibling,
+        glucoseEl      = document.getElementById('glucose10'),
+        glucoseUnit    = glucoseEl.nextElementSibling;
+
+  if (w > 0 && !isNaN(w)) {
+    // Fentanyl (1–2 mcg/kg; comes 50 mcg/ml)
+  const fentanylEl   = document.getElementById('fentanyl'),
+        fentanylUnit = fentanylEl.nextElementSibling;
+  if (w > 0 && !isNaN(w)) {
+    // compute mcg dose range
+    const fMin   = (1 * w).toFixed(1),
+          fMax   = (2 * w).toFixed(1);
+    // compute corresponding volumes at 50 mcg/ml
+    const vMin   = (fMin  / 50).toFixed(2),
+          vMax   = (fMax  / 50).toFixed(2);
+
+    // put it all together in one string
+    fentanylEl.innerHTML = `
+    ${fMin}–${fMax} mcg 
+    <small>(<em>${vMin}–${vMax} ml of 50 mcg/ml</em>)
+  </small>
+`;
+    fentanylEl.style.display = 'inline';
+    fentanylUnit && (fentanylUnit.style.display = 'none'); 
+    // (we can hide the extra unit span since we’ve embedded “mcg” in-line)
+  } else {
+    fentanylEl.style.display = 'none';
+    fentanylUnit && (fentanylUnit.style.display = 'none');
+  }
+
+    // Ketamine 1–2 mg/kg
+    const kMin = (1 * w).toFixed(1), kMax = (2 * w).toFixed(1);
+    ketamineEl .textContent   = `${kMin}–${kMax}`;
+    ketamineEl .style.display = 'inline';
+    ketamineUnit && (ketamineUnit.style.display = 'inline');
+
+    // Rocuronium 1 mg/kg (10 mg/ml)
+{
+  const rDose = (1 * w).toFixed(1);              // mg
+  const rVol  = (rDose / 10).toFixed(2);         // ml at 10 mg/ml
+  rocuroniumEl.innerHTML = `
+      ${rDose}&nbsp;mg 
+      <small>(<em>${rVol}&nbsp;ml of 10 mg/ml</em>)
+    </small>
+  `;
+  rocuroniumEl.style.display = 'inline';
+  // hide the old "mg" unit‐span
+  rocuroniumUnit && (rocuroniumUnit.style.display = 'none');
+}
+
+    // Atropine 20 mcg/kg (20 mcg/ml)
+{
+  const aDose = (20 * w).toFixed(1);             // mcg
+  const aVol  = (aDose / 600).toFixed(2);         // ml at 20 mcg/ml
+  atropineEl.innerHTML = `
+      ${aDose}&nbsp;mcg 
+      <small>(<em>${aVol}&nbsp;ml of 600 mcg/ml</em>)
+    </small>
+  `;
+  atropineEl.style.display = 'inline';
+  atropineUnit && (atropineUnit.style.display = 'none');
+}
+
+    // Sux-IV 1–2 mg/kg
+    // SUXAMETHONIUM IV (1–2 mg/kg; comes 50 mg/ml)
+  const suxIvEl   = document.getElementById('sux-iv'),
+        suxIvUnit = suxIvEl.nextElementSibling;
+  if (w > 0 && !isNaN(w)) {
+    // compute mg dose range
+    const sMin = (1 * w).toFixed(1),
+          sMax = (2 * w).toFixed(1);
+    // compute volumes at 50 mg/ml
+    const vMin = (sMin / 50).toFixed(2),
+          vMax = (sMax / 50).toFixed(2);
+    // inject both dose and volume
+    suxIvEl.innerHTML = `
+      ${sMin}–${sMax} mg
+      <small>(<em>${vMin}–${vMax} ml of 50 mg/ml</em>)</small>
+    `;
+    suxIvEl.style.display     = 'inline';
+    suxIvUnit && (suxIvUnit.style.display = 'none');
+  } else {
+    suxIvEl.style.display = 'none';
+    suxIvUnit && (suxIvUnit.style.display = 'none');
+  }
+
+    // Sux-IM 4 mg/kg, capped at 150 mg
+ const suxImEl   = document.getElementById('sux-im'),
+        suxImUnit = suxImEl.nextElementSibling;
+  if (w > 0 && !isNaN(w)) {
+    // compute mg dose (cap at 150 mg)
+    let dose = 4 * w;
+    if (dose > 150) dose = 150;
+    const sDose = dose.toFixed(1);
+    // compute volume
+    const sVol = (sDose / 50).toFixed(2);
+    suxImEl.innerHTML = `
+      ${sDose} mg
+      <small>(<em>${sVol} ml of 50 mg/ml</em>)</small>
+    `;
+    suxImEl.style.display     = 'inline';
+    suxImUnit && (suxImUnit.style.display = 'none');
+  } else {
+    suxImEl.style.display = 'none';
+    suxImUnit && (suxImUnit.style.display = 'none');
+  }
+
+    // Defibrillation energy 4 J/kg
+    const defibDose = (4 * w).toFixed(1);
+    defibEl.textContent       = defibDose;
+    defibEl.style.display     = 'inline';
+    defibUnit && (defibUnit.style.display = 'inline');
+
+    // Adrenaline IV 0.1 ml/kg (1:10 000 → 0.1 mg/ml)
+const adrenalineEl   = document.getElementById('adrenalineiv'),
+      adrenalineUnit = adrenalineEl.nextElementSibling;
+
+if (w > 0 && !isNaN(w)) {
+  // volume in ml
+  const vol = (0.1 * w).toFixed(2);
+  // mg delivered = vol × 0.1 mg/ml
+  const mg  = (0.1 * vol).toFixed(2);
+
+  adrenalineEl.innerHTML = `
+    ${vol} ml
+    <small><em>(${mg} mg)</em></small>
+  `;
+  adrenalineEl.style.display     = 'inline';
+  // hide the old unit-span
+  adrenalineUnit && (adrenalineUnit.style.display = 'none');
+} else {
+  adrenalineEl.style.display = 'none';
+  adrenalineUnit && (adrenalineUnit.style.display = 'none');
+}
+
+    // Fluid bolus 10–20 ml/kg
+    const bolusMin = Math.round(10 * w),
+          bolusMax = Math.round(20 * w);
+    bolusEl.textContent      = `${bolusMin}–${bolusMax}`;
+    bolusEl.style.display    = 'inline';
+    bolusUnit && (bolusUnit.style.display = 'inline');
+
+    // Glucose 10% 2 ml/kg
+    const gluDose = (2 * w).toFixed(1);
+    glucoseEl.textContent      = gluDose;
+    glucoseEl.style.display    = 'inline';
+    glucoseUnit && (glucoseUnit.style.display = 'inline');
+    
+  } else {
+    // hide all if weight invalid
+    [fentanylEl, ketamineEl, rocuroniumEl,
+     atropineEl,  suxIvEl, suxImEl,
+     defibEl, adrenalineEl, bolusEl, glucoseEl
+    ].forEach(el => el.style.display = 'none');
+
+    [fentanylUnit, ketamineUnit, rocuroniumUnit,
+     atropineUnit, suxIvUnit, suxImUnit,
+     defibUnit, adrenalineUnit, bolusUnit, glucoseUnit
+    ]
+      .filter(u => u && u.classList.contains('unit'))
+      .forEach(u => u.style.display = 'none');
+  }
+}
 
   // event wiring
   unitBtn.addEventListener('click', toggleAgeUnit);
