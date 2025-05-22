@@ -180,7 +180,7 @@
   <strong>ETT size</strong>:
   <div>
     <span id="ett-uncuffed"></span>
-    <small id="uncuffed-label">(Uncuffed)</small>
+    <small id="uncuffed-label">(Uncuffed) /</small>
   </div>
   <div>
     <span id="ett-cuffed"></span>
@@ -190,6 +190,9 @@
     <div class="result"><strong>ETT length at lips</strong>:
    <span id="ett-length"></span>
     <span class="static unit"> cm</span></div>
+    <div class="result"><strong>Laryngoscope blade</strong>:
+   <span id="laryngoscope"></span>
+    </div>
    <br> 
     <div class="result"><strong>LMA size</strong>:
   <span id="lma"></span></div>
@@ -272,7 +275,7 @@
 </div>
   <div class="result">
   <strong>Ondansetron (0.15 mg/kg)</strong>:
-  <span id="ondansetron"></span><span class="static unit"> mg</span>
+    <span id="ondansetron"></span><span class="static unit"> mg</span>
 </div>
   </div>
   
@@ -304,7 +307,16 @@
 
   // clear everything and hide all outputs
   function clearWeight() {
+    document.querySelectorAll('.calc-note').forEach(el => el.remove());
   calcDiv.innerHTML = '';
+    const uncEl  = document.getElementById('ett-uncuffed').parentElement;
+const cuffEl = document.getElementById('ett-cuffed').parentElement;
+uncEl .style.display = 'none';
+cuffEl.style.display = 'none';
+  // — Clear laryngoscope blade choice —
+const laryngoscopeEl = document.getElementById('laryngoscope');
+laryngoscopeEl.textContent = '';
+laryngoscopeEl.parentElement.style.display = 'none';
   // clear all the normal / airway spans
   ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
    'ett-uncuffed','ett-cuffed','ett-length','lma','fentanyl','ketamine','rocuronium'
@@ -359,32 +371,43 @@ lenUnit && (lenUnit.style.display = 'none');
     }
   }
 
-  // estimate weight button
   function estimateWeight() {
-    clearWeight();
-    const a = parseFloat(ageInput.value);
-    if (isNaN(a) || a<0) { alert('Please enter a valid age.'); return; }
-    const m = ageUnit==='months' ? a : a*12;
-    if (m < 12) {
-      const w = Math.round((0.5*m+4)*10)/10;
-      weightIn.value = w;
-      calcDiv.innerHTML = `<p>(0.5 × Age in months) + 4 = ${w} <span class="unit">kg</span></p>`;
-      return;
-    }
-    const y = m/12;
-    if (y <= 14) {
-      const w1 = Math.round((2*y+8)*10)/10;
-      let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
-      if (y>=6) {
-        const w2 = Math.round((3*y+7)*10)/10;
-        html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
-      }
-      weightIn.value = w1;
-      calcDiv.innerHTML = html;
-      return;
-    }
-    alert('Age must be between 0 months and 14 years to estimate weight.');
+  clearWeight();
+  const a = parseFloat(ageInput.value);
+  if (isNaN(a) || a < 0) {
+    alert('Please enter a valid age.');
+    return;
   }
+
+  // ── SPECIAL CASE for exactly 0 months/years ──
+  if (a === 0) {
+    const w = 3.5;
+    weightIn.value = w;
+    calcDiv.innerHTML = `<p>Estimated weight for a neonate = ${w} <span class="unit">kg</span></p>`;
+    return;
+  }
+
+  const m = ageUnit === 'months' ? a : a * 12;
+  if (m < 12) {
+    const w = Math.round((0.5 * m + 4) * 10) / 10;
+    weightIn.value = w;
+    calcDiv.innerHTML = `<p>(0.5 × Age in months) + 4 = ${w} <span class="unit">kg</span></p>`;
+    return;
+  }
+  const y = m / 12;
+  if (y <= 14) {
+    const w1 = Math.round((2 * y + 8) * 10) / 10;
+    let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
+    if (y >= 6) {
+      const w2 = Math.round((3 * y + 7) * 10) / 10;
+      html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
+    }
+    weightIn.value = w1;
+    calcDiv.innerHTML = html;
+    return;
+  }
+  alert('Age must be between 0 months and 14 years to estimate weight.');
+}
 
   // paediatric normals table
   const paediatricNormals = {
@@ -464,8 +487,8 @@ lenUnit && (lenUnit.style.display = 'none');
     document.getElementById('ett-uncuffed').textContent = unc;
     document.getElementById('ett-cuffed').textContent   = cuff;
     document.getElementById('ett-length').textContent   = len;
-    uncEl.style.display  = unc  ? 'block':'none';
-    cuffEl.style.display = cuff ? 'block':'none';
+    uncEl.style.display  = unc   ? 'inline-block' : 'none';
+cuffEl.style.display = cuff  ? 'inline-block' : 'none';
     lenUnit && (lenUnit.style.display = len ? 'inline':'none');
 
     const igel = (w<=0||isNaN(w))? '' :
@@ -511,6 +534,27 @@ if (w > 0 && !isNaN(w)) {
   tvEl.style.display    = 'none';
   
 }
+      // — LARYNGOSCOPE BLADE SIZING —
+  const laryngoscopeEl      = document.getElementById('laryngoscope');
+  const laryngoscopeWrapper = laryngoscopeEl.parentElement;
+  if (w > 0) {
+    let blade = '';
+    if (w < 1.5)             blade = 'Miller 00 or 0 (Extremely preterm)';
+    else if (w < 2.5)      blade = 'Mac 0 / Miller 0 (Preterm)';
+    else if (w < 4)        blade = 'Mac 0-1 / Miller 0-1 (Neonate)';
+    else if (w < 6)        blade = 'Mac 1 / Miller 1 (Baby, 1–6 months)';
+    else if (w < 12)       blade = 'Mac 1-2 / Miller 1–2 (Toddlers, 6 months–2 years)';
+    else if (w < 30)       blade = 'Mac 2 (Children, 2–10 years)';
+    else if (w <= 60)      blade = 'Mac 3 (Older children/Adolescent, 10+ years)';
+    if (blade) {
+      laryngoscopeEl.textContent      = blade;
+      laryngoscopeWrapper.style.display = 'block';
+    } else {
+      laryngoscopeWrapper.style.display = 'none';
+    }
+  } else {
+    laryngoscopeWrapper.style.display = 'none';
+  }    
      updateEmergencyDrugs(w);
   }
   
