@@ -178,15 +178,13 @@
       <div class="section-header"><u>Airway and Ventilation</u></div>
 <div class="result">
   <strong>ETT size</strong>:
-  <div>
-    <span id="ett-uncuffed"></span>
-    <small id="uncuffed-label">(Uncuffed) /</small>
-  </div>
-  <div>
-    <span id="ett-cuffed"></span>
-    <small id="cuffed-label">(Cuffed)</small>
-  </div>
+  <span id="ett-uncuffed"></span>
+  <small id="uncuffed-label">(Uncuffed)</small>
+  <span id="ett-or" style="display:none; margin:0 4px;">or</span>
+  <span id="ett-cuffed"></span>
+  <small id="cuffed-label">(Cuffed)</small>
 </div>
+
     <div class="result"><strong>ETT length at lips</strong>:
    <span id="ett-length"></span>
     <span class="static unit"> cm</span></div>
@@ -263,7 +261,7 @@
 </div>
   <div class="result">
   <strong>Fentanyl (1-2 mcg/kg)</strong>:
-  <span id="fentanyl"></span><span class="static unit"> mcg</span>
+  <span id="fentanyl-ga"></span><span class="static unit"> mcg</span>
 </div>
   <div class="result">
   <strong>Rocuronium (0.6 mg/kg)</strong>:
@@ -275,6 +273,14 @@
 </div>
   <div class="result">
   <strong>Ondansetron (0.15 mg/kg)</strong>:
+    <span id="ondansetron"></span><span class="static unit"> mg</span>
+</div>
+    <div class="result">
+  <strong>Paracetamol</strong>:
+    <span id="ondansetron"></span><span class="static unit"> mg</span>
+</div>
+  <div class="result">
+  <strong>Ibuprofen (10 mg/kg)</strong>:
     <span id="ondansetron"></span><span class="static unit"> mg</span>
 </div>
   </div>
@@ -316,7 +322,7 @@ cuffEl.style.display = 'none';
   // — Clear laryngoscope blade choice —
 const laryngoscopeEl = document.getElementById('laryngoscope');
 laryngoscopeEl.textContent = '';
-laryngoscopeEl.parentElement.style.display = 'none';
+laryngoscopeEl.style.display = 'none';
   // clear all the normal / airway spans
   ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
    'ett-uncuffed','ett-cuffed','ett-length','lma','fentanyl','ketamine','rocuronium'
@@ -331,6 +337,17 @@ laryngoscopeEl.parentElement.style.display = 'none';
   ].forEach(id => {
     const el   = document.getElementById(id);
     const unit = el.nextElementSibling;           // the <span class="static unit">
+    el.textContent   = '';
+    el.style.display = 'none';
+    if (unit && unit.classList.contains('unit')) {
+      unit.style.display = 'none';
+    }
+  });
+    
+    ['propofol','fentanyl-ga','rocuronium-ga','dexamethasone','ondansetron']
+  .forEach(id => {
+    const el   = document.getElementById(id);
+    const unit = el.nextElementSibling;        // the <span class="static unit">
     el.textContent   = '';
     el.style.display = 'none';
     if (unit && unit.classList.contains('unit')) {
@@ -491,6 +508,9 @@ lenUnit && (lenUnit.style.display = 'none');
 cuffEl.style.display = cuff  ? 'inline-block' : 'none';
     lenUnit && (lenUnit.style.display = len ? 'inline':'none');
 
+    const orEl = document.getElementById('ett-or');
+orEl.style.display = (unc && cuff) ? 'inline' : 'none';
+    
     const igel = (w<=0||isNaN(w))? '' :
       w<=5?'1.0 (Neonate, 2-5 kg)':
       w<=10?'1.5 (Infant, 5-12 kg)':
@@ -536,7 +556,7 @@ if (w > 0 && !isNaN(w)) {
 }
       // — LARYNGOSCOPE BLADE SIZING —
   const laryngoscopeEl      = document.getElementById('laryngoscope');
-  const laryngoscopeWrapper = laryngoscopeEl.parentElement;
+  
   if (w > 0) {
     let blade = '';
     if (w < 1.5)             blade = 'Miller 00 or 0 (Extremely preterm)';
@@ -546,16 +566,15 @@ if (w > 0 && !isNaN(w)) {
     else if (w < 12)       blade = 'Mac 1-2 / Miller 1–2 (Toddlers, 6 months–2 years)';
     else if (w < 30)       blade = 'Mac 2 (Children, 2–10 years)';
     else if (w <= 60)      blade = 'Mac 3 (Older children/Adolescent, 10+ years)';
-    if (blade) {
-      laryngoscopeEl.textContent      = blade;
-      laryngoscopeWrapper.style.display = 'block';
-    } else {
-      laryngoscopeWrapper.style.display = 'none';
-    }
-  } else {
-    laryngoscopeWrapper.style.display = 'none';
-  }    
+   if (blade) {
+  laryngoscopeEl.textContent = blade;
+  laryngoscopeEl.style.display = 'inline';
+} else {
+  laryngoscopeEl.style.display = 'none';
+}  
+  }
      updateEmergencyDrugs(w);
+    updateGADrugs(w);
   }
   
 function updateEmergencyDrugs(w) {
@@ -709,6 +728,47 @@ function updateEmergencyDrugs(w) {
       clearNote(u);
     });
   }
+}
+  
+    function updateGADrugs(w) {
+  // clear any old notes first
+  document.querySelectorAll('.general-section .calc-note').forEach(el => el.remove());
+
+  const drugs = [
+    // id,  min-dose, max-dose,   conc per ml,       unit
+    { id: 'propofol',    min: 3,   max: 5,    conc: 10,     unit: 'mg'  },
+    { id: 'fentanyl-ga', min: 1,   max: 2,    conc: 50,     unit: 'mcg' },
+    { id: 'rocuronium-ga', min: 0.6, max: 0.6, conc: 10,     unit: 'mg'  },
+    { id: 'dexamethasone', min: 0.15, max: 0.15, conc: 3.3,   unit: 'mg'  },
+    { id: 'ondansetron',  min: 0.15, max: 0.15, conc: 2,      unit: 'mg'  },
+  ];
+
+  drugs.forEach(({ id, min, max, conc, unit }) => {
+    const el    = document.getElementById(id);
+    const uSpan = el.nextElementSibling; // the `<span class="static unit">`
+
+    // compute dose
+    const dMin = (min * w).toFixed(1);
+    const dMax = (max * w).toFixed(1);
+    const doseText = (min === max) ? dMin : `${dMin}–${dMax}`;
+
+    // compute volume in ml
+    const vMin = (dMin / conc).toFixed(2);
+    const vMax = (dMax / conc).toFixed(2);
+    const volText = (min === max) ? `${vMin}` : `${vMin}–${vMax}`;
+
+    // update DOM
+    el.textContent       = doseText;
+    el.style.display     = w > 0 ? 'inline' : 'none';
+    if (uSpan) uSpan.style.display = w > 0 ? 'inline' : 'none';
+
+    // append the little italic volume note
+    if (w > 0) {
+      uSpan.insertAdjacentHTML('afterend',
+        `<small class="calc-note"><em> (${volText} ml of ${conc}${unit}/ml)</em></small>`
+      );
+    }
+  });
 }
 
   // event wiring
