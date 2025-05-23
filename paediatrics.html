@@ -208,20 +208,20 @@
   <div class="emergency-section">
       <div class="section-header"><u>Emergencies / RSI</u></div>
      <div class="result">
-  <strong>Fentanyl (1-2 mcg/kg)</strong>:
+  <strong style="background-color:#66ccf0;">Fentanyl (1-2 mcg/kg)</strong>:
   <span id="fentanyl"></span><span class="static unit"> mcg</span>
 </div>
     <div class="result">
-  <strong>Ketamine (1-2 mg/kg)</strong>:
+  <strong style="background-color:#fff000;">Ketamine (1-2 mg/kg)</strong>:
   <span id="ketamine"></span><span class="static unit"> mg</span>
 </div>
     <div class="result">
-  <strong>Rocuronium (1 mg/kg)</strong>:
+  <strong style="background-color:#e0281d;">Rocuronium (1 mg/kg)</strong>:
   <span id="rocuronium"></span><span class="static unit"> mg</span>
 </div>
     <br>
     <div class="result">
-  <strong>Atropine (20 mcg/kg)</strong>:
+  <strong style="background-color:#a8d46f;">Atropine (20 mcg/kg)</strong>:
   <span id="atropine"></span><span class="static unit"> mcg</span>
 </div>
     <br>
@@ -267,6 +267,7 @@
   <strong>Rocuronium (0.6 mg/kg)</strong>:
   <span id="rocuronium-ga"></span><span class="static unit"> mg</span>
 </div>
+  <br>
   <div class="result">
   <strong>Dexamethasone (0.15 mg/kg)</strong>:
   <span id="dexamethasone"></span><span class="static unit"> mg</span>
@@ -275,13 +276,18 @@
   <strong>Ondansetron (0.15 mg/kg)</strong>:
     <span id="ondansetron"></span><span class="static unit"> mg</span>
 </div>
+  <br>
     <div class="result">
-  <strong>Paracetamol</strong>:
-    <span id="ondansetron"></span><span class="static unit"> mg</span>
+  <strong>Paracetamol PO/IV</strong>:
+    <span id="paracetamol"></span><span class="static unit"> mg</span>
 </div>
   <div class="result">
-  <strong>Ibuprofen (10 mg/kg)</strong>:
-    <span id="ondansetron"></span><span class="static unit"> mg</span>
+  <strong>Ibuprofen IV</strong>:
+    <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
+</div>
+  <div class="result">
+  <strong>Ibuprofen PO (5-10 mg/kg)</strong>:
+    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
 </div>
   </div>
   
@@ -313,53 +319,66 @@
 
   // clear everything and hide all outputs
   function clearWeight() {
-    document.querySelectorAll('.calc-note').forEach(el => el.remove());
-  calcDiv.innerHTML = '';
-    const uncEl  = document.getElementById('ett-uncuffed').parentElement;
-const cuffEl = document.getElementById('ett-cuffed').parentElement;
-uncEl .style.display = 'none';
-cuffEl.style.display = 'none';
-  // — Clear laryngoscope blade choice —
-const laryngoscopeEl = document.getElementById('laryngoscope');
-laryngoscopeEl.textContent = '';
-laryngoscopeEl.style.display = 'none';
-  // clear all the normal / airway spans
-  ['sbp-5','sbp-50','sbp-95','hr-5','hr-95','rr-5','rr-95',
-   'ett-uncuffed','ett-cuffed','ett-length','lma','fentanyl','ketamine','rocuronium'
-  ].forEach(id => {
-    const el = document.getElementById(id);
-    el.textContent = '';
-  });
-    
-    ['fentanyl','ketamine','rocuronium',
-   'atropine','sux-iv','sux-im',
-   'defib','adrenalineiv','fluidbolus','glucose10'
-  ].forEach(id => {
-    const el   = document.getElementById(id);
-    const unit = el.nextElementSibling;           // the <span class="static unit">
-    el.textContent   = '';
-    el.style.display = 'none';
-    if (unit && unit.classList.contains('unit')) {
-      unit.style.display = 'none';
-    }
-  });
-    
-    ['propofol','fentanyl-ga','rocuronium-ga','dexamethasone','ondansetron']
-  .forEach(id => {
-    const el   = document.getElementById(id);
-    const unit = el.nextElementSibling;        // the <span class="static unit">
-    el.textContent   = '';
-    el.style.display = 'none';
-    if (unit && unit.classList.contains('unit')) {
-      unit.style.display = 'none';
-    }
-  });
-    
-// hide the “cm” on ETT length until we have a value
-const lenUnit = document.querySelector('#ett-length + .unit');
-lenUnit && (lenUnit.style.display = 'none');
+  // 1) remove any old small notes (EM, calc, analgesic)
+  document
+    .querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu, .analgesic-note--po')
+    .forEach(el => el.remove());
 
-  // *only* clear & hide the number spans for i-gel & tidal volume
+  // 2) clear the weight-calculation formulas
+  calcDiv.innerHTML = '';
+
+  // 3) hide uncuffed/cuffed ETT
+  const uncEl  = document.getElementById('ett-uncuffed').parentElement;
+  const cuffEl = document.getElementById('ett-cuffed').parentElement;
+  uncEl.style.display  = 'none';
+  cuffEl.style.display = 'none';
+
+  // 4) clear laryngoscope
+  const laryngoscopeEl = document.getElementById('laryngoscope');
+  laryngoscopeEl.textContent = '';
+  laryngoscopeEl.style.display = 'none';
+
+  // 5) clear normal/airway numeric spans (just text)
+  [
+    'sbp-5','sbp-50','sbp-95',
+    'hr-5','hr-95','rr-5','rr-95',
+    'ett-uncuffed','ett-cuffed','ett-length',
+    'lma','fentanyl','ketamine','rocuronium'
+  ].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+
+  // 6) hide emergency drug values + units
+  [
+    'fentanyl','ketamine','rocuronium',
+    'atropine','sux-iv','sux-im',
+    'defib','adrenalineiv','fluidbolus','glucose10'
+  ].forEach(id => {
+    const el   = document.getElementById(id);
+    const unit = el.nextElementSibling;
+    el.textContent     = '';
+    el.style.display   = 'none';
+    if (unit && unit.classList.contains('unit')) {
+      unit.style.display = 'none';
+    }
+  });
+
+  // 7) hide GA drug values + units
+  [
+    'propofol','fentanyl-ga','rocuronium-ga',
+    'dexamethasone','ondansetron',
+    'paracetamol','ibuprofeniv','ibuprofenpo'
+  ].forEach(id => {
+    const el   = document.getElementById(id);
+    const unit = el.nextElementSibling;
+    el.textContent     = '';
+    el.style.display   = 'none';
+    if (unit && unit.classList.contains('unit')) {
+      unit.style.display = 'none';
+    }
+  });
+
+  // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
   igelEl.textContent = '';
   igelEl.style.display = 'none';
@@ -368,9 +387,106 @@ lenUnit && (lenUnit.style.display = 'none');
   tvEl.textContent = '';
   tvEl.style.display = 'none';
 
+  // 9) hide the “cm” unit next to ETT length
+  const lenUnit = document.querySelector('#ett-length + .unit');
+  if (lenUnit) lenUnit.style.display = 'none';
+
+  // 10) hide static text in normals
   document.querySelectorAll('.normal-values .static')
     .forEach(el => el.style.display = 'none');
 }
+  
+  function updateAnalgesics(w) {
+  // remove any old analgesic notes
+  document.querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu').forEach(el => el.remove());
+
+  // PARACETAMOL
+  const pEl   = document.getElementById('paracetamol');
+  const pUnit = pEl.nextElementSibling; // <span class="static unit">
+  let pDose, pNote;
+
+  if (w > 0 && w <= 10) {
+    pDose = 10 * w;
+    pNote = `(10 mg/kg, every 4–6 h; max 30 mg/kg/d = ${30 * w} mg)`; 
+  } else if (w <= 50) {
+    pDose = 15 * w;
+    pNote = `(15 mg/kg, every 4–6 h; max 60 mg/d = ${60 * w} mg)`;
+  } else if (w > 50) {
+    pDose = 1000;
+    pNote = `(1 g every 4–6 h; max 4 g/d)`;
+  } else {
+    pDose = pNote = '';
+  }
+
+  pEl.textContent       = pDose ? pDose.toFixed(0) : '';
+  pEl.style.display     = pDose ? 'inline' : 'none';
+  if (pUnit) pUnit.style.display = pDose ? 'inline' : 'none';
+
+  if (pDose) {
+    pUnit.insertAdjacentHTML('afterend',
+      `<small class="analgesic-note"><em> ${pNote}</em></small>`
+    );
+  }
+    
+  // — IBUPROFEN IV dosing & notes —
+  const iEl   = document.getElementById('ibuprofeniv');
+  const iUnit = iEl.nextElementSibling;
+  document.querySelectorAll('.analgesic-note--ibu').forEach(el => el.remove());
+
+  const rawAge    = parseFloat(ageInput.value) || 0;
+  const ageY      = ageUnit === 'months' ? rawAge/12 : rawAge;
+  let ibuText = '', ibuNote = '';
+
+  if (ageY < 6 || w < 20) {
+    ibuNote = 'Not recommended for children under 20 kg or below 6 years of age.';
+  } else if (ageY < 18) {
+    if (w <= 29) {
+      ibuText = '200';
+      ibuNote = '(TDS, 6–8 hrly, for maximum 3 days; max 600 mg/day.)';
+    } else if (w <= 39) {
+      ibuText = '200';
+      ibuNote = '(QDS, 6 hrly, for maximum 3 days; max 800 mg/day.)';
+    } else {
+      ibuText = '200–400';
+      ibuNote = '(TDS, 6–8 hrly, for maximum 3 days; max 1.2 g/day.)';
+    }
+  }
+
+  iEl.textContent   = ibuText;
+  iEl.style.display = ibuText ? 'inline' : 'none';
+  if (iUnit) iUnit.style.display = ibuText || ibuNote ? 'inline' : 'none';
+
+  if (ibuNote) {
+    iUnit.insertAdjacentHTML('afterend',
+      `<small class="analgesic-note--ibu"><em> ${ibuNote}</em></small>`
+    );
+  }  // ← close the IV-note block here
+
+  // — IBUPROFEN PO (5–10 mg/kg, cap 400 mg) —
+  const poEl   = document.getElementById('ibuprofenpo');
+  const poUnit = poEl.nextElementSibling;
+  document.querySelectorAll('.analgesic-note--po').forEach(el => el.remove());
+
+  const ageMonths = ageUnit === 'months' ? rawAge : rawAge*12;
+  let poText = '', poNote = '';
+
+  if (ageMonths > 3 && w > 0) {
+    const dMin = Math.min(5*w, 400);
+    const dMax = Math.min(10*w, 400);
+    poText = `${dMin.toFixed(0)}–${dMax.toFixed(0)}`;
+    poNote = '(Maximum 30 mg/kg/day in 3–4 divided doses)';
+  }
+
+  poEl.textContent   = poText;
+  poEl.style.display = poText ? 'inline' : 'none';
+  if (poUnit) poUnit.style.display = poText ? 'inline' : 'none';
+
+  if (poText) {
+    poUnit.insertAdjacentHTML('afterend',
+      `<small class="analgesic-note--po"><em> ${poNote}</em></small>`
+    );
+  }
+  }
 
   // toggle years ↔ months
   function toggleAgeUnit() {
@@ -575,6 +691,7 @@ if (w > 0 && !isNaN(w)) {
   }
      updateEmergencyDrugs(w);
     updateGADrugs(w);
+    updateAnalgesics(w);
   }
   
 function updateEmergencyDrugs(w) {
