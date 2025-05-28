@@ -477,6 +477,12 @@
   </footer>
 
 <script>
+    function stripZeros(str) {
+    return str
+      .replace(/(\.\d*?[1-9])0+$/ , '$1')   // drop extra zeroes after a significant decimal
+      .replace(/\.0+$/            , ''   );// drop ".0", ".00", etc.
+  }
+  
   let ageUnit = 'years';
 
   // grab your nodes once
@@ -574,21 +580,21 @@
   const pUnit = pEl.nextElementSibling; // <span class="static unit">
   let pDose, pNote;
 
-  if (w > 0 && w <= 10) {
+   if (w > 0 && w <= 10) {
     pDose = 10 * w;
-    pNote = `(10 mg/kg, every 4–6 h; max 30 mg/kg/d = ${30 * w} mg)`; 
+    const maxDailyLow = stripZeros((30 * w).toFixed(2));
+    pNote = `(10 mg/kg, every 4–6 h; max 30 mg/kg/d = ${maxDailyLow} mg)`;
   } else if (w <= 50) {
     pDose = 15 * w;
-    pNote = `(15 mg/kg, every 4–6 h; max 60 mg/d = ${60 * w} mg)`;
-  } else if (w > 50) {
+    const maxDailyHigh = stripZeros((60 * w).toFixed(2));
+    pNote = `(15 mg/kg, every 4–6 h; max 60 mg/kg/d = ${maxDailyHigh} mg)`;
+  } else {
     pDose = 1000;
     pNote = `(1 g every 4–6 h; max 4 g/d)`;
-  } else {
-    pDose = pNote = '';
   }
 
-  pEl.textContent       = pDose ? pDose.toFixed(0) : '';
-  pEl.style.display     = pDose ? 'inline' : 'none';
+  pEl.textContent   = pDose ? stripZeros(pDose.toFixed(2)) : '';
+  pEl.style.display = pDose ? 'inline' : 'none';
   if (pUnit) pUnit.style.display = pDose ? 'inline' : 'none';
 
   if (pDose) {
@@ -701,10 +707,12 @@ if (ibuNote) {
 
   const m = ageUnit === 'months' ? a : a * 12;
   if (m < 12) {
-    const w = Math.round((0.5 * m + 4) * 10) / 10;
-    weightIn.value = w;
-    calcDiv.innerHTML = `<p>(0.5 × Age in months) + 4 = ${w} <span class="unit">kg</span></p>`;
-    return;
+    const w     = 0.5 * m + 4;
+ const wDisp = stripZeros(w.toFixed(2));             // e.g. "5.75"
+  weightIn.value  = wDisp;
+  calcDiv.innerHTML =
+    `<p>(0.5 × Age in months) + 4 = ${wDisp} <span class="unit">kg</span></p>`;
+  return;
   }
   const y = m / 12;
   if (y <= 14) {
@@ -910,10 +918,10 @@ function updateEmergencyDrugs(w) {
   if (w > 0 && !isNaN(w)) {
     //— FENTANYL 1–2 mcg/kg @ 50 mcg/ml —
     clearNote(fentanylUnit);
-    const fMin = (1 * w).toFixed(1),
-          fMax = (2 * w).toFixed(1),
-          vMin = (fMin  / 50).toFixed(2),
-          vMax = (fMax  / 50).toFixed(2);
+    const fMin = stripZeros((1 * w).toFixed(1)),
+          fMax = stripZeros((2 * w).toFixed(1)),
+          vMin = stripZeros((fMin  / 50).toFixed(2)),
+          vMax = stripZeros((fMax  / 50).toFixed(2));
     fentanylEl.textContent     = `${fMin}–${fMax}`;
     fentanylEl.style.display   = 'inline';
     fentanylUnit.style.display = 'inline';
@@ -923,10 +931,10 @@ function updateEmergencyDrugs(w) {
 
      // KETAMINE 1–2 mg/kg @ 10 mg/ml
     clearNote(ketamineUnit);
-    const kMin   = (1 * w).toFixed(1),
-          kMax   = (2 * w).toFixed(1),
-          kVolMin = (kMin / 10).toFixed(2),
-          kVolMax = (kMax / 10).toFixed(2);
+    const kMin   = stripZeros((1 * w).toFixed(1)),
+          kMax   = stripZeros((2 * w).toFixed(1)),
+          kVolMin = stripZeros((kMin / 10).toFixed(2)),
+          kVolMax = stripZeros((kMax / 10).toFixed(2));
     ketamineEl.textContent     = `${kMin}–${kMax}`;
     ketamineUnit.style.display = 'inline';
     ketamineEl.style.display   = 'inline';
@@ -936,8 +944,8 @@ function updateEmergencyDrugs(w) {
 
     //— ROCURONIUM 1 mg/kg @ 10 mg/ml —
     clearNote(rocuroniumUnit);
-    const rDose = (1 * w).toFixed(1),
-          rVol  = (rDose  / 10).toFixed(2);
+    const rDose = stripZeros((1 * w).toFixed(1)),
+          rVol  = stripZeros((rDose  / 10).toFixed(2));
     rocuroniumEl.textContent     = rDose;
     rocuroniumEl.style.display   = 'inline';
     rocuroniumUnit.style.display = 'inline';
@@ -947,8 +955,8 @@ function updateEmergencyDrugs(w) {
 
     //— ATROPINE 20 mcg/kg @ 600 mcg/ml —
     clearNote(atropineUnit);
-    const aDose = (20 * w).toFixed(1),
-          aVol  = (aDose / 600).toFixed(2);
+    const aDose = stripZeros((20 * w).toFixed(1)),
+          aVol  = stripZeros((aDose / 600).toFixed(2));
     atropineEl.textContent     = aDose;
     atropineEl.style.display   = 'inline';
     atropineUnit.style.display = 'inline';
@@ -958,10 +966,10 @@ function updateEmergencyDrugs(w) {
 
     //— SUXAMETHONIUM IV 1–2 mg/kg @ 50 mg/ml —
     clearNote(suxIvUnit);
-    const sIVmin = (1 * w).toFixed(1),
-          sIVmax = (2 * w).toFixed(1),
-          ivVolMin = (sIVmin / 50).toFixed(2),
-          ivVolMax = (sIVmax / 50).toFixed(2);
+    const sIVmin = stripZeros((1 * w).toFixed(1)),
+          sIVmax = stripZeros((2 * w).toFixed(1)),
+          ivVolMin = stripZeros((sIVmin / 50).toFixed(2)),
+          ivVolMax = stripZeros((sIVmax / 50).toFixed(2));
     suxIvEl.textContent     = `${sIVmin}–${sIVmax}`;
     suxIvEl.style.display   = 'inline';
     suxIvUnit.style.display = 'inline';
@@ -973,8 +981,8 @@ function updateEmergencyDrugs(w) {
     clearNote(suxImUnit);
     let imDose = 4 * w;
     if (imDose > 150) imDose = 150;
-    const sIMdose = imDose.toFixed(1),
-          imVol    = (sIMdose / 50).toFixed(2);
+    const sIMdose = stripZeros(imDose.toFixed(1)),
+          imVol    = stripZeros((sIMdose / 50).toFixed(2));
     suxImEl.textContent     = sIMdose;
     suxImEl.style.display   = 'inline';
     suxImUnit.style.display = 'inline';
@@ -983,15 +991,15 @@ function updateEmergencyDrugs(w) {
     );
 
     //— DEFIBRILLATION ENERGY 4 J/kg —
-    const defibDose = (4 * w).toFixed(1);
+    const defibDose = stripZeros((4 * w).toFixed(1));
     defibEl.textContent     = defibDose;
     defibEl.style.display   = 'inline';
     defibUnit.style.display = 'inline';
 
     //— ADRENALINE IV 0.1 ml/kg (0.1 mg/ml) —
     clearNote(adrenalineUnit);
-    const vol = (0.1 * w).toFixed(2),
-          mg  = (vol * 0.1).toFixed(2);
+    const vol = stripZeros((0.1 * w).toFixed(2)),
+          mg  = stripZeros((vol * 0.1).toFixed(2));
     adrenalineEl.textContent     = vol;
     adrenalineEl.style.display   = 'inline';
     adrenalineUnit.style.display = 'inline';
@@ -1007,7 +1015,7 @@ function updateEmergencyDrugs(w) {
     bolusUnit.style.display = 'inline';
 
     //— GLUCOSE 10% 2 ml/kg —
-    const gluDose = (2 * w).toFixed(1);
+    const gluDose = stripZeros((2 * w).toFixed(1));
     glucoseEl.textContent     = gluDose;
     glucoseEl.style.display   = 'inline';
     glucoseUnit.style.display = 'inline';
@@ -1044,13 +1052,13 @@ function updateEmergencyDrugs(w) {
     const uSpan = el.nextElementSibling; // the `<span class="static unit">`
 
     // compute dose
-    const dMin = (min * w).toFixed(1);
-    const dMax = (max * w).toFixed(1);
+    const dMin = stripZeros((min * w).toFixed(1));
+    const dMax = stripZeros((max * w).toFixed(1));
     const doseText = (min === max) ? dMin : `${dMin}–${dMax}`;
 
     // compute volume in ml
-    const vMin = (dMin / conc).toFixed(2);
-    const vMax = (dMax / conc).toFixed(2);
+    const vMin = stripZeros((dMin / conc).toFixed(2));
+    const vMax = stripZeros((dMax / conc).toFixed(2));
     const volText = (min === max) ? `${vMin}` : `${vMin}–${vMax}`;
 
     // update DOM
@@ -1101,13 +1109,13 @@ function updateEmergencyDrugs(w) {
     let disp = '', m = ageUnit==='months'? a : a*12;
     if(m<12) {
       const e = 0.5*m+4;
-      if(Math.abs(e-w)<0.2) disp = `<p>(0.5 × Age in months) + 4 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
+      if(Math.abs(e-w)<0.2) disp = `<p>(0.5 × Age in months) + 4 = ${stripZeros(w.toFixed(1))} <span class="unit">kg</span></p>`;
     } else {
       const e1 = 2*y+8;
-      if(Math.abs(e1-w)<0.2) disp = `<p>(2 × Age) + 8 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
+      if(Math.abs(e1-w)<0.2) disp = `<p>(2 × Age) + 8 = ${stripZeros(w.toFixed(1))} <span class="unit">kg</span></p>`;
       else if(y>=6) {
         const e2 = 3*y+7;
-        if(Math.abs(e2-w)<0.2) disp = `<p>(3 × Age) + 7 = ${w.toFixed(1)} <span class="unit">kg</span></p>`;
+        if(Math.abs(e2-w)<0.2) disp = `<p>(3 × Age) + 7 = ${stripZeros(w.toFixed(1))} <span class="unit">kg</span></p>`;
       }
     }
     calcDiv.innerHTML = disp;
