@@ -88,9 +88,9 @@
       box-sizing: border-box;
 }
     .section {
-      margin: 0 auto 20px auto;
+      margin: 0 auto 16px auto;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #f0c197;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       box-sizing: border-box;
@@ -121,11 +121,11 @@
 .accordion {
     font-family: 'Roboto', sans-serif;
     max-width: 600px;
-    margin: 30px auto;
+    margin: 0px auto;
   }
   .accordion-item {
     margin-bottom: 16px;
-    border: 1px solid #d3c1e5;
+    border: 1px solid #f0c197;
     border-radius: 12px;
     background: linear-gradient(to right, #fffaf5, #fff3e0);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -186,7 +186,6 @@
   }
   .accordion-content.show {
     opacity: 1;
-    max-height: 500px; /* or something comfortably large */
   }
   </style>
 </head>
@@ -278,7 +277,7 @@
 
       <span class="accordion-title">
 
-        <i class="fas fa-syringe"></i> Airway and Ventilation
+        <i class="fas fa-mask-face"></i> Airway and Ventilation
 
       </span>
 
@@ -325,10 +324,30 @@
   </div>
       </div>      
 </div>
-  </div>
   
-  <div class="emergency-section">
-      <div class="section-header"><u>Emergencies / RSI</u></div>
+<div class="accordion-item">
+
+    <div class="accordion-header">
+
+      <span class="accordion-title">
+
+        <i class="fas fa-syringe"></i> Emergencies / RSI
+
+      </span>
+
+      <span>
+
+        <i class="fas fa-plus"></i>
+
+        <i class="fas fa-minus"></i>
+
+      </span>
+
+    </div>
+
+    <div class="accordion-content">
+
+      <div class="accordion-content-inner">  
      <div class="result">
   <strong style="background-color:#66ccf0;">Fentanyl (1-2 mcg/kg)</strong>:
   <span id="fentanyl"></span><span class="static unit"> mcg</span>
@@ -356,13 +375,15 @@
   <span id="sux-im"></span><span class="static unit"> mg</span>
 </div>
       <br>
-      <div class="result">
+
+    <div class="result">
+  <strong style="color: #D9B3DD; background-color:black;">Adrenaline IV 1:10,000 (0.1 ml/kg)</strong>:
+  <span id="adrenalineiv"></span><span class="static unit"> ml</span>
+</div>
+        <br>
+              <div class="result">
   <strong>Defibrillation energy (4 J/kg)</strong>:
   <span id="defib"></span><span class="static unit"> J</span>
-</div>
-    <div class="result">
-  <strong>Adrenaline IV 1:10,000 (0.1 ml/kg)</strong>:
-  <span id="adrenalineiv"></span><span class="static unit"> ml</span>
 </div>
       <div class="result">
   <strong>Fluid bolus (10-20 ml/kg)</strong>:
@@ -373,10 +394,34 @@
   <span id="glucose10"></span><span class="static unit"> ml</span>
 </div>
   </div>
+      </div>
+  </div>
 
   
-<div class="general-section">
-  <div class="section-header"><u>Routine General Anaesthetic</u></div>
+<div class="accordion-item">
+
+    <div class="accordion-header">
+
+      <span class="accordion-title">
+
+        <i class="fas fa-syringe"></i> Routine General Anaesthetic
+
+      </span>
+
+      <span>
+
+        <i class="fas fa-plus"></i>
+
+        <i class="fas fa-minus"></i>
+
+      </span>
+
+    </div>
+
+    <div class="accordion-content">
+
+      <div class="accordion-content-inner">      
+ 
   <div class="result">
   <strong>Fentanyl (1-2 mcg/kg)</strong>:
   <span id="fentanyl-ga"></span><span class="static unit"> mcg</span>
@@ -412,6 +457,8 @@
     <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
 </div>
   </div>
+  </div>
+    </div>
   
    <div class="button-container" style="text-align: center; margin-bottom: 20px;">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
@@ -575,14 +622,24 @@
   }
 
   iEl.textContent   = ibuText;
-  iEl.style.display = ibuText ? 'inline' : 'none';
-  if (iUnit) iUnit.style.display = ibuText || ibuNote ? 'inline' : 'none';
+if (ibuText) {
+  // numeric dose → show both value and unit
+  iEl.style.display   = 'inline';
+  if (iUnit) iUnit.style.display = 'inline';
+} else {
+  // no numeric dose → hide both
+  iEl.style.display   = 'none';
+  if (iUnit) iUnit.style.display = 'none';
+}
 
-  if (ibuNote) {
-    iUnit.insertAdjacentHTML('afterend',
-      `<small class="analgesic-note--ibu"><em> ${ibuNote}</em></small>`
-    );
-  }  // ← close the IV-note block here
+if (ibuNote) {
+  // warning text always shows
+  // append *after* the iEl (so that the small tag
+  // floats where iEl used to be)
+  iEl.insertAdjacentHTML('afterend',
+    `<small class="analgesic-note--ibu"><em> ${ibuNote}</em></small>`
+  );
+}
 
   // — IBUPROFEN PO (5–10 mg/kg, cap 400 mg) —
   const poEl   = document.getElementById('ibuprofenpo');
@@ -1019,6 +1076,7 @@ function updateEmergencyDrugs(w) {
     const normals = getNormalValues(a, ageUnit);
     if(normals) updateNormalCentiles(normals);
     if(!isNaN(y)) updateAirwayCalculations(y);
+     expandOpenAccordion();
   });
 
   ageInput.addEventListener('input', () => {
@@ -1028,6 +1086,7 @@ function updateEmergencyDrugs(w) {
     updateAirwayCalculations(y);
     const normals = getNormalValues(a, ageUnit);
     if(normals) updateNormalCentiles(normals);
+     expandOpenAccordion();
   });
 
   weightIn.addEventListener('input', () => {
@@ -1052,6 +1111,7 @@ function updateEmergencyDrugs(w) {
       }
     }
     calcDiv.innerHTML = disp;
+     expandOpenAccordion();
   });
 
   document.addEventListener('DOMContentLoaded', clearWeight);
@@ -1072,8 +1132,7 @@ function resetForm() {
 function goHome() {
   window.location.href = '/'; // or 'index.html'
 }
-
-
+  
   document.querySelectorAll('.accordion-header').forEach(header => {
 
     header.addEventListener('click', () => {
@@ -1101,6 +1160,15 @@ function goHome() {
     });
 
   });
+
+function expandOpenAccordion() {
+  const openContent = document.querySelector('.accordion-content.show');
+  if (!openContent) return;
+  // reset so browser re-measures
+  openContent.style.maxHeight = null;
+  // then set to new height
+  openContent.style.maxHeight = openContent.scrollHeight + 'px';
+}
   
 </script>
 
