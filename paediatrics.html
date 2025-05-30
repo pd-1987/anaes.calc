@@ -177,6 +177,12 @@
   .accordion-content.show {
     opacity: 1;
   }
+    .airway-note {
+  margin: 4px 0 8px 5px;
+  font-size: 12px;
+  font-style: italic;
+  color: #444;
+}
   </style>
 </head>
 <body>
@@ -486,17 +492,18 @@
   function clearWeight() {
   // 1) remove any old small notes (EM, calc, analgesic)
   document
-    .querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu, .analgesic-note--po')
+    .querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu, .analgesic-note--po, .airway-note')
     .forEach(el => el.remove());
 
   // 2) clear the weight-calculation formulas
   calcDiv.innerHTML = '';
 
   // 3) hide uncuffed/cuffed ETT
-  const uncEl  = document.getElementById('ett-uncuffed').parentElement;
-  const cuffEl = document.getElementById('ett-cuffed').parentElement;
-  uncEl.style.display  = 'none';
-  cuffEl.style.display = 'none';
+  ['ett-uncuffed','uncuffed-label','ett-or','ett-cuffed','cuffed-label']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
 
   // 4) clear laryngoscope
   const laryngoscopeEl = document.getElementById('laryngoscope');
@@ -771,6 +778,7 @@ if (ibuNote) {
 
   // airway calcs (unchanged)
   function updateAirwayCalculations(ageYears) {
+     document.querySelectorAll('.airway-note').forEach(el => el.remove());
     const w = parseFloat(weightIn.value)||0;
     const m = ageUnit==='months'? parseFloat(ageInput.value) : ageYears*12;
     let unc='', cuff='', len='';
@@ -778,31 +786,87 @@ if (ibuNote) {
     const cuffEl = document.getElementById('ett-cuffed').parentElement;
     const lenUnit= document.querySelector('#ett-length + .unit');
 
-    if (isNaN(m) || m <= 0) {
-  uncEl.style.display = 'none';
-  cuffEl.style.display = 'none';
+   if (isNaN(m) || m < 0) {
+  // only hide if age is _negative_ or invalid
+  uncEl.style.display    = 'none';
+  cuffEl.style.display   = 'none';
   lenUnit && (lenUnit.style.display = 'none');
-} else if (m<12) {
+} else if (m < 12) {
       if(w<1) unc=2.5,len=6.5;
       else if(w<2) unc=3,len=7;
       else if(w<3) unc=3.5,len=8;
       else if(w<4) unc=3.5,len=9;
       else unc=4,len=10;
+  cuff = unc - 0.5;
     } else {
-      unc  = Math.round((ageYears/4+4)*10)/10;
-      cuff = Math.round((ageYears/4+3.5)*10)/10;
-      len  = Math.round((ageYears/2+12)*10)/10;
+       unc  = ageYears/4 + 4;
+  cuff = ageYears/4 + 3.5;
+  len  = ageYears/2 + 12;
     }
+    
+// use let so we can override cuffText
+let uncText  = unc   ? stripZeros(unc.toFixed(2))   : '';
+let cuffText = cuff  ? stripZeros(cuff.toFixed(2))  : '';
+let lenText  = len   ? stripZeros(len.toFixed(2))   : '';
 
-    document.getElementById('ett-uncuffed').textContent = unc;
-    document.getElementById('ett-cuffed').textContent   = cuff;
-    document.getElementById('ett-length').textContent   = len;
-    uncEl.style.display  = unc   ? 'inline-block' : 'none';
-cuffEl.style.display = cuff  ? 'inline-block' : 'none';
-    lenUnit && (lenUnit.style.display = len ? 'inline':'none');
+// only show uncuffed if under 3.5kg
+if (w < 3.5) {
+  cuffText = '';
+}
+    
+// write into the DOM
+const uncSpan   = document.getElementById('ett-uncuffed');
+const uncLabel  = document.getElementById('uncuffed-label');
+const cuffSpan  = document.getElementById('ett-cuffed');
+const cuffLabel = document.getElementById('cuffed-label');
+const orEl      = document.getElementById('ett-or');      // only declared here
+const lenSpan   = document.getElementById('ett-length');
 
-    const orEl = document.getElementById('ett-or');
-orEl.style.display = (unc && cuff) ? 'inline' : 'none';
+// write the values
+uncSpan.textContent  = uncText;
+cuffSpan.textContent = cuffText;
+lenSpan .textContent = lenText;
+
+// show/hide individual spans & labels
+uncSpan .style.display = uncText  ? 'inline' : 'none';
+uncLabel.style.display = uncText  ? 'inline' : 'none';
+cuffSpan.style.display = cuffText ? 'inline' : 'none';
+cuffLabel.style.display= cuffText ? 'inline' : 'none';
+if (lenUnit) lenUnit.style.display = lenText ? 'inline' : 'none';
+
+// only show the “or” if both uncuffed & cuffed are visible
+orEl.style.display = (uncText && cuffText) ? 'inline' : 'none';
+    
+   if (m === 0) {
+  // clear any old airway notes
+  document.querySelectorAll('.airway-note').forEach(el => el.remove());
+
+  // 1) size guidance
+  let sizeNote = '';
+  if (w < 1)        sizeNote = 'Size 2.5: For infants < 1 kg or < 28 weeks of gestational age';
+  else if (w < 2)   sizeNote = 'Size 3.0: For infants 1–2 kg or 28–34 weeks of gestational age';
+  else              sizeNote = 'Size 3.5: For infants > 2 kg or > 34 weeks of gestational age';
+
+  uncEl.insertAdjacentHTML('afterend',
+    `<p class="airway-note"><em>${sizeNote}</em></p>`
+  );
+
+  // 2) **new** insertion‐depth formula under the length line
+  lenSpan.parentElement.insertAdjacentHTML('afterend',
+    `<p class="airway-note"><em>Estimated depth of neonatal ET insertion = 1.17 × birth weight (kg) + 5.58; 7-8-9 rule</em></p>`
+  );
+}
+    
+    if (m >= 12) {
+    // after the entire ETT‐size line:
+    uncEl.insertAdjacentHTML('afterend',
+      `<p class="airway-note"><em>Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed</em></p>`
+    );
+    // after the length‐at‐lips line:
+    lenSpan.parentElement.insertAdjacentHTML('afterend',
+      `<p class="airway-note"><em>(Age/2) + 12</em></p>`
+    );
+  }
     
     const igel = (w<=0||isNaN(w))? '' :
       w<=5?'1.0 (Neonate, 2-5 kg)':
@@ -852,13 +916,14 @@ if (w > 0 && !isNaN(w)) {
   
   if (w > 0) {
     let blade = '';
-    if (w < 1.5)             blade = 'Miller 00 or 0 (Extremely preterm)';
-    else if (w < 2.5)      blade = 'Mac 0 / Miller 0 (Preterm)';
-    else if (w < 4)        blade = 'Mac 0-1 / Miller 0-1 (Neonate)';
-    else if (w < 6)        blade = 'Mac 1 / Miller 1 (Baby, 1–6 months)';
-    else if (w < 12)       blade = 'Mac 1-2 / Miller 1–2 (Toddlers, 6 months–2 years)';
-    else if (w < 30)       blade = 'Mac 2 (Children, 2–10 years)';
-    else if (w <= 60)      blade = 'Mac 3 (Older children/Adolescent, 10+ years)';
+    if (w < 1.5)             blade = 'Miller 00 or 0 [Extremely preterm]';
+    else if (w < 2.5)      blade = 'Mac 0 (Neonate) / Miller 0 [Preterm]';
+    else if (w < 4)        blade = 'Mac 0 (Neonate) – 1 (Baby) / Miller 0-1';
+    else if (w < 6)        blade = 'Mac 1 (Baby) / Miller 1 [1–6 months]';
+    else if (w < 12)       blade = 'Mac 1 (Baby) – 2 (Child) / Miller 1–2 [6 months–2 years]';
+    else if (w < 30)       blade = 'Mac 2 (Child) [2–10 years]';
+    else if (w <= 60)      blade = 'Mac 3 (Adult) [10+ years]';
+    else if (w > 60)      blade = 'Mac 3 / Mac 4 [Large Adult]';
    if (blade) {
   laryngoscopeEl.textContent = blade;
   laryngoscopeEl.style.display = 'inline';
@@ -1078,6 +1143,8 @@ function updateEmergencyDrugs(w) {
   });
 
   ageInput.addEventListener('input', () => {
+    weightIn.value = '';
+  clearWeight();
     const a = parseFloat(ageInput.value);
     if(isNaN(a)) return clearWeight();
     const y = ageUnit==='months'? a/12 : a;
@@ -1088,6 +1155,10 @@ function updateEmergencyDrugs(w) {
   });
 
   weightIn.addEventListener('input', () => {
+     // 1) if no age has been entered, treat it as zero
+  if (ageInput.value.trim() === '') {
+    ageInput.value = '0';
+  }
     const a = parseFloat(ageInput.value),
           w = parseFloat(weightIn.value);
     if(isNaN(a)||isNaN(w)) return clearWeight();
