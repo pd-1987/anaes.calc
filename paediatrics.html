@@ -1142,25 +1142,69 @@ function updateEmergencyDrugs(w) {
      expandOpenAccordion();
   });
 
-  ageInput.addEventListener('input', () => {
-    weightIn.value = '';
-  clearWeight();
-    const a = parseFloat(ageInput.value);
-    if(isNaN(a)) return clearWeight();
-    const y = ageUnit==='months'? a/12 : a;
-    updateAirwayCalculations(y);
-    const normals = getNormalValues(a, ageUnit);
-    if(normals) updateNormalCentiles(normals);
-     expandOpenAccordion();
-  });
+ ageInput.addEventListener('input', () => {
+  const rawAge = ageInput.value.trim();
+  const rawW   = weightIn.value.trim();
+
+  // ── If age is entered but weight is blank → clear everything and stop ──
+  if (rawAge !== '' && rawW === '') {
+    return clearWeight();
+  }
+
+  // ── If both age and weight are blank → clear everything and stop ──
+  if (rawAge === '' && rawW === '') {
+    return clearWeight();
+  }
+
+  // At this point: either both age & weight exist, or weight exists and age blank.
+
+  // Parse age
+  const a = parseFloat(rawAge);
+  if (isNaN(a)) {
+    return clearWeight();
+  }
+
+  // Convert age to “years” for airway/centiles
+  const y = (ageUnit === 'months') ? (a / 12) : a;
+
+  updateAirwayCalculations(y);
+
+  const normals = getNormalValues(a, ageUnit);
+  if (normals) {
+    updateNormalCentiles(normals);
+  }
+
+  expandOpenAccordion();
+});
 
   weightIn.addEventListener('input', () => {
      // 1) if no age has been entered, treat it as zero
-  if (ageInput.value.trim() === '') {
-    ageInput.value = '0';
+  // ── NEW: if no age entered, assume age = 0 only if weight < 5kg ──
+  const rawAge = ageInput.value.trim();
+  const rawW   = weightIn.value.trim();
+
+  if (rawW === '') {
+    // if weight is blank, nothing to show
+    return clearWeight();
   }
-    const a = parseFloat(ageInput.value),
-          w = parseFloat(weightIn.value);
+
+  // parse weight now that we know it's non‐blank
+  const w = parseFloat(rawW);
+  if (isNaN(w)) {
+    return clearWeight();
+  }
+
+  if (rawAge === '') {
+    // age was blank: only proceed if weight < 5 kg
+    if (w < 5) {
+      ageInput.value = '0';      // ← assume neonate
+    } else {
+      // if weight ≥ 5kg and no age → show nothing
+      return clearWeight();
+    }
+  }
+    const a    = parseFloat(ageInput.value),
+      wnum = parseFloat(weightIn.value);
     if(isNaN(a)||isNaN(w)) return clearWeight();
     const y = ageUnit==='months'? a/12 : a;
     updateAirwayCalculations(y);
