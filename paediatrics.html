@@ -183,6 +183,66 @@
   font-style: italic;
   color: #444;
 }
+.estimate-toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin: 5px;             /* adjust spacing as needed */
+}
+
+/* Hide the native checkbox */
+.estimate-toggle input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* The track + the round knob together live in this span */
+.estimate-toggle .slider {
+  position: relative;
+  width: 40px;    /* total width of the switch */
+  height: 20px;   /* total height of the switch */
+  background-color: #ccc;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+  margin-right: 0px;  /* spacing between switch and text */
+  flex-shrink: 0;
+}
+
+/* The white circular knob inside the track */
+.estimate-toggle .slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+/* When the checkbox is checked, turn track green */
+.estimate-toggle input:checked + .slider {
+  background-color: #4caf50;
+}
+
+/* When checked, move the knob to the right */
+.estimate-toggle input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* The visible text next to the slider */
+.estimate-toggle .toggle-label {
+  font-size: 14px;
+  color: #333;
+   margin-left: -8px;
+}
+    #weight {
+  margin-right: 12px;
+}
   </style>
 </head>
 <body>
@@ -198,10 +258,14 @@
     
     
   <div class="input-group">
-    <label for="weight">Weight (kg):</label>
-    <input type="number" id="weight" min="0" placeholder="0" />
-    <button class="estimate-btn" id="EstimateBtn">Estimate</button>
-  </div>
+  <label for="weight">Weight (kg):</label>
+  <input type="number" id="weight" min="0" placeholder="0" />
+     <label class="estimate-toggle">
+    <input type="checkbox" id="EstimateToggle" checked>
+    <span class="slider"></span>
+    <span class="toggle-label">Estimate weight</span>
+  </label>
+</div>
 
   <!-- new container for showing the two formula lines -->
   <div id="weight-calculations"></div>
@@ -242,8 +306,7 @@
     <span class="static">–</span>
     <span id="sbp-95"></span>
     
-  <span class="static"><span class="static unit"> mmHg</span>)</span>
-    <small>(50th centile, 5th–95th)</small>
+  <span class="static"><span class="static unit"> mmHg</span>) *</span>
 </div>
 
   <div class="result">
@@ -251,8 +314,7 @@
   <span id="hr-5"></span>
   <span class="static">–</span>
   <span id="hr-95"></span>
-  <span class="static unit"> bpm</span>
-    <small>(5th–95th centile)</small>
+    <span class="static unit"> bpm</span> **
 </div>
     
   <div class="result">
@@ -260,9 +322,9 @@
   <span id="rr-5"></span>
   <span class="static">–</span>
   <span id="rr-95"></span>
-  <span class="static unit"> bpm</span>
-    <small>(5th–95th centile)</small>
+  <span class="static unit"> bpm</span> **
 </div>
+        <small>*(50th centile, 5th–95th)<br>**(5th–95th centile)</small>
       </div>
       </div>
     </div>
@@ -302,7 +364,7 @@
     <div class="result"><strong>ETT length at lips</strong>:
    <span id="ett-length"></span>
     <span class="static unit"> cm</span></div>
-    <div class="result"><strong>Laryngoscope blade</strong>:
+    <div class="result"><strong>Laryngoscope blade</strong>:<br>
    <span id="laryngoscope"></span>
     </div>
    <br> 
@@ -341,58 +403,175 @@
 
     </div>
 
-    <div class="accordion-content">
+  <div class="accordion-content">
+  <div class="accordion-content-inner">
+    <table style="width: 100%; border-collapse: collapse;">
+      <!-- Fentanyl -->
+      <tr style="background-color: #98c9ee;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Fentanyl</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>1–2 mcg/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="fentanyl"></span><span class="static unit"> mcg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #e0effa;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="fentanyl-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
 
-      <div class="accordion-content-inner">  
-     <div class="result">
-  <strong style="background-color:#66ccf0;">Fentanyl (1-2 mcg/kg)</strong>:
-  <span id="fentanyl"></span><span class="static unit"> mcg</span>
-</div>
-    <div class="result">
-  <strong style="background-color:#fff000;">Ketamine (1-2 mg/kg)</strong>:
-  <span id="ketamine"></span><span class="static unit"> mg</span>
-</div>
-    <div class="result">
-  <strong style="background-color:#e0281d;">Rocuronium (1 mg/kg)</strong>:
-  <span id="rocuronium"></span><span class="static unit"> mg</span>
-</div>
-    <br>
-    <div class="result">
-  <strong style="background-color:#a8d46f;">Atropine (20 mcg/kg)</strong>:
-  <span id="atropine"></span><span class="static unit"> mcg</span>
-</div>
-    <br>
-    <div class="result">
-  <strong style="color: #ff1c3d; background-color:black;">Suxamethonium IV (1-2 mg/kg)</strong>:
-  <span id="sux-iv"></span><span class="static unit"> mg</span>
-</div>
-    <div class="result">
-  <strong style="color: #ff1c3d; background-color:black;">Suxamethonium IM (4 mg/kg; Max 150 mg)</strong>:
-  <span id="sux-im"></span><span class="static unit"> mg</span>
-</div>
-      <br>
+      <!-- Ketamine -->
+      <tr style="background-color: #ffe733;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Ketamine</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>1–2 mg/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="ketamine"></span><span class="static unit"> mg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #fff9bf;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="ketamine-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
 
-    <div class="result">
-  <strong style="color: #D9B3DD; background-color:black;">Adrenaline IV 1:10,000 (0.1 ml/kg)</strong>:
-  <span id="adrenalineiv"></span><span class="static unit"> ml</span>
-</div>
-        <br>
-              <div class="result">
-  <strong>Defibrillation energy (4 J/kg)</strong>:
-  <span id="defib"></span><span class="static unit"> J</span>
-</div>
-      <div class="result">
-  <strong>Fluid bolus (10-20 ml/kg)</strong>:
-  <span id="fluidbolus"></span><span class="static unit"> ml</span>
-</div>
-      <div class="result">
-  <strong>Glucose 10% (2 ml/kg)</strong>:
-  <span id="glucose10"></span><span class="static unit"> ml</span>
-</div>
+      <!-- Rocuronium -->
+      <tr style="background-color: #ec6f73;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Rocuronium</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>1 mg/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; color: #fff;">
+          <span id="rocuronium"></span><span class="static unit"> mg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f8d5d5;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="rocuronium-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <!-- Atropine -->
+      <tr style="background-color: #a3ce6f;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Atropine</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>20 mcg/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="atropine"></span><span class="static unit"> mcg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #e3f0d4;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="atropine-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <!-- Suxamethonium IV -->
+      <tr style="background-color: #ec6f73;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Suxamethonium IV</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>1–2 mg/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="sux-iv"></span><span class="static unit"> mg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f8d5d5;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="sux-iv-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <!-- Suxamethonium IM -->
+      <tr style="background-color: #ec6f73;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Suxamethonium IM</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>4 mg/kg (Max 150 mg)</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="sux-im"></span><span class="static unit"> mg</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f8d5d5;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="sux-im-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <!-- Adrenaline IV 1:10,000 -->
+      <tr style="background-color: #d3ace5;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Adrenaline IV 1:10,000</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>0.1 mL/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="adrenalineiv"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f2e6f7;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+          Volume: <span id="adrenalineiv-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <!-- Non‐drug items (single rows) -->
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Defibrillation energy</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>4 J/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="defib"></span><span class="static unit"> J</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Fluid bolus</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>10–20 mL/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="fluidbolus"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Glucose 10%</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>2 mL/kg</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="glucose10"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+    </table>
   </div>
-      </div>
-  </div>
-
+</div>
+    </div>
   
 <div class="accordion-item">
 
@@ -480,12 +659,13 @@
   }
   
   let ageUnit = 'years';
+  let autoEstimate = true;
 
   // grab your nodes once
   const ageInput = document.getElementById('age');
   const weightIn = document.getElementById('weight');
   const unitBtn  = document.getElementById('AgeUnitBtn');
-  const estBtn   = document.getElementById('EstimateBtn');
+  const estToggle = document.getElementById('EstimateToggle');
   const calcDiv  = document.getElementById('weight-calculations');
 
   // clear everything and hide all outputs
@@ -534,6 +714,23 @@
       unit.style.display = 'none';
     }
   });
+    
+      // 7) hide the new “volume” spans (and their “mL” unit) in the table
+  [
+    'fentanyl-volume', 'ketamine-volume', 'rocuronium-volume',
+    'atropine-volume', 'sux-iv-volume', 'sux-im-volume',
+    'adrenalineiv-volume'
+  ].forEach(id => {
+    const volEl = document.getElementById(id);
+    if (volEl) {
+      volEl.textContent = '';
+      volEl.style.display = 'none';
+      const unitAfter = volEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'none';
+      }
+    }
+  });
 
   // 7) hide GA drug values + units
   [
@@ -552,7 +749,7 @@
 
   // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
-  igelEl.textContent = '';
+  igelEl.innerHTML = '';
   igelEl.style.display = 'none';
 
   const tvEl = document.getElementById('tidalvolume');
@@ -696,35 +893,59 @@ if (ibuNote) {
 
   // ── SPECIAL CASE for exactly 0 months/years ──
   if (a === 0) {
-    const w = 3.5;
-    weightIn.value = w;
-    calcDiv.innerHTML = `<p>Estimated weight for a neonate = ${w} <span class="unit">kg</span></p>`;
-    return;
+  const w = 3.5;
+  weightIn.value = w;
+  calcDiv.innerHTML = `<p>Estimated weight for a neonate = ${w} <span class="unit">kg</span></p>`;
+
+  if (autoEstimate) {                          // ← ADD this block
+    const y = ageUnit === 'months' ? 0/12 : 0;
+    const normals = getNormalValues(a, ageUnit);
+    if (normals) updateNormalCentiles(normals);
+    if (!isNaN(y)) updateAirwayCalculations(y);
+    expandOpenAccordion();
   }
+  return;
+}
 
   const m = ageUnit === 'months' ? a : a * 12;
-  if (m < 12) {
-    const w     = 0.5 * m + 4;
- const wDisp = stripZeros(w.toFixed(2));             // e.g. "5.75"
+  
+    if (m < 12) {
+  const w     = 0.5 * m + 4;
+  const wDisp = stripZeros(w.toFixed(2));
   weightIn.value  = wDisp;
   calcDiv.innerHTML =
     `<p>(0.5 × Age in months) + 4 = ${wDisp} <span class="unit">kg</span></p>`;
+
+  if (autoEstimate) {                          // ← ADD this block
+    const y = ageUnit === 'months' ? (a/12) : a;
+    const normals = getNormalValues(a, ageUnit);
+    if (normals) updateNormalCentiles(normals);
+    if (!isNaN(y)) updateAirwayCalculations(y);
+    expandOpenAccordion();
+  }
   return;
-  }
-  const y = m / 12;
-  if (y <= 14) {
-    const w1 = Math.round((2 * y + 8) * 10) / 10;
-    let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
-    if (y >= 6) {
-      const w2 = Math.round((3 * y + 7) * 10) / 10;
-      html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
-    }
-    weightIn.value = w1;
-    calcDiv.innerHTML = html;
-    return;
-  }
-  alert('Age must be between 0 months and 14 years to estimate weight.');
 }
+    
+  const y = m / 12;
+if (y <= 14) {
+  const w1 = Math.round((2 * y + 8) * 10) / 10;
+  let html = `<p>(2 × Age) + 8 = ${w1} <span class="unit">kg</span></p>`;
+  if (y >= 6) {
+    const w2 = Math.round((3 * y + 7) * 10) / 10;
+    html += `<p>(3 × Age) + 7 = ${w2} <span class="unit">kg</span></p>`;
+  }
+  weightIn.value = w1;
+  calcDiv.innerHTML = html;
+
+  if (autoEstimate) {                          // ← ADD this block
+    const normals = getNormalValues(a, ageUnit);
+    if (normals) updateNormalCentiles(normals);
+    if (!isNaN(y)) updateAirwayCalculations(y);
+    expandOpenAccordion();
+  }
+  return;
+}
+  }
 
   // paediatric normals table
   const paediatricNormals = {
@@ -869,34 +1090,34 @@ orEl.style.display = (uncText && cuffText) ? 'inline' : 'none';
   }
     
     const igel = (w<=0||isNaN(w))? '' :
-      w<=5?'1.0 (Neonate, 2-5 kg)':
-      w<=10?'1.5 (Infant, 5-12 kg)':
-      w<=25?'2.0 (Small Paediatric, 10-25 kg)':
-      w<=35?'2.5 (Large Paediatric, 25-35 kg)':
-      w<=60?'3.0 (Small Adult, 30-60 kg)':
-      w<=90?'4.0 (Medium Adult)':'5.0 (Large Adult, 50-90 kg)';
+      w<=5?'1.0 <small>(Neonate, 2-5 kg)</small>':
+      w<=10?'1.5 <small>(Infant, 5-12 kg)</small>':
+      w<=25?'2.0 <small>(Small Paediatric, 10-25 kg)</small>':
+      w<=35?'2.5 <small>(Large Paediatric, 25-35 kg)</small>':
+      w<=60?'3.0 <small>(Small Adult, 30-60 kg)</small>':
+      w<=90?'4.0 <small>(Medium Adult, 50-90kg)</small>':'<small>5.0 (Large Adult, ≥90 kg)</small>';
     
     // block for LMA sizing ---
   const lmaSize = (w <= 0 || isNaN(w)) ? '' :
-    w <= 5   ? '1.0 (<5kg)'   :
-    w <= 10  ? '1.5 (5-10 kg)' :
-    w <= 20  ? '2.0 (10-20 kg)'   :
-    w <= 30  ? '2.5 (20-30 kg)' :
-    w <= 50  ? '3.0 (30-50 kg)'   :
-    w <= 70  ? '4.0 (50-70 kg)'   :
-    w <= 100 ? '5.0 (70-100 kg)'   :
+    w <= 5   ? '1.0 <small>(<5kg)</small>'   :
+    w <= 10  ? '1.5 <small>(5-10 kg)</small>' :
+    w <= 20  ? '2.0 <small>(10-20 kg)</small>'   :
+    w <= 30  ? '2.5 <small>(20-30 kg)</small>' :
+    w <= 50  ? '3.0 <small>(30-50 kg)</small>'   :
+    w <= 70  ? '4.0 <small>(50-70 kg)</small>'   :
+    w <= 100 ? '5.0 <small>(70-100 kg)</small>'   :
                '';
    
     const igelEl = document.getElementById('igel');
 if (igel) {
-  igelEl.textContent    = igel;
+  igelEl.innerHTML    = igel;
   igelEl.style.display  = 'inline';
 } else {
   igelEl.style.display  = 'none';
 }
     
     const lmaEl = document.getElementById('lma');
-  lmaEl.textContent = lmaSize;
+  lmaEl.innerHTML = lmaSize;
   // show or hide the <div> around it
   lmaEl.parentElement.style.display = lmaSize ? 'block' : 'none';
     
@@ -937,7 +1158,7 @@ if (w > 0 && !isNaN(w)) {
   }
   
 function updateEmergencyDrugs(w) {
-  // remove any old volume/notes after a unit-span
+  // remove any old volume/notes after a unit‐span
   function clearNote(unitSpan) {
     if (!unitSpan) return;
     let next = unitSpan.nextElementSibling;
@@ -970,67 +1191,117 @@ function updateEmergencyDrugs(w) {
         glucoseEl      = document.getElementById('glucose10'),
         glucoseUnit    = glucoseEl.nextElementSibling;
 
+  // Grab the new “volume‐to‐give” <span> elements
+  const fentanylVolEl     = document.getElementById('fentanyl-volume'),
+        ketamineVolEl     = document.getElementById('ketamine-volume'),
+        rocuroniumVolEl   = document.getElementById('rocuronium-volume'),
+        atropineVolEl     = document.getElementById('atropine-volume'),
+        suxIvVolEl        = document.getElementById('sux-iv-volume'),
+        suxImVolEl        = document.getElementById('sux-im-volume'),
+        adrenalineVolEl   = document.getElementById('adrenalineiv-volume');
+
   if (w > 0 && !isNaN(w)) {
     //— FENTANYL 1–2 mcg/kg @ 50 mcg/ml —
     clearNote(fentanylUnit);
     const fMin = stripZeros((1 * w).toFixed(1)),
           fMax = stripZeros((2 * w).toFixed(1)),
-          vMin = stripZeros((fMin  / 50).toFixed(2)),
-          vMax = stripZeros((fMax  / 50).toFixed(2));
+          vMin = stripZeros((fMin / 50).toFixed(2)),
+          vMax = stripZeros((fMax / 50).toFixed(2));
+
     fentanylEl.textContent     = `${fMin}–${fMax}`;
     fentanylEl.style.display   = 'inline';
     fentanylUnit.style.display = 'inline';
-    fentanylUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${vMin}–${vMax} ml of 50 mcg/ml)</em></small>`
-    );
+    // ↓ Removed stray “);” here
 
-     // KETAMINE 1–2 mg/kg @ 10 mg/ml
+    if (fentanylVolEl) {
+      fentanylVolEl.textContent = `${vMin}–${vMax}`;
+      fentanylVolEl.style.display = 'inline';
+      // show "mL" unit after the span
+      const unitAfter = fentanylVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
+
+    //— KETAMINE 1–2 mg/kg @ 10 mg/ml —
     clearNote(ketamineUnit);
-    const kMin   = stripZeros((1 * w).toFixed(1)),
-          kMax   = stripZeros((2 * w).toFixed(1)),
+    const kMin    = stripZeros((1 * w).toFixed(1)),
+          kMax    = stripZeros((2 * w).toFixed(1)),
           kVolMin = stripZeros((kMin / 10).toFixed(2)),
           kVolMax = stripZeros((kMax / 10).toFixed(2));
+
     ketamineEl.textContent     = `${kMin}–${kMax}`;
-    ketamineUnit.style.display = 'inline';
     ketamineEl.style.display   = 'inline';
-    ketamineUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${kVolMin}–${kVolMax} ml of 10 mg/ml)</em></small>`
-    );
+    ketamineUnit.style.display = 'inline';
+    // ↓ Removed stray “);” here
+
+    if (ketamineVolEl) {
+      ketamineVolEl.textContent = `${kVolMin}–${kVolMax}`;
+      ketamineVolEl.style.display = 'inline';
+      const unitAfter = ketamineVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— ROCURONIUM 1 mg/kg @ 10 mg/ml —
     clearNote(rocuroniumUnit);
     const rDose = stripZeros((1 * w).toFixed(1)),
-          rVol  = stripZeros((rDose  / 10).toFixed(2));
+          rVol  = stripZeros((rDose / 10).toFixed(2));
+
     rocuroniumEl.textContent     = rDose;
     rocuroniumEl.style.display   = 'inline';
     rocuroniumUnit.style.display = 'inline';
-    rocuroniumUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${rVol} ml of 10 mg/ml)</em></small>`
-    );
+    // ↓ Removed stray “);” here
+
+    if (rocuroniumVolEl) {
+      rocuroniumVolEl.textContent = rVol;
+      rocuroniumVolEl.style.display = 'inline';
+      const unitAfter = rocuroniumVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— ATROPINE 20 mcg/kg @ 600 mcg/ml —
     clearNote(atropineUnit);
     const aDose = stripZeros((20 * w).toFixed(1)),
           aVol  = stripZeros((aDose / 600).toFixed(2));
+
     atropineEl.textContent     = aDose;
     atropineEl.style.display   = 'inline';
     atropineUnit.style.display = 'inline';
-    atropineUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${aVol} ml of 600 mcg/ml)</em></small>`
-    );
+    // ↓ Removed stray “);” here
+
+    if (atropineVolEl) {
+      atropineVolEl.textContent = aVol;
+      atropineVolEl.style.display = 'inline';
+      const unitAfter = atropineVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— SUXAMETHONIUM IV 1–2 mg/kg @ 50 mg/ml —
     clearNote(suxIvUnit);
-    const sIVmin = stripZeros((1 * w).toFixed(1)),
-          sIVmax = stripZeros((2 * w).toFixed(1)),
+    const sIVmin   = stripZeros((1 * w).toFixed(1)),
+          sIVmax   = stripZeros((2 * w).toFixed(1)),
           ivVolMin = stripZeros((sIVmin / 50).toFixed(2)),
           ivVolMax = stripZeros((sIVmax / 50).toFixed(2));
+
     suxIvEl.textContent     = `${sIVmin}–${sIVmax}`;
     suxIvEl.style.display   = 'inline';
     suxIvUnit.style.display = 'inline';
-    suxIvUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${ivVolMin}–${ivVolMax} ml of 50 mg/ml)</em></small>`
-    );
+    // ↓ Removed stray “);” here
+
+    if (suxIvVolEl) {
+      suxIvVolEl.textContent = `${ivVolMin}–${ivVolMax}`;
+      suxIvVolEl.style.display = 'inline';
+      const unitAfter = suxIvVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— SUXAMETHONIUM IM 4 mg/kg (max 150 mg) @ 50 mg/ml —
     clearNote(suxImUnit);
@@ -1038,12 +1309,20 @@ function updateEmergencyDrugs(w) {
     if (imDose > 150) imDose = 150;
     const sIMdose = stripZeros(imDose.toFixed(1)),
           imVol    = stripZeros((sIMdose / 50).toFixed(2));
+
     suxImEl.textContent     = sIMdose;
     suxImEl.style.display   = 'inline';
     suxImUnit.style.display = 'inline';
-    suxImUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${imVol} ml of 50 mg/ml)</em></small>`
-    );
+    // ↓ Removed stray “);” here
+
+    if (suxImVolEl) {
+      suxImVolEl.textContent = imVol;
+      suxImVolEl.style.display = 'inline';
+      const unitAfter = suxImVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— DEFIBRILLATION ENERGY 4 J/kg —
     const defibDose = stripZeros((4 * w).toFixed(1));
@@ -1053,18 +1332,27 @@ function updateEmergencyDrugs(w) {
 
     //— ADRENALINE IV 0.1 ml/kg (0.1 mg/ml) —
     clearNote(adrenalineUnit);
-    const vol = stripZeros((0.1 * w).toFixed(2)),
-          mg  = stripZeros((vol * 0.1).toFixed(2));
+    const vol   = stripZeros((0.1 * w).toFixed(2)),
+          mg    = stripZeros((vol * 0.1).toFixed(2));
+
     adrenalineEl.textContent     = vol;
     adrenalineEl.style.display   = 'inline';
     adrenalineUnit.style.display = 'inline';
-    adrenalineUnit.insertAdjacentHTML('afterend',
-      `<small class="calc-note"><em> (${mg} mg)</em></small>`
-    );
+    // ↓ Removed stray “);” here
+
+    if (adrenalineVolEl) {
+      adrenalineVolEl.textContent = vol;
+      adrenalineVolEl.style.display = 'inline';
+      const unitAfter = adrenalineVolEl.nextElementSibling;
+      if (unitAfter && unitAfter.classList.contains('unit')) {
+        unitAfter.style.display = 'inline';
+      }
+    }
 
     //— FLUID BOLUS 10–20 ml/kg —
     const bolusMin = Math.round(10 * w),
           bolusMax = Math.round(20 * w);
+
     bolusEl.textContent     = `${bolusMin}–${bolusMax}`;
     bolusEl.style.display   = 'inline';
     bolusUnit.style.display = 'inline';
@@ -1074,17 +1362,33 @@ function updateEmergencyDrugs(w) {
     glucoseEl.textContent     = gluDose;
     glucoseEl.style.display   = 'inline';
     glucoseUnit.style.display = 'inline';
-
-  } else {
+  }
+  else {
     // hide everything if no valid weight
-    [fentanylEl, ketamineEl, rocuroniumEl,
-     atropineEl, suxIvEl, suxImEl,
-     defibEl, adrenalineEl, bolusEl, glucoseEl
+    [
+      fentanylEl, ketamineEl, rocuroniumEl,
+      atropineEl, suxIvEl, suxImEl,
+      defibEl, adrenalineEl, bolusEl, glucoseEl
     ].forEach(el => {
       el.style.display = 'none';
       const u = el.nextElementSibling;
       if (u && u.classList.contains('unit')) u.style.display = 'none';
       clearNote(u);
+    });
+
+    // hide all “‐volume” spans if no weight
+    [
+      fentanylVolEl, ketamineVolEl, rocuroniumVolEl,
+      atropineVolEl, suxIvVolEl, suxImVolEl,
+      adrenalineVolEl
+    ].forEach(volEl => {
+      if (volEl) {
+        volEl.style.display = 'none';
+        const unitAfter = volEl.nextElementSibling;
+        if (unitAfter && unitAfter.classList.contains('unit')) {
+          unitAfter.style.display = 'none';
+        }
+      }
     });
   }
 }
@@ -1132,20 +1436,37 @@ function updateEmergencyDrugs(w) {
 
   // event wiring
   unitBtn.addEventListener('click', toggleAgeUnit);
-  estBtn .addEventListener('click', () => {
-    estimateWeight();
-    const a = parseFloat(ageInput.value)||0,
-          y = ageUnit==='months'? a/12 : a;
-    const normals = getNormalValues(a, ageUnit);
-    if(normals) updateNormalCentiles(normals);
-    if(!isNaN(y)) updateAirwayCalculations(y);
-     expandOpenAccordion();
-  });
+  
+ estToggle.addEventListener('change', () => {
+   autoEstimate = estToggle.checked;
+
+   if (autoEstimate) {
+     weightIn.disabled = true;
+     // Immediately estimate (if age is valid)
+     const n = parseFloat(ageInput.value);
+     if (!isNaN(n) && n >= 0) {
+       estimateWeight();
+     }
+   } else {
+     weightIn.disabled = false;
+     // Do not clear existing outputs; user can manually type weight
+   }
+ });
 
  ageInput.addEventListener('input', () => {
   const rawAge = ageInput.value.trim();
   const rawW   = weightIn.value.trim();
 
+    if (autoEstimate) {                            // ← ADD this entire if‐block
+    const n = parseFloat(rawAge);
+    if (!isNaN(n) && n >= 0) {
+      estimateWeight();
+    } else {
+      clearWeight();
+    }
+    return;
+  }
+   
   // ── If age is entered but weight is blank → clear everything and stop ──
   if (rawAge !== '' && rawW === '') {
     return clearWeight();
@@ -1178,7 +1499,11 @@ function updateEmergencyDrugs(w) {
 });
 
   weightIn.addEventListener('input', () => {
-     // 1) if no age has been entered, treat it as zero
+     if (autoEstimate) {                            // ← ADD this line
+    return;                                      // ← ADD: do nothing if Auto is ON
+  }
+    
+    // 1) if no age has been entered, treat it as zero
   // ── NEW: if no age entered, assume age = 0 only if weight < 5kg ──
   const rawAge = ageInput.value.trim();
   const rawW   = weightIn.value.trim();
@@ -1227,7 +1552,11 @@ function updateEmergencyDrugs(w) {
      expandOpenAccordion();
   });
 
-  document.addEventListener('DOMContentLoaded', clearWeight);
+  document.addEventListener('DOMContentLoaded', () => {
+  clearWeight();
+  weightIn.disabled = true;          // ← ADD: make sure weight is editable by default
+  estToggle.checked = true;    // ← ADD: initial button text
+});
   
   // Reset everything back to the initial state
 function resetForm() {
