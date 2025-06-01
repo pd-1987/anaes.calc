@@ -45,7 +45,8 @@
       margin: 2px 0;
     }
     .unit {
-      font-weight: 700;
+      font-weight: 400;
+      color: #000;
     }
     .normal-values {
   font-family: inherit;
@@ -389,7 +390,7 @@
 
       <span class="accordion-title">
 
-        <i class="fas fa-syringe"></i> Emergencies / RSI
+        <i class="fas fa-syringe"></i> Emergency Intubation
 
       </span>
 
@@ -405,6 +406,7 @@
 
   <div class="accordion-content">
   <div class="accordion-content-inner">
+      <div class="result">
     <table style="width: 100%; border-collapse: collapse;">
       <!-- Fentanyl -->
       <tr style="background-color: #98c9ee;">
@@ -412,14 +414,14 @@
           <strong>Fentanyl</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>1–2 mcg/kg</strong>
+         <small>1–2 mcg/kg</small>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="fentanyl"></span><span class="static unit"> mcg</span>
         </td>
       </tr>
       <tr style="background-color: #e0effa;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="fentanyl-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
@@ -430,14 +432,14 @@
           <strong>Ketamine</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>1–2 mg/kg</strong>
+          <small>1–2 mg/kg</small>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="ketamine"></span><span class="static unit"> mg</span>
         </td>
       </tr>
       <tr style="background-color: #fff9bf;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="ketamine-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
@@ -448,50 +450,84 @@
           <strong>Rocuronium</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>1 mg/kg</strong>
+          <small>1 mg/kg</small>
         </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; color: #fff;">
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="rocuronium"></span><span class="static unit"> mg</span>
         </td>
       </tr>
       <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="rocuronium-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
-
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
+          <strong>Fluid bolus</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+          <small>10–20 mL/kg</small>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
+          <span id="fluidbolus"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+      </table>
+    <br>
+    
+<table style="width: 100%; border-collapse: collapse;">
       <!-- Atropine -->
       <tr style="background-color: #a3ce6f;">
         <td style="padding: 8px; border: 1px solid #ccc;">
           <strong>Atropine</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>20 mcg/kg</strong>
+          <small>20 mcg/kg</small>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="atropine"></span><span class="static unit"> mcg</span>
         </td>
       </tr>
       <tr style="background-color: #e3f0d4;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="atropine-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
 
-      <!-- Suxamethonium IV -->
+        <!-- Adrenaline IV 1:10,000 -->
+      <tr style="background-color: #d3ace5;">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <strong>Adrenaline IV 1:10,000</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <small>0.1 mL/kg</small>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+          <span id="adrenalineiv"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f2e6f7;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+          Volume: <span id="adrenalineiv-volume"></span><span class="static unit"> mL</span>
+        </td>
+      </tr>
+    </table>
+    </br>
+    <table style="width: 100%; border-collapse: collapse;">
+  <!-- Suxamethonium IV -->
       <tr style="background-color: #ec6f73;">
         <td style="padding: 8px; border: 1px solid #ccc;">
           <strong>Suxamethonium IV</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>1–2 mg/kg</strong>
+          <small>1–2 mg/kg</small>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="sux-iv"></span><span class="static unit"> mg</span>
         </td>
       </tr>
       <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="sux-iv-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
@@ -502,76 +538,49 @@
           <strong>Suxamethonium IM</strong>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>4 mg/kg (Max 150 mg)</strong>
+          <small>4 mg/kg (Max 150 mg)</small>
         </td>
         <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
           <span id="sux-im"></span><span class="static unit"> mg</span>
         </td>
       </tr>
       <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
+        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
           Volume: <span id="sux-im-volume"></span><span class="static unit"> mL</span>
         </td>
       </tr>
-
-      <!-- Adrenaline IV 1:10,000 -->
-      <tr style="background-color: #d3ace5;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Adrenaline IV 1:10,000</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>0.1 mL/kg</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="adrenalineiv"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-      <tr style="background-color: #f2e6f7;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: left;">
-          Volume: <span id="adrenalineiv-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-
+    </table>
+    
+<br>
+<table style="width: 100%; border-collapse: collapse;">
       <!-- Non‐drug items (single rows) -->
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Defibrillation energy</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>4 J/kg</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="defib"></span><span class="static unit"> J</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Fluid bolus</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>10–20 mL/kg</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="fluidbolus"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">
+  <tr>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
           <strong>Glucose 10%</strong>
         </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>2 mL/kg</strong>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+          <small>2 mL/kg</small>
         </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
           <span id="glucose10"></span><span class="static unit"> mL</span>
         </td>
-      </tr>
+      </tr>    
+  <tr>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
+          <strong>Defibrillation energy</strong>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+          <small>4 J/kg</small>
+        </td>
+        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
+          <span id="defib"></span><span class="static unit"> J</span>
+        </td>
+      </tr> 
     </table>
   </div>
 </div>
     </div>
+  </div>
   
 <div class="accordion-item">
 
@@ -598,42 +607,116 @@
       <div class="accordion-content-inner general-section">      
  
   <div class="result">
-  <strong>Fentanyl (1-2 mcg/kg)</strong>:
-  <span id="fentanyl-ga"></span><span class="static unit"> mcg</span>
-</div>
-  <div class="result">
-  <strong>Propofol (3-5 mg/kg)</strong>:
-  <span id="propofol"></span><span class="static unit"> mg</span>
-</div>
-  <div class="result">
-  <strong>Rocuronium (0.6 mg/kg)</strong>:
-  <span id="rocuronium-ga"></span><span class="static unit"> mg</span>
-</div>
-  <br>
-  <div class="result">
-  <strong>Dexamethasone (0.15 mg/kg)</strong>:
-  <span id="dexamethasone"></span><span class="static unit"> mg</span>
-</div>
-  <div class="result">
-  <strong>Ondansetron (0.15 mg/kg)</strong>:
-    <span id="ondansetron"></span><span class="static unit"> mg</span>
-</div>
-  <br>
-    <div class="result">
-  <strong>Paracetamol PO/IV</strong>:
-    <span id="paracetamol"></span><span class="static unit"> mg</span>
-</div>
-  <div class="result">
-  <strong>Ibuprofen IV</strong>:
-    <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
-</div>
-  <div class="result">
-  <strong>Ibuprofen PO (5-10 mg/kg)</strong>:
-    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
-</div>
+    
+    <table style="width: 100%; border-collapse: collapse;">
+        <!-- Fentanyl GA -->
+        <tr style="background-color: #98c9ee;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Fentanyl</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>1–2 mcg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="fentanyl-ga"></span><span class="static unit"> mcg</span>
+          </td>
+        </tr>
+
+        <!-- Propofol GA -->
+        <tr style="background-color: #ffe733;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Propofol</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>3–5 mg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="propofol"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+
+        <!-- Rocuronium GA -->
+        <tr style="background-color: #ec6f73;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Rocuronium</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>0.6 mg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="rocuronium-ga"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+
+        <!-- Ondansetron GA -->
+        <tr style="background-color: #fdd7a0;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Ondansetron</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>0.15 mg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="ondansetron"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+
+      <!-- Dexamethasone GA -->
+        <tr style="background-color: #ffffff;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Dexamethasone</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>0.15 mg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="dexamethasone"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+      
+        <!-- Paracetamol PO/IV -->
+        <tr style="background-color: #ffffff;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Paracetamol PO/IV</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>(per age/weight)</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="paracetamol"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+
+        <!-- Ibuprofen IV -->
+        <tr style="background-color: #ffffff;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Ibuprofen IV</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>(per age/weight)</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+
+        <!-- Ibuprofen PO -->
+        <tr style="background-color: #ffffff;">
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <strong>Ibuprofen PO</strong>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc;">
+            <small>5–10 mg/kg</small>
+          </td>
+          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+            <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
+          </td>
+        </tr>
+      </table>
   </div>
   </div>
     </div>
+  </div>
   
    <div class="button-container" style="text-align: center; margin-bottom: 20px;">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
