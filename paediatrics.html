@@ -408,175 +408,179 @@
   <div class="accordion-content-inner">
       <div class="result">
     <table style="width: 100%; border-collapse: collapse;">
-      <!-- Fentanyl -->
-      <tr style="background-color: #98c9ee;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Fentanyl</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-         <small>1–2 mcg/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="fentanyl"></span><span class="static unit"> mcg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #e0effa;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="fentanyl-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
+  <!-- Fentanyl -->
+  <tr style="background-color: #98c9ee;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Fentanyl</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>1–2 mcg/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="fentanyl"></span><span class="static unit"> mcg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #e0effa;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="fentanyl-vol-extra"></small>
+    </td>
+  </tr>
 
-      <!-- Ketamine -->
-      <tr style="background-color: #ffe733;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Ketamine</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>1–2 mg/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="ketamine"></span><span class="static unit"> mg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #fff9bf;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="ketamine-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
+  <!-- Ketamine -->
+  <tr style="background-color: #ffe733;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Ketamine</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>1–2 mg/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="ketamine"></span><span class="static unit"> mg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #fff9bf;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="ketamine-vol-extra"></small>
+    </td>
+  </tr>
 
-      <!-- Rocuronium -->
-      <tr style="background-color: #ec6f73;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Rocuronium</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>1 mg/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="rocuronium"></span><span class="static unit"> mg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="rocuronium-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-      </table>
-    <br>
-    
-<table style="width: 100%; border-collapse: collapse;">
-      <!-- Atropine -->
-      <tr style="background-color: #a3ce6f;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Atropine</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>20 mcg/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="atropine"></span><span class="static unit"> mcg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #e3f0d4;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="atropine-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
+  <!-- Rocuronium -->
+  <tr style="background-color: #ec6f73;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Rocuronium</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>1 mg/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="rocuronium"></span><span class="static unit"> mg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #f8d5d5;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="rocuronium-vol-extra"></small>
+    </td>
+  </tr>
+</table>
 
-        <!-- Adrenaline IV 1:10,000 -->
-      <tr style="background-color: #d3ace5;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Adrenaline IV 1:10,000</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>0.1 mL/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="adrenalineiv"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-      <tr style="background-color: #f2e6f7;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="adrenalineiv-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-    </table>
-    </br>
-    <table style="width: 100%; border-collapse: collapse;">
-  <!-- Suxamethonium IV -->
-      <tr style="background-color: #ec6f73;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Suxamethonium IV</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>1–2 mg/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="sux-iv"></span><span class="static unit"> mg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="sux-iv-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-
-      <!-- Suxamethonium IM -->
-      <tr style="background-color: #ec6f73;">
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <strong>Suxamethonium IM</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc;">
-          <small>4 mg/kg (Max 150 mg)</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-          <span id="sux-im"></span><span class="static unit"> mg</span>
-        </td>
-      </tr>
-      <tr style="background-color: #f8d5d5;">
-        <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-          Volume: <span id="sux-im-volume"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
-    </table>
-    
 <br>
+
 <table style="width: 100%; border-collapse: collapse;">
-      <!-- Non‐drug items (single rows) -->
- <tr>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
-          <strong>Fluid bolus</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
-          <small>10–20 mL/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-          <span id="fluidbolus"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>
+  <!-- Atropine -->
+  <tr style="background-color: #a3ce6f;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Atropine</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>20 mcg/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="atropine"></span><span class="static unit"> mcg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #e3f0d4;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="atropine-vol-extra"></small>
+    </td>
+  </tr>
+
+  <!-- Adrenaline IV 1:10,000 -->
+  <tr style="background-color: #d3ace5;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Adrenaline IV 1:10,000</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>0.1 mL/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="adrenalineiv"></span><span class="static unit"> mL</span>
+    </td>
+  </tr>
+  <tr style="background-color: #f2e6f7;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="adrenalineiv-vol-extra"></small>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table style="width: 100%; border-collapse: collapse;">
+  <!-- Suxamethonium IV -->
+  <tr style="background-color: #ec6f73;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Suxamethonium IV</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>1–2 mg/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="sux-iv"></span><span class="static unit"> mg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #f8d5d5;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="sux-iv-vol-extra"></small>
+    </td>
+  </tr>
+
+  <!-- Suxamethonium IM -->
+  <tr style="background-color: #ec6f73;">
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <strong>Suxamethonium IM</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc;">
+      <small>4 mg/kg (Max 150 mg)</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+      <span id="sux-im"></span><span class="static unit"> mg</span>
+    </td>
+  </tr>
+  <tr style="background-color: #f8d5d5;">
+    <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+      <small id="sux-im-vol-extra"></small>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table style="width: 100%; border-collapse: collapse;">
+  <!-- Non‐drug items (single rows) -->
   <tr>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
-          <strong>Glucose 10%</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
-          <small>2 mL/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-          <span id="glucose10"></span><span class="static unit"> mL</span>
-        </td>
-      </tr>    
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
+      <strong>Fluid bolus</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+      <small>10–20 mL/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
+      <span id="fluidbolus"></span><span class="static unit"> mL</span>
+    </td>
+  </tr>
   <tr>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
-          <strong>Defibrillation energy</strong>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
-          <small>4 J/kg</small>
-        </td>
-        <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-          <span id="defib"></span><span class="static unit"> J</span>
-        </td>
-      </tr> 
-    </table>
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
+      <strong>Glucose 10%</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+      <small>2 mL/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
+      <span id="glucose10"></span><span class="static unit"> mL</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #bcbdc0;">
+      <strong>Defibrillation energy</strong>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; background-color: #e8e6e4;">
+      <small>4 J/kg</small>
+    </td>
+    <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
+      <span id="defib"></span><span class="static unit"> J</span>
+    </td>
+  </tr>
+</table>
   </div>
 </div>
     </div>
@@ -609,110 +613,155 @@
   <div class="result">
     
     <table style="width: 100%; border-collapse: collapse;">
-        <!-- Fentanyl GA -->
-        <tr style="background-color: #98c9ee;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Fentanyl</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>1–2 mcg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="fentanyl-ga"></span><span class="static unit"> mcg</span>
-          </td>
-        </tr>
 
-        <!-- Propofol GA -->
-        <tr style="background-color: #ffe733;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Propofol</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>3–5 mg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="propofol"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
+          <!-- Fentanyl GA -->
+          <tr style="background-color: #98c9ee;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Fentanyl</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <small>1–2 mcg/kg</small>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="fentanyl-ga"></span>
+              <span class="static unit">&nbsp;mcg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #e0f0ff;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="fentanyl-ga-extra"></small>
+            </td>
+          </tr>
 
-        <!-- Rocuronium GA -->
-        <tr style="background-color: #ec6f73;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Rocuronium</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>0.6 mg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="rocuronium-ga"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
+          <!-- Propofol GA -->
+          <tr style="background-color: #ffe733;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Propofol</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <small>3–5 mg/kg</small>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="propofol"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #fff8cc;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="propofol-ga-extra"></small>
+            </td>
+          </tr>
 
-        <!-- Ondansetron GA -->
-        <tr style="background-color: #fdd7a0;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Ondansetron</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>0.15 mg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="ondansetron"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
+          <!-- Rocuronium GA -->
+          <tr style="background-color: #ec6f73;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Rocuronium</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <small>0.6 mg/kg</small>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="rocuronium-ga"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #ffdada;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="rocuronium-ga-extra"></small>
+            </td>
+          </tr>
 
-      <!-- Dexamethasone GA -->
-        <tr style="background-color: #ffffff;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Dexamethasone</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>0.15 mg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="dexamethasone"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
-      
-        <!-- Paracetamol PO/IV -->
-        <tr style="background-color: #ffffff;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Paracetamol PO/IV</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>(per age/weight)</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="paracetamol"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
+          <!-- Ondansetron GA -->
+          <tr style="background-color: #fdd7a0;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Ondansetron</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <small>0.15 mg/kg</small>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="ondansetron"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #fff3e0;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="ondansetron-ga-extra"></small>
+            </td>
+          </tr>
 
-        <!-- Ibuprofen IV -->
-        <tr style="background-color: #ffffff;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Ibuprofen IV</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>(per age/weight)</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
+          <!-- Dexamethasone GA -->
+          <tr style="background-color: #ffffff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Dexamethasone</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <small>0.15 mg/kg</small>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="dexamethasone"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="dexamethasone-ga-extra"></small>
+            </td>
+          </tr>
 
-        <!-- Ibuprofen PO -->
-        <tr style="background-color: #ffffff;">
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <strong>Ibuprofen PO</strong>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc;">
-            <small>5–10 mg/kg</small>
-          </td>
-          <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-            <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
-          </td>
-        </tr>
-      </table>
+          <tr style="background-color: #e0ffe0;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Paracetamol PO/IV</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <small>Per age/weight</small>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="paracetamol"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #e6ffe6;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="paracetamol-note"></small>
+  </td>
+</tr>
+
+<!-- Ibuprofen IV -->
+<tr style="background-color: #ffe0e0;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Ibuprofen IV</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <small>Per age/weight</small>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #ffe6e6;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="ibuprofeniv-note"></small>
+  </td>
+</tr>
+
+<!-- Ibuprofen PO -->
+<tr style="background-color: #e0e0ff;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Ibuprofen PO</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <small>5–10 mg/kg</small>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #e6e6ff;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="ibuprofenpo-note"></small>
+  </td>
+</tr>
+        </table>
   </div>
   </div>
     </div>
@@ -758,8 +807,32 @@
     .querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu, .analgesic-note--po, .airway-note')
     .forEach(el => el.remove());
 
+    [
+  'fentanyl-vol-extra',
+  'ketamine-vol-extra',
+  'rocuronium-vol-extra',
+  'atropine-vol-extra',
+  'adrenalineiv-vol-extra',
+  'sux-iv-vol-extra',
+  'sux-im-vol-extra'
+].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = '';
+});
+    
   // 2) clear the weight-calculation formulas
   calcDiv.innerHTML = '';
+    
+    [
+    'fentanyl-ga-extra',
+    'propofol-ga-extra',
+    'rocuronium-ga-extra',
+    'ondansetron-ga-extra',
+    'dexamethasone-ga-extra'
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
 
   // 3) hide uncuffed/cuffed ETT
   ['ett-uncuffed','uncuffed-label','ett-or','ett-cuffed','cuffed-label']
@@ -849,106 +922,122 @@
 }
   
   function updateAnalgesics(w) {
-  // remove any old analgesic notes
-  document.querySelectorAll('.analgesic-note, .analgesic-note--ibu, .analgesic-note--po').forEach(el => el.remove());
+  // 1) Remove any old notes (<small class="analgesic-note*">) in the page
+  document
+    .querySelectorAll('.analgesic-note, .analgesic-note--ibu, .analgesic-note--po')
+    .forEach(el => el.remove());
 
-  // PARACETAMOL
+  // 2) Clear out the “-note” cells for Paracetamol & Ibuprofen IV/PO
+  [
+    'paracetamol-note',
+    'ibuprofeniv-note',
+    'ibuprofenpo-note'
+  ].forEach(extraId => {
+    const el = document.getElementById(extraId);
+    if (el) el.textContent = '';
+  });
+
+  // — PARACETAMOL dosing & note —
   const pEl   = document.getElementById('paracetamol');
-  const pUnit = pEl.nextElementSibling; // <span class="static unit">
+  const pUnit = pEl.nextElementSibling; // “ mg”
   let pDose, pNote;
 
-   if (w > 0 && w <= 10) {
+  if (w > 0 && w <= 10) {
     pDose = 10 * w;
     const maxDailyLow = stripZeros((30 * w).toFixed(2));
-    pNote = `(10 mg/kg, every 4–6 h; max 30 mg/kg/d = ${maxDailyLow} mg)`;
+    pNote = `10 mg/kg every 4–6 h; max 30 mg/kg/day = ${maxDailyLow} mg`;
   } else if (w <= 50) {
     pDose = 15 * w;
     const maxDailyHigh = stripZeros((60 * w).toFixed(2));
-    pNote = `(15 mg/kg, every 4–6 h; max 60 mg/kg/d = ${maxDailyHigh} mg)`;
-  } else {
+    pNote = `15 mg/kg every 4–6 h; max 60 mg/kg/day = ${maxDailyHigh} mg`;
+  } else if (w > 50) {
     pDose = 1000;
-    pNote = `(1 g every 4–6 h; max 4 g/d)`;
+    pNote = `1 g every 4–6 h; max 4 g/day`;
+  } else {
+    pDose = 0;
+    pNote = '';
   }
 
-  pEl.textContent   = pDose ? stripZeros(pDose.toFixed(2)) : '';
-  pEl.style.display = pDose ? 'inline' : 'none';
-  if (pUnit) pUnit.style.display = pDose ? 'inline' : 'none';
+  if (pDose > 0) {
+    pEl.textContent   = stripZeros(pDose.toFixed(2));
+    pEl.style.display = 'inline';
+    if (pUnit) pUnit.style.display = 'inline';
 
-  if (pDose) {
-    pUnit.insertAdjacentHTML('afterend',
-      `<small class="analgesic-note"><em> ${pNote}</em></small>`
-    );
+    // Put the entire note into the <small id="paracetamol-note"> cell:
+    const paracell = document.getElementById('paracetamol-note');
+    paracell.innerHTML = `<em>${pNote}</em>`;
+  } else {
+    pEl.textContent   = '';
+    pEl.style.display = 'none';
+    if (pUnit) pUnit.style.display = 'none';
   }
-    
-  // — IBUPROFEN IV dosing & notes —
+
+  // — IBUPROFEN IV dosing & note —
   const iEl   = document.getElementById('ibuprofeniv');
-  const iUnit = iEl.nextElementSibling;
-  document.querySelectorAll('.analgesic-note--ibu').forEach(el => el.remove());
-
-  const rawAge    = parseFloat(ageInput.value) || 0;
-  const ageY      = ageUnit === 'months' ? rawAge/12 : rawAge;
+  const iUnit = iEl.nextElementSibling; // “ mg”
   let ibuText = '', ibuNote = '';
 
+  const rawAge = parseFloat(ageInput.value) || 0;
+  const ageY   = ageUnit === 'months' ? rawAge/12 : rawAge;
+
   if (ageY < 6 || w < 20) {
+    // Not recommended under 20 kg or below 6 years
     ibuNote = 'Not recommended for children under 20 kg or below 6 years of age.';
+    ibuText = ''; 
   } else if (ageY < 18) {
     if (w <= 29) {
       ibuText = '200';
-      ibuNote = '(TDS, 6–8 hrly, for maximum 3 days; max 600 mg/day.)';
+      ibuNote = '200 mg TDS, 6–8 h; max 600 mg/day';
     } else if (w <= 39) {
       ibuText = '200';
-      ibuNote = '(QDS, 6 hrly, for maximum 3 days; max 800 mg/day.)';
+      ibuNote = '200 mg QDS, 6 h; max 800 mg/day';
     } else {
       ibuText = '200–400';
-      ibuNote = '(TDS, 6–8 hrly, for maximum 3 days; max 1.2 g/day.)';
+      ibuNote = '200–400 mg TDS, 6–8 h; max 1200 mg/day';
     }
   }
 
-  iEl.textContent   = ibuText;
-if (ibuText) {
-  // numeric dose → show both value and unit
-  iEl.style.display   = 'inline';
-  if (iUnit) iUnit.style.display = 'inline';
-} else {
-  // no numeric dose → hide both
-  iEl.style.display   = 'none';
-  if (iUnit) iUnit.style.display = 'none';
-}
+  if (ibuText) {
+    iEl.textContent   = ibuText;
+    iEl.style.display = 'inline';
+    if (iUnit) iUnit.style.display = 'inline';
+  } else {
+    iEl.textContent   = '';
+    iEl.style.display = 'none';
+    if (iUnit) iUnit.style.display = 'none';
+  }
 
-if (ibuNote) {
-  // warning text always shows
-  // append *after* the iEl (so that the small tag
-  // floats where iEl used to be)
- iUnit.insertAdjacentHTML('afterend',
-  `<small class="analgesic-note--ibu"><em> ${ibuNote}</em></small>`
-);
-}
+  // Write the Ibuprofen IV note into its colspan cell:
+  const ibuivCell = document.getElementById('ibuprofeniv-note');
+  ibuivCell.innerHTML = ibuNote ? `<em>${ibuNote}</em>` : '';
 
-  // — IBUPROFEN PO (5–10 mg/kg, cap 400 mg) —
+  // — IBUPROFEN PO dosing & note —
   const poEl   = document.getElementById('ibuprofenpo');
-  const poUnit = poEl.nextElementSibling;
-  document.querySelectorAll('.analgesic-note--po').forEach(el => el.remove());
-
-  const ageMonths = ageUnit === 'months' ? rawAge : rawAge*12;
+  const poUnit = poEl.nextElementSibling; // “ mg”
   let poText = '', poNote = '';
 
+  const ageMonths = ageUnit === 'months' ? rawAge : rawAge * 12;
   if (ageMonths > 3 && w > 0) {
-    const dMin = Math.min(5*w, 400);
-    const dMax = Math.min(10*w, 400);
+    const dMin = Math.min(5 * w, 400);
+    const dMax = Math.min(10 * w, 400);
     poText = `${dMin.toFixed(0)}–${dMax.toFixed(0)}`;
-    poNote = '(Maximum 30 mg/kg/day in 3–4 divided doses)';
+    poNote = 'Maximum 30 mg/kg/day in 3–4 divided doses';
   }
-
-  poEl.textContent   = poText;
-  poEl.style.display = poText ? 'inline' : 'none';
-  if (poUnit) poUnit.style.display = poText ? 'inline' : 'none';
 
   if (poText) {
-    poUnit.insertAdjacentHTML('afterend',
-      `<small class="analgesic-note--po"><em> ${poNote}</em></small>`
-    );
+    poEl.textContent   = poText;
+    poEl.style.display = 'inline';
+    if (poUnit) poUnit.style.display = 'inline';
+  } else {
+    poEl.textContent   = '';
+    poEl.style.display = 'none';
+    if (poUnit) poUnit.style.display = 'none';
   }
-  }
+
+  // Write the Ibuprofen PO note into its colspan cell:
+  const ibupopc = document.getElementById('ibuprofenpo-note');
+  ibupopc.innerHTML = poNote ? `<em>${poNote}</em>` : '';
+}
 
   // toggle years ↔ months
   function toggleAgeUnit() {
@@ -1241,280 +1330,283 @@ if (w > 0 && !isNaN(w)) {
   }
   
 function updateEmergencyDrugs(w) {
-  // remove any old volume/notes after a unit‐span
-  function clearNote(unitSpan) {
-    if (!unitSpan) return;
-    let next = unitSpan.nextElementSibling;
-    while (next && next.classList.contains('calc-note')) {
-      const toRemove = next;
-      next = next.nextElementSibling;
-      toRemove.remove();
+  // Helper that removes any old <em>…</em> from previous runs
+  function clearOldLine(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = '';
     }
   }
 
-  // grab all numeric spans + their unit spans
-  const fentanylEl     = document.getElementById('fentanyl'),
-        fentanylUnit   = fentanylEl.nextElementSibling,
-        ketamineEl     = document.getElementById('ketamine'),
-        ketamineUnit   = ketamineEl.nextElementSibling,
-        rocuroniumEl   = document.getElementById('rocuronium'),
-        rocuroniumUnit = rocuroniumEl.nextElementSibling,
-        atropineEl     = document.getElementById('atropine'),
-        atropineUnit   = atropineEl.nextElementSibling,
-        suxIvEl        = document.getElementById('sux-iv'),
-        suxIvUnit      = suxIvEl.nextElementSibling,
-        suxImEl        = document.getElementById('sux-im'),
-        suxImUnit      = suxImEl.nextElementSibling,
-        defibEl        = document.getElementById('defib'),
-        defibUnit      = defibEl.nextElementSibling,
-        adrenalineEl   = document.getElementById('adrenalineiv'),
-        adrenalineUnit = adrenalineEl.nextElementSibling,
-        bolusEl        = document.getElementById('fluidbolus'),
-        bolusUnit      = bolusEl.nextElementSibling,
-        glucoseEl      = document.getElementById('glucose10'),
-        glucoseUnit    = glucoseEl.nextElementSibling;
+  // 1) Clear out all “-vol-extra” <small> cells first
+  [
+    'fentanyl-vol-extra',
+    'ketamine-vol-extra',
+    'rocuronium-vol-extra',
+    'atropine-vol-extra',
+    'adrenalineiv-vol-extra',
+    'sux-iv-vol-extra',
+    'sux-im-vol-extra'
+  ].forEach(clearOldLine);
 
-  // Grab the new “volume‐to‐give” <span> elements
-  const fentanylVolEl     = document.getElementById('fentanyl-volume'),
-        ketamineVolEl     = document.getElementById('ketamine-volume'),
-        rocuroniumVolEl   = document.getElementById('rocuronium-volume'),
-        atropineVolEl     = document.getElementById('atropine-volume'),
-        suxIvVolEl        = document.getElementById('sux-iv-volume'),
-        suxImVolEl        = document.getElementById('sux-im-volume'),
-        adrenalineVolEl   = document.getElementById('adrenalineiv-volume');
+  // 2) Grab all the numeric <span> elements for the emergency drugs
+  const fentanylEl   = document.getElementById('fentanyl'),
+        ketamineEl   = document.getElementById('ketamine'),
+        rocuroniumEl = document.getElementById('rocuronium'),
+        atropineEl   = document.getElementById('atropine'),
+        suxIvEl      = document.getElementById('sux-iv'),
+        suxImEl      = document.getElementById('sux-im'),
+        defibEl      = document.getElementById('defib'),
+        adrenalineEl = document.getElementById('adrenalineiv');
+
+  // 3) Grab each “vol-extra” <small> placeholder
+  const fentanylExtra   = document.getElementById('fentanyl-vol-extra'),
+        ketamineExtra   = document.getElementById('ketamine-vol-extra'),
+        rocuroniumExtra = document.getElementById('rocuronium-vol-extra'),
+        atropineExtra   = document.getElementById('atropine-vol-extra'),
+        adrenalineExtra = document.getElementById('adrenalineiv-vol-extra'),
+        suxIvExtra      = document.getElementById('sux-iv-vol-extra'),
+        suxImExtra      = document.getElementById('sux-im-vol-extra');
 
   if (w > 0 && !isNaN(w)) {
-    //— FENTANYL 1–2 mcg/kg @ 50 mcg/ml —
-    clearNote(fentanylUnit);
-    const fMin = stripZeros((1 * w).toFixed(1)),
-          fMax = stripZeros((2 * w).toFixed(1)),
-          vMin = stripZeros((fMin / 50).toFixed(2)),
-          vMax = stripZeros((fMax / 50).toFixed(2));
+    // — FENTANYL: 1–2 mcg/kg @ 50 mcg/mL —
+    const fMin     = 1   * w,                  // in mcg
+          fMax     = 2   * w,                  // in mcg
+          fVolMin  = (fMin   / 50).toFixed(2),  // in mL
+          fVolMax  = (fMax   / 50).toFixed(2);  // in mL
 
-    fentanylEl.textContent     = `${fMin}–${fMax}`;
-    fentanylEl.style.display   = 'inline';
-    fentanylUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    // Write the numeric dose (mcg) + unit
+    fentanylEl.textContent   = `${stripZeros(fMin.toFixed(1))}–${stripZeros(fMax.toFixed(1))}`;
+    fentanylEl.style.display = 'inline';
+    fentanylEl.nextElementSibling.style.display = 'inline'; // “ mcg”
 
-    if (fentanylVolEl) {
-      fentanylVolEl.textContent = `${vMin}–${vMax}`;
-      fentanylVolEl.style.display = 'inline';
-      // show "mL" unit after the span
-      const unitAfter = fentanylVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    // Put the “(X–Y mL of 50 mcg/mL)” inside <small id="fentanyl-vol-extra">
+    fentanylExtra.innerHTML = `<em>${stripZeros(fVolMin)}–${stripZeros(fVolMax)} mL of 50 mcg/mL</em>`;
 
-    //— KETAMINE 1–2 mg/kg @ 10 mg/ml —
-    clearNote(ketamineUnit);
-    const kMin    = stripZeros((1 * w).toFixed(1)),
-          kMax    = stripZeros((2 * w).toFixed(1)),
-          kVolMin = stripZeros((kMin / 10).toFixed(2)),
-          kVolMax = stripZeros((kMax / 10).toFixed(2));
+    // — KETAMINE: 1–2 mg/kg @ 10 mg/mL —
+    const kMin     = 1   * w,                 // mg
+          kMax     = 2   * w,                 // mg
+          kVolMin  = (kMin   / 10).toFixed(2), // mL
+          kVolMax  = (kMax   / 10).toFixed(2); // mL
 
-    ketamineEl.textContent     = `${kMin}–${kMax}`;
-    ketamineEl.style.display   = 'inline';
-    ketamineUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    ketamineEl.textContent   = `${stripZeros(kMin.toFixed(1))}–${stripZeros(kMax.toFixed(1))}`;
+    ketamineEl.style.display = 'inline';
+    ketamineEl.nextElementSibling.style.display = 'inline'; // “ mg”
 
-    if (ketamineVolEl) {
-      ketamineVolEl.textContent = `${kVolMin}–${kVolMax}`;
-      ketamineVolEl.style.display = 'inline';
-      const unitAfter = ketamineVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    ketamineExtra.innerHTML = `<em>${stripZeros(kVolMin)}–${stripZeros(kVolMax)} mL of 10 mg/mL</em>`;
 
-    //— ROCURONIUM 1 mg/kg @ 10 mg/ml —
-    clearNote(rocuroniumUnit);
-    const rDose = stripZeros((1 * w).toFixed(1)),
-          rVol  = stripZeros((rDose / 10).toFixed(2));
+    // — ROCURONIUM: 1 mg/kg @ 10 mg/mL —
+    const rDose    = 1   * w,                 // mg
+          rVol     = (rDose / 10).toFixed(2);  // mL
 
-    rocuroniumEl.textContent     = rDose;
-    rocuroniumEl.style.display   = 'inline';
-    rocuroniumUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    rocuroniumEl.textContent   = stripZeros(rDose.toFixed(1));
+    rocuroniumEl.style.display = 'inline';
+    rocuroniumEl.nextElementSibling.style.display = 'inline'; // “ mg”
 
-    if (rocuroniumVolEl) {
-      rocuroniumVolEl.textContent = rVol;
-      rocuroniumVolEl.style.display = 'inline';
-      const unitAfter = rocuroniumVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    rocuroniumExtra.innerHTML = `<em>${stripZeros(rVol)} mL of 10 mg/mL</em>`;
 
-    //— ATROPINE 20 mcg/kg @ 600 mcg/ml —
-    clearNote(atropineUnit);
-    const aDose = stripZeros((20 * w).toFixed(1)),
-          aVol  = stripZeros((aDose / 600).toFixed(2));
+    // — ATROPINE: 20 mcg/kg @ 600 mcg/mL —
+    const aDose    = 20  * w,                   // mcg
+          aVol     = (aDose / 600).toFixed(2);    // mL
 
-    atropineEl.textContent     = aDose;
-    atropineEl.style.display   = 'inline';
-    atropineUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    atropineEl.textContent   = stripZeros(aDose.toFixed(1));
+    atropineEl.style.display = 'inline';
+    atropineEl.nextElementSibling.style.display = 'inline'; // “ mcg”
 
-    if (atropineVolEl) {
-      atropineVolEl.textContent = aVol;
-      atropineVolEl.style.display = 'inline';
-      const unitAfter = atropineVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    atropineExtra.innerHTML = `<em>${stripZeros(aVol)} mL of 600 mcg/mL</em>`;
 
-    //— SUXAMETHONIUM IV 1–2 mg/kg @ 50 mg/ml —
-    clearNote(suxIvUnit);
-    const sIVmin   = stripZeros((1 * w).toFixed(1)),
-          sIVmax   = stripZeros((2 * w).toFixed(1)),
-          ivVolMin = stripZeros((sIVmin / 50).toFixed(2)),
-          ivVolMax = stripZeros((sIVmax / 50).toFixed(2));
+    // — SUXAMETHONIUM IV: 1–2 mg/kg @ 50 mg/mL —
+    const sIVmin   = 1   * w,                // mg
+          sIVmax   = 2   * w,                // mg
+          ivVolMin = (sIVmin  / 50).toFixed(2), // mL
+          ivVolMax = (sIVmax  / 50).toFixed(2); // mL
 
-    suxIvEl.textContent     = `${sIVmin}–${sIVmax}`;
-    suxIvEl.style.display   = 'inline';
-    suxIvUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    suxIvEl.textContent   = `${stripZeros(sIVmin.toFixed(1))}–${stripZeros(sIVmax.toFixed(1))}`;
+    suxIvEl.style.display = 'inline';
+    suxIvEl.nextElementSibling.style.display = 'inline'; // “ mg”
 
-    if (suxIvVolEl) {
-      suxIvVolEl.textContent = `${ivVolMin}–${ivVolMax}`;
-      suxIvVolEl.style.display = 'inline';
-      const unitAfter = suxIvVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    suxIvExtra.innerHTML = `<em>${stripZeros(ivVolMin)}–${stripZeros(ivVolMax)} mL of 50 mg/mL</em>`;
 
-    //— SUXAMETHONIUM IM 4 mg/kg (max 150 mg) @ 50 mg/ml —
-    clearNote(suxImUnit);
+    // — SUXAMETHONIUM IM: 4 mg/kg (max 150 mg) @ 50 mg/mL —
     let imDose = 4 * w;
     if (imDose > 150) imDose = 150;
-    const sIMdose = stripZeros(imDose.toFixed(1)),
-          imVol    = stripZeros((sIMdose / 50).toFixed(2));
+    const imVol = (imDose / 50).toFixed(2); // mL
 
-    suxImEl.textContent     = sIMdose;
-    suxImEl.style.display   = 'inline';
-    suxImUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    suxImEl.textContent   = stripZeros(imDose.toFixed(1));
+    suxImEl.style.display = 'inline';
+    suxImEl.nextElementSibling.style.display = 'inline'; // “ mg”
 
-    if (suxImVolEl) {
-      suxImVolEl.textContent = imVol;
-      suxImVolEl.style.display = 'inline';
-      const unitAfter = suxImVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
-    }
+    suxImExtra.innerHTML = `<em>${stripZeros(imVol)} mL of 50 mg/mL</em>`;
 
-    //— DEFIBRILLATION ENERGY 4 J/kg —
-    const defibDose = stripZeros((4 * w).toFixed(1));
-    defibEl.textContent     = defibDose;
+    // — DEFIBRILLATION ENERGY 4 J/kg — (no “of X” needed; it’s joules)
+    const defibDose = 4 * w; // J
+    defibEl.textContent     = stripZeros(defibDose.toFixed(1));
     defibEl.style.display   = 'inline';
-    defibUnit.style.display = 'inline';
+    defibEl.nextElementSibling.style.display = 'inline'; // “ J”
 
-    //— ADRENALINE IV 0.1 ml/kg (0.1 mg/ml) —
-    clearNote(adrenalineUnit);
-    const vol   = stripZeros((0.1 * w).toFixed(2)),
-          mg    = stripZeros((vol * 0.1).toFixed(2));
+    // — ADRENALINE IV 1:10,000 is 0.1 mg/mL; dose = 0.1 mL/kg × w —
+    const adrVol = (0.1 * w).toFixed(2), // mL
+          adrMg  = (adrVol * 0.1).toFixed(2); // mg
 
-    adrenalineEl.textContent     = vol;
-    adrenalineEl.style.display   = 'inline';
-    adrenalineUnit.style.display = 'inline';
-    // ↓ Removed stray “);” here
+    adrenalineEl.textContent   = stripZeros(adrVol); 
+    adrenalineEl.style.display = 'inline';
+    adrenalineEl.nextElementSibling.style.display = 'inline'; // “ mL”
 
-    if (adrenalineVolEl) {
-      adrenalineVolEl.textContent = vol;
-      adrenalineVolEl.style.display = 'inline';
-      const unitAfter = adrenalineVolEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'inline';
-      }
+    adrenalineExtra.innerHTML = `<em>${stripZeros(adrVol)} mL of 0.1 mg/mL</em>`;
+
+// — FLUID BOLUS 10–20 mL/kg —
+    const bolusEl   = document.getElementById('fluidbolus'),
+          bolusUnit = bolusEl.nextElementSibling; // “ mL”
+    const bolusMin  = Math.round(10 * w),
+          bolusMax  = Math.round(20 * w);
+
+    bolusEl.textContent    = `${bolusMin}–${bolusMax}`;
+    bolusEl.style.display  = 'inline';
+    if (bolusUnit && bolusUnit.classList.contains('unit')) {
+      bolusUnit.style.display = 'inline';
     }
 
-    //— FLUID BOLUS 10–20 ml/kg —
-    const bolusMin = Math.round(10 * w),
-          bolusMax = Math.round(20 * w);
+    // — GLUCOSE 10% 2 mL/kg —
+    const glucoseEl   = document.getElementById('glucose10'),
+          glucoseUnit = glucoseEl.nextElementSibling; // “ mL”
+    const gluDose     = stripZeros((2 * w).toFixed(1));
 
-    bolusEl.textContent     = `${bolusMin}–${bolusMax}`;
-    bolusEl.style.display   = 'inline';
-    bolusUnit.style.display = 'inline';
-
-    //— GLUCOSE 10% 2 ml/kg —
-    const gluDose = stripZeros((2 * w).toFixed(1));
-    glucoseEl.textContent     = gluDose;
-    glucoseEl.style.display   = 'inline';
-    glucoseUnit.style.display = 'inline';
+    glucoseEl.textContent    = gluDose;
+    glucoseEl.style.display  = 'inline';
+    if (glucoseUnit && glucoseUnit.classList.contains('unit')) {
+      glucoseUnit.style.display = 'inline';
+    }
   }
   else {
-    // hide everything if no valid weight
-    [
-      fentanylEl, ketamineEl, rocuroniumEl,
-      atropineEl, suxIvEl, suxImEl,
-      defibEl, adrenalineEl, bolusEl, glucoseEl
-    ].forEach(el => {
+    // hide fentanyl/ketamine/etc.
+    [fentanylEl, ketamineEl, rocuroniumEl,
+     atropineEl, suxIvEl, suxImEl,
+     defibEl, adrenalineEl].forEach(el => {
       el.style.display = 'none';
-      const u = el.nextElementSibling;
-      if (u && u.classList.contains('unit')) u.style.display = 'none';
-      clearNote(u);
-    });
-
-    // hide all “‐volume” spans if no weight
-    [
-      fentanylVolEl, ketamineVolEl, rocuroniumVolEl,
-      atropineVolEl, suxIvVolEl, suxImVolEl,
-      adrenalineVolEl
-    ].forEach(volEl => {
-      if (volEl) {
-        volEl.style.display = 'none';
-        const unitAfter = volEl.nextElementSibling;
-        if (unitAfter && unitAfter.classList.contains('unit')) {
-          unitAfter.style.display = 'none';
-        }
+      const unitSpan = el.nextElementSibling;
+      if (unitSpan && unitSpan.classList.contains('unit')) {
+        unitSpan.style.display = 'none';
       }
     });
+    // clear all “-vol-extra” text
+    [fentanylExtra, ketamineExtra, rocuroniumExtra,
+     atropineExtra, adrenalineExtra, suxIvExtra, suxImExtra]
+      .forEach(clearOldLine);
+
+    // hide bolus/glucose
+    const bolusEl   = document.getElementById('fluidbolus'),
+          bolusUnit = bolusEl.nextElementSibling;
+    bolusEl.style.display = 'none';
+    if (bolusUnit && bolusUnit.classList.contains('unit')) {
+      bolusUnit.style.display = 'none';
+    }
+
+    const glucoseEl   = document.getElementById('glucose10'),
+          glucoseUnit = glucoseEl.nextElementSibling;
+    glucoseEl.style.display = 'none';
+    if (glucoseUnit && glucoseUnit.classList.contains('unit')) {
+      glucoseUnit.style.display = 'none';
+    }
   }
 }
   
     function updateGADrugs(w) {
-  // clear any old notes first
-  document.querySelectorAll('.general-section .calc-note').forEach(el => el.remove());
+  // 1) first, clear out any old “extra” notes
+  [
+    'fentanyl-ga-extra',
+    'propofol-ga-extra',
+    'rocuronium-ga-extra',
+    'ondansetron-ga-extra',
+    'dexamethasone-ga-extra'
+  ].forEach(extraId => {
+    const el = document.getElementById(extraId);
+    if (el) el.textContent = '';
+  });
 
+  // 2) list of GA drugs + their dosing/concentration info
   const drugs = [
-    // id,  min-dose, max-dose,   conc per ml,       unit
-    { id: 'propofol',    min: 3,   max: 5,    conc: 10,     unit: 'mg'  },
-    { id: 'fentanyl-ga', min: 1,   max: 2,    conc: 50,     unit: 'mcg' },
-    { id: 'rocuronium-ga', min: 0.6, max: 0.6, conc: 10,     unit: 'mg'  },
-    { id: 'dexamethasone', min: 0.15, max: 0.15, conc: 3.3,   unit: 'mg'  },
-    { id: 'ondansetron',  min: 0.15, max: 0.15, conc: 2,      unit: 'mg'  },
+    { 
+      id:           'fentanyl-ga',
+      minDose:      1,    // mcg/kg
+      maxDose:      2,    // mcg/kg
+      conc:         50,   // mcg per mL
+      unitLabel:    'mcg',
+      extraId:      'fentanyl-ga-extra'
+    },
+    {
+      id:           'propofol',
+      minDose:      3,    // mg/kg
+      maxDose:      5,    // mg/kg
+      conc:         10,   // mg per mL
+      unitLabel:    'mg',
+      extraId:      'propofol-ga-extra'
+    },
+    {
+      id:           'rocuronium-ga',
+      minDose:      0.6,  // mg/kg  (single‐value)
+      maxDose:      0.6,  // same
+      conc:         10,   // mg per mL
+      unitLabel:    'mg',
+      extraId:      'rocuronium-ga-extra'
+    },
+    {
+      id:           'ondansetron',
+      minDose:      0.15, // mg/kg
+      maxDose:      0.15, // same
+      conc:         2,    // mg per mL
+      unitLabel:    'mg',
+      extraId:      'ondansetron-ga-extra'
+    },
+    {
+      id:           'dexamethasone',
+      minDose:      0.15, // mg/kg
+      maxDose:      0.15, // same
+      conc:         3.3,  // mg per mL
+      unitLabel:    'mg',
+      extraId:      'dexamethasone-ga-extra'
+    }
   ];
 
-  drugs.forEach(({ id, min, max, conc, unit }) => {
-    const el    = document.getElementById(id);
-    const uSpan = el.nextElementSibling; // the `<span class="static unit">`
+  // 3) if w > 0, populate each dose AND its colspan-3 “extra” cell
+  if (w > 0 && !isNaN(w)) {
+    drugs.forEach(({ id, minDose, maxDose, conc, unitLabel, extraId }) => {
+      // a) compute dose text
+      const dMin    = stripZeros((minDose * w).toFixed(1));
+      const dMax    = stripZeros((maxDose * w).toFixed(1));
+      const doseText = (minDose === maxDose) ? dMin : `${dMin}–${dMax}`;
 
-    // compute dose
-    const dMin = stripZeros((min * w).toFixed(1));
-    const dMax = stripZeros((max * w).toFixed(1));
-    const doseText = (min === max) ? dMin : `${dMin}–${dMax}`;
+      // b) write dose into the <span id="…"> and show its unit
+      const spanEl  = document.getElementById(id);
+      const unitSpan= spanEl.nextElementSibling; // the “ mg” or “ mcg”
+      spanEl.textContent       = doseText;
+      spanEl.style.display     = 'inline';
+      if (unitSpan && unitSpan.classList.contains('unit')) {
+        unitSpan.style.display = 'inline';
+      }
 
-    // compute volume in ml
-    const vMin = stripZeros((dMin / conc).toFixed(2));
-    const vMax = stripZeros((dMax / conc).toFixed(2));
-    const volText = (min === max) ? `${vMin}` : `${vMin}–${vMax}`;
+      // c) compute volume (ml) text
+      //    if min === max, single value; otherwise “X–Y”
+      const vMin    = stripZeros((dMin / conc).toFixed(2));
+      const vMax    = stripZeros((dMax / conc).toFixed(2));
+      const volText = (minDose === maxDose) ? `${vMin}` : `${vMin}–${vMax}`;
 
-    // update DOM
-    el.textContent       = doseText;
-    el.style.display     = w > 0 ? 'inline' : 'none';
-    if (uSpan) uSpan.style.display = w > 0 ? 'inline' : 'none';
-
-    // append the little italic volume note
-    if (w > 0) {
-      uSpan.insertAdjacentHTML('afterend',
-        `<small class="calc-note"><em> (${volText} ml of ${conc}${unit}/ml)</em></small>`
-      );
-    }
-  });
+      // d) write into the colspan-3 <small id="…-extra">
+      const extraEl = document.getElementById(extraId);
+      extraEl.innerHTML = `<em>${volText} mL of ${conc}${unitLabel}/mL</em>`;
+    });
+  }
+  else {
+    // 4) if no valid weight, hide all dose spans + units, leave extras blank
+    drugs.forEach(({ id, extraId }) => {
+      const spanEl = document.getElementById(id);
+      spanEl.style.display = 'none';
+      const unitSpan = spanEl.nextElementSibling;
+      if (unitSpan && unitSpan.classList.contains('unit')) {
+        unitSpan.style.display = 'none';
+      }
+      // extra cell was already cleared at top
+    });
+  }
 }
 
   // event wiring
