@@ -244,6 +244,9 @@
     #weight {
   margin-right: 12px;
 }
+    .result table {
+      font-size:12px;
+    }
   </style>
 </head>
 <body>
@@ -1743,6 +1746,15 @@ function resetForm() {
   unitBtn.textContent = 'years';
   // 3) hide all existing outputs
   clearWeight();
+  
+// 4) collapse any open accordion panels
+  document.querySelectorAll('.accordion-header.active').forEach(header => {
+    header.classList.remove('active');
+    const content = header.nextElementSibling; // the .accordion-content
+    content.classList.remove('show');
+    content.style.maxHeight = null;
+  });
+  
 }
 
 // Optional: home button handler if you want
