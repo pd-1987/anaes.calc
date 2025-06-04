@@ -799,7 +799,7 @@
 </tr>
 <tr style="background-color: #e0f0ff;">
   <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="morphine-po-extra"></small>
+    <small id="morphine-iv-extra"></small>
   </td>
 </tr>
           <!-- Morphine PO -->
@@ -950,7 +950,7 @@
   [
     'propofol','fentanyl-ga','rocuronium-ga',
     'dexamethasone','ondansetron',
-    'paracetamol','ibuprofeniv','ibuprofenpo','ketorolac'
+    'paracetamol','ibuprofeniv','ibuprofenpo','ketorolac','morphineiv','morphinepo'
   ].forEach(id => {
     const el   = document.getElementById(id);
     const unit = el.nextElementSibling;
@@ -963,6 +963,12 @@
     
     const ketExtra = document.getElementById('ketorolac-extra');
 if (ketExtra) ketExtra.textContent = '';
+    
+ const mIvNote = document.getElementById('morphine-iv-extra');
+if (mIvNote) mIvNote.textContent = '';
+    
+    const mPoNote = document.getElementById('morphine-po-extra');
+if (mPoNote) mPoNote.textContent = '';
 
   // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
@@ -1179,6 +1185,133 @@ if (ketExtra) ketExtra.textContent = '';
     if (kUnit) kUnit.style.display = 'none';
     extraEl.textContent = '';
   }
+   // — MORPHINE IV (0.05–0.1 mg/kg up to 12 y; ≥12 y → 5 mg) —
+  const mIvEl   = document.getElementById('morphineiv');
+  const mIvUnit = mIvEl.nextElementSibling; // “ mg”
+  const mNoteEl = document.getElementById('morphine-iv-extra');
+
+  if (w > 0 && !isNaN(w)) {
+    // calculate age in years
+    const rawAge = parseFloat(ageInput.value) || 0;
+    const ageY   = (ageUnit === 'months') ? (rawAge / 12) : rawAge;
+
+    let doseText;
+    if (ageY < 12) {
+      // 0.05–0.1 mg/kg
+      const minDose = 0.05 * w;
+      const maxDose = 0.10 * w;
+      doseText = `${stripZeros(minDose.toFixed(2))}–${stripZeros(maxDose.toFixed(2))}`;
+    } else {
+      // ≥ 12 years → flat 5 mg
+      doseText = '5';
+    }
+
+    // Write dose into the span and show its unit
+    mIvEl.textContent   = doseText;
+    mIvEl.style.display = 'inline';
+    if (mIvUnit && mIvUnit.classList.contains('unit')) {
+      mIvUnit.style.display = 'inline';
+    }
+
+    // Put the note into the <small id="morphine-iv-extra"> cell:
+    mNoteEl.innerHTML = `<em>Every 4 hours, adjusted according to response</em>`;
+  } else {
+    // hide Morphine IV span & unit, clear note
+    mIvEl.textContent   = '';
+    mIvEl.style.display = 'none';
+    if (mIvUnit && mIvUnit.classList.contains('unit')) {
+      mIvUnit.style.display = 'none';
+    }
+    mNoteEl.textContent = '';
+  }
+// — MORPHINE PO (age-stratified µg/kg → mg) —
+  const mPoEl    = document.getElementById('morphinepo');
+  const mPoUnit  = mPoEl.nextElementSibling; // “ mg”
+  const mPoNote  = document.getElementById('morphine-po-extra');
+
+  if (w > 0 && !isNaN(w)) {
+    const rawAge = parseFloat(ageInput.value) || 0;
+    // convert age to months
+    const ageMonths = ageUnit === 'months' ? rawAge : rawAge * 12;
+    // convert age to years (decimal)
+    const ageY = ageMonths / 12;
+
+    let doseMinMg = 0, doseMaxMg = 0;
+    let noteText = '';
+
+    if (ageMonths >= 1 && ageMonths <= 2) {
+      // 50–100 µg/kg → (50/1000)–(100/1000) mg/kg
+      doseMinMg  = (50  * w) / 1000;
+      doseMaxMg  = (100 * w) / 1000;
+      noteText   = 'Initially 50–100 µg/kg every 4 hours, adjust per response';
+    }
+    else if (ageMonths > 2 && ageMonths <= 5) {
+      // 100–150 µg/kg
+      doseMinMg  = (100 * w) / 1000;
+      doseMaxMg  = (150 * w) / 1000;
+      noteText   = '100–150 µg/kg every 4 hours, adjust per response';
+    }
+    else if (ageMonths > 5 && ageMonths < 12) {
+      // 200 µg/kg exactly
+      doseMinMg  = (200 * w) / 1000;
+      doseMaxMg  = doseMinMg;
+      noteText   = '200 µg/kg every 4 hours, adjust per response';
+    }
+    else if (Math.floor(ageY) === 1) {
+      // exactly 1 year → 200–300 µg/kg
+      doseMinMg  = (200 * w) / 1000;
+      doseMaxMg  = (300 * w) / 1000;
+      noteText   = '200–300 µg/kg every 4 hours, adjust per response';
+    }
+    else if (ageY >= 2 && ageY < 12) {
+      // 2–11 years → 200–300 µg/kg, max per dose 10 mg
+      const rawMin = (200 * w) / 1000;
+      const rawMax = (300 * w) / 1000;
+      doseMinMg    = Math.min(rawMin, 10);
+      doseMaxMg    = Math.min(rawMax, 10);
+      noteText     = '200–300 µg/kg every 4 hours (max 10 mg/dose), adjust per response';
+    }
+    else if (ageY >= 12 && ageY < 18) {
+      // 12–17 years → 5–10 mg every 4 hours
+      doseMinMg  = 5;
+      doseMaxMg  = 10;
+      noteText   = '5–10 mg every 4 hours, adjust per response';
+    }
+    else {
+      // if <1 month or ≥18 years, hide
+      doseMinMg = doseMaxMg = 0;
+      noteText = '';
+    }
+
+    if (doseMinMg > 0) {
+      // Format “min–max” or single value
+      const doseText = Math.abs(doseMaxMg - doseMinMg) < 0.01
+        ? stripZeros(doseMinMg.toFixed(2))
+        : `${stripZeros(doseMinMg.toFixed(2))}–${stripZeros(doseMaxMg.toFixed(2))}`;
+
+      mPoEl.textContent   = doseText;
+      mPoEl.style.display = 'inline';
+      if (mPoUnit && mPoUnit.classList.contains('unit')) {
+        mPoUnit.style.display = 'inline';
+      }
+      mPoNote.innerHTML = `<em>${noteText}</em>`;
+    } else {
+      mPoEl.textContent   = '';
+      mPoEl.style.display = 'none';
+      if (mPoUnit && mPoUnit.classList.contains('unit')) {
+        mPoUnit.style.display = 'none';
+      }
+      mPoNote.textContent = '';
+    }
+  } else {
+    // no weight → hide Morphine PO entirely
+    mPoEl.textContent   = '';
+    mPoEl.style.display = 'none';
+    if (mPoUnit && mPoUnit.classList.contains('unit')) {
+      mPoUnit.style.display = 'none';
+    }
+    mPoNote.textContent = '';
+  }    
 }
 
   // toggle years ↔ months
