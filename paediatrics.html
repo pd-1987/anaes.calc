@@ -249,7 +249,7 @@
     }
     .reversal-text {
   background-color: #fff;      /* text on solid white so it’s readable */
-  padding: 4px 8px;
+  padding: 0px 4px;
 }
   </style>
 </head>
@@ -619,7 +619,7 @@
     
     <table style="width: 100%; border-collapse: collapse;">
 
-          <tr style="background-color: #98c9ee;">
+          <tr style="background-color: #fa770a;">
             <td style="padding: 8px; border: 1px solid #ccc;">
               <strong>Midazolam PO</strong>
             </td>
@@ -631,13 +631,13 @@
               <span class="static unit">&nbsp;mg</span>
             </td>
           </tr>
-          <tr style="background-color: #e0f0ff;">
+          <tr style="background-color: #fff3e0;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
               <small id="premed-midaz-note"></small>
             </td>
           </tr>
       
-      <tr style="background-color: #98c9ee;">
+      <tr style="background-color: #fa770a;">
             <td style="padding: 8px; border: 1px solid #ccc;">
               <strong>Midazolam - intranasal</strong>
             </td>
@@ -645,17 +645,17 @@
               0.2 mg/kg<br>(Max 10mg)
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-              <span id="premed-midaz"></span>
+              <span id="premed-midaz-intranasal"></span>
               <span class="static unit">&nbsp;mg</span>
             </td>
           </tr>
-          <tr style="background-color: #e0f0ff;">
+          <tr style="background-color: #fff3e0;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-              <small id="premed-midaz-note"></small>
+              <small id="premed-midaz-intranasal-note"></small>
             </td>
           </tr>
       
-      <tr style="background-color: #98c9ee;">
+      <tr style="background-color: #fff;">
             <td style="padding: 8px; border: 1px solid #ccc;">
               <strong>Dexmedetomidine - intranasal</strong>
             </td>
@@ -667,7 +667,7 @@
               <span class="static unit">&nbsp;mcg</span>
             </td>
           </tr>
-          <tr style="background-color: #e0f0ff;">
+          <tr style="background-color: #f5f5f5;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
               <small id="premed-dexmed-note"></small>
             </td>
@@ -879,7 +879,13 @@
   
     <br>
     <table style="width: 100%; border-collapse: collapse;">
-           <tr style="background-color: #ffffff;">
+           <tr style="background: repeating-linear-gradient(
+    135deg,
+    #ec6f73,
+    #ec6f73 2px,
+    #fff     2px,
+    #fff     16px
+  );">
   <td style="padding: 8px; border: 1px solid #ccc;">
     <strong>Sugammadex</strong>
   </td>
@@ -896,7 +902,13 @@
   </td>
 </tr> 
       
-      <tr style="background-color: #ffffff;">
+      <tr style="background: repeating-linear-gradient(
+    135deg,
+    #ec6f73,
+    #ec6f73 2px,
+    #fff     2px,
+    #fff     16px
+  );">
   <td style="padding: 8px; border: 1px solid #ccc;">
     <strong>Sugammadex</strong>
   </td>
@@ -914,18 +926,18 @@
 </tr> 
       
       <tr style="background: repeating-linear-gradient(
-    45deg,
-    #e53935,
-    #e53935 12px,
-    #fff     8px,
-    #fff     18px
+    135deg,
+    #ec6f73,
+    #ec6f73 2px,
+    #fff     2px,
+    #fff     16px
   );">
   <td style="padding: 8px; border: 1px solid #ccc;">
     <span class="reversal-text">
       <strong>Neostigmine/Glycopyrulate</strong></span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text">0.02 mL/kg (50 mcg/kg / 10 mcg/kg)</span>
+    <span class="reversal-text">0.02 mL/kg</span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
     <span class="reversal-text"><span id="neostigmine"></span><span class="static unit"> mg</span></span>
