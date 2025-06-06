@@ -124,7 +124,7 @@
   }
   .accordion-header {
     background: transparent;
-    color: #333;
+    color: #000;
     padding: 16px 18px;
     display: flex;
     justify-content: space-between;
@@ -169,7 +169,7 @@
     background: #fffaf5;
     transition: max-height 0.4s ease, opacity 0.3s ease;
     font-size: 0.95em;
-    color: #444;
+    color: #000;
     padding: 0 18px;
   }
   .accordion-content-inner {
@@ -238,7 +238,7 @@
 /* The visible text next to the slider */
 .estimate-toggle .toggle-label {
   font-size: 14px;
-  color: #333;
+  color: #000;
    margin-left: -8px;
 }
     #weight {
@@ -247,6 +247,10 @@
     .result table {
       font-size:12px;
     }
+    .reversal-text {
+  background-color: #fff;      /* text on solid white so it’s readable */
+  padding: 4px 8px;
+}
   </style>
 </head>
 <body>
@@ -283,7 +287,7 @@
 
       <span class="accordion-title">
 
-        <i class="fas fa-stethoscope"></i> Normal physiological values
+        <i class="fa-solid fa-heart-pulse"></i> Normal physiological values
 
       </span>
 
@@ -301,34 +305,32 @@
 
       <div class="accordion-content-inner">
 
-  <div class="result">
-    <strong>SBP</strong>:
-  <span id="sbp-50"></span>
-    <span class="static unit"> mmHg</span>
-  <span class="static">(</span>
-    <span id="sbp-5"></span>
-    <span class="static">–</span>
-    <span id="sbp-95"></span>
-    
-  <span class="static"><span class="static unit"> mmHg</span>) *</span>
-</div>
+ <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+  <tr>
+    <td style="border: 1px solid #ccc; padding: 8px;"><strong>SBP</strong></td>
+    <td style="border: 1px solid #ccc; padding: 8px;">
+      <span id="sbp-50"></span>
+      <span class="static unit"> mmHg</span>
+      (<span id="sbp-5"></span>–<span id="sbp-95"></span><span class="static unit"> mmHg</span>) *
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ccc; padding: 8px;"><strong>HR</strong></td>
+    <td style="border: 1px solid #ccc; padding: 8px;">
+      <span id="hr-5"></span>–<span id="hr-95"></span>
+      <span class="static unit"> bpm</span> **
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ccc; padding: 8px;"><strong>RR</strong></td>
+    <td style="border: 1px solid #ccc; padding: 8px;">
+      <span id="rr-5"></span>–<span id="rr-95"></span>
+      <span class="static unit"> bpm</span> **
+    </td>
+  </tr>
+</table>
 
-  <div class="result">
-    <strong>HR</strong>:
-  <span id="hr-5"></span>
-  <span class="static">–</span>
-  <span id="hr-95"></span>
-    <span class="static unit"> bpm</span> **
-</div>
-    
-  <div class="result">
-    <strong>RR</strong>:
-  <span id="rr-5"></span>
-  <span class="static">–</span>
-  <span id="rr-95"></span>
-  <span class="static unit"> bpm</span> **
-</div>
-        <small>*(50th centile, 5th–95th)<br>**(5th–95th centile)</small>
+        <small>*50th centile (5th – 95th)<br>**5th – 95th centile</small>
       </div>
       </div>
     </div>
@@ -339,7 +341,7 @@
 
       <span class="accordion-title">
 
-        <i class="fas fa-mask-face"></i> Airway and Ventilation
+        <i class="fa-solid fa-mask-ventilator"></i> Airway and Ventilation
 
       </span>
 
@@ -589,13 +591,102 @@
     </div>
   </div>
   
+    <div class="accordion-item">
+
+    <div class="accordion-header">
+
+      <span class="accordion-title">
+
+        <i class="fas fa-pills"></i> Premedication
+
+      </span>
+
+      <span>
+
+        <i class="fas fa-plus"></i>
+
+        <i class="fas fa-minus"></i>
+
+      </span>
+
+    </div>
+
+    <div class="accordion-content">
+
+      <div class="accordion-content-inner general-section">      
+ 
+  <div class="result">
+    
+    <table style="width: 100%; border-collapse: collapse;">
+
+          <tr style="background-color: #98c9ee;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Midazolam PO</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              0.5 mg/kg<br>(Max 20mg)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="premed-midaz"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #e0f0ff;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="premed-midaz-note"></small>
+            </td>
+          </tr>
+      
+      <tr style="background-color: #98c9ee;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Midazolam - intranasal</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              0.2 mg/kg<br>(Max 10mg)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="premed-midaz"></span>
+              <span class="static unit">&nbsp;mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #e0f0ff;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="premed-midaz-note"></small>
+            </td>
+          </tr>
+      
+      <tr style="background-color: #98c9ee;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Dexmedetomidine - intranasal</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              2–4 mcg/kg<br>(Max 200 mcg)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="premed-dexmed"></span>
+              <span class="static unit">&nbsp;mcg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #e0f0ff;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="premed-dexmed-note"></small>
+            </td>
+          </tr>
+      
+      </table>
+  </div>
+  </div>
+    </div>
+  </div>
+      
+    
 <div class="accordion-item">
 
     <div class="accordion-header">
 
       <span class="accordion-title">
 
-        <i class="fas fa-syringe"></i> Routine General Anaesthetic
+        <i class="fa-solid fa-bed"></i> Routine General Anaesthetic
 
       </span>
 
@@ -718,18 +809,18 @@
         <table style="width: 100%; border-collapse: collapse;">
           <tr style="background-color: #ffffff;">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <strong>Paracetamol PO/IV</strong>
+    <strong>Paracetamol IV</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
     Per age/weight
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="paracetamol"></span><span class="static unit"> mg</span>
+    <span id="paracetamol-iv"></span><span class="static unit"> mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
   <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="paracetamol-note"></small>
+    <small id="paracetamol-iv-note"></small>
   </td>
 </tr>
 
@@ -750,24 +841,6 @@
     <small id="ibuprofeniv-note"></small>
   </td>
 </tr>
-
-<!-- Ibuprofen PO -->
-<tr style="background-color: #ffffff;">
-  <td style="padding: 8px; border: 1px solid #ccc;">
-    <strong>Ibuprofen PO</strong>
-  </td>
-  <td style="padding: 8px; border: 1px solid #ccc;">
-    5–10 mg/kg
-  </td>
-  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
-  </td>
-</tr>
-<tr style="background-color: #f5f5f5;">
-  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="ibuprofenpo-note"></small>
-  </td>
-</tr>
           <!-- Ketorolac -->
 <tr style="background-color: #ffffff;">
   <td style="padding: 8px; border: 1px solid #ccc;">
@@ -785,10 +858,10 @@
     <small id="ketorolac-extra"></small>
   </td>
 </tr>
-          <!-- Morphine IV -->
+           <!-- Morphine IV -->
 <tr style="background-color: #98c9ee;">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <strong>Morphine IV</strong>
+    <strong>Morphine</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
     0.05–0.1 mg/kg
@@ -802,6 +875,106 @@
     <small id="morphine-iv-extra"></small>
   </td>
 </tr>
+    </table>
+  
+    <br>
+    <table style="width: 100%; border-collapse: collapse;">
+           <tr style="background-color: #ffffff;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Sugammadex</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    2 mg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="sugammadex"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #fff;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="sugammadex2-note"></small>
+  </td>
+</tr> 
+      
+      <tr style="background-color: #ffffff;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Sugammadex</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    4 mg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="sugammadex"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #fff;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="sugammadex4-note"></small>
+  </td>
+</tr> 
+      
+      <tr style="background: repeating-linear-gradient(
+    45deg,
+    #e53935,
+    #e53935 12px,
+    #fff     8px,
+    #fff     18px
+  );">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <span class="reversal-text">
+      <strong>Neostigmine/Glycopyrulate</strong></span>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <span class="reversal-text">0.02 mL/kg (50 mcg/kg / 10 mcg/kg)</span>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span class="reversal-text"><span id="neostigmine"></span><span class="static unit"> mg</span></span>
+  </td>
+</tr>
+<tr style="background-color: #fff;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="neostigmine-note"></small>
+  </td>
+</tr> 
+        </table>
+    
+    <br>
+    <table style="width: 100%; border-collapse: collapse;">
+           <tr style="background-color: #ffffff;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Paracetamol PO</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    Per age/weight
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="paracetamol-po"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #f5f5f5;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="paracetamol-po-note"></small>
+  </td>
+</tr>
+          
+<!-- Ibuprofen PO -->
+<tr style="background-color: #ffffff;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Ibuprofen PO</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    5–10 mg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #f5f5f5;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small id="ibuprofenpo-note"></small>
+  </td>
+</tr>
+          
           <!-- Morphine PO -->
 <tr style="background-color: #98c9ee;">
   <td style="padding: 8px; border: 1px solid #ccc;">
@@ -819,12 +992,47 @@
               <small id="morphine-po-extra"></small>
   </td>
 </tr>
-        </table>
+    </table>    
   </div>
   </div>
     </div>
   </div>
-  
+    
+        <div class="accordion-item">
+
+    <div class="accordion-header">
+
+      <span class="accordion-title">
+
+        <i class="fa-solid fa-prescription-bottle-medical"></i> Antibiotics
+
+      </span>
+
+      <span>
+
+        <i class="fas fa-plus"></i>
+
+        <i class="fas fa-minus"></i>
+
+      </span>
+
+    </div>
+
+    <div class="accordion-content">
+
+      <div class="accordion-content-inner general-section">      
+ 
+  <div class="result">
+    
+    <table style="width: 100%; border-collapse: collapse;">
+
+      
+      </table>
+  </div>
+  </div>
+    </div>
+  </div>
+    
    <div class="button-container" style="text-align: center; margin-bottom: 20px;">
     <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
     <button type="button" class="home-btn" onclick="goHome()">Home</button>
@@ -862,7 +1070,7 @@
   function clearWeight() {
   // 1) remove any old small notes (EM, calc, analgesic)
   document
-    .querySelectorAll('.calc-note, .analgesic-note, .analgesic-note--ibu, .analgesic-note--po, .airway-note')
+    .querySelectorAll('.airway-note')
     .forEach(el => el.remove());
 
     [
@@ -928,29 +1136,11 @@
       unit.style.display = 'none';
     }
   });
-    
-      // 7) hide the new “volume” spans (and their “mL” unit) in the table
-  [
-    'fentanyl-volume', 'ketamine-volume', 'rocuronium-volume',
-    'atropine-volume', 'sux-iv-volume', 'sux-im-volume',
-    'adrenalineiv-volume'
-  ].forEach(id => {
-    const volEl = document.getElementById(id);
-    if (volEl) {
-      volEl.textContent = '';
-      volEl.style.display = 'none';
-      const unitAfter = volEl.nextElementSibling;
-      if (unitAfter && unitAfter.classList.contains('unit')) {
-        unitAfter.style.display = 'none';
-      }
-    }
-  });
 
   // 7) hide GA drug values + units
   [
     'propofol','fentanyl-ga','rocuronium-ga',
-    'dexamethasone','ondansetron',
-    'paracetamol','ibuprofeniv','ibuprofenpo','ketorolac','morphineiv','morphinepo'
+    'dexamethasone','ondansetron','paracetamol-iv','paracetamol-po','ibuprofeniv','ibuprofenpo','ketorolac','morphineiv','morphinepo'
   ].forEach(id => {
     const el   = document.getElementById(id);
     const unit = el.nextElementSibling;
@@ -969,6 +1159,14 @@ if (mIvNote) mIvNote.textContent = '';
     
     const mPoNote = document.getElementById('morphine-po-extra');
 if (mPoNote) mPoNote.textContent = '';
+    
+['paracetamol-iv-note','paracetamol-po-note'].forEach(id => {
+  const noteEl = document.getElementById(id);
+  if (noteEl) {
+    noteEl.textContent = '';
+    noteEl.style.display = 'none';
+   }
+ });
 
   // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
@@ -989,14 +1187,10 @@ if (mPoNote) mPoNote.textContent = '';
 }
   
   function updateAnalgesics(w) {
-  // 1) Remove any old notes (<small class="analgesic-note*">) in the page
-  document
-    .querySelectorAll('.analgesic-note, .analgesic-note--ibu, .analgesic-note--po')
-    .forEach(el => el.remove());
-
-  // 2) Clear out the “-note” cells for Paracetamol & Ibuprofen IV/PO
+  // 2) Clear out the “-note” cells for Paracetamol & Ibuprofen
   [
-    'paracetamol-note',
+    'paracetamol-po-note',
+    'paracetamol-iv-note',
     'ibuprofeniv-note',
     'ibuprofenpo-note',
     'ketorolac-extra'
@@ -1005,41 +1199,86 @@ if (mPoNote) mPoNote.textContent = '';
     if (el) el.textContent = '';
   });
 
-  // — PARACETAMOL dosing & note —
-  const pEl   = document.getElementById('paracetamol');
-  const pUnit = pEl.nextElementSibling; // “ mg”
-  let pDose, pNote;
+// — PARACETAMOL dosing & note —
 
+  // 1) Calculate IV dose & note
+  let paraIVDose, paraIVNote;
   if (w > 0 && w <= 10) {
-    pDose = 10 * w;
-    const maxDailyLow = stripZeros((30 * w).toFixed(2));
-    pNote = `10 mg/kg every 4–6 h; max 30 mg/kg/day = ${maxDailyLow} mg`;
+    paraIVDose = 10 * w;
+    const maxDailyLowIV = stripZeros((30 * w).toFixed(2));
+    paraIVNote = `10 mg/kg every 4–6 h; max 30 mg/kg/day = ${maxDailyLowIV} mg`;
   } else if (w <= 50) {
-    pDose = 15 * w;
-    const maxDailyHigh = stripZeros((60 * w).toFixed(2));
-    pNote = `15 mg/kg every 4–6 h; max 60 mg/kg/day = ${maxDailyHigh} mg`;
+    paraIVDose = 15 * w;
+    const maxDailyHighIV = stripZeros((60 * w).toFixed(2));
+    paraIVNote = `15 mg/kg every 4–6 h; max 60 mg/kg/day = ${maxDailyHighIV} mg`;
   } else if (w > 50) {
-    pDose = 1000;
-    pNote = `1 g every 4–6 h; max 4 g/day`;
+    paraIVDose = 1000;
+    paraIVNote = `1 g every 4–6 h; max 4 g/day`;
   } else {
-    pDose = 0;
-    pNote = '';
+    paraIVDose = 0;
+    paraIVNote = '';
   }
 
-  if (pDose > 0) {
-    pEl.textContent   = stripZeros(pDose.toFixed(2));
-    pEl.style.display = 'inline';
-    if (pUnit) pUnit.style.display = 'inline';
-
-    // Put the entire note into the <small id="paracetamol-note"> cell:
-    const paracell = document.getElementById('paracetamol-note');
-    paracell.innerHTML = `<em>${pNote}</em>`;
+  // 2) Calculate PO dose & note
+  let paraPODose, paraPONote;
+  if (w > 0 && w <= 10) {
+    paraPODose = 10 * w;
+    const maxDailyLowPO = stripZeros((30 * w).toFixed(2));
+    paraPONote = `10 mg/kg every 4–6 h; max 30 mg/kg/day = ${maxDailyLowPO} mg`;
+  } else if (w <= 50) {
+    paraPODose = 15 * w;
+    const maxDailyHighPO = stripZeros((60 * w).toFixed(2));
+    paraPONote = `15 mg/kg every 4–6 h; max 60 mg/kg/day = ${maxDailyHighPO} mg`;
+  } else if (w > 50) {
+    paraPODose = 1000;
+    paraPONote = `1 g every 4–6 h; max 4 g/day`;
   } else {
-    pEl.textContent   = '';
-    pEl.style.display = 'none';
-    if (pUnit) pUnit.style.display = 'none';
+    paraPODose = 0;
+    paraPONote = '';
   }
 
+  // 3) Update IV span & note for Paracetamol
+  const pIvEl     = document.getElementById('paracetamol-iv');
+  const pIvUnit   = pIvEl.nextElementSibling; // the “ mg” span
+  const pIvNoteEl = document.getElementById('paracetamol-iv-note');
+
+  if (paraIVDose > 0) {
+    pIvEl.textContent   = stripZeros(paraIVDose.toFixed(2));
+    pIvEl.style.display = 'inline';
+    if (pIvUnit) pIvUnit.style.display = 'inline';
+
+    pIvNoteEl.innerHTML     = `<em>${paraIVNote}</em>`;
+    pIvNoteEl.style.display = 'inline';
+  } else {
+    pIvEl.textContent     = '';
+    pIvEl.style.display   = 'none';
+    if (pIvUnit) pIvUnit.style.display = 'none';
+
+    pIvNoteEl.textContent     = '';
+    pIvNoteEl.style.display   = 'none';
+  }
+
+  // 4) Update PO span & note for Paracetamol
+  const pPoEl     = document.getElementById('paracetamol-po');
+  const pPoUnit   = pPoEl.nextElementSibling; // the “ mg” span
+  const pPoNoteEl = document.getElementById('paracetamol-po-note');
+
+  if (paraPODose > 0) {
+    pPoEl.textContent   = stripZeros(paraPODose.toFixed(2));
+    pPoEl.style.display = 'inline';
+    if (pPoUnit) pPoUnit.style.display = 'inline';
+
+    pPoNoteEl.innerHTML     = `<em>${paraPONote}</em>`;
+    pPoNoteEl.style.display = 'inline';
+  } else {
+    pPoEl.textContent     = '';
+    pPoEl.style.display   = 'none';
+    if (pPoUnit) pPoUnit.style.display = 'none';
+
+    pPoNoteEl.textContent     = '';
+    pPoNoteEl.style.display   = 'none';
+  }
+  
   // — IBUPROFEN IV dosing & note —
   const iEl   = document.getElementById('ibuprofeniv');
   const iUnit = iEl.nextElementSibling; // “ mg”
