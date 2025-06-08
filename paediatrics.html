@@ -359,17 +359,67 @@
 
       <div class="accordion-content-inner">
 <div class="result">
-  <strong>ETT size</strong>:
-  <span id="ett-uncuffed"></span>
-  <small id="uncuffed-label">(Uncuffed)</small>
-  <span id="ett-or" style="display:none; margin:0 4px;">or</span>
-  <span id="ett-cuffed"></span>
-  <small id="cuffed-label">(Cuffed)</small>
+  <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">
+          Endotracheal tube (ETT) size
+        </th>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:left;">Uncuffed</th>
+        <th style="border:1px solid #ccc; padding:8px; text-align:left;">Cuffed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border:1px solid #ccc; padding:8px;">
+          <span id="ett-uncuffed"></span>
+          <small id="uncuffed-label">(Uncuffed)</small>
+        </td>
+        <td style="border:1px solid #ccc; padding:8px;">
+          <span id="ett-cuffed"></span>
+          <small id="cuffed-label">(Cuffed)</small>
+        </td>
+      </tr>
+      <tr>
+        <td id="ett-note" colspan="2" style="border:1px solid #ccc; padding:8px; font-style:italic; color:#444;">
+          <!-- your JS will insert “Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed” (or neonatal rule) here -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-    <div class="result"><strong>ETT length at lips</strong>:
-   <span id="ett-length"></span>
-    <span class="static unit"> cm</span></div>
+    <div class="result">
+  <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">ETT Depth</th>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:left;">At lips</th>
+        <th style="border:1px solid #ccc; padding:8px; text-align:left;">At nose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border:1px solid #ccc; padding:8px;">
+          <span id="ett-depth-lips"></span>
+          <span class="static unit">cm</span>
+        </td>
+        <td style="border:1px solid #ccc; padding:8px;">
+          <span id="ett-depth-nose"></span>
+          <span class="static unit">cm</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="ett-depth-note" colspan="2" style="border:1px solid #ccc; padding:8px; font-style:italic; color:#444;"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        
     <div class="result"><strong>Laryngoscope</strong>:<br>
    <span id="laryngoscope"></span>
     </div>
@@ -1072,7 +1122,7 @@
         <p><a href="https://www.evelinalondon.nhs.uk/our-services/hospital/south-thames-retrieval-service/clinical-guidelines.aspx">South Thames Retrieval Service (STRS) Clinical Guidelines and Drug Calculators</a></p>
         <p><a href="https://cats.nhs.uk/clinical-guidelines/">Children’s Acute Transport Service (CATS) Clinical Guidelines</a></p>
         <p><a href="https://www.gosh.nhs.uk/wards-and-departments/departments/clinical-specialties/thames-paediatric-anaesthetists-group-information-health-professionals/clinical-guidelines/">Great Ormond Street Hospital (GOSH) Guidelines</a></p>
-        <p><a href="https://www.resus.org.uk/library/2021-resuscitation-guidelines/paediatric-advanced-life-support-guidelines">Paediatric advanced life support Guidelines (Resuscitation Council UK)</a></p>
+        <p><a href="https://www.resus.org.uk/library/2021-resuscitation-guidelines/paediatric-advanced-life-support-guidelines">Paediatric Advanced Life Support Guidelines (Resuscitation Council UK)</a></p>
         
   </div>
     </div>
@@ -1146,7 +1196,7 @@
   });
 
   // 3) hide uncuffed/cuffed ETT
-  ['ett-uncuffed','uncuffed-label','ett-or','ett-cuffed','cuffed-label']
+  ['ett-uncuffed','uncuffed-label', 'ett-cuffed','cuffed-label']
     .forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
@@ -1161,7 +1211,7 @@
   [
     'sbp-5','sbp-50','sbp-95',
     'hr-5','hr-95','rr-5','rr-95',
-    'ett-uncuffed','ett-cuffed','ett-length',
+    'ett-uncuffed','ett-cuffed',
     'lma','fentanyl','ketamine','rocuronium'
   ].forEach(id => {
     document.getElementById(id).textContent = '';
@@ -1221,10 +1271,6 @@ if (mPoNote) mPoNote.textContent = '';
   const tvEl = document.getElementById('tidalvolume');
   tvEl.textContent = '';
   tvEl.style.display = 'none';
-
-  // 9) hide the “cm” unit next to ETT length
-  const lenUnit = document.querySelector('#ett-length + .unit');
-  if (lenUnit) lenUnit.style.display = 'none';
 
   // 10) hide static text in normals
   document.querySelectorAll('.normal-values .static')
@@ -1741,165 +1787,153 @@ if (y <= 14) {
       .forEach(el => el.style.display='inline');
   }
 
-  // airway calcs (unchanged)
   function updateAirwayCalculations(ageYears) {
-     document.querySelectorAll('.airway-note').forEach(el => el.remove());
-    const w = parseFloat(weightIn.value)||0;
-    const m = ageUnit==='months'? parseFloat(ageInput.value) : ageYears*12;
-    let unc='', cuff='', len='';
-    const uncEl  = document.getElementById('ett-uncuffed').parentElement;
-    const cuffEl = document.getElementById('ett-cuffed').parentElement;
-    const lenUnit= document.querySelector('#ett-length + .unit');
+  // 1) clear out any old notes
+  document.querySelectorAll('.airway-note, .depth-note-row').forEach(el => el.remove());
 
-   if (isNaN(m) || m < 0) {
-  // only hide if age is _negative_ or invalid
-  uncEl.style.display    = 'none';
-  cuffEl.style.display   = 'none';
-  lenUnit && (lenUnit.style.display = 'none');
-} else if (m < 12) {
-      if(w<1) unc=2.5,len=6.5;
-      else if(w<2) unc=3,len=7;
-      else if(w<3) unc=3.5,len=8;
-      else if(w<4) unc=3.5,len=9;
-      else unc=4,len=10;
-  cuff = unc - 0.5;
-    } else {
-       unc  = ageYears/4 + 4;
-  cuff = ageYears/4 + 3.5;
-  len  = ageYears/2 + 12;
-    }
-    
-// use let so we can override cuffText
-let uncText  = unc   ? stripZeros(unc.toFixed(2))   : '';
-let cuffText = cuff  ? stripZeros(cuff.toFixed(2))  : '';
-let lenText  = len   ? stripZeros(len.toFixed(2))   : '';
+  // 2) grab weight and convert age→months
+  const w      = parseFloat(weightIn.value) || 0;
+  const months = ageUnit === 'months'
+    ? parseFloat(ageInput.value)
+    : ageYears * 12;
 
-// only show uncuffed if under 3.5kg
-if (w < 3.5) {
-  cuffText = '';
-}
-    
-// write into the DOM
-const uncSpan   = document.getElementById('ett-uncuffed');
-const uncLabel  = document.getElementById('uncuffed-label');
-const cuffSpan  = document.getElementById('ett-cuffed');
-const cuffLabel = document.getElementById('cuffed-label');
-const orEl      = document.getElementById('ett-or');      // only declared here
-const lenSpan   = document.getElementById('ett-length');
+  // 3) calculate uncuffed/cuffed sizes + length
+  let unc, cuff, len;
+  if (isNaN(months) || months < 0) {
+    unc = cuff = len = null;
+  } else if (months < 12) {
+    // neonate/infant rule
+    if      (w < 1) { unc = 2.5; len = 6.5; }
+    else if (w < 2) { unc = 3.0; len = 7.0; }
+    else if (w < 3) { unc = 3.5; len = 8.0; }
+    else if (w < 4) { unc = 3.5; len = 9.0; }
+    else            { unc = 4.0; len = 10.0; }
+    cuff = unc - 0.5;
+  } else {
+    // older child
+    unc  = ageYears / 4 + 4;
+    cuff = ageYears / 4 + 3.5;
+    len  = ageYears / 2 + 12;
+  }
 
-// write the values
-uncSpan.textContent  = uncText;
-cuffSpan.textContent = cuffText;
-lenSpan .textContent = lenText;
+  const uncText  = unc  != null ? stripZeros(unc.toFixed(2))  : '';
+  const cuffText = (cuff != null && w >= 3.5) 
+                     ? stripZeros(cuff.toFixed(2)) 
+                     : '';
+  const lenText  = len  != null ? stripZeros(len.toFixed(2))  : '';
 
-// show/hide individual spans & labels
-uncSpan .style.display = uncText  ? 'inline' : 'none';
-uncLabel.style.display = uncText  ? 'inline' : 'none';
-cuffSpan.style.display = cuffText ? 'inline' : 'none';
-cuffLabel.style.display= cuffText ? 'inline' : 'none';
-if (lenUnit) lenUnit.style.display = lenText ? 'inline' : 'none';
+  // 4) inject ETT *size* values
+  const uncSpan  = document.getElementById('ett-uncuffed');
+  const uncLbl   = document.getElementById('uncuffed-label');
+  const cuffSpan = document.getElementById('ett-cuffed');
+  const cuffLbl  = document.getElementById('cuffed-label');
 
-// only show the “or” if both uncuffed & cuffed are visible
-orEl.style.display = (uncText && cuffText) ? 'inline' : 'none';
-    
-   if (m === 0) {
-  // clear any old airway notes
-  document.querySelectorAll('.airway-note').forEach(el => el.remove());
+  uncSpan.textContent   = uncText;
+  uncSpan.style.display = uncText  ? 'inline' : 'none';
+  uncLbl.style.display  = uncText  ? 'inline' : 'none';
 
-  // 1) size guidance
+  cuffSpan.textContent  = cuffText;
+  cuffSpan.style.display = cuffText ? 'inline' : 'none';
+  cuffLbl.style.display   = cuffText ? 'inline' : 'none';
+
+  // 5) inject the *size note* into your existing cell
+  const sizeNoteCell = document.getElementById('ett-note');
   let sizeNote = '';
-  if (w < 1)        sizeNote = 'Size 2.5: For infants < 1 kg or < 28 weeks of gestational age';
-  else if (w < 2)   sizeNote = 'Size 3.0: For infants 1–2 kg or 28–34 weeks of gestational age';
-  else              sizeNote = 'Size 3.5: For infants > 2 kg or > 34 weeks of gestational age';
-
-  uncEl.insertAdjacentHTML('afterend',
-    `<p class="airway-note"><em>${sizeNote}</em></p>`
-  );
-
-  // 2) **new** insertion‐depth formula under the length line
-  lenSpan.parentElement.insertAdjacentHTML('afterend',
-    `<p class="airway-note"><em>Estimated depth of neonatal ET insertion = 1.17 × birth weight (kg) + 5.58; 7-8-9 rule</em></p>`
-  );
-}
-    
-    if (m >= 12) {
-    // after the entire ETT‐size line:
-    uncEl.insertAdjacentHTML('afterend',
-      `<p class="airway-note"><em>Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed</em></p>`
-    );
-    // after the length‐at‐lips line:
-    lenSpan.parentElement.insertAdjacentHTML('afterend',
-      `<p class="airway-note"><em>(Age/2) + 12</em></p>`
-    );
+  if (months < 1) {
+    sizeNote = 'Size 2.5: for <1 kg/&#60;28 wks; 3.0: 1–2 kg/28–34 wks; 3.5: >2 kg/>34 wks';
+  } else {
+    sizeNote = 'Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed';
   }
-    
-    const igel = (w<=0||isNaN(w))? '' :
-      w<=5?'1.0 <small>(Neonate, 2-5 kg)</small>':
-      w<=10?'1.5 <small>(Infant, 5-12 kg)</small>':
-      w<=25?'2.0 <small>(Small Paediatric, 10-25 kg)</small>':
-      w<=35?'2.5 <small>(Large Paediatric, 25-35 kg)</small>':
-      w<=60?'3.0 <small>(Small Adult, 30-60 kg)</small>':
-      w<=90?'4.0 <small>(Medium Adult, 50-90kg)</small>':'<small>5.0 (Large Adult, ≥90 kg)</small>';
-    
-    // block for LMA sizing ---
-  const lmaSize = (w <= 0 || isNaN(w)) ? '' :
-    w <= 5   ? '1.0 <small>(<5kg)</small>'   :
-    w <= 10  ? '1.5 <small>(5-10 kg)</small>' :
-    w <= 20  ? '2.0 <small>(10-20 kg)</small>'   :
-    w <= 30  ? '2.5 <small>(20-30 kg)</small>' :
-    w <= 50  ? '3.0 <small>(30-50 kg)</small>'   :
-    w <= 70  ? '4.0 <small>(50-70 kg)</small>'   :
-    w <= 100 ? '5.0 <small>(70-100 kg)</small>'   :
-               '';
-   
-    const igelEl = document.getElementById('igel');
-if (igel) {
-  igelEl.innerHTML    = igel;
-  igelEl.style.display  = 'inline';
-} else {
-  igelEl.style.display  = 'none';
-}
-    
-    const lmaEl = document.getElementById('lma');
-  lmaEl.innerHTML = lmaSize;
-  // show or hide the <div> around it
-  lmaEl.parentElement.style.display = lmaSize ? 'block' : 'none';
-    
-    // tidal volume 6–8 ml/kg
- const tvEl = document.getElementById('tidalvolume');
-if (w > 0 && !isNaN(w)) {
-  const tvMin = Math.round(6 * w);
-  const tvMax = Math.round(8 * w);
-  tvEl.textContent      = `${tvMin} – ${tvMax} ml`;
-  tvEl.style.display    = 'inline';
-} else {
-  tvEl.style.display    = 'none';
-  
-}
-      // — LARYNGOSCOPE BLADE SIZING —
-  const laryngoscopeEl      = document.getElementById('laryngoscope');
-  
+  sizeNoteCell.innerHTML = sizeNote ? `<em>${sizeNote}</em>` : '';
+
+  // 6) inject ETT *depth* table values
+  const lipsEl      = document.getElementById('ett-depth-lips');
+  const lipsUnit    = lipsEl.nextElementSibling;
+  lipsEl.textContent      = lenText;
+  lipsEl.style.display    = lenText ? 'inline' : 'none';
+  if (lipsUnit && lipsUnit.classList.contains('unit')) {
+    lipsUnit.style.display = lenText ? 'inline' : 'none';
+  }
+
+  const noseEl      = document.getElementById('ett-depth-nose');
+  const noseUnit    = noseEl.nextElementSibling;
+  noseEl.textContent      = '';          // placeholder for your future calc
+  noseEl.style.display    = 'none';
+  if (noseUnit && noseUnit.classList.contains('unit')) {
+    noseUnit.style.display = 'none';
+  }
+
+  // 7) depth note (neonates only)
+  const depthNoteEl = document.getElementById('ett-depth-note');
+  let depthNote = '';
+  if (months < 1) {
+    depthNote = 'Depth ≈ 1.17 × birth wt (kg) + 5.58 (“7-8-9” rule)';
+  }
+  depthNoteEl.innerHTML = depthNote ? `<em>${depthNote}</em>` : '';
+
+  // 8) now your i-Gel, LMA, tidal-volume & blade sizing exactly as before:
+  // — i-Gel —
+  const igelEl = document.getElementById('igel');
+  let igelSize = '';
   if (w > 0) {
-    let blade = '';
-    if (w < 1.5)             blade = 'Miller 00 or 0 [Extremely preterm]';
-    else if (w < 2.5)      blade = 'Mac 0 (Neonate) / Miller 0 [Preterm]';
-    else if (w < 4)        blade = 'Mac 0 (Neonate) – 1 (Baby) / Miller 0-1';
-    else if (w < 6)        blade = 'Mac 1 (Baby) / Miller 1 [1–6 months]';
-    else if (w < 12)       blade = 'Mac 1 (Baby) – 2 (Child) / Miller 1–2 [6 months–2 years]';
-    else if (w < 30)       blade = 'Mac 2 (Child) [2–10 years]';
-    else if (w <= 60)      blade = 'Mac 3 (Adult) [10+ years]';
-    else if (w > 60)      blade = 'Mac 3 / Mac 4 [Large Adult]';
-   if (blade) {
-  laryngoscopeEl.textContent = blade;
-  laryngoscopeEl.style.display = 'inline';
-} else {
-  laryngoscopeEl.style.display = 'none';
-}  
+    if      (w <= 5)  igelSize = '1.0 <small>(2–5 kg)</small>';
+    else if (w <= 10) igelSize = '1.5 <small>(5–12 kg)</small>';
+    else if (w <= 25) igelSize = '2.0 <small>(10–25 kg)</small>';
+    else if (w <= 35) igelSize = '2.5 <small>(25–35 kg)</small>';
+    else if (w <= 60) igelSize = '3.0 <small>(30–60 kg)</small>';
+    else if (w <= 90) igelSize = '4.0 <small>(50–90 kg)</small>';
+    else              igelSize = '5.0 <small>(≥90 kg)</small>';
   }
-     updateEmergencyDrugs(w);
-    updateGADrugs(w);
-    updateAnalgesics(w);
+  igelEl.innerHTML          = igelSize;
+  igelEl.style.display      = igelSize ? 'inline' : 'none';
+
+  // — LMA —
+  const lmaEl = document.getElementById('lma');
+  let lmaSize = '';
+  if (w > 0) {
+    if      (w <= 5)   lmaSize = '1.0 <small>(&lt;5 kg)</small>';
+    else if (w <= 10)  lmaSize = '1.5 <small>(5–10 kg)</small>';
+    else if (w <= 20)  lmaSize = '2.0 <small>(10–20 kg)</small>';
+    else if (w <= 30)  lmaSize = '2.5 <small>(20–30 kg)</small>';
+    else if (w <= 50)  lmaSize = '3.0 <small>(30–50 kg)</small>';
+    else if (w <= 70)  lmaSize = '4.0 <small>(50–70 kg)</small>';
+    else if (w <= 100) lmaSize = '5.0 <small>(70–100 kg)</small>';
   }
+  lmaEl.innerHTML             = lmaSize;
+  lmaEl.parentElement.style.display = lmaSize ? 'block' : 'none';
+
+  // — Tidal volume —
+  const tvEl = document.getElementById('tidalvolume');
+  if (w > 0) {
+    const tvMin = Math.round(6 * w),
+          tvMax = Math.round(8 * w);
+    tvEl.textContent   = `${tvMin}–${tvMax} mL`;
+    tvEl.style.display = 'inline';
+  } else {
+    tvEl.style.display = 'none';
+  }
+
+  // — Laryngoscope blade —
+  const laryEl = document.getElementById('laryngoscope');
+  let blade = '';
+  if (w > 0) {
+    if      (w < 1.5) blade = 'Miller 00 or 0 [extremely preterm]';
+    else if (w < 2.5) blade = 'Mac 0 / Miller 0 [preterm]';
+    else if (w < 4)   blade = 'Mac 0–1 / Miller 0–1';
+    else if (w < 6)   blade = 'Mac 1 / Miller 1 [1–6 mo]';
+    else if (w < 12)  blade = 'Mac 1–2 / Miller 1–2 [6 mo–2 y]';
+    else if (w < 30)  blade = 'Mac 2 [2–10 y]';
+    else if (w <= 60) blade = 'Mac 3 [>10 y]';
+    else              blade = 'Mac 3–4 [adult]';
+  }
+  laryEl.textContent   = blade;
+  laryEl.style.display = blade ? 'inline' : 'none';
+
+  // 9) finally, update the drug tables
+  updateEmergencyDrugs(w);
+  updateGADrugs(w);
+  updateAnalgesics(w);
+}
   
 function updateEmergencyDrugs(w) {
   // Helper that removes any old <em>…</em> from previous runs
