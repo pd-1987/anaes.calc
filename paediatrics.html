@@ -1967,8 +1967,8 @@ if (tvArdsEl) {
   const laryEl = document.getElementById('laryngoscope');
   let blade = '';
   if (w > 0) {
-    if      (w < 1.5) blade = 'Miller 00 or 0 [extremely preterm]';
-    else if (w < 2.5) blade = 'Mac 0 / Miller 0 [preterm]';
+    if      (w < 1.5) blade = 'Miller 00 or 0<br><small>[extremely preterm]</small>';
+    else if (w < 2.5) blade = 'Mac 0 / Miller 0<br><small>[preterm]</small>';
     else if (w < 4)   blade = 'Mac 0–1 / Miller 0–1';
     else if (w < 6)   blade = 'Mac 1 / Miller 1 [1–6 mo]';
     else if (w < 12)  blade = 'Mac 1–2 / Miller 1–2 [6 mo–2 y]';
@@ -1976,7 +1976,7 @@ if (tvArdsEl) {
     else if (w <= 60) blade = 'Mac 3 [>10 y]';
     else              blade = 'Mac 3–4 [adult]';
   }
-  laryEl.textContent   = blade;
+  laryEl.innerHTML   = blade;
   laryEl.style.display = blade ? 'inline' : 'none';
 
   // 9) finally, update the drug tables
