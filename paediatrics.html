@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     header.banner {
-      background: linear-gradient(130deg, #E65100 0%, #F57C00 100%);
+      background: linear-gradient(130deg, #FFB6C1 0%, #FFC0CB 100%);
     }
     .unit-toggle, .estimate-btn {
       font-size: 16px;
@@ -81,11 +81,11 @@
     .section {
       margin: 0 auto 16px auto;
       padding: 10px;
-      border: 1px solid #f0c197;
+      border: 1px solid #FFB6C1;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       box-sizing: border-box;
-      background: linear-gradient(to right, #fffaf5, #fff3e0);
+      background: linear-gradient(to right, #fff5f7, #ffeef2);
     }
       .section-header {
       font-weight: 700;
@@ -116,9 +116,9 @@
   }
   .accordion-item {
     margin-bottom: 16px;
-    border: 1px solid #f0c197;
+    border: 1px solid #FFB6C1;
     border-radius: 12px;
-    background: linear-gradient(to right, #fffaf5, #fff3e0);
+    background: linear-gradient(to right, #fff5f7, #ffeef2);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     overflow: hidden;
   }
@@ -136,7 +136,7 @@
   }
   .accordion-header.active {
 
-    background: rgba(255, 188, 112, 0.15);
+    background: rgba(214, 101, 140, 0.15);
 
   }
   .accordion-title {
@@ -145,12 +145,12 @@
     gap: 10px;
   }
   .accordion-title i:first-child {
-    color: #F57C00;
+    color: #E37383;
     font-size: 1.2em;
   }
   .accordion-header .fa-plus,
   .accordion-header .fa-minus {
-    color: #F57C00;
+    color: #E37383;
     transition: opacity 0.3s ease;
   }
   .accordion-header .fa-minus {
@@ -363,69 +363,89 @@
     <thead>
       <tr>
         <th colspan="2" style="border:1px solid #ccc; padding:8px;">
-          Endotracheal tube (ETT) size
+          Endotracheal tube (ETT)
         </th>
-      </tr>
-      <tr>
-        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Uncuffed</th>
-        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Cuffed</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+           <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Laryngoscope</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
-          <span id="ett-uncuffed"></span>
+          <span id="laryngoscope"></span>
         </td>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Cuffed ETT</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
           <span id="ett-cuffed"></span>
         </td>
       </tr>
-      
-    </tbody>
-  </table>
-</div>
-<br>
-    <div class="result">
-  <table style="width:100%; border-collapse: collapse; font-size: 14px;">
-    <thead>
       <tr>
-        <th colspan="2" style="border:1px solid #ccc; padding:8px;">ETT Depth</th>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Uncuffed ETT</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <span id="ett-uncuffed"></span>
+        </td>
       </tr>
-      <tr>
-        <th style="border:1px solid #ccc; padding:8px; text-align:center;">At lips</th>
-        <th style="border:1px solid #ccc; padding:8px; text-align:center;">At nose</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
+         <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Depth at lips</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
           <span id="ett-depth-lips"></span>
           <span class="static unit">cm</span>
         </td>
+      </tr>
+ 
+    </tbody>
+  </table>
+</div>  
+   <br> 
+ <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">
+          Supraglottic airway device (SAD)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+           <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">LMA</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
-          <span id="ett-depth-nose"></span>
-          <span class="static unit">cm</span>
+          <span id="lma"></span>
+        </td>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">i-Gel</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <span id="igel"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>        
+    <br>
+        
+         <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">
+         Ventilation
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+           <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Tidal volume (6-8 ml/kg)</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <span id="tidalvolume"></span>
+        </td>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Neonates/ARDS (4-6 ml/kg)</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <span id="tv-neonates-ards"></span>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
-        
-    <div class="result"><strong>Laryngoscope</strong>:<br>
-   <span id="laryngoscope"></span>
-    </div>
-   <br> 
-    <div class="result"><strong>LMA size</strong>:
-  <span id="lma"></span></div>
-    <div class="result">
-  <strong>i-Gel size</strong>:
-  <span id="igel"></span>
-</div>
-    <br>
-    <div class="result">
-  <strong>Tidal volume (6-8 ml/kg)</strong>:
-  <span id="tidalvolume"></span>
-  </div>
   </div>
       </div>      
 </div>
@@ -1124,30 +1144,38 @@
     <div class="accordion-header">
 
       <span class="accordion-title">
-
-        <i class="fa-solid fa-book"></i> Calculations and tables
-
+       <i class="fa-solid fa-book"></i> Calculations and tables
       </span>
-
       <span>
-
         <i class="fas fa-plus"></i>
-
         <i class="fas fa-minus"></i>
-
       </span>
-
     </div>
-
     <div class="accordion-content">
-
       <div class="accordion-content-inner general-section"> 
-        Airway - ETT size, ETT depth
-        <p><1 kg/<28 wks; 3.0: 1–2 kg/28–34 wks; 3.5: >2 kg/>34 wks</p>
-        <p>Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed'</p>
-        <p>Depth ≈ 1.17 × birth wt (kg) + 5.58 (“7-8-9” rule)</p>
-        <p>Depth = Age/2+12</p>
-        
+        <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">
+         Airway and Ventilation
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+           <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">ETT size</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed ETT
+        </td>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">ETT depth</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <p>Above 1 year: Depth ≈ Age/2+12</p> <p>Neonates: Depth ≈ 1.17 × birth wt (kg) + 5.58 (“7-8-9” rule)</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>        
          </div>
     </div>
   </div>
@@ -1227,7 +1255,7 @@
     });
     
 // 3a) hide old depth values
- ['ett-depth-lips','ett-depth-nose'].forEach(id => {
+ ['ett-depth-lips'].forEach(id => {
   const el = document.getElementById(id);
    if (!el) return;
    el.textContent = '';
@@ -1878,14 +1906,6 @@ if (y <= 14) {
     lipsUnit.style.display = lenText ? 'inline' : 'none';
   }
 
-  const noseEl      = document.getElementById('ett-depth-nose');
-  const noseUnit    = noseEl.nextElementSibling;
-  noseEl.textContent      = '';          // placeholder for your future calc
-  noseEl.style.display    = 'none';
-  if (noseUnit && noseUnit.classList.contains('unit')) {
-    noseUnit.style.display = 'none';
-  }
-
   // 8) now your i-Gel, LMA, tidal-volume & blade sizing exactly as before:
   // — i-Gel —
   const igelEl = document.getElementById('igel');
@@ -1927,6 +1947,20 @@ if (y <= 14) {
   } else {
     tvEl.style.display = 'none';
   }
+    
+    // — Neonates/ARDS tidal volume (4-6 mL/kg) —
+const tvArdsEl = document.getElementById('tv-neonates-ards');
+if (tvArdsEl) {
+  if (w > 0) {
+    const tvArdsMin = Math.round(4 * w),
+          tvArdsMax = Math.round(6 * w);
+    tvArdsEl.textContent   = `${tvArdsMin}–${tvArdsMax} mL`;
+    tvArdsEl.style.display = 'inline';
+  } else {
+    tvArdsEl.textContent   = '';
+    tvArdsEl.style.display = 'none';
+  }
+}
 
   // — Laryngoscope blade —
   const laryEl = document.getElementById('laryngoscope');
