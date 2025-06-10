@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     header.banner {
-      background: linear-gradient(130deg, #FFB6C1 0%, #FFC0CB 100%);
+      background: linear-gradient(130deg, #E38BA3 0%, #B94874 100%);
     }
     .unit-toggle, .estimate-btn {
       font-size: 16px;
@@ -135,9 +135,7 @@
     transition: background 0.3s ease;
   }
   .accordion-header.active {
-
-    background: rgba(214, 101, 140, 0.15);
-
+    background:rgba(214, 101, 140, 0.15);
   }
   .accordion-title {
     display: flex;
@@ -948,13 +946,13 @@
     #fff     16px
   );">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <strong>Sugammadex</strong>
+    <span class="reversal-text"><strong>Sugammadex</strong></span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    2 mg/kg
+    <span class="reversal-text">2 mg/kg</span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="sugammadex"></span><span class="static unit"> mg</span>
+    <span class="reversal-text"><span id="sugammadex"></span><span class="static unit"> mg</span></span>
   </td>
 </tr>
 <tr style="background-color: #fff;">
@@ -971,13 +969,13 @@
     #fff     16px
   );">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <strong>Sugammadex</strong>
+    <span class="reversal-text"><strong>Sugammadex</strong></span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    4 mg/kg
+    <span class="reversal-text">4 mg/kg</span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="sugammadex"></span><span class="static unit"> mg</span>
+    <span class="reversal-text"><span id="sugammadex"></span><span class="static unit"> mg</span></span>
   </td>
 </tr>
 <tr style="background-color: #fff;">
@@ -1130,6 +1128,7 @@
 
       <div class="accordion-content-inner general-section">      
  <p><a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator</a></p>
+        <p><a href="/guidelines/paediatrics/apls-2021-paediatric-emergency-drug-chart.pdf">APLS Paediatric emergency drug chart 2021</a></p>
         <p><a href="https://www.evelinalondon.nhs.uk/our-services/hospital/south-thames-retrieval-service/clinical-guidelines.aspx">South Thames Retrieval Service (STRS) Clinical Guidelines and Drug Calculators</a></p>
         <p><a href="https://cats.nhs.uk/clinical-guidelines/">Children’s Acute Transport Service (CATS) Clinical Guidelines</a></p>
         <p><a href="https://www.gosh.nhs.uk/wards-and-departments/departments/clinical-specialties/thames-paediatric-anaesthetists-group-information-health-professionals/clinical-guidelines/">Great Ormond Street Hospital (GOSH) Guidelines</a></p>
@@ -1165,13 +1164,15 @@
            <tr>
         <th style="border:1px solid #ccc; padding:8px; text-align:center;">ETT size</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
-          Uncuffed ETT size = (Age/4) + 4; decrease by 0.5 for cuffed ETT
+          <p>Uncuffed ETT size = (Age/4) + 4</p>
+          <p>Decrease by 0.5 for Cuffed ETT</p>
         </td>
       </tr>
       <tr>
         <th style="border:1px solid #ccc; padding:8px; text-align:center;">ETT depth</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
-          <p>Above 1 year: Depth ≈ Age/2+12</p> <p>Neonates: Depth ≈ 1.17 × birth wt (kg) + 5.58 (“7-8-9” rule)</p>
+          <p>Above 1 year: Depth ≈ Age/2+12</p> 
+          <p>Neonates: Depth ≈ 1.17 × Birth weight (kg) + 5.58 (“7-8-9” rule)</p>
         </td>
       </tr>
     </tbody>
