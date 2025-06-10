@@ -1131,7 +1131,6 @@
         <p><a href="/guidelines/paediatrics/apls-2021-paediatric-emergency-drug-chart.pdf">APLS Paediatric emergency drug chart 2021</a></p>
         <p><a href="https://www.evelinalondon.nhs.uk/our-services/hospital/south-thames-retrieval-service/clinical-guidelines.aspx">South Thames Retrieval Service (STRS) Clinical Guidelines and Drug Calculators</a></p>
         <p><a href="https://cats.nhs.uk/clinical-guidelines/">Children’s Acute Transport Service (CATS) Clinical Guidelines</a></p>
-        <p><a href="https://www.gosh.nhs.uk/wards-and-departments/departments/clinical-specialties/thames-paediatric-anaesthetists-group-information-health-professionals/clinical-guidelines/">Great Ormond Street Hospital (GOSH) Guidelines</a></p>
         <p><a href="https://www.resus.org.uk/library/2021-resuscitation-guidelines/paediatric-advanced-life-support-guidelines">Paediatric Advanced Life Support Guidelines (Resuscitation Council UK)</a></p>
         
   </div>
@@ -1152,6 +1151,37 @@
     </div>
     <div class="accordion-content">
       <div class="accordion-content-inner general-section"> 
+       <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="border:1px solid #ccc; padding:8px;">
+         Weight (kg)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Age 1-12 months</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <p>0.5 x Age (months) + 4</p> 
+        </td>
+      </tr>
+         <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Age 1-5 years</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <p>2 x Age (years) + 8</p> 
+        </td>
+      </tr>
+          <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Age 6-14 years</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <p>2 x Age (years) + 8</p> 
+          <p>3 x Age (years) + 7</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>        
+        
         <table style="width:100%; border-collapse: collapse; font-size: 14px;">
     <thead>
       <tr>
@@ -1336,10 +1366,23 @@ if (mPoNote) mPoNote.textContent = '';
   const tvEl = document.getElementById('tidalvolume');
   tvEl.textContent = '';
   tvEl.style.display = 'none';
+    
+    const tvArdsEl = document.getElementById('tv-neonates-ards');
+if (tvArdsEl) {
+  tvArdsEl.textContent = '';
+  tvArdsEl.style.display = 'none';
+}
 
   // 10) hide static text in normals
   document.querySelectorAll('.normal-values .static')
     .forEach(el => el.style.display = 'none');
+    
+    ['lma', 'igel'].forEach(id => {
+    const span = document.getElementById(id);
+    if (!span) return;
+    span.parentElement.style.display = ''; // back to table-cell
+  });
+    
 }
   
   function updateAnalgesics(w) {
@@ -1936,7 +1979,7 @@ if (y <= 14) {
     else if (w <= 100) lmaSize = '5.0 <small>(70–100 kg)</small>';
   }
   lmaEl.innerHTML             = lmaSize;
-  lmaEl.parentElement.style.display = lmaSize ? 'block' : 'none';
+  display = lmaSize ? 'block' : 'nolmaEl.parentElement.style.ne';
 
   // — Tidal volume —
   const tvEl = document.getElementById('tidalvolume');
@@ -1963,21 +2006,61 @@ if (tvArdsEl) {
   }
 }
 
-  // — Laryngoscope blade —
-  const laryEl = document.getElementById('laryngoscope');
-  let blade = '';
-  if (w > 0) {
-    if      (w < 1.5) blade = 'Miller 00 or 0<br><small>[extremely preterm]</small>';
-    else if (w < 2.5) blade = 'Mac 0 / Miller 0<br><small>[preterm]</small>';
-    else if (w < 4)   blade = 'Mac 0–1 / Miller 0–1';
-    else if (w < 6)   blade = 'Mac 1 / Miller 1 [1–6 mo]';
-    else if (w < 12)  blade = 'Mac 1–2 / Miller 1–2 [6 mo–2 y]';
-    else if (w < 30)  blade = 'Mac 2 [2–10 y]';
-    else if (w <= 60) blade = 'Mac 3 [>10 y]';
-    else              blade = 'Mac 3–4 [adult]';
+  // — Laryngoscope blade (replace your existing blade logic) —
+const laryEl = document.getElementById('laryngoscope');
+// 1) clear any previous content
+laryEl.innerHTML = '';
+
+if (w > 0) {
+  // 2) decide main vs. note text
+  let mainText = '';
+  let noteText = '';
+
+  if      (w < 1.5) { 
+    mainText = 'Miller 00 or 0'; 
+    noteText = '[extremely preterm]';
   }
-  laryEl.innerHTML   = blade;
-  laryEl.style.display = blade ? 'inline' : 'none';
+  else if (w < 2.5) { 
+    mainText = 'Mac 0 / Miller 0'; 
+    noteText = '[preterm]';
+  }
+  else if (w < 4)   { 
+    mainText = 'Mac 0–1 / Miller 0–1'; 
+  }
+  else if (w < 6)   { 
+    mainText = 'Mac 1 / Miller 1'; 
+    noteText = '[1–6 mo]';
+  }
+  else if (w < 12)  { 
+    mainText = 'Mac 1–2 / Miller 1–2'; 
+    noteText = '[6 mo–2 y]';
+  }
+  else if (w < 30)  { mainText = 'Mac 2';    noteText = '[2–10 y]'; }
+  else if (w <= 60) { mainText = 'Mac 3';    noteText = '[>10 y]'; }
+  else              { mainText = 'Mac 3–4';  noteText = '[adult]'; }
+
+  // 3) show container as inline-block so it can stack children
+  laryEl.style.display = 'inline-block';
+
+  // 4) append the main line
+  laryEl.appendChild(document.createTextNode(mainText));
+
+  // 5) if there’s a note, force a break and a styled <small>
+  if (noteText) {
+    laryEl.appendChild(document.createElement('br'));
+    const small = document.createElement('small');
+    small.textContent = noteText;
+    // inline styles (or move to CSS if you prefer)
+    small.style.display   = 'block';    
+    small.style.marginTop = '2px';
+    small.style.fontSize  = '0.8em';
+    small.style.color     = '#555';
+    laryEl.appendChild(small);
+  }
+} else {
+  // hide if no weight
+  laryEl.style.display = 'none';
+}
 
   // 9) finally, update the drug tables
   updateEmergencyDrugs(w);
