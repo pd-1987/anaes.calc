@@ -247,22 +247,19 @@
     }
     .reversal-text {
   background-color: #fff;      /* text on solid white so it’s readable */
-  padding: 4px 6px;
+  padding: 0px 6px;
 }
   </style>
 </head>
 <body>
   <header class="banner">Paediatric anaesthesia</header>
-
   <div class="section">
   <div class="input-group">
     <label for="age">Age:</label>
     <input type="number" id="age" min="0" placeholder="0" />
     <button class="unit-toggle" id="AgeUnitBtn">years</button>
   </div>
-
-    
-    
+  
   <div class="input-group">
   <label for="weight">Weight (kg):</label>
   <input type="number" id="weight" min="0" placeholder="0" />
@@ -275,6 +272,7 @@
 
   <!-- new container for showing the two formula lines -->
   <div id="weight-calculations"></div>
+    <p><small>In Obesity use <a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator.</a></small></p>
   </div>
     
   <div class="accordion">
@@ -481,7 +479,7 @@
       1–2 mcg/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="fentanyl"></span><span class="static unit"> mcg</span>
+      <span id="fentanyl"></span><span class="static unit">mcg</span>
     </td>
   </tr>
   <tr style="background-color: #e0effa;">
@@ -499,7 +497,7 @@
       1–2 mg/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="ketamine"></span><span class="static unit"> mg</span>
+      <span id="ketamine"></span><span class="static unit">mg</span>
     </td>
   </tr>
   <tr style="background-color: #fff9bf;">
@@ -517,7 +515,7 @@
       1 mg/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="rocuronium"></span><span class="static unit"> mg</span>
+      <span id="rocuronium"></span><span class="static unit">mg</span>
     </td>
   </tr>
   <tr style="background-color: #f8d5d5;">
@@ -539,7 +537,7 @@
       20 mcg/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="atropine"></span><span class="static unit"> mcg</span>
+      <span id="atropine"></span><span class="static unit">mcg</span>
     </td>
   </tr>
   <tr style="background-color: #e3f0d4;">
@@ -557,7 +555,7 @@
       0.1 mL/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="adrenalineiv"></span><span class="static unit"> mL</span>
+      <span id="adrenalineiv"></span><span class="static unit">mL</span>
     </td>
   </tr>
   <tr style="background-color: #f2e6f7;">
@@ -579,7 +577,7 @@
       1–2 mg/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="sux-iv"></span><span class="static unit"> mg</span>
+      <span id="sux-iv"></span><span class="static unit">mg</span>
     </td>
   </tr>
   <tr style="background-color: #f8d5d5;">
@@ -597,7 +595,7 @@
       4 mg/kg<br>(Max 150 mg)
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-      <span id="sux-im"></span><span class="static unit"> mg</span>
+      <span id="sux-im"></span><span class="static unit">mg</span>
     </td>
   </tr>
   <tr style="background-color: #f8d5d5;">
@@ -619,7 +617,7 @@
       10–20 mL/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-      <span id="fluidbolus"></span><span class="static unit"> mL</span>
+      <span id="fluidbolus"></span><span class="static unit">mL</span>
     </td>
   </tr>
   <tr>
@@ -630,7 +628,7 @@
       2 mL/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-      <span id="glucose10"></span><span class="static unit"> mL</span>
+      <span id="glucose10"></span><span class="static unit">mL</span>
     </td>
   </tr>
   <tr>
@@ -641,7 +639,7 @@
       4 J/kg
     </td>
     <td style="padding: 8px; border: 1px solid #ccc; text-align: right; background-color: #e8e6e4;">
-      <span id="defib"></span><span class="static unit"> J</span>
+      <span id="defib"></span><span class="static unit">J</span>
     </td>
   </tr>
 </table>
@@ -687,7 +685,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-midaz"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #fff3e0;">
@@ -705,7 +703,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-midaz-intranasal"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #fff3e0;">
@@ -723,7 +721,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-dexmed"></span>
-              <span class="static unit">&nbsp;mcg</span>
+              <span class="static unit">mcg</span>
             </td>
           </tr>
           <tr style="background-color: #f5f5f5;">
@@ -783,7 +781,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="fentanyl-ga"></span>
-              <span class="static unit">&nbsp;mcg</span>
+              <span class="static unit">mcg</span>
             </td>
           </tr>
           <tr style="background-color: #e0f0ff;">
@@ -802,7 +800,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="propofol"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #fff8cc;">
@@ -821,7 +819,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="rocuronium-ga"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #ffdada;">
@@ -849,7 +847,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="ondansetron"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #fff3e0;">
@@ -868,7 +866,7 @@
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="dexamethasone"></span>
-              <span class="static unit">&nbsp;mg</span>
+              <span class="static unit">mg</span>
             </td>
           </tr>
           <tr style="background-color: #f5f5f5;">
@@ -894,7 +892,7 @@
     Per age/weight
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="paracetamol-iv"></span><span class="static unit"> mg</span>
+    <span id="paracetamol-iv"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
@@ -912,7 +910,7 @@
     Per age/weight
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="ibuprofeniv"></span><span class="static unit"> mg</span>
+    <span id="ibuprofeniv"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
@@ -929,7 +927,7 @@
     0.5–1 mg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="ketorolac"></span><span class="static unit"> mg</span>
+    <span id="ketorolac"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
@@ -946,7 +944,7 @@
     0.05–0.1 mg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="morphineiv"></span><span class="static unit"> mg</span>
+    <span id="morphineiv"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #e0f0ff;">
@@ -965,75 +963,77 @@
         </th>
       </tr>
     </thead>     
-      <tr style="background: repeating-linear-gradient(
+       <tr style="background: repeating-linear-gradient(
     135deg,
-    #ec6f73,
-    #ec6f73 2px,
-    #fff     2px,
+    #d6658c26,
+    #d6658c26 8px,
+    #fff     1px,
     #fff     16px
   );">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text"><strong>Sugammadex</strong></span>
+      <strong>Neostigmine &<br> Glycopyrulate</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text">2 mg/kg</span>
+    
+      <span class="neo-dose">0.02 mL/kg</span>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="reversal-text"><span id="sugammadex"></span><span class="static unit"> mg</span></span>
+   <span class="neos-dose"></span><span class="static unit">mg</span>
   </td>
 </tr>
-<tr style="background-color: #fff;">
+<tr style="background-color: #d6658c26;">
   <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="sugammadex2-note"></small>
+    <small class="neos-extra"></small>
+  </td>
+</tr> 
+       <tr style="background: repeating-linear-gradient(
+    135deg,
+    #d6658c26,
+   #d6658c26 8px,
+    #fff     2px,
+    #fff     16px
+  );">
+        <td style="padding: 8px; border: 1px solid #ccc;">
+   <strong>Sugammadex</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    2 mg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span class="sug-2-dose"></span><span class="static unit">mg</span>
+  </td>
+</tr>
+<tr style="background-color: #d6658c26;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small class="sug-2-extra"></small>
+    <br><small>Moderate block: Return of T<sub>2</sub> in response to TOF.</small>
   </td>
 </tr> 
       
       <tr style="background: repeating-linear-gradient(
     135deg,
-    #ec6f73,
-    #ec6f73 2px,
+    #d6658c26,
+    #d6658c26 8px,
     #fff     2px,
     #fff     16px
   );">
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text"><strong>Sugammadex</strong></span>
+   <strong>Sugammadex</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text">4 mg/kg</span>
+    4 mg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="reversal-text"><span id="sugammadex"></span><span class="static unit"> mg</span></span>
+    
+    <span class="sug-4-dose"></span><span class="static unit">mg</span>
   </td>
 </tr>
-<tr style="background-color: #fff;">
+<tr style="background-color: #d6658c26;">
   <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="sugammadex4-note"></small>
-  </td>
-</tr> 
-      
-      <tr style="background: repeating-linear-gradient(
-    135deg,
-    #ec6f73,
-    #ec6f73 2px,
-    #fff     2px,
-    #fff     16px
-  );">
-  <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text">
-      <strong>Neostigmine/Glycopyrulate</strong></span>
-  </td>
-  <td style="padding: 8px; border: 1px solid #ccc;">
-    <span class="reversal-text">0.02 mL/kg</span>
-  </td>
-  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="reversal-text"><span id="neostigmine"></span><span class="static unit"> mg</span></span>
+    <small class="sug-4-extra"></small>
+    <br><small>Deep block: 1-2 PTCs, no twitch responses to TOF.</small>
   </td>
 </tr>
-<tr style="background-color: #fff;">
-  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-    <small id="neostigmine-note"></small>
-  </td>
-</tr> 
         </table>
     
     <br>
@@ -1053,7 +1053,7 @@
     Per age/weight
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="paracetamol-po"></span><span class="static unit"> mg</span>
+    <span id="paracetamol-po"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
@@ -1071,7 +1071,7 @@
     5–10 mg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="ibuprofenpo"></span><span class="static unit"> mg</span>
+    <span id="ibuprofenpo"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #f5f5f5;">
@@ -1089,7 +1089,7 @@
     
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span id="morphinepo"></span><span class="static unit"> mg</span>
+    <span id="morphinepo"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #e0f0ff;">
@@ -1115,7 +1115,7 @@
     20 mcg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="atropine-dose"></span><span class="static unit"> mg</span>
+    <span class="atropine-dose"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #e3f0d4;">
@@ -1132,7 +1132,7 @@
     1-2 mg/kg
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="sux-iv-dose"></span><span class="static unit"> mg</span>
+    <span class="sux-iv-dose"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #ffdada;">
@@ -1149,7 +1149,7 @@
     4 mg/kg<br>(Max 150 mg)
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
-    <span class="sux-im-dose"></span><span class="static unit"> mg</span>
+    <span class="sux-im-dose"></span><span class="static unit">mg</span>
   </td>
 </tr>
 <tr style="background-color: #ffdada;">
@@ -1190,10 +1190,95 @@
  
   <div class="result">
     
-    <table style="width: 100%; border-collapse: collapse;">
+<table style="width: 100%; border-collapse: collapse;"> 
+          <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Amoxicillin</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              30 mg/kg (Max 1 g)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="amoxicillin"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small></small>
+            </td>
+          </tr>
+          <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Cefuroxime</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              50 mg/kg (Max 1.5g)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="cefuroxime"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small></small>
+            </td>
+          </tr>
 
-      
-      </table>
+          <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Co-Amoxiclav</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              30 mg/kg (Max 1.2 g)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="co-amoxiclav"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small></small>
+            </td>
+          </tr>
+  <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Flucloxacillin</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              12.5–25 mg/kg (Max 1 g)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="flucloxacillin"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small></small>
+            </td>
+          </tr>
+    <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Gentamicin</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              2.5 mg/kg (Max 480 mg)
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="gentamicin"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #f5f5f5;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small></small>
+            </td>
+          </tr>
+  
+    </table>
   </div>
   </div>
     </div>
@@ -1312,8 +1397,8 @@
   </div>
   
   <footer>
-    <small>
-      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway; RSI: Rapid sequence intubation; PO - By mouth; NAS - Intranasal</p>
+    <small> 
+    <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway; RSI: Rapid sequence intubation; PO: By mouth; NAS: Intranasal; TOF: Train-of-four; PTC: Post-tetanic count</p>
       <p>
         <a href="references.html">References</a> - 
         <a href="disclaimer.html">Disclaimer</a>
@@ -1503,7 +1588,31 @@ if (tvArdsEl) {
     if (!span) return;
     span.parentElement.style.display = ''; // back to table-cell
   });
-    
+
+// hide the GA copies of emergency drugs (class-based spans and their units)
+document.querySelectorAll('.atropine-dose, .sux-iv-dose, .sux-im-dose').forEach(el => {
+  el.textContent   = '';
+  el.style.display = 'none';
+  const unit = el.nextElementSibling;
+  if (unit && unit.classList.contains('unit')) {
+    unit.style.display = 'none';
+  }
+});
+document.querySelectorAll('.atropine-extra, .sux-iv-extra, .sux-im-extra')
+  .forEach(el => el.textContent = '');
+
+    // at the bottom of clearWeight():
+document.querySelectorAll(
+  '.sug-2-dose, .sug-4-dose, .neos-dose'
+).forEach(el => {
+  el.textContent   = '';
+  el.style.display = 'none';
+  const unit = el.nextElementSibling;
+  if (unit && unit.classList.contains('unit')) unit.style.display = 'none';
+});
+document.querySelectorAll(
+  '.sug-2-extra, .sug-4-extra, .neos-extra'
+).forEach(el => el.textContent = '');    
 }
 
 function updatePremedication(w) {
@@ -1572,6 +1681,67 @@ if (w > 0) {
     }
   }
 }  
+  
+function updateReversal(w) {
+  // -- 1) clear all previous doses + extras --
+  [
+    '.sug-2-dose', '.sug-4-dose', '.neos-dose',
+    '.sug-2-extra', '.sug-4-extra', '.neos-extra'
+  ].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.textContent = '';
+      // hide dose spans (they share the same unit <span>)
+      if (sel.endsWith('-dose')) el.style.display = 'none';
+    });
+  });
+
+  if (w > 0 && !isNaN(w)) {
+    // -- 2) Sugammadex 2 mg/kg @100 mg/mL --
+    document.querySelectorAll('.sug-2-dose').forEach(el => {
+      const dose = 2 * w;
+      el.textContent   = stripZeros(dose.toFixed(2));
+      el.style.display = 'inline';
+      // show its unit
+      const u = el.nextElementSibling;
+      if (u && u.classList.contains('unit')) u.style.display = 'inline';
+    });
+    document.querySelectorAll('.sug-2-extra').forEach(el => {
+      const vol = (2 * w) / 100;
+      el.textContent = `${stripZeros(vol.toFixed(2))} mL of 100 mg/mL`;
+    });
+
+    // -- 3) Sugammadex 4 mg/kg @100 mg/mL --
+    document.querySelectorAll('.sug-4-dose').forEach(el => {
+      const dose = 4 * w;
+      el.textContent   = stripZeros(dose.toFixed(2));
+      el.style.display = 'inline';
+      const u = el.nextElementSibling;
+      if (u && u.classList.contains('unit')) u.style.display = 'inline';
+    });
+    document.querySelectorAll('.sug-4-extra').forEach(el => {
+      const vol = (4 * w) / 100;
+      el.textContent = `${stripZeros(vol.toFixed(2))} mL of 100 mg/mL`;
+    });
+
+    // -- 4) Neostigmine/Glycopyrulate 0.02 mL/kg (2.5 + 0.5 mg/mL) --
+    document.querySelectorAll('.neos-dose').forEach(el => {
+      const vol = 0.02 * w;
+      el.textContent   = stripZeros(vol.toFixed(2));
+      el.style.display = 'inline';
+      const u = el.nextElementSibling;
+      if (u && u.classList.contains('unit')) u.style.display = 'inline';
+    });
+    document.querySelectorAll('.neos-extra').forEach(el => {
+      const vol   = 0.02 * w;
+      const neo   = vol * 2.5;
+      const gly   = vol * 0.5;
+      el.textContent =
+        `${stripZeros(vol.toFixed(2))} mL ` +
+        `(contains ${stripZeros(neo.toFixed(2))} mg neostigmine + ` +
+         `${stripZeros(gly.toFixed(2))} mg glycopyrulate)`;
+    });
+  }
+}
   
   function updateAnalgesics(w) {
   // 2) Clear out the “-note” cells for Paracetamol & Ibuprofen
@@ -2255,6 +2425,7 @@ if (w > 0) {
   updateGADrugs(w);
   updateAnalgesics(w);
     updatePremedication(w);
+    updateReversal(w);
 }
   
 function updateEmergencyDrugs(w) {
@@ -2451,41 +2622,55 @@ function updateEmergencyDrugs(w) {
     if (el) el.textContent = '';
   });
       
-      document.querySelectorAll('.atropine-dose')
-  .forEach(el => {
-    // calculate your atropine dose exactly as in emergency (20 mcg/kg)
-    const dose = stripZeros(Math.min(20 * w, /* what ever cap or formula */).toFixed(2));
-    el.textContent = dose;
-    el.style.display = 'inline';
-  });
-document.querySelectorAll('.atropine-extra')
-  .forEach(el => {
-    // same extra-vol logic if you need it
-    el.textContent = `( ${stripZeros((20 * w / 600).toFixed(2))} mL of 600 mcg/mL )`;
-  });
-      
-      // GA Sux-IV (1–2 mg/kg @ 50 mg/mL)
-document.querySelectorAll('.sux-iv-dose').forEach(el => {
-  const minDose = 1 * w;
-  const maxDose = 2 * w;
-  // text “1–2 mg/kg” → show “X–Y” or single if equal
-  el.textContent = (minDose === maxDose)
-    ? stripZeros(minDose.toFixed(2))
-    : `${stripZeros(minDose.toFixed(2))}–${stripZeros(maxDose.toFixed(2))}`;
+ // ATROPINE
+document.querySelectorAll('.atropine-dose').forEach(el => {
+  // 20 mcg/kg @ 600 mcg/mL
+  const doseMcg = 20 * w;                 // in mcg
+  const doseText = stripZeros(doseMcg.toFixed(1));
+  el.textContent   = doseText;
   el.style.display = 'inline';
+  const unit = el.nextElementSibling;
+  if (unit && unit.classList.contains('unit')) {
+    unit.style.display = 'inline';
+  }
+});
+document.querySelectorAll('.atropine-extra').forEach(el => {
+  // volume in mL
+  const vol = stripZeros(((20 * w) / 600).toFixed(2));
+  el.textContent = `${vol} mL of 600 mcg/mL`;
+});
+
+// SUXAMETHONIUM IV (1–2 mg/kg @ 50 mg/mL)
+document.querySelectorAll('.sux-iv-dose').forEach(el => {
+  const minDose = 1 * w;   // mg
+  const maxDose = 2 * w;
+  const doseText = (Math.abs(minDose - maxDose) < 0.01)
+    ? stripZeros(minDose.toFixed(1))
+    : `${stripZeros(minDose.toFixed(1))}–${stripZeros(maxDose.toFixed(1))}`;
+  el.textContent   = doseText;
+  el.style.display = 'inline';
+  const unit = el.nextElementSibling;
+  if (unit && unit.classList.contains('unit')) {
+    unit.style.display = 'inline';
+  }
 });
 document.querySelectorAll('.sux-iv-extra').forEach(el => {
-  const minVol = stripZeros((w * 1 / 50).toFixed(2));
-  const maxVol = stripZeros((w * 2 / 50).toFixed(2));
+  const minVol = stripZeros(((1 * w) / 50).toFixed(2));
+  const maxVol = stripZeros(((2 * w) / 50).toFixed(2));
   el.textContent = `${minVol}–${maxVol} mL of 50 mg/mL`;
 });
 
-// GA Sux-IM (4 mg/kg, cap 150 mg @ 50 mg/mL)
+// SUXAMETHONIUM IM (4 mg/kg, capped at 150 mg @ 50 mg/mL)
 document.querySelectorAll('.sux-im-dose').forEach(el => {
   let dose = 4 * w;
   if (dose > 150) dose = 150;
-  el.textContent = stripZeros(dose.toFixed(2));
+  const doseText = stripZeros(dose.toFixed(1));
+  el.textContent   = doseText;
   el.style.display = 'inline';
+  const unit = el.nextElementSibling;
+  if (unit && unit.classList.contains('unit')) {
+    unit.style.display = 'inline';
+  }
 });
 document.querySelectorAll('.sux-im-extra').forEach(el => {
   let dose = 4 * w;
