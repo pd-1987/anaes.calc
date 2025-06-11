@@ -680,7 +680,7 @@
 
           <tr style="background-color: #fa770a;">
             <td style="padding: 8px; border: 1px solid #ccc;">
-              <strong>Midazolam PO</strong>
+              <strong>Midazolam - PO</strong>
             </td>
             <td style="padding: 8px; border: 1px solid #ccc;">
               0.5 mg/kg
@@ -692,16 +692,16 @@
           </tr>
           <tr style="background-color: #fff3e0;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-              <small>Max 20 mg per dose; 6 months - 14 years</small>
+              <small>Max 20 mg per dose; 6 months - 14 years. Peak effect at 20-30 mins.</small>
             </td>
           </tr>
       
       <tr style="background-color: #fa770a;">
             <td style="padding: 8px; border: 1px solid #ccc;">
-              <strong>Midazolam - intranasal</strong>
+              <strong>Midazolam - NAS</strong>
             </td>
             <td style="padding: 8px; border: 1px solid #ccc;">
-              0.2 mg/kg<br>(Max 10mg)
+              0.2 mg/kg
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-midaz-intranasal"></span>
@@ -710,16 +710,16 @@
           </tr>
           <tr style="background-color: #fff3e0;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-              <small id="premed-midaz-intranasal-note"></small>
+              <small>Max 10 mg. Given via short atomiser: 0.1 ml dead space. Peak effect at 10 mins.</small>
             </td>
           </tr>
       
       <tr style="background-color: #fff;">
             <td style="padding: 8px; border: 1px solid #ccc;">
-              <strong>Dexmedetomidine - intranasal</strong>
+              <strong>Dexmedetomidine - NAS</strong>
             </td>
             <td style="padding: 8px; border: 1px solid #ccc;">
-              2–4 mcg/kg<br>(Max 200 mcg)
+              2–4 mcg/kg
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-dexmed"></span>
@@ -728,7 +728,7 @@
           </tr>
           <tr style="background-color: #f5f5f5;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-              <small id="premed-dexmed-note"></small>
+              <small>Max 200 mcg per dose. Given 30 mins before intervention.</small>
             </td>
           </tr>
       
@@ -766,7 +766,13 @@
   <div class="result">
     
     <table style="width: 100%; border-collapse: collapse;">
-
+<thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Induction
+        </th>
+      </tr>
+    </thead>
           <!-- Fentanyl GA -->
           <tr style="background-color: #98c9ee;">
             <td style="padding: 8px; border: 1px solid #ccc;">
@@ -826,7 +832,14 @@
     </table>
 <br>
       <table style="width: 100%; border-collapse: collapse;">
-          <!-- Ondansetron GA -->
+        <thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Antiemetics
+        </th>
+      </tr>
+    </thead>  
+        <!-- Ondansetron GA -->
           <tr style="background-color: #fdd7a0;">
             <td style="padding: 8px; border: 1px solid #ccc;">
               <strong>Ondansetron</strong>
@@ -866,6 +879,13 @@
     </table>
 <br>
         <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Intraoperative analgesia
+        </th>
+      </tr>
+    </thead>
           <tr style="background-color: #ffffff;">
   <td style="padding: 8px; border: 1px solid #ccc;">
     <strong>Paracetamol IV</strong>
@@ -938,7 +958,14 @@
   
     <br>
     <table style="width: 100%; border-collapse: collapse;">
-           <tr style="background: repeating-linear-gradient(
+      <thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Reversal of neuromuscular blockade
+        </th>
+      </tr>
+    </thead>     
+      <tr style="background: repeating-linear-gradient(
     135deg,
     #ec6f73,
     #ec6f73 2px,
@@ -1011,7 +1038,14 @@
     
     <br>
     <table style="width: 100%; border-collapse: collapse;">
-           <tr style="background-color: #ffffff;">
+      <thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Postoperative analgesia
+        </th>
+      </tr>
+    </thead>     
+      <tr style="background-color: #ffffff;">
   <td style="padding: 8px; border: 1px solid #ccc;">
     <strong>Paracetamol PO</strong>
   </td>
@@ -1142,7 +1176,7 @@
     <div class="accordion-header">
 
       <span class="accordion-title">
-       <i class="fa-solid fa-book"></i> Calculations and tables
+       <i class="fa-solid fa-calculator"></i> Calculations and tables
       </span>
       <span>
         <i class="fas fa-plus"></i>
@@ -1218,7 +1252,7 @@
   
   <footer>
     <small>
-      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway; RSI: Rapid sequence intubation</p>
+      <p>SBP: Systolic blood pressure; HR: Heart rate; RR: Respiratory rate; ETT: Endotracheal tube; LMA: Laryngeal mask airway; RSI: Rapid sequence intubation; PO - By mouth; NAS - Intranasal</p>
       <p>
         <a href="references.html">References</a> - 
         <a href="disclaimer.html">Disclaimer</a>
@@ -1367,7 +1401,23 @@ midazEl.style.display = 'none';
 if (midazUnit && midazUnit.classList.contains('unit')) {
   midazUnit.style.display = 'none';
 }
-
+    
+    // Clear Midazolam NAS
+const nasEl   = document.getElementById('premed-midaz-intranasal');
+const nasUnit = nasEl.nextElementSibling;
+nasEl.textContent   = '';
+nasEl.style.display = 'none';
+if (nasUnit && nasUnit.classList.contains('unit')) {
+  nasUnit.style.display = 'none';
+}
+      // Clear Dexmedetomidine NAS
+  const dexEl   = document.getElementById('premed-dexmed');
+  const dexUnit = dexEl.nextElementSibling;
+  dexEl.textContent   = '';
+  dexEl.style.display = 'none';
+  if (dexUnit && dexUnit.classList.contains('unit')) {
+    dexUnit.style.display = 'none';
+  }
   // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
   igelEl.innerHTML = '';
@@ -1414,6 +1464,52 @@ if (w > 0) {
     midazUnit.style.display = 'none';
   }
 }
+  
+  // — Midazolam NAS (0.2–0.3 mg/kg; max 10 mg) —
+const nasEl   = document.getElementById('premed-midaz-intranasal');
+const nasUnit = nasEl.nextElementSibling; // the “ mg” span
+if (w > 0) {
+  // calculate 0.2–0.3 mg/kg and cap at 10 mg
+  const minDose = Math.min(0.2 * w, 10);
+  const maxDose = Math.min(0.3 * w, 10);
+  const doseText = (Math.abs(minDose - maxDose) < 0.001)
+    ? stripZeros(minDose.toFixed(2))
+    : `${stripZeros(minDose.toFixed(2))}–${stripZeros(maxDose.toFixed(2))}`;
+  nasEl.textContent   = doseText;
+  nasEl.style.display = 'inline';
+  if (nasUnit && nasUnit.classList.contains('unit')) {
+    nasUnit.style.display = 'inline';
+  }
+} else {
+  nasEl.textContent   = '';
+  nasEl.style.display = 'none';
+  if (nasUnit && nasUnit.classList.contains('unit')) {
+    nasUnit.style.display = 'none';
+  }
+}
+  
+    // — Dexmedetomidine NAS (2–4 mcg/kg; max 200 mcg) —
+  const dexEl   = document.getElementById('premed-dexmed');
+  const dexUnit = dexEl.nextElementSibling; // the “ mcg” span
+  if (w > 0) {
+    // calculate 2–4 mcg/kg and cap at 200 mcg
+    const minDose = Math.min(2 * w, 200);
+    const maxDose = Math.min(4 * w, 200);
+    const doseText = (Math.abs(minDose - maxDose) < 0.001)
+      ? stripZeros(minDose.toFixed(2))
+      : `${stripZeros(minDose.toFixed(2))}–${stripZeros(maxDose.toFixed(2))}`;
+    dexEl.textContent   = doseText;
+    dexEl.style.display = 'inline';
+    if (dexUnit && dexUnit.classList.contains('unit')) {
+      dexUnit.style.display = 'inline';
+    }
+  } else {
+    dexEl.textContent   = '';
+    dexEl.style.display = 'none';
+    if (dexUnit && dexUnit.classList.contains('unit')) {
+      dexUnit.style.display = 'none';
+    }
+  }
 }  
   
   function updateAnalgesics(w) {
