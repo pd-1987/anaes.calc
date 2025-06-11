@@ -874,6 +874,23 @@
               <small id="dexamethasone-ga-extra"></small>
             </td>
           </tr>
+        <tr style="background-color: #fdd7a0;">
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              <strong>Cyclizine</strong>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc;">
+              0.5–1 mg/kg
+            </td>
+            <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+              <span id="cyclizine"></span>
+              <span class="static unit">mg</span>
+            </td>
+          </tr>
+          <tr style="background-color: #fff3e0;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small id="cyclizine-ga-extra"></small>
+            </td>
+          </tr>
     </table>
 <br>
         <table style="width: 100%; border-collapse: collapse;">
@@ -1598,10 +1615,20 @@ document.querySelectorAll('.atropine-dose, .sux-iv-dose, .sux-im-dose').forEach(
     unit.style.display = 'none';
   }
 });
+    
+  const cyclEl = document.getElementById('cyclizine');
+  if (cyclEl) {
+    cyclEl.textContent   = '';
+    cyclEl.style.display = 'none';
+    const unit = cyclEl.nextElementSibling;
+    if (unit && unit.classList.contains('unit')) unit.style.display = 'none';
+  }
+  const cyclExtra = document.getElementById('cyclizine-ga-extra');
+  if (cyclExtra) cyclExtra.textContent = '';    
+    
 document.querySelectorAll('.atropine-extra, .sux-iv-extra, .sux-im-extra')
   .forEach(el => el.textContent = '');
 
-    // at the bottom of clearWeight():
 document.querySelectorAll(
   '.sug-2-dose, .sug-4-dose, .neos-dose'
 ).forEach(el => {
@@ -2622,6 +2649,9 @@ function updateEmergencyDrugs(w) {
     if (el) el.textContent = '';
   });
       
+       const rawAge = parseFloat(ageInput.value) || 0;
+  const ageY = ageUnit === 'months' ? rawAge/12 : rawAge;
+      
  // ATROPINE
 document.querySelectorAll('.atropine-dose').forEach(el => {
   // 20 mcg/kg @ 600 mcg/mL
@@ -2678,6 +2708,44 @@ document.querySelectorAll('.sux-im-extra').forEach(el => {
   const vol = stripZeros((dose / 50).toFixed(2));
   el.textContent = `${vol} mL of 50 mg/mL`;
 });
+      
+       // — Cyclizine (0.5–1 mg/kg; max 25 mg <12 y; 50 mg ≥12 y; 50 mg/mL) —
+  const cylEl    = document.getElementById('cyclizine');
+  const cylUnit  = cylEl.nextElementSibling;     // “mg”
+  const cylNote  = document.getElementById('cyclizine-ga-extra');
+  if (w > 0 && !isNaN(w)) {
+    // compute uncapped range
+    let minD = 0.5 * w;
+    let maxD = 1.0 * w;
+    // apply the caps
+    const cap = ageY < 12 ? 25 : 50;
+    if (minD > cap) minD = cap;
+    if (maxD > cap) maxD = cap;
+    // render dose text
+    const doseText = (Math.abs(minD - maxD) < 0.01)
+      ? stripZeros(minD.toFixed(2))
+      : `${stripZeros(minD.toFixed(2))}–${stripZeros(maxD.toFixed(2))}`;
+    cylEl.textContent   = doseText;
+    cylEl.style.display = 'inline';
+    if (cylUnit && cylUnit.classList.contains('unit')) {
+      cylUnit.style.display = 'inline';
+    }
+    // volume at 50 mg/mL
+    const vMin = (minD / 50).toFixed(2);
+    const vMax = (maxD / 50).toFixed(2);
+    const volText = (minD === maxD)
+      ? `${stripZeros(vMin)} mL of 50 mg/mL`
+      : `${stripZeros(vMin)}–${stripZeros(vMax)} mL of 50 mg/mL`;
+    cylNote.textContent = volText;
+  } else {
+    // hide if no weight
+    cylEl.textContent   = '';
+    cylEl.style.display = 'none';
+    if (cylUnit && cylUnit.classList.contains('unit')) {
+      cylUnit.style.display = 'none';
+    }
+    cylNote.textContent = '';
+  }
 
   // 2) list of GA drugs + their dosing/concentration info
   const drugs = [
