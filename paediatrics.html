@@ -247,7 +247,7 @@
     }
     .reversal-text {
   background-color: #fff;      /* text on solid white so it’s readable */
-  padding: 0px 4px;
+  padding: 4px 6px;
 }
   </style>
 </head>
@@ -1086,7 +1086,7 @@
     <strong>Morphine PO</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    0.1–0.3 mg/kg
+    
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
     <span id="morphinepo"></span><span class="static unit"> mg</span>
@@ -1097,7 +1097,68 @@
               <small id="morphine-po-extra"></small>
   </td>
 </tr>
+    </table>
+    <br>
+<table style="width: 100%; border-collapse: collapse;">
+      <thead>
+      <tr>
+        <th colspan="3" style="border:1px solid #ccc; padding:8px;">
+          Emergency Drugs
+        </th>
+      </tr>
+    </thead>     
+      <tr style="background-color: #a3ce6f;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Atropine</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    20 mcg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span class="atropine-dose"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #e3f0d4;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small class="atropine-extra"></small>
+  </td>
+</tr>
+          
+<tr style="background-color: #ec6f73;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Suxamethonium IV</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    1-2 mg/kg
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span class="sux-iv-dose"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #ffdada;">
+  <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+    <small class="sux-iv-extra"></small>
+  </td>
+</tr>
+          
+<tr style="background-color: #ec6f73;">
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    <strong>Suxamethonium IM</strong>
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc;">
+    4 mg/kg<br>(Max 150 mg)
+  </td>
+  <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
+    <span class="sux-im-dose"></span><span class="static unit"> mg</span>
+  </td>
+</tr>
+<tr style="background-color: #ffdada;">
+            <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
+              <small class="sux-im-extra"></small>
+  </td>
+</tr>
     </table>    
+    
   </div>
   </div>
     </div>
@@ -2389,6 +2450,49 @@ function updateEmergencyDrugs(w) {
     const el = document.getElementById(extraId);
     if (el) el.textContent = '';
   });
+      
+      document.querySelectorAll('.atropine-dose')
+  .forEach(el => {
+    // calculate your atropine dose exactly as in emergency (20 mcg/kg)
+    const dose = stripZeros(Math.min(20 * w, /* what ever cap or formula */).toFixed(2));
+    el.textContent = dose;
+    el.style.display = 'inline';
+  });
+document.querySelectorAll('.atropine-extra')
+  .forEach(el => {
+    // same extra-vol logic if you need it
+    el.textContent = `( ${stripZeros((20 * w / 600).toFixed(2))} mL of 600 mcg/mL )`;
+  });
+      
+      // GA Sux-IV (1–2 mg/kg @ 50 mg/mL)
+document.querySelectorAll('.sux-iv-dose').forEach(el => {
+  const minDose = 1 * w;
+  const maxDose = 2 * w;
+  // text “1–2 mg/kg” → show “X–Y” or single if equal
+  el.textContent = (minDose === maxDose)
+    ? stripZeros(minDose.toFixed(2))
+    : `${stripZeros(minDose.toFixed(2))}–${stripZeros(maxDose.toFixed(2))}`;
+  el.style.display = 'inline';
+});
+document.querySelectorAll('.sux-iv-extra').forEach(el => {
+  const minVol = stripZeros((w * 1 / 50).toFixed(2));
+  const maxVol = stripZeros((w * 2 / 50).toFixed(2));
+  el.textContent = `${minVol}–${maxVol} mL of 50 mg/mL`;
+});
+
+// GA Sux-IM (4 mg/kg, cap 150 mg @ 50 mg/mL)
+document.querySelectorAll('.sux-im-dose').forEach(el => {
+  let dose = 4 * w;
+  if (dose > 150) dose = 150;
+  el.textContent = stripZeros(dose.toFixed(2));
+  el.style.display = 'inline';
+});
+document.querySelectorAll('.sux-im-extra').forEach(el => {
+  let dose = 4 * w;
+  if (dose > 150) dose = 150;
+  const vol = stripZeros((dose / 50).toFixed(2));
+  el.textContent = `${vol} mL of 50 mg/mL`;
+});
 
   // 2) list of GA drugs + their dosing/concentration info
   const drugs = [
