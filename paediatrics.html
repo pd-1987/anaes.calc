@@ -309,26 +309,26 @@
     <td style="border: 1px solid #ccc; padding: 8px;">
       <span id="sbp-50"></span>
       <span class="static unit"> mmHg</span>
-      (<span id="sbp-5"></span>–<span id="sbp-95"></span><span class="static unit"> mmHg</span>) *
+      (<span id="sbp-5"></span>–<span id="sbp-95"></span><span class="static unit"> mmHg</span>)<sup>*</sup>
     </td>
   </tr>
   <tr>
     <td style="border: 1px solid #ccc; padding: 8px;"><strong>HR</strong></td>
     <td style="border: 1px solid #ccc; padding: 8px;">
       <span id="hr-5"></span>–<span id="hr-95"></span>
-      <span class="static unit"> bpm</span> **
+      <span class="static unit"> bpm</span><sup>†</sup>
     </td>
   </tr>
   <tr>
     <td style="border: 1px solid #ccc; padding: 8px;"><strong>RR</strong></td>
     <td style="border: 1px solid #ccc; padding: 8px;">
       <span id="rr-5"></span>–<span id="rr-95"></span>
-      <span class="static unit"> bpm</span> **
+      <span class="static unit"> bpm</span><sup>†</sup>
     </td>
   </tr>
 </table>
 
-        <small>*50th centile (5th – 95th)<br>**5th – 95th centile</small>
+        <small><sup>*</sup>50th centile (5th – 95th)<br><sup>†</sup>5th – 95th centile</small>
       </div>
       </div>
     </div>
@@ -656,7 +656,7 @@
 
       <span class="accordion-title">
 
-        <i class="fas fa-pills"></i> Premedication
+        <i class="fas fa-pills"></i> Premedication & Sedation
 
       </span>
 
@@ -683,7 +683,7 @@
               <strong>Midazolam PO</strong>
             </td>
             <td style="padding: 8px; border: 1px solid #ccc;">
-              0.5 mg/kg<br>(Max 20mg)
+              0.5 mg/kg
             </td>
             <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
               <span id="premed-midaz"></span>
@@ -692,7 +692,7 @@
           </tr>
           <tr style="background-color: #fff3e0;">
             <td colspan="3" style="padding: 8px; border: 1px solid #ccc; text-align: center;">
-              <small id="premed-midaz-note"></small>
+              <small>Max 20 mg per dose; 6 months - 14 years</small>
             </td>
           </tr>
       
@@ -1357,6 +1357,16 @@ if (mPoNote) mPoNote.textContent = '';
     noteEl.style.display = 'none';
    }
  });
+    
+    const midazEl   = document.getElementById('premed-midaz');
+const midazUnit = midazEl.nextElementSibling; // the “ mg” span
+
+midazEl.textContent   = '';
+midazEl.style.display = 'none';
+
+if (midazUnit && midazUnit.classList.contains('unit')) {
+  midazUnit.style.display = 'none';
+}
 
   // 8) hide i-gel & tidal-volume
   const igelEl = document.getElementById('igel');
@@ -1384,6 +1394,27 @@ if (tvArdsEl) {
   });
     
 }
+
+function updatePremedication(w) {
+  // Midazolam PO…
+  const midazEl   = document.getElementById('premed-midaz');
+const midazUnit = midazEl.nextElementSibling; // the “ mg” span
+if (w > 0) {
+  let dose = 0.5 * w;
+  if (dose > 20) dose = 20;
+  midazEl.textContent   = stripZeros(dose.toFixed(2));
+  midazEl.style.display = 'inline';
+  if (midazUnit && midazUnit.classList.contains('unit')) {
+    midazUnit.style.display = 'inline';
+  }
+} else {
+  midazEl.textContent   = '';
+  midazEl.style.display = 'none';
+  if (midazUnit && midazUnit.classList.contains('unit')) {
+    midazUnit.style.display = 'none';
+  }
+}
+}  
   
   function updateAnalgesics(w) {
   // 2) Clear out the “-note” cells for Paracetamol & Ibuprofen
@@ -2066,6 +2097,7 @@ if (w > 0) {
   updateEmergencyDrugs(w);
   updateGADrugs(w);
   updateAnalgesics(w);
+    updatePremedication(w);
 }
   
 function updateEmergencyDrugs(w) {
