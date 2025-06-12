@@ -272,7 +272,9 @@
 
   <!-- new container for showing the two formula lines -->
   <div id="weight-calculations"></div>
-    <p><small>In Obesity use <a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator.</a></small></p>
+    <p style="text-align: center;">
+      <small>In Obesity use <a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator.</a></small>
+      </p>
   </div>
     
   <div class="accordion">
@@ -982,8 +984,8 @@
     </thead>     
        <tr style="background: repeating-linear-gradient(
     135deg,
-    #d6658c26,
-    #d6658c26 8px,
+    #d6658c4d,
+    #d6658c4d 8px,
     #fff     1px,
     #fff     16px
   );">
@@ -1005,8 +1007,8 @@
 </tr> 
        <tr style="background: repeating-linear-gradient(
     135deg,
-    #d6658c26,
-   #d6658c26 8px,
+    #d6658c4d,
+   #d6658c4d 8px,
     #fff     2px,
     #fff     16px
   );">
@@ -1029,8 +1031,8 @@
       
       <tr style="background: repeating-linear-gradient(
     135deg,
-    #d6658c26,
-    #d6658c26 8px,
+    #d6658c4d,
+    #d6658c4d 8px,
     #fff     2px,
     #fff     16px
   );">
@@ -1187,7 +1189,7 @@
 
       <span class="accordion-title">
 
-        <i class="fa-solid fa-prescription-bottle-medical"></i> Antibiotics
+        <i class="fa-solid fa-prescription-bottle-medical"></i> Antibiotics - Surgical prophylaxis
 
       </span>
 
@@ -2453,6 +2455,7 @@ if (w > 0) {
   updateAnalgesics(w);
     updatePremedication(w);
     updateReversal(w);
+    updateAntibiotics(w);
 }
   
 function updateEmergencyDrugs(w) {
@@ -2833,6 +2836,49 @@ document.querySelectorAll('.sux-im-extra').forEach(el => {
   }
 }
 
+function updateAntibiotics(w) {
+  const meds = [
+    { id: 'amoxicillin',    dosePerKg: 30, max: 1000 },
+    { id: 'cefuroxime',     dosePerKg: 50, max: 1500 },
+    { id: 'co-amoxiclav',   dosePerKg: 30, max: 1200 },
+    { id: 'flucloxacillin', dosePerKgMin: 12.5, dosePerKgMax: 25, max: 1000 },
+    { id: 'gentamicin',     dosePerKg: 2,  max: 480 }
+  ];
+
+  meds.forEach(m => {
+    const el       = document.getElementById(m.id);
+    const unitSpan = el.nextElementSibling; // the “mg” span
+    let text        = '';
+
+    if (w > 0 && !isNaN(w)) {
+      if (m.dosePerKg) {
+        let dose = m.dosePerKg * w;
+        if (m.max) dose = Math.min(dose, m.max);
+        text = stripZeros(dose.toFixed(2));
+      } else {
+        // flucloxacillin range
+        const min = m.dosePerKgMin * w;
+        const max = m.dosePerKgMax * w;
+        let txt = `${stripZeros(min.toFixed(2))}–${stripZeros(max.toFixed(2))}`;
+        if (m.max && max > m.max) {
+          txt = `${stripZeros(Math.min(min, m.max).toFixed(2))}–${stripZeros(m.max.toFixed(2))}`;
+        }
+        text = txt;
+      }
+    }
+
+    if (text) {
+      el.textContent       = text;
+      el.style.display     = 'inline';
+      if (unitSpan) unitSpan.style.display = 'inline';
+    } else {
+      el.textContent       = '';
+      el.style.display     = 'none';
+      if (unitSpan) unitSpan.style.display = 'none';
+    }
+  });
+}  
+  
   // event wiring
   unitBtn.addEventListener('click', toggleAgeUnit);
   
@@ -2980,6 +3026,8 @@ function resetForm() {
   unitBtn.textContent = 'years';
   // 3) hide all existing outputs
   clearWeight();
+  
+   updateAntibiotics(0);
   
 // 4) collapse any open accordion panels
   document.querySelectorAll('.accordion-header.active').forEach(header => {
