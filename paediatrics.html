@@ -273,7 +273,7 @@
   <!-- new container for showing the two formula lines -->
   <div id="weight-calculations"></div>
     <p style="text-align: center;">
-      <small>In Obesity use <a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator.</a></small>
+      <small>In Obesity, use <a href="https://www.paedspro.com/">Paeds Prescribing Pro Drug Calculator.</a></small>
       </p>
   </div>
     
@@ -908,7 +908,7 @@
     <strong>Paracetamol IV</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    Per age/weight
+   
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
     <span id="paracetamol-iv"></span><span class="static unit">mg</span>
@@ -926,7 +926,7 @@
     <strong>Ibuprofen IV</strong>
   </td>
   <td style="padding: 8px; border: 1px solid #ccc;">
-    Per age/weight
+   
   </td>
   <td style="padding: 8px; border: 1px solid #ccc; text-align: right;">
     <span id="ibuprofeniv"></span><span class="static unit">mg</span>
@@ -2405,26 +2405,26 @@ if (w > 0) {
 
   if      (w < 1.5) { 
     mainText = 'Miller 00 or 0'; 
-    noteText = '[extremely preterm]';
+    noteText = '(extremely preterm)';
   }
   else if (w < 2.5) { 
     mainText = 'Mac 0 / Miller 0'; 
-    noteText = '[preterm]';
+    noteText = '(preterm)';
   }
   else if (w < 4)   { 
     mainText = 'Mac 0–1 / Miller 0–1'; 
   }
   else if (w < 6)   { 
     mainText = 'Mac 1 / Miller 1'; 
-    noteText = '[1–6 mo]';
+    noteText = '(1–6 mo)';
   }
   else if (w < 12)  { 
     mainText = 'Mac 1–2 / Miller 1–2'; 
-    noteText = '[6 mo–2 y]';
+    noteText = '(6 mo–2 y)';
   }
-  else if (w < 30)  { mainText = 'Mac 2';    noteText = '[2–10 y]'; }
-  else if (w <= 60) { mainText = 'Mac 3';    noteText = '[>10 y]'; }
-  else              { mainText = 'Mac 3–4';  noteText = '[adult]'; }
+  else if (w < 30)  { mainText = 'Mac 2';    noteText = '(2–10 y)'; }
+  else if (w <= 60) { mainText = 'Mac 3';    noteText = '()>10 y)'; }
+  else              { mainText = 'Mac 3–4';  noteText = '(adult)'; }
 
   // 3) show container as inline-block so it can stack children
   laryEl.style.display = 'inline-block';
@@ -2441,7 +2441,7 @@ if (w > 0) {
     small.style.display   = 'block';    
     small.style.marginTop = '2px';
     small.style.fontSize  = '0.8em';
-    small.style.color     = '#555';
+    small.style.color     = '#000000';
     laryEl.appendChild(small);
   }
 } else {
