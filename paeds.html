@@ -373,15 +373,15 @@
         </td>
       </tr>
       <tr>
-        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Cuffed ETT</th>
-        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
-          <span id="ett-cuffed"></span>
-        </td>
-      </tr>
-      <tr>
         <th style="border:1px solid #ccc; padding:8px; text-align:center;">Uncuffed ETT</th>
         <td style="border:1px solid #ccc; padding:8px; text-align:center;">
           <span id="ett-uncuffed"></span>
+        </td>
+      </tr>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; text-align:center;">Cuffed ETT</th>
+        <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+          <span id="ett-cuffed"></span>
         </td>
       </tr>
          <tr>
@@ -2466,13 +2466,19 @@ if (y <= 14) {
   if (isNaN(months) || months < 0) {
     unc = cuff = len = null;
   } else if (months < 12) {
-    // neonate/infant rule
-    if      (w < 1) { unc = 2.5; len = 6.5; }
-    else if (w < 2) { unc = 3.0; len = 7.0; }
-    else if (w < 3) { unc = 3.5; len = 8.0; }
-    else if (w < 4) { unc = 3.5; len = 9.0; }
-    else            { unc = 4.0; len = 10.0; }
+  // neonate/infant rule
+  if      (w < 1)    { unc = 2.5; len = 6.5; }
+  else if (w < 1.9)  { unc = 3.0; len = 7.0; }
+  else if (w < 3.7)  { unc = 3.5; len = 8.0; }
+  else if (w < 4)    { unc = 3.5; len = 9.0; }
+  else               { unc = 4.0; len = 10.0; }
+
+  // only show a cuffed ETT if the baby is older than 0 months
+  if (months > 0) {
     cuff = unc - 0.5;
+  } else {
+    cuff = null;
+  }
   } else {
     // older child
     unc  = ageYears / 4 + 4;
