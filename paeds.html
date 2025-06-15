@@ -645,6 +645,8 @@
     </td>
   </tr>
 </table>
+        <p style="text-align: center; margin-bottom: 0.01em;">
+        <small>For other drugs and infusions, use Paediatric Emergency Tools: <a href="https://apps.apple.com/gb/app/paediatric-emergency-tools/id415663345">Apple</a> / <a href="https://play.google.com/store/apps/details?id=com.ubqo.paedscalc&hl=en_GB&pli=1">Android</a>.</small>
   </div>
 </div>
     </div>
@@ -2829,6 +2831,55 @@ function updateEmergencyDrugs(w) {
       
        const rawAge = parseFloat(ageInput.value) || 0;
   const ageY = ageUnit === 'months' ? rawAge/12 : rawAge;
+
+// 2) list of GA drugs + their dosing/concentration info
+  const drugs = [
+    { 
+      id:           'fentanyl-ga',
+      minDose:      1,    // mcg/kg
+      maxDose:      2,    // mcg/kg
+      conc:         50,   // mcg per mL
+      unitLabel:    'mcg',
+      extraId:      'fentanyl-ga-extra'
+    },
+    {
+      id:           'propofol',
+      minDose:      3,    // mg/kg
+      maxDose:      5,    // mg/kg
+      conc:         10,   // mg per mL
+      unitLabel:    'mg',
+      extraId:      'propofol-ga-extra'
+    },
+    {
+      id:           'rocuronium-ga',
+      minDose:      0.6,  // mg/kg  (single‐value)
+      maxDose:      0.6,  // same
+      conc:         10,   // mg per mL
+      unitLabel:    'mg',
+      extraId:      'rocuronium-ga-extra'
+    },
+    {
+      id:           'ondansetron',
+      minDose:      0.15, // mg/kg
+      maxDose:      0.15, // same
+      conc:         2,    // mg per mL
+      unitLabel:    'mg',
+      extraId:      'ondansetron-ga-extra',
+      cap:          4
+    },
+    {
+      id:           'dexamethasone',
+      minDose:      0.15, // mg/kg
+      maxDose:      0.15, // same
+      conc:         3.3,  // mg per mL
+      unitLabel:    'mg',
+      extraId:      'dexamethasone-ga-extra',
+      cap:          6.6
+    }
+  ];      
+      
+// if <6 months, don’t even include ondansetron in the list
+  const filteredDrugs = drugs.filter(d => !(d.id === 'ondansetron' && ageY < 0.5));      
       
  // ATROPINE
 document.querySelectorAll('.atropine-dose').forEach(el => {
@@ -2925,78 +2976,40 @@ document.querySelectorAll('.sux-im-extra').forEach(el => {
     cylNote.textContent = '';
   }
 
-  // 2) list of GA drugs + their dosing/concentration info
-  const drugs = [
-    { 
-      id:           'fentanyl-ga',
-      minDose:      1,    // mcg/kg
-      maxDose:      2,    // mcg/kg
-      conc:         50,   // mcg per mL
-      unitLabel:    'mcg',
-      extraId:      'fentanyl-ga-extra'
-    },
-    {
-      id:           'propofol',
-      minDose:      3,    // mg/kg
-      maxDose:      5,    // mg/kg
-      conc:         10,   // mg per mL
-      unitLabel:    'mg',
-      extraId:      'propofol-ga-extra'
-    },
-    {
-      id:           'rocuronium-ga',
-      minDose:      0.6,  // mg/kg  (single‐value)
-      maxDose:      0.6,  // same
-      conc:         10,   // mg per mL
-      unitLabel:    'mg',
-      extraId:      'rocuronium-ga-extra'
-    },
-    {
-      id:           'ondansetron',
-      minDose:      0.15, // mg/kg
-      maxDose:      0.15, // same
-      conc:         2,    // mg per mL
-      unitLabel:    'mg',
-      extraId:      'ondansetron-ga-extra'
-    },
-    {
-      id:           'dexamethasone',
-      minDose:      0.15, // mg/kg
-      maxDose:      0.15, // same
-      conc:         3.3,  // mg per mL
-      unitLabel:    'mg',
-      extraId:      'dexamethasone-ga-extra'
+if (w > 0 && !isNaN(w)) {
+  filteredDrugs.forEach(({ id, minDose, maxDose, conc, unitLabel, extraId, cap }) => {
+    // 1) raw doses
+    let rawMin = minDose * w;
+    let rawMax = maxDose * w;
+
+    // 2) clamp to cap if provided
+    if (typeof cap === 'number') {
+      rawMin = Math.min(rawMin, cap);
+      rawMax = Math.min(rawMax, cap);
     }
-  ];
 
-  // 3) if w > 0, populate each dose AND its colspan-3 “extra” cell
-  if (w > 0 && !isNaN(w)) {
-    drugs.forEach(({ id, minDose, maxDose, conc, unitLabel, extraId }) => {
-      // a) compute dose text
-      const dMin    = stripZeros((minDose * w).toFixed(1));
-      const dMax    = stripZeros((maxDose * w).toFixed(1));
-      const doseText = (minDose === maxDose) ? dMin : `${dMin}–${dMax}`;
+    // 3) format with your stripZeros util
+    const dMin     = stripZeros(rawMin.toFixed(1));
+    const dMax     = stripZeros(rawMax.toFixed(1));
+    const doseText = (rawMin === rawMax) ? dMin : `${dMin}–${dMax}`;
 
-      // b) write dose into the <span id="…"> and show its unit
-      const spanEl  = document.getElementById(id);
-      const unitSpan= spanEl.nextElementSibling; // the “ mg” or “ mcg”
-      spanEl.textContent       = doseText;
-      spanEl.style.display     = 'inline';
-      if (unitSpan && unitSpan.classList.contains('unit')) {
-        unitSpan.style.display = 'inline';
-      }
+    // 4) inject into the DOM exactly as you did before
+    const spanEl  = document.getElementById(id);
+    spanEl.textContent = doseText;
+    spanEl.style.display = 'inline';
+    const unitSpan = spanEl.nextElementSibling;
+    if (unitSpan && unitSpan.classList.contains('unit')) {
+      unitSpan.style.display = 'inline';
+    }
 
-      // c) compute volume (ml) text
-      //    if min === max, single value; otherwise “X–Y”
-      const vMin    = stripZeros((dMin / conc).toFixed(2));
-      const vMax    = stripZeros((dMax / conc).toFixed(2));
-      const volText = (minDose === maxDose) ? `${vMin}` : `${vMin}–${vMax}`;
-
-      // d) write into the colspan-3 <small id="…-extra">
-      const extraEl = document.getElementById(extraId);
-      extraEl.innerHTML = `${volText} mL of ${conc}${unitLabel}/mL`;
-    });
-  }
+    // 5) compute & inject the “extra” volume note
+    const extraEl = document.getElementById(extraId);
+    const vMin    = stripZeros((rawMin / conc).toFixed(2));
+    const vMax    = stripZeros((rawMax / conc).toFixed(2));
+    const volText = (rawMin === rawMax) ? `${vMin}` : `${vMin}–${vMax}`;
+    extraEl.innerHTML = `${volText} mL of ${conc}${unitLabel}/mL`;
+  });
+}
   else {
     // 4) if no valid weight, hide all dose spans + units, leave extras blank
     drugs.forEach(({ id, extraId }) => {
